@@ -656,15 +656,15 @@
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
 
-#define FLAG_RANDOM_WILD_MON     0x264 // Unused Flag
-#define FLAG_RANDOM_FIELD_ITEMS  0x265 // Unused Flag
-#define FLAG_RANDOM_TRAINER_MON  0x266 // Unused Flag
-#define FLAG_RANDOM_FIXED_MON    0x267 // Unused Flag
-#define FLAG_RANDOM_STARTERS     0x268 // Unused Flag
-#define FLAG_RANDOM_EGG_MON      0x269 // Unused Flag
-#define FLAG_RANDOM_ABILITIES    0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
-#define FLAG_UNUSED_0x26C  0x26C // Unused Flag
+#define FLAG_RANDOM_WILD_MON     0x264
+#define FLAG_RANDOM_FIELD_ITEMS  0x265
+#define FLAG_RANDOM_TRAINER_MON  0x266
+#define FLAG_RANDOM_FIXED_MON    0x267
+#define FLAG_RANDOM_STARTERS     0x268
+#define FLAG_RANDOM_EGG_MON      0x269
+#define FLAG_RANDOM_ABILITIES    0x26A
+#define FLAG_DERBY_NICKNAME      0x26B
+#define FLAG_DERBY_RESET         0x26C
 #define FLAG_UNUSED_0x26D  0x26D // Unused Flag
 #define FLAG_UNUSED_0x26E  0x26E // Unused Flag
 #define FLAG_UNUSED_0x26F  0x26F // Unused Flag

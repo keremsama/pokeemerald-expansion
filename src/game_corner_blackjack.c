@@ -2601,7 +2601,7 @@ static void Push(void)
             SetOptionMode(OPTION_NONE);
             PlaySE(SE_BOO);
             ShowMessage(sText_Push);
-            sBlackJack->waitTimer = 100000;
+            sBlackJack->waitTimer = 300000;
             sBlackJack->pushState = PUSH_1;
             break;
         case PUSH_1:
@@ -2648,7 +2648,7 @@ static void Bust(void)
             SetOptionMode(OPTION_NONE);
             PlaySE(SE_FAILURE);
             ShowMessage(sText_Bust);
-            sBlackJack->waitTimer = 100000;
+            sBlackJack->waitTimer = 1000000;
             sBlackJack->bustState = BUST_1;
             break;
         case BUST_1:
@@ -2682,7 +2682,7 @@ static void Lose(void)
             SetOptionMode(OPTION_NONE);
             PlaySE(SE_FAILURE);
             ShowMessage(sText_YouLose);
-            sBlackJack->waitTimer = 100000;
+            sBlackJack->waitTimer = 300000;
             sBlackJack->loseState = LOSE_1;
             break;
         case LOSE_1:
@@ -2718,7 +2718,7 @@ static void Win(void)
             SetOptionMode(OPTION_NONE);
             PlaySE(SE_RG_POKE_JUMP_SUCCESS);
             ShowMessage(sText_YouWin);
-            sBlackJack->waitTimer = 100000;
+            sBlackJack->waitTimer = 300000;
             sBlackJack->winState = WIN_1;
             break;
         case WIN_1:
@@ -2971,7 +2971,7 @@ static void Double(void)
             sBlackJack->betBlackJack = sBlackJack->betBlackJack * 2;
             SetCreditDigits(GetCoins());
             SetOptionMode(OPTION_NONE);
-            sBlackJack->waitTimer = 100000;
+            sBlackJack->waitTimer = 300000;
             sBlackJack->doubleState = DOUBLE_1;
             break;
         case DOUBLE_1:
