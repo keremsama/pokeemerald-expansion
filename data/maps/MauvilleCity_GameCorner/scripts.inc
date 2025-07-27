@@ -67,11 +67,11 @@ MauvilleCity_GameCorner_EventScript_Blackjack::
 	msgbox MauvilleCity_GameCorner_Text_BlackJack, MSGBOX_YESNO
 	closemessage
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_CancelBJ
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	special StartBlackJack
 	waitstate
 	savebgm MUS_DUMMY
-	fadedefaultbgm
+	nop //fadedefaultbgm
 	releaseall
 	end
 	
@@ -1388,7 +1388,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine0::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 0
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1399,7 +1399,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine1::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 1
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1410,7 +1410,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine2::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 2
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1421,7 +1421,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine3::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 3
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1432,7 +1432,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine4::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 4
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1443,7 +1443,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine5::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 5
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1454,7 +1454,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine6::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 6
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1465,7 +1465,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine7::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 7
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1476,7 +1476,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine8::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 8
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1487,7 +1487,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine9::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 9
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1498,7 +1498,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine10::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 10
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
@@ -1509,7 +1509,7 @@ MauvilleCity_GameCorner_EventScript_SlotMachine11::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
 	setvar VAR_0x8004, 11
 	specialvar VAR_RESULT, GetSlotMachineId
-	playbgm MUS_GAME_CORNER, FALSE
+	nop // playbgm MUS_GAME_CORNER, FALSE
 	playslotmachine VAR_RESULT
 	releaseall
 	end
