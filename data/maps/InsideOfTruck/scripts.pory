@@ -70,16 +70,16 @@ script FadeScreenBlack {
 
 // RANDOMIZER SETUP BLOCK //
 script Randomizer_Option_Setup {
-    msgbox ("Would you like to randomize the game?", MSGBOX_YESNO)
+    msgbox ("Would you like to RANDOMIZE the game?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         playse (SE_PC_ON)
-        msgbox ("Randomizer is ON.")
+        msgbox ("RANDOMIZER is ON!")
         waitmessage
         call (Randomizer_Settings)
     }
     else {
         playse (SE_PC_OFF)
-        msgbox ("Randomizer is OFF.")
+        msgbox ("Randomizer is OFF!")
         clearflag (FLAG_RANDOM_WILD_MON)
         clearflag (FLAG_RANDOM_FIELD_ITEMS)
         clearflag (FLAG_RANDOM_TRAINER_MON)
@@ -94,40 +94,54 @@ script Randomizer_Option_Setup {
 }
 
 script Randomizer_Settings {
-    msgbox ("Would you like to randomize wild Pokémon?", MSGBOX_YESNO)
+    msgbox ("Would you like to RANDOMIZE WILD\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         setflag(FLAG_RANDOM_WILD_MON)
     }
     else {
         clearflag(FLAG_RANDOM_WILD_MON)
     }
-    msgbox ("Would you like to randomize starters?", MSGBOX_YESNO)
+    msgbox ("Would you like to RANDOMIZE STARTER\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         setflag(FLAG_RANDOM_STARTERS)
     }
     else {
         clearflag(FLAG_RANDOM_STARTERS)
     }
-    msgbox ("Would you like to randomize field items?", MSGBOX_YESNO)
-    if(var(VAR_RESULT) == YES) {
-        setflag(FLAG_RANDOM_FIELD_ITEMS)
-    }
-    else {
-        clearflag(FLAG_RANDOM_FIELD_ITEMS)
-    }
-    msgbox ("Would you like to randomize\ntrainer Pokémon?", MSGBOX_YESNO)
+    msgbox ("Would you like to RANDOMIZE TRAINER\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         setflag(FLAG_RANDOM_TRAINER_MON)
     }
     else {
         clearflag(FLAG_RANDOM_TRAINER_MON)
     }
-    msgbox ("Would you like to randomize\nstatic Pokémon?", MSGBOX_YESNO)
+    msgbox ("Would you like to RANDOMIZE STATIC\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         setflag(FLAG_RANDOM_FIXED_MON)
     }
     else {
         clearflag(FLAG_RANDOM_FIXED_MON)
+    }
+    msgbox ("Would you like to RANDOMIZE EGG\nPokémon?", MSGBOX_YESNO)
+    if(var(VAR_RESULT) == YES) {
+        setflag(FLAG_RANDOM_EGG_MON)
+    }
+    else {
+        clearflag(FLAG_RANDOM_EGG_MON)
+    }
+    msgbox ("Would you like to RANDOMIZE Pokémon\nABILITIES?", MSGBOX_YESNO)
+    if(var(VAR_RESULT) == YES) {
+        setflag(FLAG_RANDOM_ABILITIES)
+    }
+    else {
+        clearflag(FLAG_RANDOM_ABILITIES)
+    }
+    msgbox ("Would you like to RANDOMIZE\nFIELD ITEMS?", MSGBOX_YESNO)
+    if(var(VAR_RESULT) == YES) {
+        setflag(FLAG_RANDOM_FIELD_ITEMS)
+    }
+    else {
+        clearflag(FLAG_RANDOM_FIELD_ITEMS)
     }
     waitmessage
     call (Randomizer_Species_Mode)
@@ -135,6 +149,7 @@ script Randomizer_Settings {
 
 script Randomizer_Species_Mode {
     message("Which mode would you like to use?")
+    waitmessage
     multichoice(25, 3, MULTI_RANDOMIZER_SPECIES_CHOICE, 1)
     if (var(VAR_RESULT) == 0) {
         setvar(VAR_RANDOM_SPECIES_MODE, 0)
@@ -149,7 +164,7 @@ script Randomizer_Species_Mode {
         setvar(VAR_RANDOM_SPECIES_MODE, 3)
     }
     closemessage
-    msgbox("Randomizer settings have been saved.")
+    msgbox("RANDOMIZER settings have been saved!")
     playse (SE_SAVE)
     waitse
     waitmessage
