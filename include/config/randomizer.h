@@ -74,10 +74,10 @@
 #endif
 
 // Set the Variable VAR_RANDOM_SPECIES_MODE via | setflag VAR_RANDOM_SPECIES_MODE, X | to set or change the randomizer mode.
-// 0 = Completely Random-Mons  (DEFAULT)
+// 0 = Completely Random-Mons DEFAULT
 // 1 = Legends for Legends & Normal for Normal                
 // 2 = Basestatpool randomization                    
-// 3 = Evolutionary stage based. (Legendaries are separate, as are Pokémon that don't have any evolutionary relations.)
+// 3 = Evolutionary stage based. Legendaries are separate, as are Pokémon that don't have any evolutionary relations.
 #define RANDOMIZER_VAR_SPECIES_MODE                   VAR_RANDOM_SPECIES_MODE
 
 #if RANDOMIZER_SEED_IS_TRAINER_ID == FALSE

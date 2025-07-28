@@ -2421,4 +2421,10 @@ extern const u8 gText_Rename[]; // change nickname from summary screen
 // Switch Caught Mon into Party
 extern const u8 gText_CannotSendMonToBoxHM[];
 
+// Multichoice for Randomizer Species Mode settings
+extern const u8 gText_CompleteRandomMons[];
+extern const u8 gText_LegendForLegendRandomMons[];
+extern const u8 gText_BasestatPoolRandomMons[];
+extern const u8 gText_EvolutionaryRandomMons[];
+
 #endif // GUARD_STRINGS_H

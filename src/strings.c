@@ -1295,3 +1295,11 @@ const u8 gText_PM[] = _("PM");
 const u8 gText_Relearn[] = _("{START_BUTTON} RELEARN"); // future note: don't decap this, because it mimics the summary screen BG graphics which will not get decapped
 const u8 gText_Rename[] = _("RENAME");
 const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbecause it knows a HM move.{PAUSE_UNTIL_PRESS}");
+
+// New custom strings
+
+// Randomizer Multichoice
+const u8 gText_CompleteRandomMons[] = _("Complete Random");
+const u8 gText_LegendForLegendRandomMons[] = _("Legend for Legend");
+const u8 gText_BasestatPoolRandomMons[] = _("Basestat Pool");
+const u8 gText_EvolutionaryRandomMons[] = _("Evolutionary");

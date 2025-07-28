@@ -783,6 +783,15 @@ static const struct MenuAction MultichoiceList_Exit[] =
     {gText_Exit},
 };
 
+// Randomizer Settings Multichoice
+static const struct MenuAction MultichoiceList_RandomSpeciesMode[] =
+{
+    {gText_CompleteRandomMons},
+    {gText_LegendForLegendRandomMons},
+    {gText_BasestatPoolRandomMons},
+    {gText_EvolutionaryRandomMons}
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -906,6 +915,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
     [MULTI_BERRY_PLOT]                 = MULTICHOICE(MultichoiceList_BerryPlot),
+    [MULTI_RANDOMIZER_SPECIES_CHOICE]  = MULTICHOICE(MultichoiceList_RandomSpeciesMode)
 };
 
 const u8 *const gStdStrings[] =
