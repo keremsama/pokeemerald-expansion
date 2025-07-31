@@ -1,0 +1,58 @@
+raw`AbandonedShip_Room_B1F_MapScripts::
+	.byte 0
+`
+
+// PORYSCRIPT
+
+script AbandonedShip_Room_B1F_Rotom_Encounter{
+    lock
+    if(!flag(FLAG_ROTOM_ENCOUNTER)){
+        call (Battle_Rotom_Encounter)
+    }
+    else {
+        msgbox ("There is nothing in the\nbin now.")
+        waitmessage
+        releaseall
+        end
+    }
+}
+
+script Battle_Rotom_Encounter{
+    setflag (FLAG_ROTOM_ENCOUNTER)
+    msgbox ("....\p....\p.. ...?\pThere is a strange noise coming from\ninside the bin...\pIt sounds like a POKéMON is hiding\ninside...", MSGBOX_AUTOCLOSE)
+    waitmessage
+    playmoncry(SPECIES_ROTOM, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    msgbox ("It jumped out!")
+    setwildbattle (SPECIES_ROTOM, 25, ITEM_NONE)
+    dowildbattle
+    specialvar(VAR_RESULT, GetBattleOutcome)
+	if(var(VAR_RESULT) == B_OUTCOME_CAUGHT){
+		call(Won_or_Caught)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_WON){
+		call(Won_or_Caught)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_RAN){
+		call(RanAway)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_PLAYER_TELEPORTED){
+		call(RanAway)
+	}
+	waitmessage
+	releaseall
+}
+ 
+script Won_or_Caught {
+	msgbox("Phew! That was a close one..")
+	return
+}
+ 
+script RanAway {
+	playmoncry(SPECIES_ROTOM, CRY_MODE_ENCOUNTER)
+    waitmoncry
+	msgbox("Bzzzzt!....", MSGBOX_AUTOCLOSE)
+    delay(20)
+	clearflag(FLAG_ROTOM_ENCOUNTER)
+	return
+}
