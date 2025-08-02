@@ -863,18 +863,40 @@ bool32 IsRandomizationPossible(u16 originalSpecies, u16 targetSpecies)
     return TRUE;
 }
 
+static u16 GetSpeciesBST(u16 species)
+{
+    const struct SpeciesInfo *info = &gSpeciesInfo[species];
+    return info->baseHP + info->baseAttack + info->baseDefense + info->baseSpAttack + info->baseSpDefense + info->baseSpeed;
+}
+
 u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_TRAINER_MON))
     {
-        // The seed is based on the internal trainer number, the number of
-        // Pokémon in that trainer's party, and which party position it is in.
         u32 seed;
+        u16 randomizedSpecies;
         seed = (u32)trainerId << 16;
         seed |= (u32)totalMons << 8;
         seed |= slot;
 
-        return RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed, species);
+        // CODE BLOCK BY KEREMSAN. CHANGE IT TO THE ORIGINAL IF ANYTHING GOES WRONG AND YOU CANT FIX IT SOMEHOW!!!
+        // Prüfe Randomizer-Modus (kein BST-Modus!) und Badge 5
+        if (FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != 2)
+        {
+            u8 tries = 0;
+            do
+            {
+                randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed + tries, species);
+                tries++;
+                if (tries > 1000) // Notbremse.
+                    break;
+            } while (GetSpeciesBST(randomizedSpecies) <= 440); // Pokemon mit einem BST von 440 oder weniger sind nicht erlaubt.
+            return randomizedSpecies;
+        }
+        else
+        {
+            return RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed, species);
+        }
     }
 
     return species;

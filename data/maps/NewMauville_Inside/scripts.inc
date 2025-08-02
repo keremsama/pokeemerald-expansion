@@ -1,263 +1,676 @@
+# 1 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_MapScripts::
+# 2 "data/maps/NewMauville_Inside/scripts.pory"
 	map_script MAP_SCRIPT_ON_RESUME, NewMauville_Inside_OnResume
+# 3 "data/maps/NewMauville_Inside/scripts.pory"
 	map_script MAP_SCRIPT_ON_TRANSITION, NewMauville_Inside_OnTransition
+# 4 "data/maps/NewMauville_Inside/scripts.pory"
 	map_script MAP_SCRIPT_ON_LOAD, NewMauville_Inside_OnLoad
+# 5 "data/maps/NewMauville_Inside/scripts.pory"
 	.byte 0
+# 6 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 7 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_OnResume:
+# 8 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_eq VAR_TEMP_1, 1, NewMauville_Inside_EventScript_SetBarrierStateBlueButton
+# 9 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_eq VAR_TEMP_2, 1, NewMauville_Inside_EventScript_SetBarrierStateGreenButton
+# 10 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, NewMauville_Inside_EventScript_TryRemoveVoltorb
+# 11 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 12 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 13 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_TryRemoveVoltorb::
+# 14 "data/maps/NewMauville_Inside/scripts.pory"
 	specialvar VAR_RESULT, GetBattleOutcome
+# 15 "data/maps/NewMauville_Inside/scripts.pory"
 	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, Common_EventScript_NopReturn
+# 16 "data/maps/NewMauville_Inside/scripts.pory"
 	removeobject VAR_LAST_TALKED
+# 17 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 18 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 19 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_OnTransition:
+# 20 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_1, 0
+# 21 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_2, 0
+# 22 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_unset FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE, NewMauville_Inside_EventScript_ShowVoltorb1
+# 23 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_unset FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE, NewMauville_Inside_EventScript_ShowVoltorb2
+# 24 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_unset FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE, NewMauville_Inside_EventScript_ShowVoltorb3
+# 25 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 26 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 27 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_ShowVoltorb1::
+# 28 "data/maps/NewMauville_Inside/scripts.pory"
 	clearflag FLAG_HIDE_NEW_MAUVILLE_VOLTORB_1
+# 29 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 30 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 31 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_ShowVoltorb2::
+# 32 "data/maps/NewMauville_Inside/scripts.pory"
 	clearflag FLAG_HIDE_NEW_MAUVILLE_VOLTORB_2
+# 33 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 34 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 35 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_ShowVoltorb3::
+# 36 "data/maps/NewMauville_Inside/scripts.pory"
 	clearflag FLAG_HIDE_NEW_MAUVILLE_VOLTORB_3
+# 37 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 38 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 39 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_OnLoad:
+# 40 "data/maps/NewMauville_Inside/scripts.pory"
 	call_if_eq VAR_NEW_MAUVILLE_STATE, 2, NewMauville_Inside_EventScript_SetGeneratorOffMetatiles
+# 41 "data/maps/NewMauville_Inside/scripts.pory"
+	call NewMauville_Inside_EventScript_TypeNull_State
+# 42 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 43 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 44 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_BlueButton::
+# 45 "data/maps/NewMauville_Inside/scripts.pory"
 	lockall
+# 46 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_1, 1
+# 47 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_2, 0
+# 48 "data/maps/NewMauville_Inside/scripts.pory"
 	playse SE_PIN
+# 49 "data/maps/NewMauville_Inside/scripts.pory"
 	call NewMauville_Inside_EventScript_SetBarrierStateBlueButton
+# 50 "data/maps/NewMauville_Inside/scripts.pory"
 	special DrawWholeMapView
+# 51 "data/maps/NewMauville_Inside/scripts.pory"
 	releaseall
+# 52 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 53 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 54 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_GreenButton::
+# 55 "data/maps/NewMauville_Inside/scripts.pory"
 	lockall
+# 56 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_1, 0
+# 57 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_TEMP_2, 1
+# 58 "data/maps/NewMauville_Inside/scripts.pory"
 	playse SE_PIN
+# 59 "data/maps/NewMauville_Inside/scripts.pory"
 	call NewMauville_Inside_EventScript_SetBarrierStateGreenButton
+# 60 "data/maps/NewMauville_Inside/scripts.pory"
 	special DrawWholeMapView
+# 61 "data/maps/NewMauville_Inside/scripts.pory"
 	releaseall
+# 62 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 63 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 64 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_SetBarrierStateBlueButton::
+# 65 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 34, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 66 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 35, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 67 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 36, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 68 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 37, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 69 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 16, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 70 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 17, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 71 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 18, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 72 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 19, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 73 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 0, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 74 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 1, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 75 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 2, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 76 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 3, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 77 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 33, METATILE_BikeShop_Barrier_Green_Top, TRUE
+# 78 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 34, METATILE_BikeShop_Barrier_Green_TopMid, TRUE
+# 79 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 35, METATILE_BikeShop_Barrier_Green_BottomMid, TRUE
+# 80 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 36, METATILE_BikeShop_Barrier_Green_Bottom, TRUE
+# 81 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 22, METATILE_BikeShop_Barrier_Green_Top, TRUE
+# 82 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 23, METATILE_BikeShop_Barrier_Green_TopMid, TRUE
+# 83 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 24, METATILE_BikeShop_Barrier_Green_BottomMid, TRUE
+# 84 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 25, METATILE_BikeShop_Barrier_Green_Bottom, TRUE
+# 85 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 24, METATILE_BikeShop_Barrier_Green_Top, TRUE
+# 86 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 25, METATILE_BikeShop_Barrier_Green_TopMid, TRUE
+# 87 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 26, METATILE_BikeShop_Barrier_Green_BottomMid, TRUE
+# 88 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 27, METATILE_BikeShop_Barrier_Green_Bottom, TRUE
+# 89 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 2, METATILE_BikeShop_Barrier_Green_Top, TRUE
+# 90 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 3, METATILE_BikeShop_Barrier_Green_TopMid, TRUE
+# 91 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 4, METATILE_BikeShop_Barrier_Green_BottomMid, TRUE
+# 92 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 5, METATILE_BikeShop_Barrier_Green_Bottom, TRUE
+# 93 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 6, 11, METATILE_BikeShop_Button_Pressed, FALSE
+# 94 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 13, 10, METATILE_BikeShop_Button_Pressed, FALSE
+# 95 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 16, 22, METATILE_BikeShop_Button_Pressed, FALSE
+# 96 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 4, 26, METATILE_BikeShop_Button_Pressed, FALSE
+# 97 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 30, 38, METATILE_BikeShop_Button_Pressed, FALSE
+# 98 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 2, 11, METATILE_BikeShop_Button_Green, FALSE
+# 99 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 17, 10, METATILE_BikeShop_Button_Green, FALSE
+# 100 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 25, 18, METATILE_BikeShop_Button_Green, FALSE
+# 101 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 18, 36, METATILE_BikeShop_Button_Green, FALSE
+# 102 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 103 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 104 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_SetBarrierStateGreenButton::
+# 105 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 34, METATILE_BikeShop_Barrier_Blue_Top, TRUE
+# 106 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 35, METATILE_BikeShop_Barrier_Blue_TopMid, TRUE
+# 107 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 36, METATILE_BikeShop_Barrier_Blue_BottomMid, TRUE
+# 108 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 23, 37, METATILE_BikeShop_Barrier_Blue_Bottom, TRUE
+# 109 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 16, METATILE_BikeShop_Barrier_Blue_Top, TRUE
+# 110 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 17, METATILE_BikeShop_Barrier_Blue_TopMid, TRUE
+# 111 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 18, METATILE_BikeShop_Barrier_Blue_BottomMid, TRUE
+# 112 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 19, METATILE_BikeShop_Barrier_Blue_Bottom, TRUE
+# 113 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 0, METATILE_BikeShop_Barrier_Blue_Top, TRUE
+# 114 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 1, METATILE_BikeShop_Barrier_Blue_TopMid, TRUE
+# 115 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 2, METATILE_BikeShop_Barrier_Blue_BottomMid, TRUE
+# 116 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 3, METATILE_BikeShop_Barrier_Blue_Bottom, TRUE
+# 117 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 33, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 118 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 34, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 119 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 35, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 120 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 37, 36, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 121 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 22, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 122 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 23, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 123 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 24, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 124 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 28, 25, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 125 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 24, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 126 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 25, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 127 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 26, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 128 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 10, 27, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 129 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 2, METATILE_BikeShop_Barrier_Hidden_Top, TRUE
+# 130 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 3, METATILE_BikeShop_Barrier_Hidden_Bottom, TRUE
+# 131 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 4, METATILE_BikeShop_Floor_Shadow_Top, FALSE
+# 132 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 21, 5, METATILE_BikeShop_Wall_Edge_Top, FALSE
+# 133 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 2, 11, METATILE_BikeShop_Button_Pressed, FALSE
+# 134 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 17, 10, METATILE_BikeShop_Button_Pressed, FALSE
+# 135 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 25, 18, METATILE_BikeShop_Button_Pressed, FALSE
+# 136 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 18, 36, METATILE_BikeShop_Button_Pressed, FALSE
+# 137 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 6, 11, METATILE_BikeShop_Button_Blue, FALSE
+# 138 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 13, 10, METATILE_BikeShop_Button_Blue, FALSE
+# 139 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 16, 22, METATILE_BikeShop_Button_Blue, FALSE
+# 140 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 4, 26, METATILE_BikeShop_Button_Blue, FALSE
+# 141 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 30, 38, METATILE_BikeShop_Button_Blue, FALSE
+# 142 "data/maps/NewMauville_Inside/scripts.pory"
 	return
+# 143 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 144 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_RedButton::
+# 145 "data/maps/NewMauville_Inside/scripts.pory"
 	lockall
+# 146 "data/maps/NewMauville_Inside/scripts.pory"
 	msgbox NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped, MSGBOX_DEFAULT
+# 147 "data/maps/NewMauville_Inside/scripts.pory"
 	call NewMauville_Inside_EventScript_SetGeneratorOffMetatiles
+# 148 "data/maps/NewMauville_Inside/scripts.pory"
 	setvar VAR_NEW_MAUVILLE_STATE, 2
+# 149 "data/maps/NewMauville_Inside/scripts.pory"
 	releaseall
+# 150 "data/maps/NewMauville_Inside/scripts.pory"
 	end
+# 151 "data/maps/NewMauville_Inside/scripts.pory"
 
+# 152 "data/maps/NewMauville_Inside/scripts.pory"
 NewMauville_Inside_EventScript_SetGeneratorOffMetatiles::
+# 153 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 33, 6, METATILE_BikeShop_Button_Pressed, FALSE
+# 154 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 32, 2, METATILE_BikeShop_Generator_Off_Tile0, TRUE
+# 155 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 33, 2, METATILE_BikeShop_Generator_Off_Tile1, TRUE
+# 156 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 34, 2, METATILE_BikeShop_Generator_Off_Tile2, TRUE
+# 157 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 35, 2, METATILE_BikeShop_Generator_Off_Tile3, TRUE
+# 158 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 32, 3, METATILE_BikeShop_Generator_Off_Tile4, TRUE
+# 159 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 33, 3, METATILE_BikeShop_Generator_Off_Tile5, TRUE
+# 160 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 34, 3, METATILE_BikeShop_Generator_Off_Tile6, TRUE
+# 161 "data/maps/NewMauville_Inside/scripts.pory"
 	setmetatile 35, 3, METATILE_BikeShop_Generator_Off_Tile7, TRUE
+# 162 "data/maps/NewMauville_Inside/scripts.pory"
 	special DrawWholeMapView
+# 163 "data/maps/NewMauville_Inside/scripts.pory"
+	return
+# 164 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 165 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_Generator::
+# 166 "data/maps/NewMauville_Inside/scripts.pory"
+	lockall
+# 167 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_NEW_MAUVILLE_STATE, 2, NewMauville_Inside_EventScript_GeneratorOff
+# 168 "data/maps/NewMauville_Inside/scripts.pory"
+	msgbox NewMauville_Inside_Text_GeneratorRadiatingHeat, MSGBOX_DEFAULT
+# 169 "data/maps/NewMauville_Inside/scripts.pory"
+	releaseall
+# 170 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 171 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 172 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_GeneratorOff::
+# 173 "data/maps/NewMauville_Inside/scripts.pory"
+	msgbox NewMauville_Inside_Text_GeneratorQuietedDown, MSGBOX_DEFAULT
+# 174 "data/maps/NewMauville_Inside/scripts.pory"
+	releaseall
+# 175 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 176 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 177 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_Voltorb1::
+# 178 "data/maps/NewMauville_Inside/scripts.pory"
+	lock
+# 179 "data/maps/NewMauville_Inside/scripts.pory"
+	faceplayer
+# 180 "data/maps/NewMauville_Inside/scripts.pory"
+	setwildbattle SPECIES_VOLTORB, 25
+# 181 "data/maps/NewMauville_Inside/scripts.pory"
+	waitse
+# 182 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
+# 183 "data/maps/NewMauville_Inside/scripts.pory"
+	delay 40
+# 184 "data/maps/NewMauville_Inside/scripts.pory"
+	waitmoncry
+# 185 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+# 186 "data/maps/NewMauville_Inside/scripts.pory"
+	dowildbattle
+# 187 "data/maps/NewMauville_Inside/scripts.pory"
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+# 188 "data/maps/NewMauville_Inside/scripts.pory"
+	specialvar VAR_RESULT, GetBattleOutcome
+# 189 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb1
+# 190 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb1
+# 191 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb1
+# 192 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE
+# 193 "data/maps/NewMauville_Inside/scripts.pory"
+	release
+# 194 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 195 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 196 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_DefeatedVoltorb1::
+# 197 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE
+# 198 "data/maps/NewMauville_Inside/scripts.pory"
+	goto Common_EventScript_RemoveStaticPokemon
+# 199 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 200 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 201 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_Voltorb2::
+# 202 "data/maps/NewMauville_Inside/scripts.pory"
+	lock
+# 203 "data/maps/NewMauville_Inside/scripts.pory"
+	faceplayer
+# 204 "data/maps/NewMauville_Inside/scripts.pory"
+	setwildbattle SPECIES_VOLTORB, 25
+# 205 "data/maps/NewMauville_Inside/scripts.pory"
+	waitse
+# 206 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
+# 207 "data/maps/NewMauville_Inside/scripts.pory"
+	delay 40
+# 208 "data/maps/NewMauville_Inside/scripts.pory"
+	waitmoncry
+# 209 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+# 210 "data/maps/NewMauville_Inside/scripts.pory"
+	dowildbattle
+# 211 "data/maps/NewMauville_Inside/scripts.pory"
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+# 212 "data/maps/NewMauville_Inside/scripts.pory"
+	specialvar VAR_RESULT, GetBattleOutcome
+# 213 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb2
+# 214 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb2
+# 215 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb2
+# 216 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE
+# 217 "data/maps/NewMauville_Inside/scripts.pory"
+	release
+# 218 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 219 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 220 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_DefeatedVoltorb2::
+# 221 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE
+# 222 "data/maps/NewMauville_Inside/scripts.pory"
+	goto Common_EventScript_RemoveStaticPokemon
+# 223 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 224 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 225 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_Voltorb3::
+# 226 "data/maps/NewMauville_Inside/scripts.pory"
+	lock
+# 227 "data/maps/NewMauville_Inside/scripts.pory"
+	faceplayer
+# 228 "data/maps/NewMauville_Inside/scripts.pory"
+	setwildbattle SPECIES_VOLTORB, 25
+# 229 "data/maps/NewMauville_Inside/scripts.pory"
+	waitse
+# 230 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
+# 231 "data/maps/NewMauville_Inside/scripts.pory"
+	delay 40
+# 232 "data/maps/NewMauville_Inside/scripts.pory"
+	waitmoncry
+# 233 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+# 234 "data/maps/NewMauville_Inside/scripts.pory"
+	dowildbattle
+# 235 "data/maps/NewMauville_Inside/scripts.pory"
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+# 236 "data/maps/NewMauville_Inside/scripts.pory"
+	specialvar VAR_RESULT, GetBattleOutcome
+# 237 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb3
+# 238 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb3
+# 239 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb3
+# 240 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE
+# 241 "data/maps/NewMauville_Inside/scripts.pory"
+	release
+# 242 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 243 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 244 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_EventScript_DefeatedVoltorb3::
+# 245 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE
+# 246 "data/maps/NewMauville_Inside/scripts.pory"
+	goto Common_EventScript_RemoveStaticPokemon
+# 247 "data/maps/NewMauville_Inside/scripts.pory"
+	end
+# 248 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 249 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_Text_GeneratorRadiatingHeat:
+# 250 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "The generator is radiating heat that\n"
+# 251 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "can be felt even at a distance.\p"
+# 252 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "It looks like it should be turned off\n"
+# 253 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "as soon as possible.$"
+# 254 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 255 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_Text_GeneratorQuietedDown:
+# 256 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "The generator quieted down.$"
+# 257 "data/maps/NewMauville_Inside/scripts.pory"
+
+# 258 "data/maps/NewMauville_Inside/scripts.pory"
+NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped:
+# 259 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "{PLAYER} stepped on the switch.\p"
+# 260 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "Click…\p"
+# 261 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "… … … … … … … …\n"
+# 262 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "… … … … … … … …\p"
+# 263 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "The generator appears to have\n"
+# 264 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "stopped…$"
+
+NewMauville_Inside_EventScript_TypeNull_State::
+# 270 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_unset FLAG_BADGE06_GET, NewMauville_Inside_EventScript_TypeNull_State_1
+# 270 "data/maps/NewMauville_Inside/scripts.pory"
+	goto_if_set FLAG_NEWMAUVILLE_CATCH_TYPE_NULL, NewMauville_Inside_EventScript_TypeNull_State_1
+# 274 "data/maps/NewMauville_Inside/scripts.pory"
+	clearflag FLAG_NEWMAUVILLE_HIDE_TYPE_NULL
 	return
 
-NewMauville_Inside_EventScript_Generator::
+NewMauville_Inside_EventScript_TypeNull_State_1:
+# 271 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_NEWMAUVILLE_HIDE_TYPE_NULL
+	return
+
+
+NewMauville_Inside_Type_Null_Encounter::
+# 279 "data/maps/NewMauville_Inside/scripts.pory"
 	lockall
-	goto_if_eq VAR_NEW_MAUVILLE_STATE, 2, NewMauville_Inside_EventScript_GeneratorOff
-	msgbox NewMauville_Inside_Text_GeneratorRadiatingHeat, MSGBOX_DEFAULT
+# 280 "data/maps/NewMauville_Inside/scripts.pory"
+	delay 60
+# 281 "data/maps/NewMauville_Inside/scripts.pory"
+	faceplayer
+# 282 "data/maps/NewMauville_Inside/scripts.pory"
+	playse SE_PIN
+# 283 "data/maps/NewMauville_Inside/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, Type_Null_Sees_You
+# 284 "data/maps/NewMauville_Inside/scripts.pory"
+	waitmovement OBJ_EVENT_ID_PLAYER
+# 285 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_TYPE_NULL, CRY_MODE_ENCOUNTER
+# 286 "data/maps/NewMauville_Inside/scripts.pory"
+	waitmoncry
+# 287 "data/maps/NewMauville_Inside/scripts.pory"
+	msgbox NewMauville_Inside_Type_Null_Encounter_Text_0
+# 288 "data/maps/NewMauville_Inside/scripts.pory"
+	setwildbattle SPECIES_TYPE_NULL, 35, ITEM_NONE
+# 289 "data/maps/NewMauville_Inside/scripts.pory"
+	dowildbattle
+# 290 "data/maps/NewMauville_Inside/scripts.pory"
+	specialvar VAR_RESULT, GetBattleOutcome
+# 291 "data/maps/NewMauville_Inside/scripts.pory"
+	compare VAR_RESULT, B_OUTCOME_CAUGHT
+	goto_if_eq NewMauville_Inside_Type_Null_Encounter_2
+# 294 "data/maps/NewMauville_Inside/scripts.pory"
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_eq NewMauville_Inside_Type_Null_Encounter_3
+# 297 "data/maps/NewMauville_Inside/scripts.pory"
+	compare VAR_RESULT, B_OUTCOME_RAN
+	goto_if_eq NewMauville_Inside_Type_Null_Encounter_4
+# 300 "data/maps/NewMauville_Inside/scripts.pory"
+	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
+	goto_if_eq NewMauville_Inside_Type_Null_Encounter_5
+NewMauville_Inside_Type_Null_Encounter_1:
+# 303 "data/maps/NewMauville_Inside/scripts.pory"
 	releaseall
 	end
 
-NewMauville_Inside_EventScript_GeneratorOff::
-	msgbox NewMauville_Inside_Text_GeneratorQuietedDown, MSGBOX_DEFAULT
-	releaseall
-	end
+NewMauville_Inside_Type_Null_Encounter_2:
+# 292 "data/maps/NewMauville_Inside/scripts.pory"
+	call NewMauville_Caught
+	goto NewMauville_Inside_Type_Null_Encounter_1
 
-NewMauville_Inside_EventScript_Voltorb1::
-	lock
-	faceplayer
-	setwildbattle SPECIES_VOLTORB, 25
-	waitse
-	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
+NewMauville_Inside_Type_Null_Encounter_3:
+# 295 "data/maps/NewMauville_Inside/scripts.pory"
+	call NewMauville_Won
+	goto NewMauville_Inside_Type_Null_Encounter_1
+
+NewMauville_Inside_Type_Null_Encounter_4:
+# 298 "data/maps/NewMauville_Inside/scripts.pory"
+	call NewMauville_RanAway
+	goto NewMauville_Inside_Type_Null_Encounter_1
+
+NewMauville_Inside_Type_Null_Encounter_5:
+# 301 "data/maps/NewMauville_Inside/scripts.pory"
+	call NewMauville_RanAway
+	goto NewMauville_Inside_Type_Null_Encounter_1
+
+
+NewMauville_Caught::
+# 308 "data/maps/NewMauville_Inside/scripts.pory"
+	fadescreen FADE_TO_BLACK
+# 309 "data/maps/NewMauville_Inside/scripts.pory"
+	setflag FLAG_NEWMAUVILLE_CATCH_TYPE_NULL
+# 310 "data/maps/NewMauville_Inside/scripts.pory"
+	removeobject 9
+# 311 "data/maps/NewMauville_Inside/scripts.pory"
 	delay 40
+# 312 "data/maps/NewMauville_Inside/scripts.pory"
+	fadescreen FADE_FROM_BLACK
+	return
+
+
+NewMauville_Won::
+# 317 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_TYPE_NULL, CRY_MODE_ENCOUNTER
+# 318 "data/maps/NewMauville_Inside/scripts.pory"
 	waitmoncry
-	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
-	clearflag FLAG_SYS_CTRL_OBJ_DELETE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb1
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb1
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb1
-	setflag FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE
-	release
-	end
-
-NewMauville_Inside_EventScript_DefeatedVoltorb1::
-	setflag FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE
-	goto Common_EventScript_RemoveStaticPokemon
-	end
-
-NewMauville_Inside_EventScript_Voltorb2::
-	lock
-	faceplayer
-	setwildbattle SPECIES_VOLTORB, 25
-	waitse
-	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
+# 319 "data/maps/NewMauville_Inside/scripts.pory"
+	msgbox NewMauville_Won_Text_0, MSGBOX_AUTOCLOSE
+# 320 "data/maps/NewMauville_Inside/scripts.pory"
+	fadescreen FADE_TO_BLACK
+# 321 "data/maps/NewMauville_Inside/scripts.pory"
+	removeobject 9
+# 322 "data/maps/NewMauville_Inside/scripts.pory"
 	delay 40
+# 323 "data/maps/NewMauville_Inside/scripts.pory"
+	fadescreen FADE_FROM_BLACK
+	return
+
+
+NewMauville_RanAway::
+# 328 "data/maps/NewMauville_Inside/scripts.pory"
+	playmoncry SPECIES_TYPE_NULL, CRY_MODE_ENCOUNTER
+# 329 "data/maps/NewMauville_Inside/scripts.pory"
 	waitmoncry
-	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
-	clearflag FLAG_SYS_CTRL_OBJ_DELETE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb2
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb2
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb2
-	setflag FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE
-	release
-	end
+# 330 "data/maps/NewMauville_Inside/scripts.pory"
+	msgbox NewMauville_RanAway_Text_0, MSGBOX_AUTOCLOSE
+# 332 "data/maps/NewMauville_Inside/scripts.pory"
+	delay 20
+	return
 
-NewMauville_Inside_EventScript_DefeatedVoltorb2::
-	setflag FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE
-	goto Common_EventScript_RemoveStaticPokemon
-	end
 
-NewMauville_Inside_EventScript_Voltorb3::
-	lock
-	faceplayer
-	setwildbattle SPECIES_VOLTORB, 25
-	waitse
-	playmoncry SPECIES_VOLTORB, CRY_MODE_ENCOUNTER
-	delay 40
-	waitmoncry
-	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
-	clearflag FLAG_SYS_CTRL_OBJ_DELETE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NewMauville_Inside_EventScript_DefeatedVoltorb3
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NewMauville_Inside_EventScript_DefeatedVoltorb3
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NewMauville_Inside_EventScript_DefeatedVoltorb3
-	setflag FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE
-	release
-	end
+# 336 "data/maps/NewMauville_Inside/scripts.pory"
+Type_Null_Sees_You:
+# 337 "data/maps/NewMauville_Inside/scripts.pory"
+	emote_exclamation_mark
+# 338 "data/maps/NewMauville_Inside/scripts.pory"
+	delay_16
+# 338 "data/maps/NewMauville_Inside/scripts.pory"
+	delay_16
+# 338 "data/maps/NewMauville_Inside/scripts.pory"
+	delay_16
+# 338 "data/maps/NewMauville_Inside/scripts.pory"
+	delay_16
+	step_end
 
-NewMauville_Inside_EventScript_DefeatedVoltorb3::
-	setflag FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE
-	goto Common_EventScript_RemoveStaticPokemon
-	end
+NewMauville_Inside_Type_Null_Encounter_Text_0:
+# 287 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "It attacks us!$"
 
-NewMauville_Inside_Text_GeneratorRadiatingHeat:
-	.string "The generator is radiating heat that\n"
-	.string "can be felt even at a distance.\p"
-	.string "It looks like it should be turned off\n"
-	.string "as soon as possible.$"
+NewMauville_Won_Text_0:
+# 319 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "Raaaawwwwrr ....$"
 
-NewMauville_Inside_Text_GeneratorQuietedDown:
-	.string "The generator quieted down.$"
-
-NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped:
-	.string "{PLAYER} stepped on the switch.\p"
-	.string "Click…\p"
-	.string "… … … … … … … …\n"
-	.string "… … … … … … … …\p"
-	.string "The generator appears to have\n"
-	.string "stopped…$"
+NewMauville_RanAway_Text_0:
+# 330 "data/maps/NewMauville_Inside/scripts.pory"
+	.string "Raaaawwww ....$"
