@@ -115,6 +115,15 @@ script Randomizer_Settings {
     else {
         clearflag(FLAG_RANDOM_TRAINER_MON)
     }
+    if(flag(FLAG_RANDOM_TRAINER_MON)){
+        msgbox ("Should the Gym's, Elite Four, and the\nChampion keep their POKéMON TYPE'S?", MSGBOX_YESNO)
+        if(var(VAR_RESULT) == YES) {
+            setflag(FLAG_RANDOM_TYPE_THEMED_ARENAS)
+        }
+        else {
+            clearflag(FLAG_RANDOM_TYPE_THEMED_ARENAS)
+        }
+    }
     msgbox ("Would you like to RANDOMIZE STATIC\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {
         setflag(FLAG_RANDOM_FIXED_MON)

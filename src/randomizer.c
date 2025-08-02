@@ -13,6 +13,8 @@
 #include "constants/abilities.h"
 #include "data/randomizer/ability_whitelist.h"
 #include "constants/abilities.h"
+#include "constants/opponents.h"
+#include "randomizer.h"
 
 // Add the mons you wish to be randomized when given as starter/gift mon to this list
 const u16 gStarterAndGiftMonTable[STARTER_AND_GIFT_MON_COUNT] =
@@ -57,6 +59,170 @@ static const u16 sPreevolutionBabyMons[] =
     SPECIES_MUNCHLAX,
     SPECIES_MANTYKE,
 };
+
+static const u16 sRustboroGymTrainers[] = {
+    TRAINER_JOSH,
+    TRAINER_TOMMY,
+    TRAINER_MARC,
+    TRAINER_ROXANNE_1,
+    TRAINER_ROXANNE_2,
+    TRAINER_ROXANNE_3,
+    TRAINER_ROXANNE_4,
+    TRAINER_ROXANNE_5
+};
+#define RUSTBORO_GYM_TRAINER_COUNT (sizeof(sRustboroGymTrainers)/sizeof(sRustboroGymTrainers[0]))
+
+static const u16 sMauvilleGymTrainers[] = {
+    TRAINER_VIVIAN,
+    TRAINER_KIRK,
+    TRAINER_BEN,
+    TRAINER_ANGELO,
+    TRAINER_SHAWN,
+    TRAINER_WATTSON_1,
+    TRAINER_WATTSON_2,
+    TRAINER_WATTSON_3,
+    TRAINER_WATTSON_4,
+    TRAINER_WATTSON_5
+};
+#define MAUVILLE_GYM_TRAINER_COUNT (sizeof(sMauvilleGymTrainers)/sizeof(sMauvilleGymTrainers[0]))
+
+static const u16 sDewfordGymTrainers[] = {
+    TRAINER_LAURA,
+    TRAINER_TAKAO,
+    TRAINER_BRENDEN,
+    TRAINER_LILITH,
+    TRAINER_CRISTIAN,
+    TRAINER_JOCELYN,
+    TRAINER_BRAWLY_1,
+    TRAINER_BRAWLY_2,
+    TRAINER_BRAWLY_3,
+    TRAINER_BRAWLY_4,
+    TRAINER_BRAWLY_5
+};
+#define DEWFORD_GYM_TRAINER_COUNT (sizeof(sDewfordGymTrainers)/sizeof(sDewfordGymTrainers[0]))
+
+static const u16 sLavaridgeGymTrainers[] = {
+    TRAINER_JACK,
+    TRAINER_DANIELLE,
+    TRAINER_AXLE,
+    TRAINER_COLE,
+    TRAINER_GERALD,
+    TRAINER_JACE,
+    TRAINER_ELI,
+    TRAINER_JEFF,
+    TRAINER_KEEGAN,
+    TRAINER_FLANNERY_1,
+    TRAINER_FLANNERY_2,
+    TRAINER_FLANNERY_3,
+    TRAINER_FLANNERY_4,
+    TRAINER_FLANNERY_5
+};
+#define LAVARIDGE_GYM_TRAINER_COUNT (sizeof(sLavaridgeGymTrainers)/sizeof(sLavaridgeGymTrainers[0]))
+
+static const u16 sPetalburgGymTrainers[] = {
+    TRAINER_RANDALL,
+    TRAINER_MARY,
+    TRAINER_PARKER,
+    TRAINER_ALEXIA,
+    TRAINER_GEORGE,
+    TRAINER_JODY,
+    TRAINER_BERKE,
+    TRAINER_NORMAN_1,
+    TRAINER_NORMAN_2,
+    TRAINER_NORMAN_3,
+    TRAINER_NORMAN_4,
+    TRAINER_NORMAN_5
+};
+#define PETALBURG_GYM_TRAINER_COUNT (sizeof(sPetalburgGymTrainers)/sizeof(sPetalburgGymTrainers[0]))
+
+static const u16 sMossdeepGymTrainers[] = {
+    TRAINER_PRESTON,
+    TRAINER_MAURA,
+    TRAINER_MACEY,
+    TRAINER_CLIFFORD,
+    TRAINER_KATHLEEN,
+    TRAINER_NICHOLAS,
+    TRAINER_VIRGIL,
+    TRAINER_NATE,
+    TRAINER_SYLVIA,
+    TRAINER_HANNAH,
+    TRAINER_TATE_AND_LIZA_1,
+    TRAINER_TATE_AND_LIZA_2,
+    TRAINER_TATE_AND_LIZA_3,
+    TRAINER_TATE_AND_LIZA_4,
+    TRAINER_TATE_AND_LIZA_5
+};
+#define MOSSDEEP_GYM_TRAINER_COUNT (sizeof(sMossdeepGymTrainers)/sizeof(sMossdeepGymTrainers[0]))
+
+static const u16 sFortreeGymTrainers[] = {
+    TRAINER_HUMBERTO,
+    TRAINER_ASHLEY,
+    TRAINER_JARED,
+    TRAINER_FLINT,
+    TRAINER_EDWARDO,
+    TRAINER_DARIUS,
+    TRAINER_WINONA_1,
+    TRAINER_WINONA_2,
+    TRAINER_WINONA_3,
+    TRAINER_WINONA_4,
+    TRAINER_WINONA_5
+};
+#define FORTREE_GYM_TRAINER_COUNT (sizeof(sFortreeGymTrainers)/sizeof(sFortreeGymTrainers[0]))
+
+static const u16 sSootopolisGymTrainers[] = {
+    TRAINER_CONNIE,
+    TRAINER_ANDREA,
+    TRAINER_DAPHNE,
+    TRAINER_ANNIKA,
+    TRAINER_TIFFANY,
+    TRAINER_CRISSY,
+    TRAINER_BETHANY,
+    TRAINER_OLIVIA,
+    TRAINER_BRIANNA,
+    TRAINER_BRIDGET,
+    TRAINER_JUAN_1,
+    TRAINER_JUAN_2,
+    TRAINER_JUAN_3,
+    TRAINER_JUAN_4,
+    TRAINER_JUAN_5
+};
+#define SOOTOPOLIS_GYM_TRAINER_COUNT (sizeof(sSootopolisGymTrainers)/sizeof(sSootopolisGymTrainers[0]))
+
+static const u16 sEliteFourSidney[] = {
+    TRAINER_SIDNEY
+};
+#define ELITE_FOUR_SIDNEY_COUNT (sizeof(sEliteFourSidney)/sizeof(sEliteFourSidney[0]))
+
+static const u16 sEliteFourPhoebe[] = {
+    TRAINER_PHOEBE
+};
+#define ELITE_FOUR_PHOEBE_COUNT (sizeof(sEliteFourPhoebe)/sizeof(sEliteFourPhoebe[0]))
+
+static const u16 sEliteFourGlacia[] = {
+    TRAINER_GLACIA
+};
+#define ELITE_FOUR_GLACIA_COUNT (sizeof(sEliteFourGlacia)/sizeof(sEliteFourGlacia[0]))
+
+static const u16 sEliteFourDrake[] = {
+    TRAINER_DRAKE
+};
+#define ELITE_FOUR_DRAKE_COUNT (sizeof(sEliteFourDrake)/sizeof(sEliteFourDrake[0]))
+
+static const u16 sChampWallace[] = {
+    TRAINER_WALLACE
+};
+#define CHAMP_WALLACE_COUNT (sizeof(sChampWallace)/sizeof(sChampWallace[0]))
+
+
+static bool8 IsTrainerInGroup(u16 trainerId, const u16 *group, u16 groupCount)
+{
+    for (u16 i = 0; i < groupCount; i++)
+    {
+        if (group[i] == trainerId)
+            return TRUE;
+    }
+    return FALSE;
+}
 
 bool32 RandomizerFeatureEnabled(enum RandomizerFeature feature)
 {
@@ -863,24 +1029,118 @@ bool32 IsRandomizationPossible(u16 originalSpecies, u16 targetSpecies)
     return TRUE;
 }
 
+#define MAX_TYPE_SPECIES 256
+static u16 GetSpeciesOfType(u8 type, u16 *buffer, u16 bufferSize)
+{
+    u16 count = 0;
+    for (u16 i = 1; i < SPECIES_EGG && count < bufferSize; i++)
+    {
+        if (!IsSpeciesPermitted(i))
+            continue;
+        if (gSpeciesInfo[i].types[0] == type || gSpeciesInfo[i].types[1] == type)
+            buffer[count++] = i;
+    }
+    return count;
+}
+
 static u16 GetSpeciesBST(u16 species)
 {
     const struct SpeciesInfo *info = &gSpeciesInfo[species];
     return info->baseHP + info->baseAttack + info->baseDefense + info->baseSpAttack + info->baseSpDefense + info->baseSpeed;
 }
 
+// Wenn Basepool und Type Themed Arenas aktiv sind
+u16 RandomizeMonWithinTypeAndBasepool(u8 type, u16 baseSpecies, u32 seed)
+{
+    u16 pool[MAX_TYPE_SPECIES];
+    u16 count = GetSpeciesOfType(type, pool, MAX_TYPE_SPECIES);
+    if (count == 0)
+        return baseSpecies;
+
+    u16 bst = GetSpeciesBST(baseSpecies);
+    u16 bstMin, bstMax;
+    GetGroupRange(bst, MON_RANDOM_BST, &bstMin, &bstMax);
+
+    struct Sfc32State state = RandomizerRandSeed(RANDOMIZER_REASON_TRAINER_PARTY, seed, baseSpecies);
+    u16 filtered[MAX_TYPE_SPECIES];
+    u16 filteredCount = 0;
+
+    for (u16 i = 0; i < count; i++)
+    {
+        u16 mon = pool[i];
+        u16 monBst = GetSpeciesBST(mon);
+        if (monBst >= bstMin && monBst <= bstMax)
+            filtered[filteredCount++] = mon;
+    }
+
+    if (filteredCount == 0)
+        return pool[RandomizerNextRange(&state, count)];
+
+    return filtered[RandomizerNextRange(&state, filteredCount)];
+}
+
 u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_TRAINER_MON))
     {
-        u32 seed;
-        u16 randomizedSpecies;
-        seed = (u32)trainerId << 16;
+        u32 seed = (u32)trainerId << 16;
         seed |= (u32)totalMons << 8;
         seed |= slot;
 
-        // CODE BLOCK BY KEREMSAN. CHANGE IT TO THE ORIGINAL IF ANYTHING GOES WRONG AND YOU CANT FIX IT SOMEHOW!!!
-        // Prüfe Randomizer-Modus (kein BST-Modus!) und Badge 5
+        if (FlagGet(FLAG_RANDOM_TYPE_THEMED_ARENAS))
+        {
+            const struct {
+                const u16 *group;
+                u16 count;
+                u8 type;
+            } typeGroups[] = {
+                {sRustboroGymTrainers, RUSTBORO_GYM_TRAINER_COUNT, TYPE_ROCK},
+                {sMauvilleGymTrainers, MAUVILLE_GYM_TRAINER_COUNT, TYPE_ELECTRIC},
+                {sDewfordGymTrainers, DEWFORD_GYM_TRAINER_COUNT, TYPE_FIGHTING},
+                {sLavaridgeGymTrainers, LAVARIDGE_GYM_TRAINER_COUNT, TYPE_FIRE},
+                {sPetalburgGymTrainers, PETALBURG_GYM_TRAINER_COUNT, TYPE_NORMAL},
+                {sMossdeepGymTrainers, MOSSDEEP_GYM_TRAINER_COUNT, TYPE_PSYCHIC},
+                {sFortreeGymTrainers, FORTREE_GYM_TRAINER_COUNT, TYPE_FLYING},
+                {sSootopolisGymTrainers, SOOTOPOLIS_GYM_TRAINER_COUNT, TYPE_WATER},
+                {sEliteFourSidney, ELITE_FOUR_SIDNEY_COUNT, TYPE_DARK},
+                {sEliteFourPhoebe, ELITE_FOUR_PHOEBE_COUNT, TYPE_GHOST},
+                {sEliteFourGlacia, ELITE_FOUR_GLACIA_COUNT, TYPE_ICE},
+                {sEliteFourDrake, ELITE_FOUR_DRAKE_COUNT, TYPE_DRAGON},
+                {sChampWallace, CHAMP_WALLACE_COUNT, TYPE_WATER},
+            };
+
+            for (u8 i = 0; i < ARRAY_COUNT(typeGroups); i++)
+            {
+                if (IsTrainerInGroup(trainerId, typeGroups[i].group, typeGroups[i].count))
+                {
+                    u16 pool[MAX_TYPE_SPECIES];
+                    u16 count = GetSpeciesOfType(typeGroups[i].type, pool, MAX_TYPE_SPECIES);
+                    if (count > 0)
+                    {
+                        if (GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) == 2)
+                        {
+                            return RandomizeMonWithinTypeAndBasepool(typeGroups[i].type, species, seed);
+                        }
+                        else
+                        {
+                            struct Sfc32State state = RandomizerRandSeed(RANDOMIZER_REASON_TRAINER_PARTY, seed, species);
+                            u16 candidate;
+                            u16 tries = 0;
+                            do {
+                                candidate = pool[RandomizerNextRange(&state, count)];
+                                tries++;
+                                if (tries > 1000)
+                                    break;
+                            } while (FlagGet(FLAG_BADGE05_GET) && GetSpeciesBST(candidate) <= 440);
+                            return candidate;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback für alle Trainer außerhalb von Gyms oder ohne Type-Flag
+        u16 randomizedSpecies;
         if (FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != 2)
         {
             u8 tries = 0;
@@ -888,9 +1148,9 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
             {
                 randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed + tries, species);
                 tries++;
-                if (tries > 1000) // Notbremse.
+                if (tries > 50000)
                     break;
-            } while (GetSpeciesBST(randomizedSpecies) <= 440); // Pokemon mit einem BST von 440 oder weniger sind nicht erlaubt.
+            } while (GetSpeciesBST(randomizedSpecies) <= 440);
             return randomizedSpecies;
         }
         else

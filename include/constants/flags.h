@@ -666,7 +666,7 @@
 #define FLAG_DERBY_NICKNAME      0x26B
 #define FLAG_DERBY_RESET         0x26C
 #define FLAG_ROTOM_ENCOUNTER     0x26D
-#define FLAG_UNUSED_0x26E  0x26E // Unused Flag
+#define FLAG_RANDOM_TYPE_THEMED_ARENAS  0x26E
 #define FLAG_UNUSED_0x26F  0x26F // Unused Flag
 #define FLAG_UNUSED_0x270  0x270 // Unused Flag
 #define FLAG_UNUSED_0x271  0x271 // Unused Flag

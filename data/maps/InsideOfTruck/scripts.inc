@@ -195,40 +195,43 @@ Randomizer_Settings_5:
 	clearflag FLAG_RANDOM_TRAINER_MON
 Randomizer_Settings_9:
 # 118 "data/maps/InsideOfTruck/scripts.pory"
-	msgbox Randomizer_Settings_Text_3, MSGBOX_YESNO
-# 119 "data/maps/InsideOfTruck/scripts.pory"
-	compare VAR_RESULT, YES
-	goto_if_eq Randomizer_Settings_14
-# 123 "data/maps/InsideOfTruck/scripts.pory"
-	clearflag FLAG_RANDOM_FIXED_MON
+	goto_if_set FLAG_RANDOM_TRAINER_MON, Randomizer_Settings_14
 Randomizer_Settings_13:
-# 125 "data/maps/InsideOfTruck/scripts.pory"
+# 127 "data/maps/InsideOfTruck/scripts.pory"
 	msgbox Randomizer_Settings_Text_4, MSGBOX_YESNO
-# 126 "data/maps/InsideOfTruck/scripts.pory"
+# 128 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, YES
-	goto_if_eq Randomizer_Settings_18
-# 130 "data/maps/InsideOfTruck/scripts.pory"
-	clearflag FLAG_RANDOM_EGG_MON
-Randomizer_Settings_17:
+	goto_if_eq Randomizer_Settings_17
 # 132 "data/maps/InsideOfTruck/scripts.pory"
+	clearflag FLAG_RANDOM_FIXED_MON
+Randomizer_Settings_16:
+# 134 "data/maps/InsideOfTruck/scripts.pory"
 	msgbox Randomizer_Settings_Text_5, MSGBOX_YESNO
-# 133 "data/maps/InsideOfTruck/scripts.pory"
+# 135 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, YES
-	goto_if_eq Randomizer_Settings_22
-# 137 "data/maps/InsideOfTruck/scripts.pory"
-	clearflag FLAG_RANDOM_ABILITIES
-Randomizer_Settings_21:
+	goto_if_eq Randomizer_Settings_24
 # 139 "data/maps/InsideOfTruck/scripts.pory"
+	clearflag FLAG_RANDOM_EGG_MON
+Randomizer_Settings_23:
+# 141 "data/maps/InsideOfTruck/scripts.pory"
 	msgbox Randomizer_Settings_Text_6, MSGBOX_YESNO
-# 140 "data/maps/InsideOfTruck/scripts.pory"
+# 142 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, YES
-	goto_if_eq Randomizer_Settings_26
-# 144 "data/maps/InsideOfTruck/scripts.pory"
-	clearflag FLAG_RANDOM_FIELD_ITEMS
-Randomizer_Settings_25:
+	goto_if_eq Randomizer_Settings_28
 # 146 "data/maps/InsideOfTruck/scripts.pory"
+	clearflag FLAG_RANDOM_ABILITIES
+Randomizer_Settings_27:
+# 148 "data/maps/InsideOfTruck/scripts.pory"
+	msgbox Randomizer_Settings_Text_7, MSGBOX_YESNO
+# 149 "data/maps/InsideOfTruck/scripts.pory"
+	compare VAR_RESULT, YES
+	goto_if_eq Randomizer_Settings_32
+# 153 "data/maps/InsideOfTruck/scripts.pory"
+	clearflag FLAG_RANDOM_FIELD_ITEMS
+Randomizer_Settings_31:
+# 155 "data/maps/InsideOfTruck/scripts.pory"
 	waitmessage
-# 147 "data/maps/InsideOfTruck/scripts.pory"
+# 156 "data/maps/InsideOfTruck/scripts.pory"
 	call Randomizer_Species_Mode
 	return
 
@@ -248,81 +251,96 @@ Randomizer_Settings_10:
 	goto Randomizer_Settings_9
 
 Randomizer_Settings_14:
+# 119 "data/maps/InsideOfTruck/scripts.pory"
+	msgbox Randomizer_Settings_Text_3, MSGBOX_YESNO
 # 120 "data/maps/InsideOfTruck/scripts.pory"
-	setflag FLAG_RANDOM_FIXED_MON
+	compare VAR_RESULT, YES
+	goto_if_eq Randomizer_Settings_20
+# 124 "data/maps/InsideOfTruck/scripts.pory"
+	clearflag FLAG_RANDOM_TYPE_THEMED_ARENAS
 	goto Randomizer_Settings_13
 
-Randomizer_Settings_18:
-# 127 "data/maps/InsideOfTruck/scripts.pory"
+Randomizer_Settings_17:
+# 129 "data/maps/InsideOfTruck/scripts.pory"
+	setflag FLAG_RANDOM_FIXED_MON
+	goto Randomizer_Settings_16
+
+Randomizer_Settings_20:
+# 121 "data/maps/InsideOfTruck/scripts.pory"
+	setflag FLAG_RANDOM_TYPE_THEMED_ARENAS
+	goto Randomizer_Settings_13
+
+Randomizer_Settings_24:
+# 136 "data/maps/InsideOfTruck/scripts.pory"
 	setflag FLAG_RANDOM_EGG_MON
-	goto Randomizer_Settings_17
+	goto Randomizer_Settings_23
 
-Randomizer_Settings_22:
-# 134 "data/maps/InsideOfTruck/scripts.pory"
+Randomizer_Settings_28:
+# 143 "data/maps/InsideOfTruck/scripts.pory"
 	setflag FLAG_RANDOM_ABILITIES
-	goto Randomizer_Settings_21
+	goto Randomizer_Settings_27
 
-Randomizer_Settings_26:
-# 141 "data/maps/InsideOfTruck/scripts.pory"
+Randomizer_Settings_32:
+# 150 "data/maps/InsideOfTruck/scripts.pory"
 	setflag FLAG_RANDOM_FIELD_ITEMS
-	goto Randomizer_Settings_25
+	goto Randomizer_Settings_31
 
 
 Randomizer_Species_Mode::
-# 151 "data/maps/InsideOfTruck/scripts.pory"
+# 160 "data/maps/InsideOfTruck/scripts.pory"
 	message Randomizer_Species_Mode_Text_0
-# 152 "data/maps/InsideOfTruck/scripts.pory"
+# 161 "data/maps/InsideOfTruck/scripts.pory"
 	waitmessage
-# 153 "data/maps/InsideOfTruck/scripts.pory"
+# 162 "data/maps/InsideOfTruck/scripts.pory"
 	multichoice 25, 3, MULTI_RANDOMIZER_SPECIES_CHOICE, 1
-# 154 "data/maps/InsideOfTruck/scripts.pory"
+# 163 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, 0
 	goto_if_eq Randomizer_Species_Mode_2
-# 157 "data/maps/InsideOfTruck/scripts.pory"
+# 166 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, 1
 	goto_if_eq Randomizer_Species_Mode_3
-# 160 "data/maps/InsideOfTruck/scripts.pory"
+# 169 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, 2
 	goto_if_eq Randomizer_Species_Mode_4
-# 163 "data/maps/InsideOfTruck/scripts.pory"
+# 172 "data/maps/InsideOfTruck/scripts.pory"
 	compare VAR_RESULT, 3
 	goto_if_eq Randomizer_Species_Mode_5
 Randomizer_Species_Mode_1:
-# 166 "data/maps/InsideOfTruck/scripts.pory"
+# 175 "data/maps/InsideOfTruck/scripts.pory"
 	closemessage
-# 167 "data/maps/InsideOfTruck/scripts.pory"
+# 176 "data/maps/InsideOfTruck/scripts.pory"
 	msgbox Randomizer_Species_Mode_Text_1
-# 168 "data/maps/InsideOfTruck/scripts.pory"
+# 177 "data/maps/InsideOfTruck/scripts.pory"
 	playse SE_SAVE
-# 169 "data/maps/InsideOfTruck/scripts.pory"
+# 178 "data/maps/InsideOfTruck/scripts.pory"
 	waitse
-# 170 "data/maps/InsideOfTruck/scripts.pory"
+# 179 "data/maps/InsideOfTruck/scripts.pory"
 	waitmessage
-# 171 "data/maps/InsideOfTruck/scripts.pory"
+# 180 "data/maps/InsideOfTruck/scripts.pory"
 	closemessage
-# 172 "data/maps/InsideOfTruck/scripts.pory"
+# 181 "data/maps/InsideOfTruck/scripts.pory"
 	fadescreen FADE_FROM_BLACK
-# 173 "data/maps/InsideOfTruck/scripts.pory"
+# 182 "data/maps/InsideOfTruck/scripts.pory"
 	releaseall
 	end
 
 Randomizer_Species_Mode_2:
-# 155 "data/maps/InsideOfTruck/scripts.pory"
+# 164 "data/maps/InsideOfTruck/scripts.pory"
 	setvar VAR_RANDOM_SPECIES_MODE, 0
 	goto Randomizer_Species_Mode_1
 
 Randomizer_Species_Mode_3:
-# 158 "data/maps/InsideOfTruck/scripts.pory"
+# 167 "data/maps/InsideOfTruck/scripts.pory"
 	setvar VAR_RANDOM_SPECIES_MODE, 1
 	goto Randomizer_Species_Mode_1
 
 Randomizer_Species_Mode_4:
-# 161 "data/maps/InsideOfTruck/scripts.pory"
+# 170 "data/maps/InsideOfTruck/scripts.pory"
 	setvar VAR_RANDOM_SPECIES_MODE, 2
 	goto Randomizer_Species_Mode_1
 
 Randomizer_Species_Mode_5:
-# 164 "data/maps/InsideOfTruck/scripts.pory"
+# 173 "data/maps/InsideOfTruck/scripts.pory"
 	setvar VAR_RANDOM_SPECIES_MODE, 3
 	goto Randomizer_Species_Mode_1
 
@@ -352,25 +370,29 @@ Randomizer_Settings_Text_2:
 	.string "Would you like to RANDOMIZE TRAINER\nPokémon?$"
 
 Randomizer_Settings_Text_3:
-# 118 "data/maps/InsideOfTruck/scripts.pory"
-	.string "Would you like to RANDOMIZE STATIC\nPokémon?$"
+# 119 "data/maps/InsideOfTruck/scripts.pory"
+	.string "Should the Gym's, Elite Four, and the\nChampion keep their POKéMON TYPE'S?$"
 
 Randomizer_Settings_Text_4:
-# 125 "data/maps/InsideOfTruck/scripts.pory"
-	.string "Would you like to RANDOMIZE EGG\nPokémon?$"
+# 127 "data/maps/InsideOfTruck/scripts.pory"
+	.string "Would you like to RANDOMIZE STATIC\nPokémon?$"
 
 Randomizer_Settings_Text_5:
-# 132 "data/maps/InsideOfTruck/scripts.pory"
-	.string "Would you like to RANDOMIZE Pokémon\nABILITIES?$"
+# 134 "data/maps/InsideOfTruck/scripts.pory"
+	.string "Would you like to RANDOMIZE EGG\nPokémon?$"
 
 Randomizer_Settings_Text_6:
-# 139 "data/maps/InsideOfTruck/scripts.pory"
+# 141 "data/maps/InsideOfTruck/scripts.pory"
+	.string "Would you like to RANDOMIZE Pokémon\nABILITIES?$"
+
+Randomizer_Settings_Text_7:
+# 148 "data/maps/InsideOfTruck/scripts.pory"
 	.string "Would you like to RANDOMIZE\nFIELD ITEMS?$"
 
 Randomizer_Species_Mode_Text_0:
-# 151 "data/maps/InsideOfTruck/scripts.pory"
+# 160 "data/maps/InsideOfTruck/scripts.pory"
 	.string "Which mode would you like to use?$"
 
 Randomizer_Species_Mode_Text_1:
-# 167 "data/maps/InsideOfTruck/scripts.pory"
+# 176 "data/maps/InsideOfTruck/scripts.pory"
 	.string "RANDOMIZER settings have been saved!$"
