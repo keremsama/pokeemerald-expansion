@@ -294,3 +294,6 @@
 @ Start GameCorner voicegroups
 .include "sound/voicegroups/voicegroup800.inc"
 .include "sound/voicegroups/voicegroup801.inc"
+
+@ Start More Custom voicegroups
+.include "sound/voicegroups/voicegroup802.inc"

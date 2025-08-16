@@ -1189,6 +1189,7 @@ SECTIONS {
         sound/songs/midi/mus_rg_trainer_tower.o(.rodata);
         sound/songs/midi/mus_rg_slow_pallet.o(.rodata);
         sound/songs/midi/mus_rg_teachy_tv_menu.o(.rodata);
+        sound/songs/midi/mus_col_vs_evice.o(.rodata);
         sound/songs/midi/ph_trap_blend.o(.rodata);
         sound/songs/midi/ph_trap_held.o(.rodata);
         sound/songs/midi/ph_trap_solo.o(.rodata);

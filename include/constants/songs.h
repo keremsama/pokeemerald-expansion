@@ -1118,7 +1118,10 @@
 #define MUS_BW_VS_WCS_CHAMPION 1176
 #define MUS_BW_OBTAIN_BERRY 1177
 
-#define END_MUS                     MUS_BW_OBTAIN_BERRY
+// More Custom Tracks  !!! END_MUS IMMER auf letzten Track anpassen!
+#define MUS_COL_VS_EVICE 1178
+
+#define END_MUS                     MUS_COL_VS_EVICE
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 
