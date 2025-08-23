@@ -275,6 +275,15 @@ static const struct MenuAction MultichoiceList_GameCornerTMs[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_GameCornerEvoItems[] =
+{
+    {COMPOUND_STRING("FIRE STONE{CLEAR_TO 0x52}1,500 C.")},
+    {COMPOUND_STRING("THUNDER STONE{CLEAR_TO 0x52}3,500 C.")},
+    {COMPOUND_STRING("WATER STONE{CLEAR_TO 0x52}4,000 C.")},
+    {COMPOUND_STRING("LEAF STONE{CLEAR_TO 0x52}4,000 C.")},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_GameCornerCoins[] =
 {
     {COMPOUND_STRING("  50 COINS    ¥1,000")},
@@ -856,6 +865,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SSTIDAL_BATTLE_FRONTIER]    = MULTICHOICE(MultichoiceList_SSTidalBattleFrontier),
     [MULTI_RIGHTLEFT]                  = MULTICHOICE(MultichoiceList_RightLeft),
     [MULTI_GAME_CORNER_TMS]            = MULTICHOICE(MultichoiceList_GameCornerTMs),
+    [MULTI_GAMECORNER_EVO_ITEMS]       = MULTICHOICE(MultichoiceList_GameCornerEvoItems),
     [MULTI_SSTIDAL_SLATEPORT_NO_BF]    = MULTICHOICE(MultichoiceList_SSTidalSlateportNoBF),
     [MULTI_FLOORS]                     = MULTICHOICE(MultichoiceList_Floors),
     [MULTI_SHARDS_R]                   = MULTICHOICE(MultichoiceList_ShardsR),

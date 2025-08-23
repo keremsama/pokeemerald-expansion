@@ -742,12 +742,12 @@ MauvilleCity_GameCorner_EventScript_PrizeCornerNew::
 	release
 	end	
 	
-MauvilleCity_GameCorner_EventScript_PrizeCornerNew2::
+MauvilleCity_GameCorner_EventScript_PrizeCornerEvoItems::
 	lock
 	faceplayer
 	msgbox MauvilleCity_GameCorner_Text_ExchangeCoinsForPrizes, MSGBOX_DEFAULT
 	checkitem ITEM_COIN_CASE
-	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_ChooseNewPrizeMessage2
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_ChooseEvoItems
 	release
 	end		
 
@@ -765,12 +765,12 @@ MauvilleCity_GameCorner_EventScript_ChooseNewPrizeMessage::
 	showcoinsbox 1, 1
 	goto MauvilleCity_GameCorner_EventScript_ChooseNewPrize	
 	
-MauvilleCity_GameCorner_EventScript_ChooseNewPrizeMessage2::
+MauvilleCity_GameCorner_EventScript_ChooseEvoItems::
 	message MauvilleCity_GameCorner_Text_WhichPrize
 	waitmessage
 	setvar VAR_TEMP_1, 0
 	showcoinsbox 1, 1
-	goto MauvilleCity_GameCorner_EventScript_ChooseNewPrize2		
+	goto MauvilleCity_GameCorner_EventScript_ChooseEvoItem		
 
 MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize::
 	message MauvilleCity_GameCorner_Text_WhichPrize
@@ -785,7 +785,7 @@ MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize::
 MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2::
 	message MauvilleCity_GameCorner_Text_WhichPrize
 	waitmessage
-	goto MauvilleCity_GameCorner_EventScript_ChooseNewPrize2	
+	goto MauvilleCity_GameCorner_EventScript_ChooseEvoItem	
 
 MauvilleCity_GameCorner_EventScript_ChooseTMPrize::
 	multichoice 12, 0, MULTI_GAME_CORNER_TMS, FALSE
@@ -811,8 +811,8 @@ MauvilleCity_GameCorner_EventScript_ChooseNewPrize::
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end	
 
-MauvilleCity_GameCorner_EventScript_ChooseNewPrize2::
-	@ multichoice 12, 0, MULTI_GAMECORNER_NEW2, FALSE
+MauvilleCity_GameCorner_EventScript_ChooseEvoItem::
+	multichoice 12, 0, MULTI_GAMECORNER_EVO_ITEMS, FALSE
 	switch VAR_RESULT
 	case 0, MauvilleCity_GameCorner_EventScript_FireStone
 	case 1, MauvilleCity_GameCorner_EventScript_ThunderStone
