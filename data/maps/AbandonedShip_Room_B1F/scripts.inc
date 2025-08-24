@@ -36,67 +36,71 @@ Battle_Rotom_Encounter::
 # 26 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	msgbox Battle_Rotom_Encounter_Text_1
 # 27 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	setwildbattle SPECIES_ROTOM, 25, ITEM_NONE
+	setflag FLAG_SET_BGM
 # 28 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	dowildbattle
+	setvar VAR_TEMP_F, MUS_DP_VS_WILD
 # 29 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	specialvar VAR_RESULT, GetBattleOutcome
+	setwildbattle SPECIES_ROTOM, 25, ITEM_NONE
 # 30 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+	dowildbattle
+# 31 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+	specialvar VAR_RESULT, GetBattleOutcome
+# 32 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	compare VAR_RESULT, B_OUTCOME_CAUGHT
 	goto_if_eq Battle_Rotom_Encounter_2
-# 33 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 35 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	compare VAR_RESULT, B_OUTCOME_WON
 	goto_if_eq Battle_Rotom_Encounter_3
-# 36 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 38 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	compare VAR_RESULT, B_OUTCOME_RAN
 	goto_if_eq Battle_Rotom_Encounter_4
-# 39 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 41 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
 	goto_if_eq Battle_Rotom_Encounter_5
 Battle_Rotom_Encounter_1:
-# 42 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 44 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	waitmessage
-# 43 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 45 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	releaseall
 	return
 
 Battle_Rotom_Encounter_2:
-# 31 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 33 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	call Won_or_Caught
 	goto Battle_Rotom_Encounter_1
 
 Battle_Rotom_Encounter_3:
-# 34 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 36 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	call Won_or_Caught
 	goto Battle_Rotom_Encounter_1
 
 Battle_Rotom_Encounter_4:
-# 37 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 39 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	call RanAway
 	goto Battle_Rotom_Encounter_1
 
 Battle_Rotom_Encounter_5:
-# 40 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 42 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	call RanAway
 	goto Battle_Rotom_Encounter_1
 
 
 Won_or_Caught::
-# 47 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 49 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	msgbox Won_or_Caught_Text_0
 	return
 
 
 RanAway::
-# 52 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	playmoncry SPECIES_ROTOM, CRY_MODE_ENCOUNTER
-# 53 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	waitmoncry
 # 54 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	msgbox RanAway_Text_0, MSGBOX_AUTOCLOSE
+	playmoncry SPECIES_ROTOM, CRY_MODE_ENCOUNTER
 # 55 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	delay 20
+	waitmoncry
 # 56 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+	msgbox RanAway_Text_0, MSGBOX_AUTOCLOSE
+# 57 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+	delay 20
+# 58 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	clearflag FLAG_ROTOM_ENCOUNTER
 	return
 
@@ -114,9 +118,9 @@ Battle_Rotom_Encounter_Text_1:
 	.string "It jumped out!$"
 
 Won_or_Caught_Text_0:
-# 47 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 49 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	.string "Phew! That was a close one..$"
 
 RanAway_Text_0:
-# 54 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
+# 56 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	.string "Bzzzzt!....$"

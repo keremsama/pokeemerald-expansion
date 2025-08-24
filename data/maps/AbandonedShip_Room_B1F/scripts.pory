@@ -24,6 +24,8 @@ script Battle_Rotom_Encounter{
     playmoncry(SPECIES_ROTOM, CRY_MODE_ENCOUNTER)
     waitmoncry
     msgbox ("It jumped out!")
+    setflag (FLAG_SET_BGM)
+	setvar (VAR_TEMP_F, MUS_DP_VS_WILD)
     setwildbattle (SPECIES_ROTOM, 25, ITEM_NONE)
     dowildbattle
     specialvar(VAR_RESULT, GetBattleOutcome)

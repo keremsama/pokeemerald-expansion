@@ -5759,6 +5759,11 @@ bool32 IsSpeciesInHoennDex(u16 species)
 
 u16 GetBattleBGM(void)
 {
+    if (FlagGet(FLAG_SET_BGM))
+    {
+        FlagClear(FLAG_SET_BGM);
+            return VarGet(VAR_TEMP_F);
+    }
     if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
     {
         switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
