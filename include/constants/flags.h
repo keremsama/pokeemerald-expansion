@@ -667,10 +667,10 @@
 #define FLAG_DERBY_RESET         0x26C
 #define FLAG_ROTOM_ENCOUNTER     0x26D
 #define FLAG_RANDOM_TYPE_THEMED_ARENAS  0x26E
-#define EXP_SHARE_FLAG_ACTIVATE  0x26F 
-#define FLAG_SET_BGM       0x270
-#define FLAG_UNUSED_0x271  0x271 // Unused Flag
-#define FLAG_UNUSED_0x272  0x272 // Unused Flag
+#define EXP_SHARE_FLAG_ACTIVATE         0x26F 
+#define FLAG_SET_BGM                    0x270
+#define FLAG_HIDE_ROUTE114_STEVEN       0x271
+#define FLAG_MEET_STEVEN_ROUTE114       0x272
 #define FLAG_UNUSED_0x273  0x273 // Unused Flag
 #define FLAG_UNUSED_0x274  0x274 // Unused Flag
 #define FLAG_UNUSED_0x275  0x275 // Unused Flag

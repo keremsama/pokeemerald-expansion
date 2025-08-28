@@ -2427,4 +2427,9 @@ extern const u8 gText_LegendForLegendRandomMons[];
 extern const u8 gText_BasestatPoolRandomMons[];
 extern const u8 gText_EvolutionaryRandomMons[];
 
+// Mega Stones Multichoice at Route 114
+extern const u8 gText_TreeckoMegaStone[];
+extern const u8 gText_MudkipMegaStone[];
+extern const u8 gText_TorchicMegaStone[];
+
 #endif // GUARD_STRINGS_H

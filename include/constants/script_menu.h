@@ -125,6 +125,7 @@
 #define MULTI_BERRY_PLOT                   114
 #define MULTI_RANDOMIZER_SPECIES_CHOICE    115 // Randomizer species mode selection
 #define MULTI_GAMECORNER_EVO_ITEMS         116 
+#define MULTI_STARTER_MEGA_STONE           117
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

@@ -1303,3 +1303,8 @@ const u8 gText_CompleteRandomMons[] = _("Complete Random");
 const u8 gText_LegendForLegendRandomMons[] = _("Legend for Legend");
 const u8 gText_BasestatPoolRandomMons[] = _("Basestat Pool");
 const u8 gText_EvolutionaryRandomMons[] = _("Evolutionary");
+
+// Starter Mega Stone Choice
+const u8 gText_TreeckoMegaStone[] = _("Treecko");
+const u8 gText_MudkipMegaStone[] = _("Mudkip");
+const u8 gText_TorchicMegaStone[] = _("Torchic");

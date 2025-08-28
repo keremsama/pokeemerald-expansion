@@ -801,6 +801,13 @@ static const struct MenuAction MultichoiceList_RandomSpeciesMode[] =
     {gText_EvolutionaryRandomMons}
 };
 
+static const struct MenuAction MultichoiceList_StarterMegaStone[] =
+{
+    {gText_TreeckoMegaStone},
+    {gText_MudkipMegaStone},
+    {gText_TorchicMegaStone}
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -925,7 +932,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
     [MULTI_BERRY_PLOT]                 = MULTICHOICE(MultichoiceList_BerryPlot),
-    [MULTI_RANDOMIZER_SPECIES_CHOICE]  = MULTICHOICE(MultichoiceList_RandomSpeciesMode)
+    [MULTI_RANDOMIZER_SPECIES_CHOICE]  = MULTICHOICE(MultichoiceList_RandomSpeciesMode),
+    [MULTI_STARTER_MEGA_STONE]         = MULTICHOICE(MultichoiceList_StarterMegaStone)
 };
 
 const u8 *const gStdStrings[] =

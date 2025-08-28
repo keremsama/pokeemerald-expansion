@@ -1148,9 +1148,9 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
             {
                 randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed + tries, species);
                 tries++;
-                if (tries > 50000)
+                if (tries > 1000)
                     break;
-            } while (GetSpeciesBST(randomizedSpecies) <= 440);
+            } while (GetSpeciesBST(randomizedSpecies) <= 440); // Ab Orden Nummer FLAG_BADGE0X_GET sind alle Pokemon über 440er Base.
             return randomizedSpecies;
         }
         else
