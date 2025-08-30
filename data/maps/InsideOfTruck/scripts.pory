@@ -65,7 +65,6 @@ script FadeScreenBlack {
     lock
     fadescreen(FADE_TO_BLACK)
     call (Randomizer_Option_Setup)
-    end
 }
 
 // RANDOMIZER SETUP BLOCK //

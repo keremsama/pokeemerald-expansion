@@ -489,7 +489,9 @@ extern const u8 Debug_BerryWeedsDisabled[];
 
 extern const u8 FallarborTown_MoveRelearnersHouse_EventScript_ChooseMon[];
 
+// Eigene Debug Scripts
 extern const u8 Randomizer_Option_Setup[];
+extern const u8 birch_case[];
 
 #include "data/map_group_count.h"
 
@@ -627,7 +629,7 @@ static const struct ListMenuItem sDebugMenu_Items_Scripts[] =
 {
     [DEBUG_UTIL_MENU_ITEM_SCRIPT_1] = {COMPOUND_STRING("Cheat Start"), DEBUG_UTIL_MENU_ITEM_SCRIPT_1},
     [DEBUG_UTIL_MENU_ITEM_SCRIPT_2] = {COMPOUND_STRING("Randomizer"), DEBUG_UTIL_MENU_ITEM_SCRIPT_2},
-    [DEBUG_UTIL_MENU_ITEM_SCRIPT_3] = {COMPOUND_STRING("Script 3"), DEBUG_UTIL_MENU_ITEM_SCRIPT_3},
+    [DEBUG_UTIL_MENU_ITEM_SCRIPT_3] = {COMPOUND_STRING("New Birch Bag"), DEBUG_UTIL_MENU_ITEM_SCRIPT_3},
     [DEBUG_UTIL_MENU_ITEM_SCRIPT_4] = {COMPOUND_STRING("Script 4"), DEBUG_UTIL_MENU_ITEM_SCRIPT_4},
     [DEBUG_UTIL_MENU_ITEM_SCRIPT_5] = {COMPOUND_STRING("Script 5"), DEBUG_UTIL_MENU_ITEM_SCRIPT_5},
     [DEBUG_UTIL_MENU_ITEM_SCRIPT_6] = {COMPOUND_STRING("Script 6"), DEBUG_UTIL_MENU_ITEM_SCRIPT_6},
@@ -2147,7 +2149,7 @@ static void DebugAction_Util_Script_2(u8 taskId)
 
 static void DebugAction_Util_Script_3(u8 taskId)
 {
-    Debug_DestroyMenu_Full_Script(taskId, Debug_EventScript_Script_3);
+    Debug_DestroyMenu_Full_Script(taskId, birch_case);
 }
 
 static void DebugAction_Util_Script_4(u8 taskId)

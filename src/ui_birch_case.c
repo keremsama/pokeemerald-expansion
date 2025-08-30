@@ -42,6 +42,7 @@
 #include "constants/moves.h"
 #include "naming_screen.h"
 #include "tv.h"
+#include "randomizer.h"
 
  /*
     9 Starter Selection Birch Case
@@ -130,20 +131,8 @@ struct MonChoiceData{ // This is the format used to define a mon, everything lef
 //
 //  Making Changes Here Changes The Options In The UI. This is where you define your mons
 //
-static const struct MonChoiceData sStarterChoices[9] = 
-{
-    [BALL_TOP_FIRST]        = {SPECIES_MUDKIP, 5, ITEM_POTION, BALL_NET, NATURE_JOLLY, 1, MON_MALE, {255, 255, 0, 0, 0, 0}, {31, 31, 31, 31, 31, 31}, {MOVE_FIRE_BLAST, MOVE_SHEER_COLD, MOVE_WATER_GUN, MOVE_THUNDER}, 0, 0, 0},
-    [BALL_TOP_SECOND]       = {SPECIES_TREECKO, 5},
-    [BALL_MIDDLE_FIRST]     = {SPECIES_TORCHIC, 5},
 
-    [BALL_TOP_THIRD]        = {SPECIES_CHIKORITA, 5},
-    [BALL_TOP_FOURTH]       = {SPECIES_NONE, 5},
-    [BALL_MIDDLE_THIRD]     = {SPECIES_CYNDAQUIL, 5},
-
-    [BALL_MIDDLE_SECOND]    = {SPECIES_BULBASAUR, 5},
-    [BALL_BOTTOM_FIRST]     = {SPECIES_CHARMANDER, 5},
-    [BALL_BOTTOM_SECOND]    = {SPECIES_NONE, 5},
-};
+EWRAM_DATA struct MonChoiceData sStarterChoices[9];
 
 //==========EWRAM==========//
 static EWRAM_DATA struct MenuResources *sBirchCaseDataPtr = NULL;
@@ -279,6 +268,67 @@ static const struct SpriteTemplate sSpriteTemplate_PokeballHandMap =
     .callback = SpriteCallbackDummy
 };
 
+static void InitStarterChoices(void)
+{
+    // Beispiel {SPECIES_MUDKIP, 5, ITEM_POTION, BALL_NET, NATURE_JOLLY, 1, MON_MALE, {255, 255, 0, 0, 0, 0}, {31, 31, 31, 31, 31, 31}, {MOVE_FIRE_BLAST, MOVE_SHEER_COLD, MOVE_WATER_GUN, MOVE_THUNDER}, 0, 0, 0};
+    sStarterChoices[BALL_TOP_FIRST] = (struct MonChoiceData){SPECIES_MUDKIP, 5, ITEM_POTION, BALL_NET, NATURE_JOLLY, 1, MON_MALE, {0, 0, 0, 0, 0, 0}, {31, 31, 31, 31, 31, 31}, {MOVE_FIRE_BLAST, MOVE_SHEER_COLD, MOVE_WATER_GUN, MOVE_THUNDER}, 0, 0, 0};
+    sStarterChoices[BALL_TOP_SECOND] = (struct MonChoiceData){SPECIES_TREECKO, 5};
+    sStarterChoices[BALL_MIDDLE_FIRST] = (struct MonChoiceData){SPECIES_TORCHIC, 5};
+
+    sStarterChoices[BALL_TOP_THIRD] = (struct MonChoiceData){SPECIES_CHIKORITA, 5};
+    sStarterChoices[BALL_TOP_FOURTH] = (struct MonChoiceData){SPECIES_TOTODILE, 5};
+    sStarterChoices[BALL_MIDDLE_THIRD] = (struct MonChoiceData){SPECIES_CYNDAQUIL, 5};
+
+    sStarterChoices[BALL_MIDDLE_SECOND] = (struct MonChoiceData){SPECIES_BULBASAUR, 5};
+    sStarterChoices[BALL_BOTTOM_FIRST] = (struct MonChoiceData){SPECIES_CHARMANDER, 5};
+    sStarterChoices[BALL_BOTTOM_SECOND] = (struct MonChoiceData){SPECIES_SQUIRTLE, 5};
+}
+
+static void RandomizeIVs(u8 *ivs)
+{
+    for (u8 i = 0; i < 6; i++) // Für alle 6 Stats (HP, Atk, Def, SpA, SpD, Spe)
+    {
+        ivs[i] = 15 + (Random() % 17); // Zufälliger Wert zwischen 15 und 31
+    }
+}
+
+static void GenerateRandomizedStarters(void)
+{
+    // Prüfen, ob der Randomizer für Starter aktiviert ist
+    if (RandomizerFeatureEnabled(RANDOMIZE_STARTER_AND_GIFT_MON))
+    {
+        // Original-Starter-Liste aus randomizer.c
+        const u16 originalStarters[STARTER_AND_GIFT_MON_COUNT] = {
+            SPECIES_TREECKO,
+            SPECIES_TORCHIC,
+            SPECIES_MUDKIP,
+            SPECIES_CHARMANDER,
+            SPECIES_BULBASAUR,
+            SPECIES_SQUIRTLE,
+            SPECIES_CYNDAQUIL,
+            SPECIES_TOTODILE,
+            SPECIES_CHIKORITA
+        };
+
+        // Randomisierte Starter generieren
+        for (u8 i = 0; i < 9; i++) // Für alle 9 Slots in sStarterChoices
+        {
+            if (i < STARTER_AND_GIFT_MON_COUNT)
+            {
+                u16 randomizedSpecies = RandomizeStarterAndGiftMon(i, originalStarters);
+                sStarterChoices[i].species = randomizedSpecies;
+                sStarterChoices[i].level = 5; // Standard-Level
+                // IVs randomisieren
+                RandomizeIVs(sStarterChoices[i].ivs);
+            }
+            else
+            {
+                // Leere Slots mit SPECIES_NONE füllen
+                sStarterChoices[i].species = SPECIES_NONE;
+            }
+        }
+    }
+}
 
 //
 //  This is the Callback for the Hand Cursor that Updates its sprite position when moved by the input control functions
@@ -494,6 +544,9 @@ void BirchCase_Init(MainCallback callback)
         SetMainCallback2(callback);
         return;
     }
+
+    InitStarterChoices();
+    GenerateRandomizedStarters();
     
     // initialize stuff
     sBirchCaseDataPtr->gfxLoadState = 0;

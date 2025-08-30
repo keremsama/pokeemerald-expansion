@@ -590,6 +590,13 @@ EventScript_WhiteOut::
 	goto EventScript_ResetMrBriney
 	end
 
+New_Birch_Bag::
+    callnative StartNewPokeballCaseUI
+    waitstate
+    setwildbattle SPECIES_ZIGZAGOON, 3, ITEM_NONE
+    dowildbattle
+    return
+
 EventScript_AfterWhiteOutHeal::
 	lockall
 	msgbox gText_FirstShouldRestoreMonsHealth
