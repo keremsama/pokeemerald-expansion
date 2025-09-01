@@ -42655,3 +42655,35 @@ F_TRAINER_FEMALE |
             },
         },
     },
+#line 17056
+    [DIFFICULTY_NORMAL][TRAINER_CYNTHIA] =
+    {
+#line 17057
+        .trainerName = _("CYNTHIA"),
+#line 17058
+        .trainerClass = TRAINER_CLASS_PKMN_TRAINER,
+#line 17059
+        .trainerPic = TRAINER_PIC_CYNTHIA,
+        .encounterMusic_gender =
+#line 17060
+F_TRAINER_FEMALE | 
+#line 17061
+            TRAINER_ENCOUNTER_MUSIC_MALE,
+#line 17062
+        .doubleBattle = FALSE,
+        .partySize = 1,
+        .party = (const struct TrainerMon[])
+        {
+            {
+#line 17064
+            .species = SPECIES_KYOGRE,
+            .gender = TRAINER_MON_RANDOM_GENDER,
+#line 17066
+            .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
+#line 17065
+            .lvl = 5,
+            .nature = NATURE_HARDY,
+            .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+            },
+        },
+    },

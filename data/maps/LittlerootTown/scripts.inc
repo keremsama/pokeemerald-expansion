@@ -2040,3 +2040,29 @@ birch_case::
 	releaseall
 	end
 
+
+cynthia_fight::
+# 1030 "data/maps/LittlerootTown/scripts.pory"
+	setflag FLAG_SET_BGM
+# 1031 "data/maps/LittlerootTown/scripts.pory"
+	setvar VAR_TEMP_F, MUS_BW_VS_CYNTHIA
+# 1032 "data/maps/LittlerootTown/scripts.pory"
+	trainerbattle_single TRAINER_CYNTHIA, Beispiel_Intro, Beispiel_Outro
+# 1033 "data/maps/LittlerootTown/scripts.pory"
+	msgbox Beispiel_Postbattle, MSGBOX_AUTOCLOSE
+# 1034 "data/maps/LittlerootTown/scripts.pory"
+	waitmessage
+	end
+
+
+Beispiel_Intro::
+# 1040 "data/maps/LittlerootTown/scripts.pory"
+	.string "Intro Text!$"
+
+Beispiel_Outro::
+# 1044 "data/maps/LittlerootTown/scripts.pory"
+	.string "Outro Text.$"
+
+Beispiel_Postbattle::
+# 1048 "data/maps/LittlerootTown/scripts.pory"
+	.string "Postbattle text.$"

@@ -1025,3 +1025,26 @@ script birch_case {
     releaseall
     end
 }
+
+script cynthia_fight {
+	setflag (FLAG_SET_BGM)	// Trainer Battle Music
+	setvar (VAR_TEMP_F, MUS_BW_VS_CYNTHIA)	// Insert Custom Music here, else delete this and above.
+	trainerbattle_single(TRAINER_CYNTHIA, Beispiel_Intro, Beispiel_Outro)
+	msgbox(Beispiel_Postbattle, MSGBOX_AUTOCLOSE)
+	waitmessage
+	end
+}
+
+// TEXT TRAINER
+
+text Beispiel_Intro {
+	format("Intro Text!")
+}
+
+text Beispiel_Outro {
+	format("Outro Text.")
+}
+
+text Beispiel_Postbattle {
+	format("Postbattle text.")
+}
