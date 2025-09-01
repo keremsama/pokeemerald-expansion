@@ -123,8 +123,10 @@ FadeScreenBlack::
 # 66 "data/maps/InsideOfTruck/scripts.pory"
 	fadescreen FADE_TO_BLACK
 # 67 "data/maps/InsideOfTruck/scripts.pory"
+	playbgm MUS_HG_NEW_GAME, TRUE
+# 68 "data/maps/InsideOfTruck/scripts.pory"
 	call Randomizer_Option_Setup
-	end
+	return
 
 
 Randomizer_Option_Setup::

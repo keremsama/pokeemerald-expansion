@@ -5769,10 +5769,10 @@ u16 GetBattleBGM(void)
         switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
         {
         case SPECIES_RAYQUAZA:
-            return MUS_VS_RAYQUAZA;
+            return MUS_HG_VS_KYOGRE_GROUDON;
         case SPECIES_KYOGRE:
         case SPECIES_GROUDON:
-            return MUS_VS_KYOGRE_GROUDON;
+            return MUS_HG_VS_KYOGRE_GROUDON;
         case SPECIES_REGIROCK:
         case SPECIES_REGICE:
         case SPECIES_REGISTEEL:

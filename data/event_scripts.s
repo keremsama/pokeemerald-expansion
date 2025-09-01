@@ -593,8 +593,10 @@ EventScript_WhiteOut::
 New_Birch_Bag::
     callnative StartNewPokeballCaseUI
     waitstate
+	savebgm MUS_ROUTE101
     setwildbattle SPECIES_ZIGZAGOON, 3, ITEM_NONE
     dowildbattle
+	fadescreen FADE_TO_BLACK
     return
 
 EventScript_AfterWhiteOutHeal::

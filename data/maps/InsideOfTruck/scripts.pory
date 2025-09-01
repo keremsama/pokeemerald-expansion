@@ -64,6 +64,7 @@ InsideOfTruck_Text_BoxPrintedWithMonLogo:
 script FadeScreenBlack {
     lock
     fadescreen(FADE_TO_BLACK)
+    playbgm (MUS_HG_NEW_GAME, TRUE)
     call (Randomizer_Option_Setup)
 }
 
