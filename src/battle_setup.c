@@ -1378,7 +1378,15 @@ void PlayTrainerEncounterMusic(void)
     else
         trainerId = TRAINER_BATTLE_PARAM.opponentB;
 
-    if (TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
+    if (FlagGet(FLAG_SET_ENCOUNTER_MUSIC))
+    {
+        FlagClear(FLAG_SET_ENCOUNTER_MUSIC);
+
+        music = VarGet(VAR_TEMP_E);  // Musik-ID frei setzen
+        PlayNewMapMusic(music);
+        return;
+    }
+    else if (TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
         && TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
     {
         switch (GetTrainerEncounterMusicId(trainerId))

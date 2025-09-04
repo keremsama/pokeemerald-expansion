@@ -2043,26 +2043,30 @@ birch_case::
 
 cynthia_fight::
 # 1030 "data/maps/LittlerootTown/scripts.pory"
-	setflag FLAG_SET_BGM
+	setflag FLAG_SET_ENCOUNTER_MUSIC
 # 1031 "data/maps/LittlerootTown/scripts.pory"
-	setvar VAR_TEMP_F, MUS_BW_VS_CYNTHIA
+	setvar VAR_TEMP_E, MUS_BW_CYNTHIA
 # 1032 "data/maps/LittlerootTown/scripts.pory"
-	trainerbattle_single TRAINER_CYNTHIA, Beispiel_Intro, Beispiel_Outro
+	setflag FLAG_SET_BGM
 # 1033 "data/maps/LittlerootTown/scripts.pory"
-	msgbox Beispiel_Postbattle, MSGBOX_AUTOCLOSE
+	setvar VAR_TEMP_F, MUS_BW_VS_CYNTHIA
 # 1034 "data/maps/LittlerootTown/scripts.pory"
+	trainerbattle_single TRAINER_CYNTHIA, Beispiel_Intro, Beispiel_Outro
+# 1035 "data/maps/LittlerootTown/scripts.pory"
+	msgbox Beispiel_Postbattle, MSGBOX_AUTOCLOSE
+# 1036 "data/maps/LittlerootTown/scripts.pory"
 	waitmessage
 	end
 
 
 Beispiel_Intro::
-# 1040 "data/maps/LittlerootTown/scripts.pory"
+# 1042 "data/maps/LittlerootTown/scripts.pory"
 	.string "Intro Text!$"
 
 Beispiel_Outro::
-# 1044 "data/maps/LittlerootTown/scripts.pory"
+# 1046 "data/maps/LittlerootTown/scripts.pory"
 	.string "Outro Text.$"
 
 Beispiel_Postbattle::
-# 1048 "data/maps/LittlerootTown/scripts.pory"
+# 1050 "data/maps/LittlerootTown/scripts.pory"
 	.string "Postbattle text.$"
