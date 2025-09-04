@@ -2822,63 +2822,63 @@
             "encounter_rate": 20,
             "mons": [
               {
-                "min_level": 21,
-                "max_level": 21,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_NUMEL"
               },
               {
-                "min_level": 21,
-                "max_level": 21,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_SPOINK"
               },
               {
-                "min_level": 21,
-                "max_level": 21,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_SCRAGGY"
               },
               {
-                "min_level": 20,
-                "max_level": 20,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_SCRAGGY"
               },
               {
-                "min_level": 20,
-                "max_level": 20,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_SPOINK"
               },
               {
-                "min_level": 20,
-                "max_level": 20,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_NUMEL"
               },
               {
-                "min_level": 21,
-                "max_level": 21,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_THROH"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_SAWK"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_TOXEL"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_TOXEL"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_ELEKID"
               },
               {
-                "min_level": 22,
-                "max_level": 22,
+                "min_level": 24,
+                "max_level": 26,
                 "species": "SPECIES_ELEKID"
               }
             ]
