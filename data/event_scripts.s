@@ -1165,3 +1165,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/scripts/dexnav.inc"
 
 	.include "data/maps/ShoalCave_LaprasCave/scripts.inc"
+
+	.include "data/maps/MojaveCave/scripts.inc"

@@ -4420,6 +4420,16 @@
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/ShoalCave_LaprasCave/border.bin",
       "blockdata_filepath": "data/layouts/ShoalCave_LaprasCave/map.bin"
+    },
+    {
+      "id": "LAYOUT_MOJAVE_CAVE",
+      "name": "MojaveCave_Layout",
+      "width": 50,
+      "height": 25,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MirageTower",
+      "border_filepath": "data/layouts/MojaveCave/border.bin",
+      "blockdata_filepath": "data/layouts/MojaveCave/map.bin"
     }
   ]
 }

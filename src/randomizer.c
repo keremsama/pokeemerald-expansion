@@ -105,7 +105,6 @@ static const u16 sDewfordGymTrainers[] = {
 #define DEWFORD_GYM_TRAINER_COUNT (sizeof(sDewfordGymTrainers)/sizeof(sDewfordGymTrainers[0]))
 
 static const u16 sLavaridgeGymTrainers[] = {
-    TRAINER_JACK,
     TRAINER_DANIELLE,
     TRAINER_AXLE,
     TRAINER_COLE,

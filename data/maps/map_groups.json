@@ -430,7 +430,8 @@
     "TerraCave_End",
     "AlteringCave",
     "MeteorFalls_StevensCave",
-    "ShoalCave_LaprasCave"
+    "ShoalCave_LaprasCave",
+    "MojaveCave"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",
