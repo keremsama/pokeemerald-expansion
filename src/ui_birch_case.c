@@ -271,7 +271,7 @@ static const struct SpriteTemplate sSpriteTemplate_PokeballHandMap =
 static void InitStarterChoices(void)
 {
     // Beispiel {SPECIES_MUDKIP, 5, ITEM_POTION, BALL_NET, NATURE_JOLLY, 1, MON_MALE, {255, 255, 0, 0, 0, 0}, {31, 31, 31, 31, 31, 31}, {MOVE_FIRE_BLAST, MOVE_SHEER_COLD, MOVE_WATER_GUN, MOVE_THUNDER}, 0, 0, 0};
-    sStarterChoices[BALL_TOP_FIRST] = (struct MonChoiceData){SPECIES_MUDKIP, 5, ITEM_POTION, BALL_NET, NATURE_JOLLY, 1, MON_MALE, {0, 0, 0, 0, 0, 0}, {31, 31, 31, 31, 31, 31}, {MOVE_FIRE_BLAST, MOVE_SHEER_COLD, MOVE_WATER_GUN, MOVE_THUNDER}, 0, 0, 0};
+    sStarterChoices[BALL_TOP_FIRST] = (struct MonChoiceData){SPECIES_MUDKIP, 5};
     sStarterChoices[BALL_TOP_SECOND] = (struct MonChoiceData){SPECIES_TREECKO, 5};
     sStarterChoices[BALL_MIDDLE_FIRST] = (struct MonChoiceData){SPECIES_TORCHIC, 5};
 
@@ -294,39 +294,46 @@ static void RandomizeIVs(u8 *ivs)
 
 static void GenerateRandomizedStarters(void)
 {
-    // Prüfen, ob der Randomizer für Starter aktiviert ist
-    if (RandomizerFeatureEnabled(RANDOMIZE_STARTER_AND_GIFT_MON))
-    {
-        // Original-Starter-Liste aus randomizer.c
-        const u16 originalStarters[STARTER_AND_GIFT_MON_COUNT] = {
-            SPECIES_TREECKO,
-            SPECIES_TORCHIC,
-            SPECIES_MUDKIP,
-            SPECIES_CHARMANDER,
-            SPECIES_BULBASAUR,
-            SPECIES_SQUIRTLE,
-            SPECIES_CYNDAQUIL,
-            SPECIES_TOTODILE,
-            SPECIES_CHIKORITA
-        };
+    // Original-Starter-Liste aus randomizer.c
+    const u16 originalStarters[STARTER_AND_GIFT_MON_COUNT] = {
+        SPECIES_TREECKO,
+        SPECIES_TORCHIC,
+        SPECIES_BULBASAUR,
+        SPECIES_CHARMANDER,
+        SPECIES_MUDKIP,
+        SPECIES_CHIKORITA,
+        SPECIES_SQUIRTLE,
+        SPECIES_CYNDAQUIL,
+        SPECIES_TOTODILE
+    };
 
-        // Randomisierte Starter generieren
-        for (u8 i = 0; i < 9; i++) // Für alle 9 Slots in sStarterChoices
+    // Starter generieren
+    for (u8 i = 0; i < 9; i++) // Für alle 9 Slots in sStarterChoices
+    {
+        if (i < STARTER_AND_GIFT_MON_COUNT)
         {
-            if (i < STARTER_AND_GIFT_MON_COUNT)
+            if (RandomizerFeatureEnabled(RANDOMIZE_STARTER_AND_GIFT_MON))
             {
+                // Pokémon randomisieren, wenn der Randomizer aktiviert ist
                 u16 randomizedSpecies = RandomizeStarterAndGiftMon(i, originalStarters);
                 sStarterChoices[i].species = randomizedSpecies;
-                sStarterChoices[i].level = 5; // Standard-Level
-                // IVs randomisieren
-                RandomizeIVs(sStarterChoices[i].ivs);
             }
             else
             {
-                // Leere Slots mit SPECIES_NONE füllen
-                sStarterChoices[i].species = SPECIES_NONE;
+                // Standard-Starter verwenden, wenn der Randomizer deaktiviert ist
+                sStarterChoices[i].species = originalStarters[i];
             }
+
+            sStarterChoices[i].level = 5; // Standard-Level
         }
+        else
+        {
+            // Leere Slots mit SPECIES_NONE füllen
+            sStarterChoices[i].species = SPECIES_NONE;
+        }
+
+        // IVs immer randomisieren
+        RandomizeIVs(sStarterChoices[i].ivs);
     }
 }
 
