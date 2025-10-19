@@ -805,7 +805,13 @@ static const struct MenuAction MultichoiceList_StarterMegaStone[] =
 {
     {gText_TreeckoMegaStone},
     {gText_MudkipMegaStone},
-    {gText_TorchicMegaStone}
+    {gText_TorchicMegaStone},
+    {gText_CharmanderMegaStone},
+    {gText_SquirtleMegaStone},
+    {gText_BulbasaurMegaStone},
+    {gText_ChikoritaMegaStone},
+    {gText_CyndaquilMegaStone},
+    {gText_TotodileMegaStone}
 };
 
 struct MultichoiceListStruct

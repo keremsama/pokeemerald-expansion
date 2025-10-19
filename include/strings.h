@@ -2431,5 +2431,11 @@ extern const u8 gText_EvolutionaryRandomMons[];
 extern const u8 gText_TreeckoMegaStone[];
 extern const u8 gText_MudkipMegaStone[];
 extern const u8 gText_TorchicMegaStone[];
+extern const u8 gText_CharmanderMegaStone[];
+extern const u8 gText_SquirtleMegaStone[];
+extern const u8 gText_BulbasaurMegaStone[];
+extern const u8 gText_ChikoritaMegaStone[];
+extern const u8 gText_CyndaquilMegaStone[];
+extern const u8 gText_TotodileMegaStone[];
 
 #endif // GUARD_STRINGS_H

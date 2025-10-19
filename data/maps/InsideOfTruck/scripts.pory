@@ -85,6 +85,8 @@ script Randomizer_Option_Setup {
         clearflag (FLAG_RANDOM_TRAINER_MON)
         clearflag (FLAG_RANDOM_FIXED_MON)
         clearflag (FLAG_RANDOM_STARTERS)
+        clearflag (FLAG_RANDOM_EGG_MON)
+        clearflag (FLAG_RANDOM_ABILITIES)
         waitmessage
         closemessage
         fadescreen(FADE_FROM_BLACK)
