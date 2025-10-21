@@ -672,7 +672,7 @@
 #define FLAG_HIDE_PETALBURG_STEVEN      0x271
 #define FLAG_MEET_STEVEN_PETALBURG      0x272
 #define FLAG_SET_ENCOUNTER_MUSIC        0x273
-#define FLAG_UNUSED_0x274  0x274 // Unused Flag
+#define FLAG_RIVAL_ROUTE119_DEFEATED    0x274
 #define FLAG_UNUSED_0x275  0x275 // Unused Flag
 #define FLAG_UNUSED_0x276  0x276 // Unused Flag
 #define FLAG_UNUSED_0x277  0x277 // Unused Flag
@@ -1014,7 +1014,7 @@
 #define FLAG_HIDE_MIRAGE_TOWER_ROOT_FOSSIL                          0x3C3
 #define FLAG_HIDE_MIRAGE_TOWER_CLAW_FOSSIL                          0x3C4
 #define FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_FAMILIAR_AQUA_GRUNT 0x3C5
-#define FLAG_HIDE_ROUTE_118_STEVEN                                  0x3C6
+#define FLAG_HIDE_ROUTE_118_STEVEN                                  0x3C6  // Unused
 #define FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_STEVEN                0x3C7
 #define FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_BELDUM_POKEBALL       0x3C8
 #define FLAG_HIDE_FORTREE_CITY_KECLEON                              0x3C9

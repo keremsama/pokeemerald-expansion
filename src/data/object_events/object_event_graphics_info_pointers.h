@@ -238,8 +238,9 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Lugia;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HoOh;
 
 // EIGENE
-
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Cynthia;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TMBall;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MegaStone;
 
 // Begin pokemon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
@@ -496,6 +497,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_POKE_BALL] =                &gObjectEventGraphicsInfo_PokeBall,
     [OBJ_EVENT_GFX_OW_MON] =                   &gObjectEventGraphicsInfo_Follower,
     [OBJ_EVENT_GFX_CYNTHIA] =                  &gObjectEventGraphicsInfo_Cynthia,
+    [OBJ_EVENT_GFX_TM_BALL] =                  &gObjectEventGraphicsInfo_TMBall,
+    [OBJ_EVENT_GFX_MEGA_STONE] =               &gObjectEventGraphicsInfo_MegaStone,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

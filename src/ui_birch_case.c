@@ -298,11 +298,11 @@ static void GenerateRandomizedStarters(void)
     const u16 originalStarters[STARTER_AND_GIFT_MON_COUNT] = {
         SPECIES_TREECKO,
         SPECIES_TORCHIC,
+        SPECIES_MUDKIP,
         SPECIES_BULBASAUR,
         SPECIES_CHARMANDER,
-        SPECIES_MUDKIP,
-        SPECIES_CHIKORITA,
         SPECIES_SQUIRTLE,
+        SPECIES_CHIKORITA,
         SPECIES_CYNDAQUIL,
         SPECIES_TOTODILE
     };
@@ -521,6 +521,16 @@ static void BirchCase_GiveMon() // Function that calls the GiveMon function pull
     u8 *evs = (u8 *) sStarterChoices[sBirchCaseDataPtr->handPosition].evs;
     u8 *ivs = (u8 *) sStarterChoices[sBirchCaseDataPtr->handPosition].ivs;
     u16 *moves = (u16 *) sStarterChoices[sBirchCaseDataPtr->handPosition].moves;
+
+    // Number for VAR_STARTER_MON always to 0, 1 or 2. (For example when you choose Charmander, your Rival will have Mudkip as Rival Pokemon)
+    u16 starterMon = sBirchCaseDataPtr->handPosition;
+    if (starterMon >= 3 && starterMon <= 5)
+        starterMon -= 3; // 3 -> 0, 4 -> 1, 5 -> 2
+    else if (starterMon >= 6 && starterMon <= 8)
+        starterMon -= 6; // 6 -> 0, 7 -> 1, 8 -> 2
+
+    VarSet(VAR_STARTER_MON, starterMon);
+
     FlagSet(FLAG_SYS_POKEMON_GET);
     gSpecialVar_Result = BirchCase_GiveMonParameterized(sStarterChoices[sBirchCaseDataPtr->handPosition].species, sStarterChoices[sBirchCaseDataPtr->handPosition].level, \
                 sStarterChoices[sBirchCaseDataPtr->handPosition].item, sStarterChoices[sBirchCaseDataPtr->handPosition].ball, \

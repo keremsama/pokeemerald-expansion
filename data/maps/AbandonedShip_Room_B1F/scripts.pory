@@ -26,7 +26,7 @@ script Battle_Rotom_Encounter{
     msgbox ("It jumped out!")
     setflag (FLAG_SET_BGM)
 	setvar (VAR_TEMP_F, MUS_DP_VS_WILD)
-    setwildbattle (SPECIES_ROTOM, 25, ITEM_NONE)
+    setwildbattle (SPECIES_ROTOM, 40, ITEM_NONE)
     dowildbattle
     specialvar(VAR_RESULT, GetBattleOutcome)
 	if(var(VAR_RESULT) == B_OUTCOME_CAUGHT){

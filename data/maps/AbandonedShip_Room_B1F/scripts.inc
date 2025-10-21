@@ -40,7 +40,7 @@ Battle_Rotom_Encounter::
 # 28 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	setvar VAR_TEMP_F, MUS_DP_VS_WILD
 # 29 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
-	setwildbattle SPECIES_ROTOM, 25, ITEM_NONE
+	setwildbattle SPECIES_ROTOM, 40, ITEM_NONE
 # 30 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
 	dowildbattle
 # 31 "data/maps/AbandonedShip_Room_B1F/scripts.pory"
