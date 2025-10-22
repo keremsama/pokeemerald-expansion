@@ -1705,7 +1705,11 @@
     },
     {
       "id": "MAPSEC_MOJAVE_CAVE",
-      "name": "MOJAVE CAVE"
+      "name": "MOJAVE CAVE",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
     }
   ]
 }

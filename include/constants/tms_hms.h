@@ -53,7 +53,55 @@
     F(SNATCH) \
     F(OVERHEAT) \
     F(ROOST) \
-    F(FOCUS_BLAST)
+    F(FOCUS_BLAST) \
+    F(ENERGY_BALL) \
+    F(FALSE_SWIPE) \
+    F(BRINE) \
+    F(FLING) \
+    F(CHARGE_BEAM) \
+    F(ENDURE) \
+    F(DRAGON_PULSE) \
+    F(DRAIN_PUNCH) \
+    F(WILL_O_WISP) \
+    F(BUG_BUZZ) \
+    F(NASTY_PLOT) \
+    F(EXPLOSION) \
+    F(SHADOW_CLAW) \
+    F(PAYBACK) \
+    F(RECYCLE) \
+    F(GIGA_IMPACT) \
+    F(ROCK_POLISH) \
+    F(DAZZLING_GLEAM) \
+    F(STONE_EDGE) \
+    F(AVALANCHE) \
+    F(THUNDER_WAVE) \
+    F(GYRO_BALL) \
+    F(SWORDS_DANCE) \
+    F(STEALTH_ROCK) \
+    F(PSYSH_UP) \
+    F(SNARL) \
+    F(DARK_PULSE) \
+    F(ROCK_SLIDE) \
+    F(X_SCISSOR) \
+    F(SLEEP_TALK) \
+    F(BULLDOZE) \
+    F(POISON_JAB) \
+    F(DREAM_EATER) \
+    F(GRASS_KNOT) \
+    F(SWAGGER) \
+    F(PLUCK) \
+    F(U_TURN) \
+    F(ACROBATICS) \
+    F(FLASH_CANNON) \
+    F(TRICK_ROOM) \
+    F(SCALD) \
+    F(WORK_UP) \
+    F(FOUL_PLAY) \
+    F(FIRE_PUNCH) \
+    F(THUNDER_PUNCH) \
+    F(ICE_PUNCH) \
+    F(DEFOG) \
+    F(DRAGON_DANCE) \
 
 #define FOREACH_HM(F) \
     F(CUT) \
