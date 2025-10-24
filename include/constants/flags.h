@@ -673,8 +673,8 @@
 #define FLAG_MEET_STEVEN_PETALBURG      0x272
 #define FLAG_SET_ENCOUNTER_MUSIC        0x273
 #define FLAG_RIVAL_ROUTE119_DEFEATED    0x274
-#define FLAG_UNUSED_0x275  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
+#define FLAG_WALLY_LILYCOVE_DEFEATED    0x275
+#define FLAG_HIDE_WALLY_LILYCOVE        0x276
 #define FLAG_UNUSED_0x277  0x277 // Unused Flag
 #define FLAG_UNUSED_0x278  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag

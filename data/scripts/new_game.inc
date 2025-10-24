@@ -272,5 +272,11 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_EVER_GRANDE_POKEMON_CENTER_1F_SCOTT
 	setflag FLAG_HIDE_SKY_PILLAR_WALLACE
 	setflag FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA_STILL
+
+	@ Eigene Flags die am Anfang des Spiels gesetzt werden.
+
+	setflag FLAG_HIDE_WALLY_LILYCOVE
+	setflag FLAG_HIDE_PETALBURG_STEVEN
+
 	call EventScript_ResetAllBerries
 	end

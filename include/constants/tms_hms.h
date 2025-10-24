@@ -78,12 +78,12 @@
     F(GYRO_BALL) \
     F(SWORDS_DANCE) \
     F(STEALTH_ROCK) \
-    F(PSYSH_UP) \
+    F(EARTH_POWER) \
     F(SNARL) \
     F(DARK_PULSE) \
     F(ROCK_SLIDE) \
     F(X_SCISSOR) \
-    F(SLEEP_TALK) \
+    F(SCORCHING_SANDS) \
     F(BULLDOZE) \
     F(POISON_JAB) \
     F(DREAM_EATER) \

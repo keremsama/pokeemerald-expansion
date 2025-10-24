@@ -4084,8 +4084,8 @@ const struct Item gItemsInfo[] =
             "held by Dragon-\n"
             "type Pokémon."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_DragonScale,
@@ -4101,8 +4101,8 @@ const struct Item gItemsInfo[] =
             "A peculiar box made\n"
             "by Silph Co."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_Upgrade,
@@ -4118,8 +4118,8 @@ const struct Item gItemsInfo[] =
             "Pokémon. It's stiff\n"
             "and heavy."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 80,
         .iconPic = gItemIcon_Protector,
@@ -4135,8 +4135,8 @@ const struct Item gItemsInfo[] =
             "Pokémon. It's full\n"
             "of electric energy."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 80,
         .iconPic = gItemIcon_Electirizer,
@@ -4152,8 +4152,8 @@ const struct Item gItemsInfo[] =
             "Pokémon. It's full\n"
             "of magma energy."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 80,
         .iconPic = gItemIcon_Magmarizer,
@@ -4169,8 +4169,8 @@ const struct Item gItemsInfo[] =
             "overflowing with\n"
             "dubious data."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 50,
         .iconPic = gItemIcon_DubiousDisc,
@@ -4187,8 +4187,8 @@ const struct Item gItemsInfo[] =
             "Pokémon. Imbued\n"
             "with spirit energy."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 10,
         .iconPic = gItemIcon_ReaperCloth,
@@ -4204,8 +4204,8 @@ const struct Item gItemsInfo[] =
             "that evolves a\n"
             "certain Pokémon."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_PrismScale,
@@ -4222,8 +4222,8 @@ const struct Item gItemsInfo[] =
             "treat loved by\n"
             "a certain Pokémon."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 80,
         .iconPic = gItemIcon_WhippedDream,
@@ -4239,8 +4239,8 @@ const struct Item gItemsInfo[] =
             "perfumes, loved by\n"
             "a certain Pokémon."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 80,
         .iconPic = gItemIcon_Sachet,
@@ -7089,8 +7089,8 @@ const struct Item gItemsInfo[] =
             "raises the Sp. Def\n"
             "of Clamperl."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_DeepSeaScale,
@@ -7108,8 +7108,8 @@ const struct Item gItemsInfo[] =
             "raises the Sp. Atk\n"
             "of Clamperl."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 90,
         .iconPic = gItemIcon_DeepSeaTooth,
@@ -7851,8 +7851,8 @@ const struct Item gItemsInfo[] =
             "raises the power of\n"
             "Steel-type moves."),
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_MetalCoat,
@@ -8299,8 +8299,8 @@ const struct Item gItemsInfo[] =
         .holdEffectParam = 10,
         .description = sKingsRockDesc,
         .pocket = POCKET_ITEMS,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_KingsRock,
@@ -11559,16 +11559,16 @@ const struct Item gItemsInfo[] =
     [ITEM_TM77] =
     {
         .name = _("TM77"),
-        .price = 5000,
+        .price = 20000,
         .description = COMPOUND_STRING(
-            "Copies the foe's\n"
-            "effect(s) and gives\n"
-            "them to the user."),
+            "Makes the ground\n"
+            "erupt with power\n"
+            "May lower Sp. Def."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_PSYCH_UP,
+        .secondaryId = MOVE_EARTH_POWER,
     },
 
     [ITEM_TM78] =
@@ -11634,16 +11634,16 @@ const struct Item gItemsInfo[] =
     [ITEM_TM82] =
     {
         .name = _("TM82"),
-        .price = 5000,
+        .price = 20000,
         .description = COMPOUND_STRING(
-            "Uses an available\n"
-            "move randomly while\n"
-            "asleep."),
+            "Throws scorching\n"
+            "sand at the target.\n"
+            "May leave a burn."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_SLEEP_TALK,
+        .secondaryId = MOVE_SCORCHING_SANDS,
     },
 
     [ITEM_TM83] =

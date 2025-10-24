@@ -194,6 +194,13 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("Even if you defeat me, the dream of\nexpanding the land will never perish!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("Allright… Camerupt, let us show them true power.\pMega Evolve.{PAUSE_UNTIL_PRESS}"),
         },
+
+        [TRAINER_WALLY_LILYCOVE]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I'm not going to make it easy\nfor you!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("It's not over yet ..!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_HALF_HP] = COMPOUND_STRING("...Did I loose...?\pHas my training not been enough yet?{PAUSE_UNTIL_PRESS}"),
+        },
     },
 };
 
