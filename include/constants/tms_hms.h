@@ -89,7 +89,7 @@
     F(DREAM_EATER) \
     F(GRASS_KNOT) \
     F(SWAGGER) \
-    F(PLUCK) \
+    F(CLOSE_COMBAT) \
     F(U_TURN) \
     F(ACROBATICS) \
     F(FLASH_CANNON) \

@@ -675,7 +675,7 @@
 #define FLAG_RIVAL_ROUTE119_DEFEATED    0x274
 #define FLAG_WALLY_LILYCOVE_DEFEATED    0x275
 #define FLAG_HIDE_WALLY_LILYCOVE        0x276
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
+#define FLAG_HIDE_EV_INFO  0x277 // Unused Flag
 #define FLAG_UNUSED_0x278  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag
 #define FLAG_UNUSED_0x27A  0x27A // Unused Flag

@@ -52,6 +52,7 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/flags.h"
 
 #if BW_SUMMARY_SCREEN == TRUE
 enum BWPSSEffect
@@ -2372,10 +2373,16 @@ static void ChangeSummaryState(s16 *data, u8 taskId)
         tSkillsState = SKILL_STATE_IVS;
         break;
     case SKILL_STATE_IVS:
-        tSkillsState = SKILL_STATE_EVS;
+        if (FlagGet(FLAG_HIDE_EV_INFO))
+            tSkillsState = SKILL_STATE_STATS; // EVs überspringen
+        else
+            tSkillsState = SKILL_STATE_EVS;
         break;
     case SKILL_STATE_EVS:
-        if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
+        // Prüfe hier nochmal die Flag!
+        if (FlagGet(FLAG_HIDE_EV_INFO))
+            tSkillsState = SKILL_STATE_STATS;
+        else if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
             tSkillsState = SKILL_STATE_IVS;
         else
             tSkillsState = SKILL_STATE_STATS;
@@ -2467,7 +2474,12 @@ static void Task_HandleInput(u8 taskId)
             {
                 if (BW_SUMMARY_IV_EV_DISPLAY != BW_IV_EV_HIDDEN)
                 {
-                    // Cycle through IVs/EVs/stats on pressing A
+                    // NEU: Wenn die Flag gesetzt ist und du auf IVs bist, ignoriere A
+                    if (FlagGet(FLAG_HIDE_EV_INFO) && tSkillsState == SKILL_STATE_IVS)
+                    {
+                        PlaySE(SE_FAILURE); // Optional: Sound für "geht nicht"
+                        return;
+                    }
                     ChangeSummaryState(data, taskId);
                     DrawNextSkillsButtonPrompt(tSkillsState);
                     PlaySE(SE_SELECT);
@@ -3676,6 +3688,7 @@ static void PrintPageNamesAndStats(void)
     {
         if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
         {
+            // NEU: Prompt für EVs nur anzeigen, wenn Flag NICHT gesetzt ist
             stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewIVs_Graded, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
@@ -3683,12 +3696,15 @@ static void PrintPageNamesAndStats(void)
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
             PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs_Graded, stringXPos, 1, 0, 1);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs_Graded, skillsLabelWidth);
-            iconXPos = stringXPos - 16;
-            if (iconXPos < 0)
-                iconXPos = 0;
-            PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs_Graded, stringXPos, 1, 0, 1);
+            if (!FlagGet(FLAG_HIDE_EV_INFO))
+            {
+                stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs_Graded, skillsLabelWidth);
+                iconXPos = stringXPos - 16;
+                if (iconXPos < 0)
+                    iconXPos = 0;
+                PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
+                PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs_Graded, stringXPos, 1, 0, 1);
+            }
         }
         else // precise display
         {
@@ -3699,12 +3715,15 @@ static void PrintPageNamesAndStats(void)
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
             PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs, stringXPos, 1, 0, 1);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs, skillsLabelWidth);
-            iconXPos = stringXPos - 16;
-            if (iconXPos < 0)
-                iconXPos = 0;
-            PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs, stringXPos, 1, 0, 1);
+            if (!FlagGet(FLAG_HIDE_EV_INFO))
+            {
+                stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs, skillsLabelWidth);
+                iconXPos = stringXPos - 16;
+                if (iconXPos < 0)
+                    iconXPos = 0;
+                PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
+                PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs, stringXPos, 1, 0, 1);
+            }
         }
 
         stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewStats, skillsLabelWidth);

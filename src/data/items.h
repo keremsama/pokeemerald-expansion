@@ -11724,16 +11724,16 @@ const struct Item gItemsInfo[] =
     [ITEM_TM88] =
     {
         .name = _("TM88"),
-        .price = 10000,
+        .price = 30000,
         .description = COMPOUND_STRING(
-            "Eats the foe's held\n"
-            "Berry gaining its\n"
-            "effect."),
+            "A strong attack but\n"
+            "lowers the\n"
+            "defensive stats."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_PLUCK,
+        .secondaryId = MOVE_CLOSE_COMBAT,
     },
 
     [ITEM_TM89] =
