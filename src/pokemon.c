@@ -5779,7 +5779,7 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIGIGAS:
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
-            return MUS_VS_REGI;
+            return MUS_PL_VS_REGI;
         default:
             return MUS_RG_VS_LEGEND;
         }
@@ -5835,7 +5835,91 @@ u16 GetBattleBGM(void)
     }
     else
     {
-        return MUS_VS_WILD;
+        // Wild Battle Music Chooser
+        switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES))
+        {
+            case SPECIES_ARTICUNO:
+            case SPECIES_ZAPDOS:
+            case SPECIES_MOLTRES:
+            case SPECIES_ARTICUNO_GALAR:
+            case SPECIES_ZAPDOS_GALAR:
+            case SPECIES_MOLTRES_GALAR:
+                return MUS_RG_VS_LEGEND;
+            case SPECIES_MEWTWO:
+            case SPECIES_MEW:
+                return MUS_RG_VS_MEWTWO;
+            case SPECIES_RAIKOU:
+                return MUS_HG_VS_RAIKOU;
+            case SPECIES_ENTEI:
+                return MUS_HG_VS_ENTEI;
+            case SPECIES_SUICUNE:
+                return MUS_HG_VS_SUICUNE;
+            case SPECIES_LUGIA:
+                return MUS_HG_VS_LUGIA;
+            case SPECIES_HO_OH:
+                return MUS_HG_VS_HO_OH;
+            case SPECIES_REGICE:
+            case SPECIES_REGIROCK:
+            case SPECIES_REGISTEEL:
+            case SPECIES_REGIDRAGO:
+            case SPECIES_REGIELEKI:
+            case SPECIES_REGIGIGAS:
+                return MUS_PL_VS_REGI;
+            case SPECIES_LATIAS:
+            case SPECIES_LATIOS:
+                return MUS_VS_GYM_LEADER;
+            case SPECIES_KYOGRE:
+            case SPECIES_GROUDON:
+            case SPECIES_RAYQUAZA:
+                return MUS_HG_VS_KYOGRE_GROUDON;
+            case SPECIES_DEOXYS:
+            case SPECIES_JIRACHI:
+            case SPECIES_SOLGALEO:
+            case SPECIES_LUNALA:
+            case SPECIES_NECROZMA:
+                return MUS_RG_VS_DEOXYS;
+            case SPECIES_UXIE:
+            case SPECIES_MESPRIT:
+            case SPECIES_AZELF:
+                return MUS_DP_VS_UXIE_MESPRIT_AZELF;
+            case SPECIES_DIALGA:
+            case SPECIES_PALKIA:
+                return MUS_DP_VS_DIALGA_PALKIA;
+            case SPECIES_GIRATINA:
+                return MUS_PL_VS_GIRATINA;
+            case SPECIES_HEATRAN:
+            case SPECIES_CRESSELIA:
+            case SPECIES_DARKRAI:
+            case SPECIES_MANAPHY:
+            case SPECIES_SHAYMIN:
+            case SPECIES_XERNEAS:
+            case SPECIES_YVELTAL:
+            case SPECIES_ZYGARDE:
+            case SPECIES_DIANCIE:
+            case SPECIES_HOOPA:
+            case SPECIES_VOLCANION:
+                return MUS_DP_VS_LEGEND;
+            case SPECIES_ARCEUS:
+                return MUS_DP_VS_ARCEUS;
+            case SPECIES_COBALION:
+            case SPECIES_TERRAKION:
+            case SPECIES_VIRIZION:
+            case SPECIES_TORNADUS:
+            case SPECIES_THUNDURUS:
+            case SPECIES_LANDORUS:
+            case SPECIES_VICTINI:
+            case SPECIES_KELDEO:
+            case SPECIES_MELOETTA:
+            case SPECIES_GENESECT:
+                return MUS_BW_VS_LEGEND;
+            case SPECIES_RESHIRAM:
+            case SPECIES_ZEKROM:
+                return MUS_BW_VS_RESHIRAM_ZEKROM;
+            case SPECIES_KYUREM:
+                return MUS_BW_VS_KYUREM;
+            default:
+                return MUS_VS_WILD;
+        }
     }
 }
 

@@ -1091,7 +1091,7 @@
 #define FLAG_ITEM_ROUTE_133_STAR_PIECE                              0x40E
 #define FLAG_ITEM_PETALBURG_CITY_MAX_REVIVE                         0x40F
 #define FLAG_ITEM_PETALBURG_CITY_ETHER                              0x410
-#define FLAG_ITEM_RUSTBORO_CITY_EXP_CANDY_S                         0x411
+#define FLAG_ITEM_RUSTBORO_CITY_EXP_CANDY_S                         0x411 // Unused Flag
 #define FLAG_ITEM_LILYCOVE_CITY_MAX_REPEL                           0x412
 #define FLAG_ITEM_MOSSDEEP_CITY_NET_BALL                            0x413
 #define FLAG_ITEM_METEOR_FALLS_1F_1R_TM_IRON_TAIL                   0x414
@@ -1104,7 +1104,7 @@
 #define FLAG_ITEM_GRANITE_CAVE_B1F_POKE_BALL                        0x41B
 #define FLAG_ITEM_MT_PYRE_5F_LAX_INCENSE                            0x41C
 #define FLAG_ITEM_GRANITE_CAVE_B2F_REPEL                            0x41D
-#define FLAG_ITEM_GRANITE_CAVE_B2F_RARE_CANDY                       0x41E
+#define FLAG_ITEM_GRANITE_CAVE_B2F_RARE_CANDY                       0x41E // Unused Flag
 #define FLAG_ITEM_PETALBURG_WOODS_X_ATTACK                          0x41F
 #define FLAG_ITEM_PETALBURG_WOODS_GREAT_BALL                        0x420
 #define FLAG_ITEM_ROUTE_104_GREAT_BALL                              0x421
@@ -1165,7 +1165,7 @@
 #define FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_TM_HAIL                       0x458
 #define FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_NEVER_MELT_ICE                0x459
 #define FLAG_ITEM_ROUTE_103_GUARD_SPEC                              0x45A
-#define FLAG_ITEM_ROUTE_104_X_ACCURACY                              0x45B
+#define FLAG_ITEM_ROUTE_104_X_ACCURACY                              0x45B // Unused Flag
 #define FLAG_ITEM_MAUVILLE_CITY_X_SPEED                             0x45C
 #define FLAG_ITEM_PETALBURG_WOODS_PARALYZE_HEAL                     0x45D
 #define FLAG_ITEM_ROUTE_115_GREAT_BALL                              0x45E
@@ -1221,44 +1221,45 @@
 #define FLAG_ITEM_MAGMA_HIDEOUT_4F_MAX_REVIVE                       0x490
 #define FLAG_ITEM_SAFARI_ZONE_NORTH_EAST_NUGGET                     0x491
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL                  0x492
+#define FLAG_NEWMAUVILLE_CATCH_TYPE_NULL                            0x493
 
-#define FLAG_NEWMAUVILLE_CATCH_TYPE_NULL                            0x493 // Unused Flag
-#define FLAG_UNUSED_0x494                                           0x494 // Unused Flag
-#define FLAG_UNUSED_0x495                                           0x495 // Unused Flag
-#define FLAG_UNUSED_0x496                                           0x496 // Unused Flag
-#define FLAG_UNUSED_0x497                                           0x497 // Unused Flag
-#define FLAG_UNUSED_0x498                                           0x498 // Unused Flag
-#define FLAG_UNUSED_0x499                                           0x499 // Unused Flag
-#define FLAG_UNUSED_0x49A                                           0x49A // Unused Flag
-#define FLAG_UNUSED_0x49B                                           0x49B // Unused Flag
-#define FLAG_UNUSED_0x49C                                           0x49C // Unused Flag
-#define FLAG_UNUSED_0x49D                                           0x49D // Unused Flag
-#define FLAG_UNUSED_0x49E                                           0x49E // Unused Flag
-#define FLAG_UNUSED_0x49F                                           0x49F // Unused Flag
-#define FLAG_UNUSED_0x4A0                                           0x4A0 // Unused Flag
-#define FLAG_UNUSED_0x4A1                                           0x4A1 // Unused Flag
-#define FLAG_UNUSED_0x4A2                                           0x4A2 // Unused Flag
-#define FLAG_UNUSED_0x4A3                                           0x4A3 // Unused Flag
-#define FLAG_UNUSED_0x4A4                                           0x4A4 // Unused Flag
-#define FLAG_UNUSED_0x4A5                                           0x4A5 // Unused Flag
-#define FLAG_UNUSED_0x4A6                                           0x4A6 // Unused Flag
-#define FLAG_UNUSED_0x4A7                                           0x4A7 // Unused Flag
-#define FLAG_UNUSED_0x4A8                                           0x4A8 // Unused Flag
-#define FLAG_UNUSED_0x4A9                                           0x4A9 // Unused Flag
-#define FLAG_UNUSED_0x4AA                                           0x4AA // Unused Flag
-#define FLAG_UNUSED_0x4AB                                           0x4AB // Unused Flag
-#define FLAG_UNUSED_0x4AC                                           0x4AC // Unused Flag
-#define FLAG_UNUSED_0x4AD                                           0x4AD // Unused Flag
-#define FLAG_UNUSED_0x4AE                                           0x4AE // Unused Flag
-#define FLAG_UNUSED_0x4AF                                           0x4AF // Unused Flag
-#define FLAG_UNUSED_0x4B0                                           0x4B0 // Unused Flag
-#define FLAG_UNUSED_0x4B1                                           0x4B1 // Unused Flag
-#define FLAG_UNUSED_0x4B2                                           0x4B2 // Unused Flag
-#define FLAG_UNUSED_0x4B3                                           0x4B3 // Unused Flag
-#define FLAG_UNUSED_0x4B4                                           0x4B4 // Unused Flag
-#define FLAG_UNUSED_0x4B5                                           0x4B5 // Unused Flag
-#define FLAG_UNUSED_0x4B6                                           0x4B6 // Unused Flag
-#define FLAG_UNUSED_0x4B7                                           0x4B7 // Unused Flag
+// Mega Stone Field Item Flags
+#define FLAG_ITEM_ROUTE_123_ABOMASITE                               0x494
+#define FLAG_ITEM_SAFARI_SOUTHWEST_ABSOLITE                         0x495
+#define FLAG_ITEM_METEORFALLS_AERODACTYLITE                         0x496
+#define FLAG_ITEM_RUSTURF_AGGRONITE                                 0x497
+#define FLAG_ITEM_SLATEPORT_ALAKAZITE                               0x498
+#define FLAG_ITEM_LILYCOVE_ALTARIANITE                              0x499
+#define FLAG_ITEM_NEWMAUVILLE_AMPHAROSITE                           0x49A
+#define FLAG_ITEM_ROUTE118_AUDINITE                                 0x49B
+#define FLAG_ITEM_MTPYRE_SUMMIT_BANETTITE                           0x49C
+#define FLAG_ITEM_PETALBURGWOODS_BEEDRILLITE                        0x49D
+#define FLAG_ITEM_MAGAMHIDEOUT_1F_CAMERUPTITE                       0x49E
+#define FLAG_ITEM_EVERGRANDE_DIANCITE                               0x49F
+#define FLAG_ITEM_ROUTE124_GALLADITE                                0x4A0
+#define FLAG_ITEM_MOSSDEEP_METAGROSSITE                             0x4A1
+#define FLAG_ITEM_ROUTE127_GARCHOMPITE                              0x4A2
+#define FLAG_ITEM_ROUTE121_GARDEVOIRITE                             0x4A3
+#define FLAG_ITEM_ABANDONEDSHIP_HIDDENROOM_GENGARITE                0x4A
+#define FLAG_ITEM_SHOALCAVE_ICEROOM_GLALITITE                       0x4A5
+#define FLAG_ITEM_ROUTE110_HERACRONITE                              0x4A6
+#define FLAG_ITEM_ROUTE127_GYARADOSITE                              0x4A7
+#define FLAG_LAVARIDGE_HOUNDOOMINITE                                0x4A8
+#define FLAG_ITEM_ROUTE117_LOPUNNITE                                0x4A9
+#define FLAG_ITEM_ROUTE115_LUCARIONITE                              0x4AA
+#define FLAG_ITEM_ROUTE110_MANECTITE                                0x4AB
+#define FLAG_ITEM_ROUTE114_MAWILITE                                 0x4AC
+#define FLAG_ITEM_MTPYRE_MEDICHAMITE                                0x4AD
+#define FLAG_ITEM_ROUTE104_SCIZORITE                                0x4AE
+#define FLAG_ITEM_RUSTBORO_PIDGEOTITE                               0x4AF
+#define FLAG_ITEM_ROUTE126_PINSIRITE                                0x4B0
+#define FLAG_ITEM_SOOTOPOLIS_SABLENITE                              0x4B1
+#define FLAG_ITEM_METEORFALLS_SALAMENCITE                           0x4B2
+#define FLAG_ITEM_AQUAHIDEOUT_SHARPEDONITE                          0x4B3
+#define FLAG_ITEM_ROUTE125_SLOWBRONITE                              0x4B4
+#define FLAG_ITEM_JAGGEDPASS_TYRANITARITE                           0x4B5
+#define FLAG_ITEM_GRANITECAVE_STEELIXITE                            0x4B6
+#define FLAG_ITEM_ROUTE111_KANGASKHANITE                            0x4B7
 #define FLAG_UNUSED_0x4B8                                           0x4B8 // Unused Flag
 #define FLAG_UNUSED_0x4B9                                           0x4B9 // Unused Flag
 #define FLAG_UNUSED_0x4BA                                           0x4BA // Unused Flag

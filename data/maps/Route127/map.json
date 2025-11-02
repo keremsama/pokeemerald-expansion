@@ -63,8 +63,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "x": 14,
-      "y": 6,
+      "x": 19,
+      "y": 13,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -76,8 +76,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "x": 64,
-      "y": 39,
+      "x": 58,
+      "y": 68,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -177,6 +177,32 @@
       "trainer_sight_or_berry_tree_id": "ITEM_RARE_CANDY",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ROUTE_127_RARE_CANDY"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_STONE",
+      "x": 64,
+      "y": 39,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_GARCHOMPITE",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_ROUTE127_GARCHOMPITE"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_STONE",
+      "x": 9,
+      "y": 6,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_GYARADOSITE",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_ROUTE127_GYARADOSITE"
     }
   ],
   "warp_events": [],

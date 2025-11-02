@@ -295,6 +295,19 @@
       "trainer_sight_or_berry_tree_id": "4",
       "script": "Route118_EventScript_Deandre",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_STONE",
+      "x": 65,
+      "y": 5,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_AUDINITE",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_ROUTE118_AUDINITE"
     }
   ],
   "warp_events": [

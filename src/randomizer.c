@@ -425,6 +425,14 @@ static inline bool32 IsKeyItem(u16 itemId)
     return GetPocketByItemId(itemId) == POCKET_KEY_ITEMS;
 }
 
+#define RANDOMIZER_MIN_MEGA         ITEM_VENUSAURITE
+#define RANDOMIZER_MAX_MEGA         ITEM_DIANCITE
+
+static inline bool32 IsMegaStone(u16 itemId)
+{
+    return (itemId >= RANDOMIZER_MIN_MEGA && itemId <= RANDOMIZER_MAX_MEGA);
+}
+
 // Don't randomize HMs or key items, that can make the game unwinnable.
 // ITEM_NONE also should not be randomized as it is invalid.
 static inline bool32 ShouldRandomizeItem(u16 itemId)
@@ -456,6 +464,10 @@ u16 RandomizeFoundItem(u16 itemId, u8 mapNum, u8 mapGroup, u8 localId)
     // this is a TM.
     if (IsItemTMHM(itemId))
         return RandomizerNextRange(&state, RANDOMIZER_MAX_TM - ITEM_TM01 + 1) + ITEM_TM01;
+    
+    // Randomize Mega Stones to Mega Stones.
+    if (IsMegaStone(itemId))
+        return RandomizerNextRange(&state, RANDOMIZER_MAX_MEGA - RANDOMIZER_MIN_MEGA + 1) + RANDOMIZER_MIN_MEGA;
 
     // Randomize everything else to everything else.
     do {

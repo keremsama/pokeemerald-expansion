@@ -5,20 +5,27 @@ VictoryRoad_1F_MapScripts::
 VictoryRoad_1F_OnTransition:
 	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 1, VictoryRoad_1F_EventScript_SetEntranceWallyPos1
 	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 2, VictoryRoad_1F_EventScript_SetEntranceWallyPos2
+	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 3, VictoryRoad_1F_EventScript_SetEntranceWallyPos3
 	end
 
 VictoryRoad_1F_EventScript_SetEntranceWallyPos1::
-	setobjectxyperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, 2, 24
+	setobjectxyperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, 35, 3
 	setobjectmovementtype LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, MOVEMENT_TYPE_FACE_DOWN
 	return
 
 VictoryRoad_1F_EventScript_SetEntranceWallyPos2::
-	setobjectxyperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, 3, 24
+	setobjectxyperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, 35, 4
+	setobjectmovementtype LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, MOVEMENT_TYPE_FACE_DOWN
+	return
+
+VictoryRoad_1F_EventScript_SetEntranceWallyPos3::
+	setobjectxyperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, 35, 5
 	setobjectmovementtype LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, MOVEMENT_TYPE_FACE_DOWN
 	return
 
 VictoryRoad_1F_EventScript_WallyBattleTrigger1::
 	lockall
+
 	setvar VAR_0x8008, 1
 	addobject LOCALID_VICTORY_ROAD_ENTRANCE_WALLY
 	applymovement LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, VictoryRoad_1F_Movement_WallyApproachPlayer1
@@ -35,44 +42,72 @@ VictoryRoad_1F_EventScript_WallyBattleTrigger2::
 	goto VictoryRoad_1F_EventScript_WallyEntranceBattle
 	end
 
-VictoryRoad_1F_EventScript_WallyEntranceBattle::
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterDown
+VictoryRoad_1F_EventScript_WallyBattleTrigger3::
+	lockall
+	setvar VAR_0x8008, 3
+	addobject LOCALID_VICTORY_ROAD_ENTRANCE_WALLY
+	applymovement LOCALID_VICTORY_ROAD_ENTRANCE_WALLY, VictoryRoad_1F_Movement_WallyApproachPlayer3
 	waitmovement 0
+	goto VictoryRoad_1F_EventScript_WallyEntranceBattle
+	end
+
+VictoryRoad_1F_EventScript_WallyEntranceBattle::
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
 	msgbox VictoryRoad_1F_Text_WallyNotGoingToLoseAnymore, MSGBOX_DEFAULT
+	setflag FLAG_SET_BGM
+	setvar VAR_TEMP_F, MUS_VS_RIVAL
 	trainerbattle_no_intro TRAINER_WALLY_VR_1, VictoryRoad_1F_Text_WallyEntranceDefeat
 	msgbox VictoryRoad_1F_Text_WallyPostEntranceBattle, MSGBOX_DEFAULT
 	clearflag FLAG_HIDE_VICTORY_ROAD_ENTRANCE_WALLY
 	copyobjectxytoperm LOCALID_VICTORY_ROAD_ENTRANCE_WALLY
 	setflag FLAG_DEFEATED_WALLY_VICTORY_ROAD
 	copyvar VAR_VICTORY_ROAD_1F_STATE, VAR_0x8008
+	fadedefaultbgm
 	releaseall
 	end
 
 VictoryRoad_1F_Movement_WallyApproachPlayer1:
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
 	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_right
+	walk_right
+	walk_right
 	step_end
 
 VictoryRoad_1F_Movement_WallyApproachPlayer2:
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
 	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+VictoryRoad_1F_Movement_WallyApproachPlayer3:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_right
+	walk_right
+	walk_right
 	step_end
 
 @ This Wally appears near the entrance once his battle is triggered and remains there until the Hall of Fame is entered
@@ -124,11 +159,12 @@ VictoryRoad_1F_Text_WallyNotGoingToLoseAnymore:
 	.string "I made it all the way here, and it's\n"
 	.string "all thanks to you!\p"
 	.string "{PLAYER}, losing to you that time\n"
-	.string "made me stronger!\p"
+	.string "in LILYCOVE made me stronger!\p"
 	.string "But I'm not going to lose anymore!\p"
 	.string "I'm going to win! For the POKéMON who\n"
 	.string "gave me courage and strength!\p"
-	.string "Okay… Here I come!$"
+	.string "I want to show you how much stronger\n"
+	.string "I've become since then!$"
 
 VictoryRoad_1F_Text_WallyEntranceDefeat:
 	.string "Wow!\n"
@@ -136,8 +172,12 @@ VictoryRoad_1F_Text_WallyEntranceDefeat:
 
 VictoryRoad_1F_Text_WallyPostEntranceBattle:
 	.string "WALLY: I couldn't beat you today,\n"
-	.string "{PLAYER}, but one of these days, I'll\l"
-	.string "catch up to you!$"
+	.string "{PLAYER}, but next time, after you've\l"
+	.string "become the Champion, I'll challenge\l"
+	.string "you again!\p"
+	.string "I wish you the best of luck, {PLAYER}!\p"
+	.string "You're definitely going to be the new\n"
+	.string "Champion!$"
 
 VictoryRoad_1F_Text_WallyIntro:
 	.string "WALLY: Hi! {PLAYER}!\p"
