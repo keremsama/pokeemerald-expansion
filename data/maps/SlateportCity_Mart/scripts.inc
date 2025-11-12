@@ -11,6 +11,16 @@ SlateportCity_Mart_EventScript_Clerk::
 	release
 	end
 
+SlateportCity_Mart_EventScript_Clerk2::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart SlateportCity_Mart_Pokemart_TM
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
 	.align 2
 SlateportCity_Mart_Pokemart:
 	.2byte ITEM_POKE_BALL
@@ -22,6 +32,20 @@ SlateportCity_Mart_Pokemart:
 	.2byte ITEM_ESCAPE_ROPE
 	.2byte ITEM_REPEL
 	.2byte ITEM_HARBOR_MAIL
+	pokemartlistend
+
+SlateportCity_Mart_Pokemart_TM:
+	.2byte ITEM_TM_PAYBACK
+	.2byte ITEM_TM_STEALTH_ROCK
+	.2byte ITEM_TM_X_SCISSOR
+	.2byte ITEM_TM_BULLDOZE
+	.2byte ITEM_TM_SWAGGER
+	.2byte ITEM_TM_U_TURN
+	.2byte ITEM_TM_TRICK_ROOM
+	.2byte ITEM_TM_WORK_UP
+	.2byte ITEM_TM_GRASS_KNOT
+	.2byte ITEM_TM_ROCK_SLIDE
+	.2byte ITEM_TM_RECYCLE
 	pokemartlistend
 
 SlateportCity_Mart_EventScript_BlackBelt::

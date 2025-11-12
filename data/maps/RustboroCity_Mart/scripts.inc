@@ -10,6 +10,16 @@ RustboroCity_Mart_EventScript_Clerk::
 	goto_if_set FLAG_MET_DEVON_EMPLOYEE, RustboroCity_Mart_EventScript_PokemartExpanded
 	end
 
+RustboroCity_Mart_EventScript_Clerk2::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RustboroCity_Mart_Pokemart_TM
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
 RustboroCity_Mart_EventScript_PokemartBasic::
 	pokemart RustboroCity_Mart_Pokemart_Basic
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -50,6 +60,15 @@ RustboroCity_Mart_Pokemart_Expanded:
 	.2byte ITEM_X_SPEED
 	.2byte ITEM_X_ATTACK
 	.2byte ITEM_X_DEFENSE
+	pokemartlistend
+
+RustboroCity_Mart_Pokemart_TM:
+	.2byte ITEM_TM_FALSE_SWIPE
+	.2byte ITEM_TM_ENDURE
+	.2byte ITEM_TM_SNARL
+	.2byte ITEM_TM_PROTECT
+	.2byte ITEM_TM_RETURN
+	.2byte ITEM_TM_FLING
 	pokemartlistend
 
 RustboroCity_Mart_EventScript_PokefanF::

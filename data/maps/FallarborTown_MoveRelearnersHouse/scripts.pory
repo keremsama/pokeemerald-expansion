@@ -1,0 +1,182 @@
+// Poryscript
+mapscripts FallarborTown_MoveRelearnersHouse_MapScripts {}
+
+script FallarborTown_MoveRelearnersHouse_EvoStoneMan{
+    lock
+    faceplayer
+    if (!flag(FLAG_EVO_STONE_MAN_FIRST_ENCOUNTER)){
+        setflag (FLAG_EVO_STONE_MAN_FIRST_ENCOUNTER)
+        msgbox (Slateport_EvoStoneMan_Text_FirstEncounter)
+        waitmessage
+        if(flag(FLAG_BADGE05_GET)){
+            pokemart (EvoStone_Man_Expanded)
+        }
+        else{
+            pokemart (EvoStone_Man) 
+        }
+        msgbox(format("Take care out there, Trainer.\pAnd remember - the right stone can bring out a Pokémon's true nature!"))
+        waitmessage
+        release
+        end
+    }
+    msgbox(format(
+        "Ah, back again, are you?\p"
+        "You've got a good eye for fine stones.\p"
+        "My stock's a bit different every now and then - depends on what I find out there in the wild.\p"
+        "Want to take a look?"))
+    waitmessage
+    if(flag(FLAG_BADGE05_GET)){
+        pokemart (EvoStone_Man_Expanded)
+    }
+    else{
+        pokemart (EvoStone_Man) 
+    }
+    msgbox(format("Take care out there, Trainer.\pAnd remember - the right stone can bring out a Pokémon's true nature!"))
+    waitmessage
+    release
+    end
+}
+
+
+script FallarborTown_MoveRelearnersHouse_EvoItemLady{
+    lock
+    faceplayer
+    if (!flag(FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)){
+        setflag (FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)
+        msgbox (Slateport_EvoItemLady_Text_FirstEncounter)
+        waitmessage
+        if(flag(FLAG_BADGE05_GET)){
+            pokemart (EvoItem_Lady_Expanded)
+        }
+        elif(flag(FLAG_BADGE04_GET)){
+            pokemart (EvoItem_Lady) 
+        }
+        else{
+            msgbox(EvoItem_Lady_Text_ImSorryNoStock)
+            waitmessage
+            release
+            end
+        }
+        msgbox(format("May your Pokémon shine ever brighter.\pEvolution is just another form of growth, after all!"))
+        waitmessage
+        release
+        end
+    }
+    if(!flag(FLAG_BADGE04_GET)){
+        msgbox(EvoItem_Lady_Text_ImSorryNoStock)
+        waitmessage
+        release
+        end
+    }
+    msgbox(format(
+        "Welcome back!\p"
+        "Looking for something to help your Pokémon reach their next stage?\p"
+        "I might have a few new treasures since your last visit - my stock changes whenever fortune smiles on me.\p"
+        "Take a look and see what catches your eye."))
+    waitmessage
+    if(flag(FLAG_BADGE05_GET)){
+        pokemart (EvoItem_Lady_Expanded)
+    }
+    else{
+        pokemart (EvoItem_Lady) 
+    }
+    msgbox(format("Take care out there, Trainer.\pAnd remember - the right stone can bring out a Pokémon's true nature!"))
+    waitmessage
+    release
+    end
+}  
+
+mart EvoStone_Man {
+    ITEM_FIRE_STONE
+    ITEM_WATER_STONE
+    ITEM_LEAF_STONE
+    ITEM_THUNDER_STONE
+    ITEM_MOON_STONE
+    ITEM_SUN_STONE
+}
+
+mart EvoStone_Man_Expanded {
+    ITEM_FIRE_STONE
+    ITEM_WATER_STONE
+    ITEM_LEAF_STONE
+    ITEM_THUNDER_STONE
+    ITEM_MOON_STONE
+    ITEM_SUN_STONE
+    ITEM_SHINY_STONE
+    ITEM_DUSK_STONE
+    ITEM_DAWN_STONE
+    ITEM_ICE_STONE    
+}
+
+mart EvoItem_Lady {
+    ITEM_LINKING_CORD
+    ITEM_DEEP_SEA_SCALE
+    ITEM_DEEP_SEA_TOOTH
+    ITEM_UPGRADE
+    ITEM_KINGS_ROCK
+    ITEM_OVAL_STONE
+    ITEM_SACHET
+    ITEM_WHIPPED_DREAM
+    ITEM_GALARICA_CUFF
+    ITEM_GALARICA_WREATH
+}
+
+mart EvoItem_Lady_Expanded {
+    ITEM_LINKING_CORD
+    ITEM_DEEP_SEA_SCALE
+    ITEM_DEEP_SEA_TOOTH
+    ITEM_DRAGON_SCALE
+    ITEM_UPGRADE
+    ITEM_DUBIOUS_DISC
+    ITEM_KINGS_ROCK
+    ITEM_ELECTIRIZER
+    ITEM_MAGMARIZER
+    ITEM_METAL_COAT
+    ITEM_OVAL_STONE
+    ITEM_PRISM_SCALE
+    ITEM_PROTECTOR
+    ITEM_RAZOR_CLAW
+    ITEM_RAZOR_FANG
+    ITEM_REAPER_CLOTH
+    ITEM_SACHET
+    ITEM_WHIPPED_DREAM
+    ITEM_GALARICA_CUFF
+    ITEM_GALARICA_WREATH
+    ITEM_BLACK_AUGURITE
+    ITEM_AUSPICIOUS_ARMOR
+    ITEM_MALICIOUS_ARMOR
+    ITEM_METAL_ALLOY
+    ITEM_PEAT_BLOCK
+}
+
+text Slateport_EvoStoneMan_Text_FirstEncounter {
+	format(
+        "Hello there, young traveler!\p"
+        "They call me the Evo-Stone Man! For years, I've studied the mysterious power hidden inside these beautiful stones.\p"
+        "Each one holds the key to a Pokémon's evolution - nature's own little miracle!\p"
+        "My collection changes from time to time as I find new stones on my journeys\p"
+        "Care to take a look? You might find just the stone your partner's been waiting for!"
+    )
+}
+
+text Slateport_EvoItemLady_Text_FirstEncounter {
+    format(
+        "Hey Trainer!\p"
+        "You've got the look of a Trainer who cares deeply for their Pokémon\p"
+        "I deal in special Evolution Items - rare trinkets and held objects that help Pokémon evolve in unique ways\p"
+        "They're not easy to come by, but I do my best to keep my shelves stocked.\p"
+        "Every now and then, I manage to find new ones, so be sure to check back once in a while!\p"
+        "Care to browse my collection?"
+    )
+}
+
+text EvoItem_Lady_Text_ImSorryNoStock {
+    format (
+        "Oh, dear… I'm terribly sorry!\p"
+        "It seems my entire stock has sold out.\p"
+        "I've placed an order for a fresh batch of Evolution Items, but the delivery hasn't arrived yet\p"
+        "The supplier always takes their sweet time…\p"
+        "Do come back a bit later, alright?\p"
+        "I promise I'll have something special waiting for you next time!"
+    )
+}

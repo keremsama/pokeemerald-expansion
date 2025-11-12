@@ -278,9 +278,9 @@ static const struct MenuAction MultichoiceList_GameCornerTMs[] =
 static const struct MenuAction MultichoiceList_GameCornerEvoItems[] =
 {
     {COMPOUND_STRING("FIRE STONE{CLEAR_TO 0x52}1,500 C.")},
-    {COMPOUND_STRING("THUNDER STONE{CLEAR_TO 0x52}3,500 C.")},
-    {COMPOUND_STRING("WATER STONE{CLEAR_TO 0x52}4,000 C.")},
-    {COMPOUND_STRING("LEAF STONE{CLEAR_TO 0x52}4,000 C.")},
+    {COMPOUND_STRING("THUNDER STONE{CLEAR_TO 0x52}1,500 C.")},
+    {COMPOUND_STRING("WATER STONE{CLEAR_TO 0x52}1,500 C.")},
+    {COMPOUND_STRING("LEAF STONE{CLEAR_TO 0x52}1,500 C.")},
     {gText_Exit},
 };
 

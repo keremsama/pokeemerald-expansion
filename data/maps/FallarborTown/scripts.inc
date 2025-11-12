@@ -47,8 +47,8 @@ FallarborTown_EventScript_TownSign::
 	msgbox FallarborTown_Text_TownSign, MSGBOX_SIGN
 	end
 
-FallarborTown_EventScript_MoveTutorSign::
-	msgbox FallarborTown_Text_MoveTutorSign, MSGBOX_SIGN
+FallarborTown_EventScript_Evo_MasterSign::
+	msgbox FallarborTown_Text_EvoMasterSign, MSGBOX_SIGN
 	end
 
 FallarborTown_Text_ShadyCharactersCozmosHome:
@@ -89,7 +89,7 @@ FallarborTown_Text_TownSign:
 	.string "FALLARBOR TOWN\n"
 	.string "“A farm community with small gardens.”$"
 
-FallarborTown_Text_MoveTutorSign:
-	.string "MOVE TUTOR'S HOUSE\n"
-	.string "“New moves taught to POKéMON.”$"
+FallarborTown_Text_EvoMasterSign:
+	.string "EVO-MASTERS House.\n"
+	.string "“Evolve your POKéMON!”$"
 

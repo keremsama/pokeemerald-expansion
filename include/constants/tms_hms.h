@@ -65,7 +65,7 @@
     F(WILL_O_WISP) \
     F(BUG_BUZZ) \
     F(NASTY_PLOT) \
-    F(EXPLOSION) \
+    F(PLAY_ROUGH) \
     F(SHADOW_CLAW) \
     F(PAYBACK) \
     F(RECYCLE) \

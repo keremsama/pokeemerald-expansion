@@ -12,6 +12,16 @@ PetalburgCity_Mart_EventScript_Clerk::
 	release
 	end
 
+LavaridgeTown_Mart_EventScript_Clerk2::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart PetalburgCity_Mart_Pokemart_Balls
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
 	.align 2
 PetalburgCity_Mart_Pokemart_Basic:
 	.2byte ITEM_POKE_BALL
@@ -25,6 +35,15 @@ PetalburgCity_Mart_Pokemart_Basic:
 	.2byte ITEM_X_ATTACK
 	.2byte ITEM_X_DEFENSE
 	.2byte ITEM_ORANGE_MAIL
+	pokemartlistend
+
+PetalburgCity_Mart_Pokemart_Balls:
+	.2byte ITEM_NET_BALL
+	.2byte ITEM_DIVE_BALL
+	.2byte ITEM_NEST_BALL
+	.2byte ITEM_REPEAT_BALL
+	.2byte ITEM_DUSK_BALL
+	.2byte ITEM_HEAL_BALL
 	pokemartlistend
 
 PetalburgCity_Mart_EventScript_ExpandedItems::

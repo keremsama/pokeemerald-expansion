@@ -12075,12 +12075,12 @@
               {
                 "min_level": 29,
                 "max_level": 33,
-                "species": ""
+                "species": "SPECIES_SANDYGAST"
               },
               {
                 "min_level": 29,
                 "max_level": 33,
-                "species": ""
+                "species": "SPECIES_SANDSHREW"
               },
               {
                 "min_level": 29,
@@ -12100,7 +12100,7 @@
               {
                 "min_level": 29,
                 "max_level": 33,
-                "species": ""
+                "species": "SPECIES_YAMASK_GALAR"
               },
               {
                 "min_level": 29,
@@ -12121,6 +12121,75 @@
                 "min_level": 29,
                 "max_level": 33,
                 "species": "SPECIES_GIBLE"
+              }
+            ]
+          }
+        },
+        {
+          "map": "MAP_SCORCHED_SLAB",
+          "base_label": "gScorchedSlab",
+          "land_mons": {
+            "encounter_rate": 10,
+            "mons": [
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_NOIBAT"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_GRAVELER"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_GRAVELER_ALOLA"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_NOIBAT"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_CUBONE"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_CUBONE"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_CUBONE"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_DEWPIDER"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_DEWPIDER"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_MAROWAK"
+              },
+              {
+                "min_level": 38,
+                "max_level": 41,
+                "species": "SPECIES_MAROWAK"
               }
             ]
           }
