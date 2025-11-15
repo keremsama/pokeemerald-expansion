@@ -285,7 +285,7 @@ script NewMauville_Inside_Type_Null_Encounter{
     playmoncry(SPECIES_TYPE_NULL, CRY_MODE_ENCOUNTER)
     waitmoncry
     msgbox ("It attacks us!")
-    setwildbattle (SPECIES_TYPE_NULL, 35, ITEM_NONE)
+    setwildbattle (SPECIES_TYPE_NULL, 55, ITEM_NONE)
     dowildbattle
     specialvar(VAR_RESULT, GetBattleOutcome)
 	if(var(VAR_RESULT) == B_OUTCOME_CAUGHT){

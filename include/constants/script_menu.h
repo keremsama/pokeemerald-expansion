@@ -124,8 +124,12 @@
 #define MULTI_TAG_MATCH_TYPE               113
 #define MULTI_BERRY_PLOT                   114
 #define MULTI_RANDOMIZER_SPECIES_CHOICE    115 // Randomizer species mode selection
-#define MULTI_GAMECORNER_EVO_ITEMS         116 
-#define MULTI_STARTER_MEGA_STONE           117
+#define MULTI_GAMECORNER_EVO_ITEMS         116
+#define MULTI_GAMECORNER_NEW               117 
+#define MULTI_STARTER_MEGA_STONE           118
+#define MULTI_GAME_CORNER_TMS_PAGE2        119
+#define MULTI_GAMECORNER_POKEMON_PRIZE     120
+#define MULTI_GAMECORNER_POKEMON_PRIZE_PAGE2 121
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

@@ -98,44 +98,59 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
             [TRAINER_SLIDE_LAST_LOW_HP] = COMPOUND_STRING("I'm not done yet!{PAUSE_UNTIL_PRESS}"),
         },
 
+        [TRAINER_ROXANNE_1]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Show me how you battle and learn\nfrom your style!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Impressive! Your tactics are well thought out!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_LOW_HP] = COMPOUND_STRING("I see… so this is the strength that led\nyou here…{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRAWLY_1]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Alright! Let's get pumped!\pShow me the power of your\ntraining!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Whoa! That strike had real force!\pYou're in great form!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_LOW_HP] = COMPOUND_STRING("Hah… You're pushing me to my limits!\pWhat amazing fighting spirit!{PAUSE_UNTIL_PRESS}"),
+        },
+        
+
         [TRAINER_BRENDAN_RUSTBORO_MUDKIP]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_BRENDAN_RUSTBORO_TREECKO]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_BRENDAN_RUSTBORO_TORCHIC]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_RUSTBORO_MUDKIP]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_RUSTBORO_TREECKO]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_RUSTBORO_TORCHIC]
         {
-            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I’ve caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I've caught some new Pokémon!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice! A super effective hit!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'll not loose!{PAUSE_UNTIL_PRESS}"),
         },
@@ -143,42 +158,42 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
         [TRAINER_BRENDAN_ROUTE_110_MUDKIP]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_BRENDAN_ROUTE_110_TREECKO]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_BRENDAN_ROUTE_110_TORCHIC]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_ROUTE_110_MUDKIP]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_ROUTE_110_TREECKO]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_MAY_ROUTE_110_TORCHIC]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far we've come!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You’ve really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("You've really gotten stronger!\pBut I will not loose this fight!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 

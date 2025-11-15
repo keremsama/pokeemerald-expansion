@@ -562,7 +562,7 @@ NewMauville_Inside_Type_Null_Encounter::
 # 287 "data/maps/NewMauville_Inside/scripts.pory"
 	msgbox NewMauville_Inside_Type_Null_Encounter_Text_0
 # 288 "data/maps/NewMauville_Inside/scripts.pory"
-	setwildbattle SPECIES_TYPE_NULL, 35, ITEM_NONE
+	setwildbattle SPECIES_TYPE_NULL, 55, ITEM_NONE
 # 289 "data/maps/NewMauville_Inside/scripts.pory"
 	dowildbattle
 # 290 "data/maps/NewMauville_Inside/scripts.pory"

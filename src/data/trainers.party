@@ -1086,11 +1086,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Azurill
-Level: 17
+Level: 16
 IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
 
 Psyduck
-Level: 16
+Level: 15
 IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
 
 === TRAINER_AUSTINA ===
@@ -1210,11 +1210,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Azurill
-Level: 17
+Level: 16
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Wiglett
-Level: 18
+Level: 17
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_CHARLIE ===
@@ -4913,7 +4913,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Items: Super Potion / Super Potion
+Items: Super Potion
 Double Battle: No
 Mugshot: Purple
 AI: Smart Trainer
@@ -4921,7 +4921,7 @@ Party Size: 4
 Pool Rules: Basic
 
 Machop
-Level: 18
+Level: 17
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Karate Chop
 - Low Kick
@@ -4937,17 +4937,17 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Bulk Up
 
 Riolu
-Level: 19
+Level: 18
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Counter
 - Bullet Punch
 - Rock Smash
 - Work Up
 
-Timburr
-Level: 20
+Timburr @ Oran Berry
+Level: 19
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Rock Slide
+- Rock Tomb
 - Bulk Up
 - Mach Punch
 - Low Kick
@@ -6179,7 +6179,7 @@ Double Battle: No
 AI: Check Bad Move
 
 Geodude
-Level: 13
+Level: 12
 IVs: 13 HP / 13 Atk / 13 Def / 13 SpA / 13 SpD / 13 Spe
 
 Rockruff
@@ -9131,15 +9131,15 @@ Double Battle: No
 AI: Check Bad Move
 
 Staryu
-Level: 18
+Level: 17
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Tentacool
-Level: 17
+Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Tyrogue
-Level: 17
+Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_PHILLIP ===
@@ -12308,11 +12308,11 @@ Double Battle: No
 AI: Check Bad Move
 
 Goldeen
-Level: 18
+Level: 17
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Buneary
-Level: 17
+Level: 16
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_GERALD ===
@@ -13392,7 +13392,7 @@ Double Battle: No
 AI: Check Bad Move
 
 Tentacool
-Level: 18
+Level: 17
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_KALEB ===

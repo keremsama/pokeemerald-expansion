@@ -89,6 +89,7 @@ PetalburgWoods_EventScript_DevonResearcherPostBattle::
 	waitmovement 0
 	msgbox PetalburgWoods_Text_ThatWasAwfullyClose, MSGBOX_DEFAULT
 	giveitem ITEM_EXP_SHARE
+	setflag EXP_SHARE_FLAG_ACTIVATE
 	goto_if_eq VAR_RESULT, FALSE, PetalburgWoods_EventScript_BagFull
 	goto PetalburgWoods_EventScript_DevonResearcherFinish
 	end

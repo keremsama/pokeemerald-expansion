@@ -267,20 +267,60 @@ static const struct MenuAction MultichoiceList_GameCornerDolls[] =
 
 static const struct MenuAction MultichoiceList_GameCornerTMs[] =
 {
-    {COMPOUND_STRING("TM32{CLEAR_TO 0x48}1,500 COINS")},
-    {COMPOUND_STRING("TM29{CLEAR_TO 0x48}3,500 COINS")},
-    {COMPOUND_STRING("TM35{CLEAR_TO 0x48}4,000 COINS")},
-    {COMPOUND_STRING("TM24{CLEAR_TO 0x48}4,000 COINS")},
-    {COMPOUND_STRING("TM13{CLEAR_TO 0x48}4,000 COINS")},
+    {COMPOUND_STRING("Psychic{CLEAR_TO 0x54}3,500 C.")},
+    {COMPOUND_STRING("Flamethrower{CLEAR_TO 0x54}4,000 C.")},
+    {COMPOUND_STRING("Thunderbolt{CLEAR_TO 0x54}4,000 C.")},
+    {COMPOUND_STRING("Ice Beam{CLEAR_TO 0x54}4,000 C.")},
+    {COMPOUND_STRING("PAGE 2")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_GameCornerTMs_Page2[] =
+{
+    {COMPOUND_STRING("Double Team{CLEAR_TO 0x54}1,500 C.")},
+    {COMPOUND_STRING("Fire Punch{CLEAR_TO 0x54}3,000 C.")},
+    {COMPOUND_STRING("Thunder Punch{CLEAR_TO 0x54}3,000 C.")},
+    {COMPOUND_STRING("Ice Punch{CLEAR_TO 0x54}3,000 C.")},
+    {COMPOUND_STRING("PAGE 1")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_GameCornerPokemonPrize[] =
+{
+    {COMPOUND_STRING("Abra{CLEAR_TO 0x54}1,500 C.")},
+    {COMPOUND_STRING("Cubone{CLEAR_TO 0x54}1,800 C.")},
+    {COMPOUND_STRING("Ralts{CLEAR_TO 0x54}3,200 C.")},
+    {COMPOUND_STRING("Dratini{CLEAR_TO 0x54}5,500 C.")},
+    {COMPOUND_STRING("PAGE 2")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_GameCornerPokemonPrizePage2[] =
+{
+    {COMPOUND_STRING("Bagon{CLEAR_TO 0x54}5,500 C.")},
+    {COMPOUND_STRING("Frigibax{CLEAR_TO 0x54}6,300 C.")},
+    {COMPOUND_STRING("Beldum{CLEAR_TO 0x54}8,000 C.")},
+    {COMPOUND_STRING("Porygon{CLEAR_TO 0x54}9,999 C.")},
+    {COMPOUND_STRING("PAGE 1")},
     {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_GameCornerEvoItems[] =
 {
-    {COMPOUND_STRING("FIRE STONE{CLEAR_TO 0x52}1,500 C.")},
-    {COMPOUND_STRING("THUNDER STONE{CLEAR_TO 0x52}1,500 C.")},
-    {COMPOUND_STRING("WATER STONE{CLEAR_TO 0x52}1,500 C.")},
-    {COMPOUND_STRING("LEAF STONE{CLEAR_TO 0x52}1,500 C.")},
+    {COMPOUND_STRING("Fire Stone{CLEAR_TO 0x52}1,400 C.")},
+    {COMPOUND_STRING("Thunder Stone{CLEAR_TO 0x52}1,400 C.")},
+    {COMPOUND_STRING("Water Stone{CLEAR_TO 0x52}1,400 C.")},
+    {COMPOUND_STRING("Leaf Stone{CLEAR_TO 0x52}1,400 C.")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_GameCornerNew[] =
+{
+    {COMPOUND_STRING("Soothe Bell{CLEAR_TO 0x52}1,200 C.")},
+    {COMPOUND_STRING("Thick Club{CLEAR_TO 0x52}1,800 C.")},
+    {COMPOUND_STRING("Eviolite{CLEAR_TO 0x52}3,300 C.")},
+    {COMPOUND_STRING("Leftovers{CLEAR_TO 0x52}4,300 C.")},
+    {COMPOUND_STRING("Life Orb{CLEAR_TO 0x52}4,700 C.")},
     {gText_Exit},
 };
 
@@ -878,7 +918,11 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SSTIDAL_BATTLE_FRONTIER]    = MULTICHOICE(MultichoiceList_SSTidalBattleFrontier),
     [MULTI_RIGHTLEFT]                  = MULTICHOICE(MultichoiceList_RightLeft),
     [MULTI_GAME_CORNER_TMS]            = MULTICHOICE(MultichoiceList_GameCornerTMs),
+    [MULTI_GAME_CORNER_TMS_PAGE2]      = MULTICHOICE(MultichoiceList_GameCornerTMs_Page2),
     [MULTI_GAMECORNER_EVO_ITEMS]       = MULTICHOICE(MultichoiceList_GameCornerEvoItems),
+    [MULTI_GAMECORNER_NEW]             = MULTICHOICE(MultichoiceList_GameCornerNew),
+    [MULTI_GAMECORNER_POKEMON_PRIZE]   = MULTICHOICE(MultichoiceList_GameCornerPokemonPrize),
+    [MULTI_GAMECORNER_POKEMON_PRIZE_PAGE2]= MULTICHOICE(MultichoiceList_GameCornerPokemonPrizePage2),
     [MULTI_SSTIDAL_SLATEPORT_NO_BF]    = MULTICHOICE(MultichoiceList_SSTidalSlateportNoBF),
     [MULTI_FLOORS]                     = MULTICHOICE(MultichoiceList_Floors),
     [MULTI_SHARDS_R]                   = MULTICHOICE(MultichoiceList_ShardsR),

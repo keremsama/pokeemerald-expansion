@@ -127,6 +127,10 @@ Route110_EventScript_TrickHouseSign::
 	msgbox Route110_Text_TrickHouseSign, MSGBOX_SIGN
 	end
 
+Route110_EventScript_TrickHouseLocked::
+	msgbox Route110_Text_TrickHouseLocked, MSGBOX_SIGN
+	end
+
 Route110_EventScript_CyclingRoadResultsSign::
 	lockall
 	specialvar VAR_RESULT, GetRecordedCyclingRoadResults
@@ -987,3 +991,6 @@ Route110_Text_KeepAnEyeOutForRival:
 	.string "Well, I had better get going.\n"
 	.string "See you again, {PLAYER}{KUN}!$"
 
+Route110_Text_TrickHouseLocked:
+	.string "The TRICK HOUSE is closed\n"
+	.string "for maintenance.$"

@@ -66,9 +66,9 @@ RustboroCity_Mart_Pokemart_TM:
 	.2byte ITEM_TM_FALSE_SWIPE
 	.2byte ITEM_TM_ENDURE
 	.2byte ITEM_TM_SNARL
-	.2byte ITEM_TM_PROTECT
 	.2byte ITEM_TM_RETURN
 	.2byte ITEM_TM_FLING
+	.2byte ITEM_TM_PROTECT
 	pokemartlistend
 
 RustboroCity_Mart_EventScript_PokefanF::

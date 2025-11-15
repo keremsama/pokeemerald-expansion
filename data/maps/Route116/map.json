@@ -112,9 +112,9 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_ETHER",
+      "trainer_sight_or_berry_tree_id": "ITEM_SILK_SCARF",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_116_ETHER"
+      "flag": "FLAG_ITEM_ROUTE_116_SILK_SCARF"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
@@ -217,9 +217,9 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_HP_UP",
+      "trainer_sight_or_berry_tree_id": "ITEM_EXP_CANDY_L",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_116_HP_UP"
+      "flag": "FLAG_ITEM_ROUTE_116_EXP_CANDY_L"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -282,9 +282,9 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_X_SPECIAL",
+      "trainer_sight_or_berry_tree_id": "ITEM_ESCAPE_ROPE",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_116_X_SPECIAL"
+      "flag": "FLAG_ITEM_ROUTE_116_ESCAPE_ROPE"
     },
     {
       "local_id": "LOCALID_ROUTE116_WANDAS_BF",
@@ -348,9 +348,9 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_POTION",
+      "trainer_sight_or_berry_tree_id": "ITEM_SUPER_POTION",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_116_POTION"
+      "flag": "FLAG_ITEM_ROUTE_116_SUPER_POTION"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",

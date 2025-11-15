@@ -34,7 +34,6 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_CLOSE_COMBAT
 	.2byte ITEM_TM_FLASH_CANNON
 	.2byte ITEM_TM_DAZZLING_GLEAM
-	.2byte ITEM_TM_ENERGY_BALL
 	.2byte ITEM_TM_EARTH_POWER
 	.2byte ITEM_TM_ACROBATICS
 	.2byte ITEM_TM_BRINE

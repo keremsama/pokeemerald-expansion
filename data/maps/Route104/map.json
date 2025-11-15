@@ -621,8 +621,8 @@
       "x": 14,
       "y": 55,
       "elevation": 3,
-      "item": "ITEM_POTION",
-      "flag": "FLAG_HIDDEN_ITEM_ROUTE_104_POTION"
+      "item": "ITEM_NUGGET",
+      "flag": "FLAG_HIDDEN_ITEM_ROUTE_104_NUGGET"
     },
     {
       "type": "hidden_item",
