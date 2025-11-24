@@ -1,0 +1,309 @@
+raw`Route114_FossilManiacsTunnel_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route114_FossilManiacsTunnel_OnTransition
+	map_script MAP_SCRIPT_ON_LOAD, Route114_FossilManiacsTunnel_OnLoad
+	.byte 0
+
+Route114_FossilManiacsTunnel_OnTransition:
+	call_if_set FLAG_SYS_GAME_CLEAR, Route114_FossilManiacsTunnel_EventScript_MoveFossilManiac
+	end
+
+Route114_FossilManiacsTunnel_EventScript_MoveFossilManiac::
+	setobjectxyperm LOCALID_FOSSIL_MANIAC, 6, 5
+	setobjectmovementtype LOCALID_FOSSIL_MANIAC, MOVEMENT_TYPE_FACE_DOWN
+	return
+
+Route114_FossilManiacsTunnel_OnLoad:
+	call_if_unset FLAG_SYS_GAME_CLEAR, Route114_FossilManiacsTunnel_EventScript_CloseDesertUnderpass
+	end
+
+Route114_FossilManiacsTunnel_EventScript_CloseDesertUnderpass::
+	setmetatile 6, 1, METATILE_Fallarbor_RedRockWall, TRUE
+	setmetatile 6, 2, METATILE_Fallarbor_RedRockWall, TRUE
+	return
+
+Route114_FossilManiacsTunnel_EventScript_ManiacMentionCaveIn::
+	lockall
+	applymovement LOCALID_FOSSIL_MANIAC, Common_Movement_WalkInPlaceFasterUp
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	msgbox Route114_FossilManiacsTunnel_Text_NotSafeThatWay, MSGBOX_DEFAULT
+	setvar VAR_FOSSIL_MANIAC_STATE, 2
+	releaseall
+	end
+
+Route114_FossilManiacsTunnel_EventScript_FossilManiac::
+	lock
+	faceplayer
+	goto_if_set FLAG_RECEIVED_REVIVED_FOSSIL_MON, Route114_FossilManiacsTunnel_EventScript_PlayerRevivedFossil
+	checkitem ITEM_ROOT_FOSSIL
+	goto_if_eq VAR_RESULT, TRUE, Route114_FossilManiacsTunnel_EventScript_PlayerHasFossil
+	checkitem ITEM_CLAW_FOSSIL
+	goto_if_eq VAR_RESULT, TRUE, Route114_FossilManiacsTunnel_EventScript_PlayerHasFossil
+	msgbox Route114_FossilManiacsTunnel_Text_LookInDesertForFossils, MSGBOX_DEFAULT
+	release
+	end
+
+Route114_FossilManiacsTunnel_EventScript_PlayerHasFossil::
+	msgbox Route114_FossilManiacsTunnel_Text_DevonCorpRevivingFossils, MSGBOX_DEFAULT
+	release
+	end
+
+Route114_FossilManiacsTunnel_EventScript_PlayerRevivedFossil::
+	msgbox Route114_FossilManiacsTunnel_Text_FossilsAreWonderful, MSGBOX_DEFAULT
+	release
+	end
+
+Route114_FossilManiacsTunnel_Text_LookInDesertForFossils:
+	.string "I'm the FOSSIL MANIAC…\n"
+	.string "I'm a nice guy who loves FOSSILS…\p"
+	.string "Do you want a FOSSIL?\p"
+	.string "But the FOSSILS around these parts all\n"
+	.string "belong to me… None for you…\p"
+	.string "If you can't bear to go without\n"
+	.string "a FOSSIL, look in a desert where there\l"
+	.string "are boulders and sand that may hide\l"
+	.string "FOSSILS…$"
+
+Route114_FossilManiacsTunnel_Text_DevonCorpRevivingFossils:
+	.string "You found a FOSSIL, didn't you?\n"
+	.string "That's so nice… It's so dreamy…\p"
+	.string "What are you going to do with that\n"
+	.string "FOSSIL?\p"
+	.string "From what I've heard, DEVON is doing\n"
+	.string "research on reviving POKéMON from\l"
+	.string "FOSSILS…\p"
+	.string "I love my FOSSILS, so I would never\n"
+	.string "do anything like that…$"
+
+Route114_FossilManiacsTunnel_Text_FossilsAreWonderful:
+	.string "FOSSILS are so… Wonderful…\n"
+	.string "It's so dreamy…$"
+
+Route114_FossilManiacsTunnel_Text_NotSafeThatWay:
+	.string "Oh…\n"
+	.string "It's not safe that way…\p"
+	.string "I was digging away, you see…\n"
+	.string "When the whole wall collapsed…\p"
+	.string "I think there's a giant cavern\n"
+	.string "underneath now…\p"
+	.string "But I've left it alone because I don't\n"
+	.string "think there are any FOSSILS there…$"
+
+`
+
+// Poryscript
+
+script Route114_FossilManiacsTunnel_UncleDigger {
+    lock
+    faceplayer
+
+    if(!flag(FLAG_ROUTE114_UNCLE_DIGGER_FIRST_ENCOUNTER)){
+        setflag (FLAG_ROUTE114_UNCLE_DIGGER_FIRST_ENCOUNTER)
+        msgbox (Route114_FossilManiacsTunnel_UncleDigger_Text_FirstEncounter)
+        showmoneybox (0, 0)
+        msgbox (format("So, what do you say?\pReady for some digging?"), MSGBOX_YESNO)
+        call (Route114_FossilManiacsTunnel_UncleDigger_DigYesOrNo)
+    }
+
+    if(flag(FLAG_ROUTE114_UNCLE_DIGGER_BAGISFULL)) {
+        bufferitemname (STR_VAR_1, VAR_UNCLE_DIG_ITEM)
+        checkitemspace (VAR_UNCLE_DIG_ITEM, 1)
+        if(var(VAR_RESULT) == FALSE) {
+            msgbox (format("You still have a full bag.\pMake some space so I can hand over\nyour {STR_VAR_1}."))
+            release
+            end    
+        }
+        msgbox (format(
+            "Room in your bag now, huh?\p"
+            "Great! Here's your {STR_VAR_1}.\p"
+            "Don't lose it - I dug that up with my own two hands!"
+        ))
+        giveitem (VAR_UNCLE_DIG_ITEM)
+        closemessage
+        setvar (VAR_TEMP_0, 1)
+        clearflag (FLAG_ROUTE114_UNCLE_DIGGER_BAGISFULL)
+        release
+        end
+    }
+
+    showmoneybox (0, 0)
+    if(var(VAR_TEMP_0) == 0) {
+        msgbox (format("Back again? Are you ready for some digging?\pFor ¥300 we can start right now."), MSGBOX_YESNO)
+    }
+    elif(var(VAR_TEMP_0) == 1) {
+        msgbox (format("Want me to dig again?\nIt'll cost ¥300."), MSGBOX_YESNO)
+    }
+    call (Route114_FossilManiacsTunnel_UncleDigger_DigYesOrNo)
+}
+
+
+script Route114_FossilManiacsTunnel_UncleDigger_DigYesOrNo {
+    if(var(VAR_RESULT) == NO){
+        call (Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain)
+    }
+    checkmoney (300)
+    if(var(VAR_RESULT) == FALSE){
+        call (Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney)
+    }
+    setvar (VAR_TEMP_0, 1) // NPC use's another first phrase when spoken again
+    removemoney (300)
+    updatemoneybox
+    playse (SE_SHOP)
+    delay (60)
+    msgbox (format("Alright! Let's get going!"))
+    hidemoneybox
+    closemessage  // Closes the msgbox and the moneybox completely
+    call (Route114_FossilManiacsTunnel_UncleDigger_RNG)
+}
+
+
+script Route114_FossilManiacsTunnel_UncleDigger_RNG{
+    fadescreen (FADE_TO_BLACK)
+    delay (60)
+    playse (SE_M_DIG)
+    delay (60)
+    playse (SE_M_DIG)
+    delay (60)
+    playse (SE_M_DIG)
+    msgbox (format("...  ....  ....?"))
+    closemessage
+    delay (30)
+    fadescreen (FADE_FROM_BLACK)
+    randompercentage (20)
+    if(var(VAR_RESULT) == FALSE){
+        msgbox (format(
+            "Tsk… nothing this time.\p"
+            "The ground here loves to hide things."
+        ))
+        release
+        end
+    }
+    randompercentage (15)
+    if(var(VAR_RESULT) == FALSE){
+        call (Route114_FossilManiacsTunnel_UncleDigger_ItemListedScript)
+        copyvar (VAR_UNCLE_DIG_ITEM, VAR_RESULT)
+        bufferitemname (STR_VAR_1, VAR_UNCLE_DIG_ITEM)
+        msgbox (format(
+            "Well… no fossil this time, but at least something.\p"
+            "A {STR_VAR_1}! Not what we were digging for, "
+            "but better than empty hands, right?"
+        ))
+        giveitem (VAR_UNCLE_DIG_ITEM)
+        if(var(VAR_RESULT) == FALSE) {
+            msgbox (format("Oh, looks like your bag is full. Come back after making some space."))
+            setflag (FLAG_ROUTE114_UNCLE_DIGGER_BAGISFULL)
+        }
+        closemessage
+        release
+        end
+    }
+    call (Route114_FossilManiacsTunnel_UncleDigger_FossilListedScript)
+    copyvar (VAR_UNCLE_DIG_ITEM, VAR_RESULT)
+    bufferitemname (STR_VAR_1, VAR_UNCLE_DIG_ITEM)
+    msgbox (Route114_FossilManiacsTunnel_UncleDigger_YouGotAFossil)
+    giveitem (VAR_UNCLE_DIG_ITEM)
+    if(var(VAR_RESULT) == FALSE) {
+        msgbox (format("Oh, looks like your bag is full. Come back after making some space."))
+        setflag (FLAG_ROUTE114_UNCLE_DIGGER_BAGISFULL)
+    }
+    closemessage
+    release
+    end
+}
+
+
+script Route114_FossilManiacsTunnel_UncleDigger_ItemListedScript {
+    randomelement (
+        ITEM_NUGGET
+        ITEM_BIG_NUGGET
+        ITEM_STARDUST
+        ITEM_STAR_PIECE
+        ITEM_COMET_SHARD
+        ITEM_RARE_BONE
+        ITEM_POKE_BALL
+        ITEM_GREAT_BALL
+        ITEM_ULTRA_BALL
+        ITEM_POTION
+        ITEM_SUPER_POTION
+        ITEM_HYPER_POTION
+        ITEM_MAX_POTION
+        ITEM_FULL_RESTORE
+        ITEM_REVIVE
+        ITEM_MAX_REVIVE
+        ITEM_ENERGY_ROOT
+        ITEM_ANTIDOTE
+        ITEM_PARALYZE_HEAL
+        ITEM_PARALYZE_HEAL
+        ITEM_BURN_HEAL
+        ITEM_ICE_HEAL
+        ITEM_AWAKENING
+        ITEM_FULL_HEAL
+        ITEM_ETHER
+        ITEM_ELIXIR
+        ITEM_FIRE_STONE
+        ITEM_WATER_STONE
+        ITEM_THUNDER_STONE
+        ITEM_LEAF_STONE
+        ITEM_ICE_STONE
+        ITEM_SUN_STONE
+        ITEM_MOON_STONE
+        ITEM_SHINY_STONE
+        ITEM_DUSK_STONE
+        ITEM_DAWN_STONE
+    )
+}
+
+script Route114_FossilManiacsTunnel_UncleDigger_FossilListedScript {
+    randomelement (
+        ITEM_DOME_FOSSIL
+        ITEM_OLD_AMBER
+        ITEM_HELIX_FOSSIL
+        ITEM_ROOT_FOSSIL
+        ITEM_CLAW_FOSSIL
+        ITEM_ARMOR_FOSSIL
+        ITEM_SKULL_FOSSIL
+        ITEM_COVER_FOSSIL
+        ITEM_PLUME_FOSSIL
+        ITEM_JAW_FOSSIL
+        ITEM_SAIL_FOSSIL
+        ITEM_FOSSILIZED_BIRD
+        ITEM_FOSSILIZED_FISH
+        ITEM_FOSSILIZED_DRAKE
+        ITEM_FOSSILIZED_DINO
+    )
+}
+
+
+script Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney {
+    hidemoneybox
+    msgbox (format("You need ¥300 for me to dig..."))
+    release
+    end    
+}
+
+script Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain {
+    hidemoneybox
+    msgbox (format("No digging? No worries, come back anytime."))
+    release
+    end
+}
+
+text Route114_FossilManiacsTunnel_UncleDigger_YouGotAFossil {
+    format (
+        "Oh ho! Would you look at that!\p"
+        "A real fossil - a {STR_VAR_1}, and in remarkable condition.\p"
+        "Here, it's yours! Who knows what might be revived from it someday!"
+    )
+}
+
+
+text Route114_FossilManiacsTunnel_UncleDigger_Text_FirstEncounter {
+    format (
+        "Hey there, traveler!\p"
+        "My nephew is absolutely obsessed with his fossils, "
+        "and he claims everything he finds here for himself.\p"
+        "But for ¥300, I can do some digging for you.\p"
+        "Who knows what you might uncover here in this tunnel."      
+    )
+}
+

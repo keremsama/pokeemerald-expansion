@@ -109,9 +109,29 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Alright! Let's get pumped!\pShow me the power of your\ntraining!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Whoa! That strike had real force!\pYou're in great form!{PAUSE_UNTIL_PRESS}"),
-            [TRAINER_SLIDE_LAST_LOW_HP] = COMPOUND_STRING("Hah… You're pushing me to my limits!\pWhat amazing fighting spirit!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("Hah… You're pushing me to my limits!\pWhat amazing fighting spirit!{PAUSE_UNTIL_PRESS}"),
         },
         
+        [TRAINER_WATTSON_1]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Okay, let's see how strong your Pokémon are!\pShow me your best moves!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("That move really caught me off guard!\pYou've trained well!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_LOW_HP] = COMPOUND_STRING("Ah… I'm nearly done for!\pYour battle skill is remarkable!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_FLANNERY_1]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I-I'll show you my true hot spirit!\pJust… don't think I'm nervous or anything!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("W-whoa! That was blazing strong!\pI mean - of course it was!\nI can handle it!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("Ahh… I can't lose now!\pGrandfather's watching - my flames\nwon't go out!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_NORMAN_1]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("…So, it has come to this.\pShow me how far you've grown.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_STAB_MOVE] = COMPOUND_STRING("Impressive.\pYour training is paying off.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I won't hold back…\pAs your father - and as\na Gym Leader.{PAUSE_UNTIL_PRESS}"),
+        },
 
         [TRAINER_BRENDAN_RUSTBORO_MUDKIP]
         {

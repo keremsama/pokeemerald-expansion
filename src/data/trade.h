@@ -1018,19 +1018,19 @@ static const struct InGameTrade sIngameTrades[] =
     },
     [INGAME_TRADE_HORSEA] =
     {
-        .nickname = _("SEASOR"),
+        .nickname = _("Seahorsy"),
         .species = SPECIES_HORSEA,
-        .ivs = {5, 4, 4, 4, 5, 4},
+        .ivs = {28, 31, 28, 31, 28, 31},
         .abilityNum = 0,
         .otId = 46285,
         .conditions = {5, 5, 5, 5, 30},
-        .personality = 0x7F,
+        .personality = NATURE_ADAMANT,
         .heldItem = ITEM_WAVE_MAIL,
         .mailNum = 1,
-        .otName = _("SKYLAR"),
+        .otName = _("Danny"),
         .otGender = MALE,
         .sheen = 10,
-        .requestedSpecies = SPECIES_BAGON
+        .requestedSpecies = SPECIES_MUNCHLAX
     },
     [INGAME_TRADE_MEOWTH] =
     {

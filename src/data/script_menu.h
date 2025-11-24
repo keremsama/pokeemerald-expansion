@@ -271,7 +271,7 @@ static const struct MenuAction MultichoiceList_GameCornerTMs[] =
     {COMPOUND_STRING("Flamethrower{CLEAR_TO 0x54}4,000 C.")},
     {COMPOUND_STRING("Thunderbolt{CLEAR_TO 0x54}4,000 C.")},
     {COMPOUND_STRING("Ice Beam{CLEAR_TO 0x54}4,000 C.")},
-    {COMPOUND_STRING("PAGE 2")},
+    {COMPOUND_STRING("NEXT PAGE{CLEAR_TO 0x54}{RIGHT_ARROW}")},
     {gText_Exit},
 };
 
@@ -281,7 +281,7 @@ static const struct MenuAction MultichoiceList_GameCornerTMs_Page2[] =
     {COMPOUND_STRING("Fire Punch{CLEAR_TO 0x54}3,000 C.")},
     {COMPOUND_STRING("Thunder Punch{CLEAR_TO 0x54}3,000 C.")},
     {COMPOUND_STRING("Ice Punch{CLEAR_TO 0x54}3,000 C.")},
-    {COMPOUND_STRING("PAGE 1")},
+    {COMPOUND_STRING("PREVIOUS PAGE{CLEAR_TO 0x54}{RIGHT_ARROW}")},
     {gText_Exit},
 };
 
@@ -291,7 +291,7 @@ static const struct MenuAction MultichoiceList_GameCornerPokemonPrize[] =
     {COMPOUND_STRING("Cubone{CLEAR_TO 0x54}1,800 C.")},
     {COMPOUND_STRING("Ralts{CLEAR_TO 0x54}3,200 C.")},
     {COMPOUND_STRING("Dratini{CLEAR_TO 0x54}5,500 C.")},
-    {COMPOUND_STRING("PAGE 2")},
+    {COMPOUND_STRING("NEXT PAGE{CLEAR_TO 0x54}{RIGHT_ARROW}")},
     {gText_Exit},
 };
 
@@ -301,7 +301,7 @@ static const struct MenuAction MultichoiceList_GameCornerPokemonPrizePage2[] =
     {COMPOUND_STRING("Frigibax{CLEAR_TO 0x54}6,300 C.")},
     {COMPOUND_STRING("Beldum{CLEAR_TO 0x54}8,000 C.")},
     {COMPOUND_STRING("Porygon{CLEAR_TO 0x54}9,999 C.")},
-    {COMPOUND_STRING("PAGE 1")},
+    {COMPOUND_STRING("PREVIOUS PAGE{CLEAR_TO 0x54}{RIGHT_ARROW}")},
     {gText_Exit},
 };
 

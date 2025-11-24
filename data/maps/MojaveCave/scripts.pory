@@ -1,0 +1,41 @@
+mapscripts MojaveCave_MapScripts {}
+
+script MojaveCave_NPC_Hiker {
+    lock
+    faceplayer
+    msgbox(format(
+        "Hot, dusty, cramped… just the way a real cave adventure should be!"
+    ))
+    waitmessage
+    release
+    end
+}
+
+script MojaveCave_NPC_Scientist {
+    lock
+    faceplayer
+    msgbox(format(
+        "Shh… I'm examining this rock.\p"
+        "One wrong vibration and the readings get messed up!"
+    ))
+    waitmessage
+    applymovement (6, moves(
+        face_left
+    ))
+    waitmovement (6)
+    release
+    end
+}
+
+script MojaveCave_NPC_OldMan {
+    lock
+    faceplayer
+    msgbox (format(
+        "I'm visiting this cave for many years now.\p" 
+        "If you listen closely, you can hear the desert whisper through the stones.\p"
+        "And you know what? I like it!"
+    ))
+    waitmessage
+    release
+    end
+}

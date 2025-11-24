@@ -2286,7 +2286,7 @@ F_TRAINER_FEMALE |
 #line 980
             .iv = TRAINER_PARTY_IVS(6, 6, 6, 6, 6, 6),
 #line 979
-            .lvl = 38,
+            .lvl = 26,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },
@@ -2297,7 +2297,7 @@ F_TRAINER_FEMALE |
 #line 984
             .iv = TRAINER_PARTY_IVS(6, 6, 6, 6, 6, 6),
 #line 983
-            .lvl = 39,
+            .lvl = 26,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },
@@ -12531,6 +12531,8 @@ F_TRAINER_FEMALE |
 #line 5048
             .species = SPECIES_CAMERUPT,
             .gender = TRAINER_MON_RANDOM_GENDER,
+#line 5048
+            .heldItem = ITEM_SITRUS_BERRY,
 #line 5051
             .iv = TRAINER_PARTY_IVS(24, 24, 24, 24, 24, 24),
 #line 5049

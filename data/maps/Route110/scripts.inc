@@ -994,3 +994,4 @@ Route110_Text_KeepAnEyeOutForRival:
 Route110_Text_TrickHouseLocked:
 	.string "The TRICK HOUSE is closed\n"
 	.string "for maintenance.$"
+

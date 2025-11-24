@@ -1,0 +1,531 @@
+raw`
+RustboroCity_DevonCorp_2F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, RustboroCity_DevonCorp_2F_OnTransition
+	.byte 0
+
+RustboroCity_DevonCorp_2F_OnTransition:
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_SetFossilReady::
+	setvar VAR_FOSSIL_RESURRECTION_STATE, 2
+	return
+
+RustboroCity_DevonCorp_2F_EventScript_TalkToPokemonScientist::
+	lock
+	faceplayer
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	msgbox RustboroCity_DevonCorp_2F_Text_DeviceForTalkingToPokemon, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_BallScientist::
+	lock
+	faceplayer
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	goto_if_set FLAG_MET_DEVON_EMPLOYEE, RustboroCity_DevonCorp_2F_EventScript_DevelopedBalls
+	msgbox RustboroCity_DevonCorp_2F_Text_DevelopingNewBalls, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_DevelopedBalls::
+	msgbox RustboroCity_DevonCorp_2F_Text_WeFinallyMadeNewBalls, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_PokenavScientist::
+	lock
+	faceplayer
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	goto_if_set FLAG_RECEIVED_POKENAV, RustboroCity_DevonCorp_2F_EventScript_HasPokenav
+	msgbox RustboroCity_DevonCorp_2F_Text_IMadePokenav, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_HasPokenav::
+	msgbox RustboroCity_DevonCorp_2F_Text_WowThatsAPokenav, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_PokemonDreamsScientist::
+	lock
+	faceplayer
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	msgbox RustboroCity_DevonCorp_2F_Text_DeviceToVisualizePokemonDreams, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_DeclineGiveFossil::
+	msgbox RustboroCity_DevonCorp_2F_Text_OhIsThatSo, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_CancelFossilSelect::
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_MatchCallScientist::
+	lock
+	faceplayer
+	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	goto_if_ge VAR_RUSTBORO_CITY_STATE, 6, RustboroCity_DevonCorp_2F_EventScript_WorkOnNext
+	msgbox RustboroCity_DevonCorp_2F_Text_DevelopNewPokenavFeature, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_EventScript_WorkOnNext::
+	msgbox RustboroCity_DevonCorp_2F_Text_WhatToWorkOnNext, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_Text_DeviceForTalkingToPokemon:
+	.string "We're developing a device for talking\n"
+	.string "with POKéMON.\p"
+	.string "But we haven't had much success…$"
+
+RustboroCity_DevonCorp_2F_Text_DevelopingNewBalls:
+	.string "I'm developing new kinds of\n"
+	.string "POKé BALLS…\p"
+	.string "But I haven't made much headway…$"
+
+RustboroCity_DevonCorp_2F_Text_WeFinallyMadeNewBalls:
+	.string "We finally made new kinds of\n"
+	.string "POKé BALLS!\p"
+	.string "The REPEAT BALL makes it easier to\n"
+	.string "catch POKéMON you've caught before.\p"
+	.string "The TIMER BALL gets better at catching\n"
+	.string "POKéMON the longer a battle runs.\p"
+	.string "Both are proudly developed by\n"
+	.string "the DEVON CORPORATION.\p"
+	.string "Please give them a try!$"
+
+RustboroCity_DevonCorp_2F_Text_IMadePokenav:
+	.string "I made the POKéNAV!\p"
+	.string "As an engineer, I feel blessed to have\n"
+	.string "made something so great!$"
+
+RustboroCity_DevonCorp_2F_Text_WowThatsAPokenav:
+	.string "Oh, wow!\n"
+	.string "That's a POKéNAV!\p"
+	.string "It came about as a result of our\n"
+	.string "PRESIDENT's desire to learn about\l"
+	.string "the feelings of POKéMON.\p"
+	.string "Would you like me to describe its\n"
+	.string "features in detail?\p"
+	.string "No, no. I think you'll find out just by\n"
+	.string "trying the POKéNAV out.$"
+
+RustboroCity_DevonCorp_2F_Text_DeviceToVisualizePokemonDreams:
+	.string "I'm trying to develop a device that\n"
+	.string "visually reproduces the dreams of\l"
+	.string "POKéMON…\p"
+	.string "But it's not going well.$"
+
+RustboroCity_DevonCorp_2F_Text_DevelopDeviceToResurrectFossils:
+	.string "I've been trying to develop a device\n"
+	.string "that resurrects POKéMON from fossils…\p"
+	.string "And, it's working!$"
+
+RustboroCity_DevonCorp_2F_Text_WantToBringFossilBackToLife:
+	.string "Wait! That thing you have there…\n"
+	.string "Is that a {STR_VAR_1}?\p"
+	.string "Would you like to bring that POKéMON\n"
+	.string "back to life?\p"
+	.string "I can with my newly developed\n"
+	.string "FOSSIL REGENERATOR.$"
+
+RustboroCity_DevonCorp_2F_Text_OhIsThatSo:
+	.string "Oh, is that so?\p"
+	.string "DEVON's technological expertise\n"
+	.string "is outstanding, I tell you.$"
+
+RustboroCity_DevonCorp_2F_Text_TwoFossilsPickOne:
+	.string "Oh, now that's a surprise!\n"
+	.string "You have not one, but two, fossils?\p"
+	.string "Unfortunately, my machine can only\n"
+	.string "regenerate one POKéMON at a time.\p"
+	.string "Would you like to pick one of your\n"
+	.string "fossils for regeneration?$"
+
+RustboroCity_DevonCorp_2F_Text_HandedFossilToResearcher:
+	.string "Excellent!\n"
+	.string "Let's do this right away.\p"
+	.string "{PLAYER} handed the {STR_VAR_1} to\n"
+	.string "the DEVON RESEARCHER.$"
+
+RustboroCity_DevonCorp_2F_Text_FossilRegeneratorTakesTime:
+	.string "The FOSSIL REGENERATOR, which I made,\n"
+	.string "is incredible.\p"
+	.string "But it has one drawback--it takes\n"
+	.string "a long time to work.\p"
+	.string "So, uh… How about you go for a stroll\n"
+	.string "and look around for a while?$"
+
+RustboroCity_DevonCorp_2F_Text_FossilizedMonBroughtBackToLife:
+	.string "Thanks for waiting!\p"
+	.string "Your fossilized POKéMON has been\n"
+	.string "brought back to life!\p"
+	.string "The fossil was an ancient POKéMON.\n"
+	.string "{STR_VAR_2}, it was!$"
+
+RustboroCity_DevonCorp_2F_Text_ReceivedMonFromResearcher:
+	.string "{PLAYER} received {STR_VAR_2} from\n"
+	.string "the DEVON RESEARCHER.$"
+
+@ Unused
+RustboroCity_DevonCorp_2F_Text_TooManyPokemon:
+	.string "Uh-oh, you've got too many POKéMON.\n"
+	.string "You have no room for this one.$"
+
+RustboroCity_DevonCorp_2F_Text_DevelopNewPokenavFeature:
+	.string "I'm trying to develop a new feature\n"
+	.string "for the POKéNAV…\p"
+	.string "But it's not going well.$"
+
+RustboroCity_DevonCorp_2F_Text_WhatToWorkOnNext:
+	.string "Well, now what shall I work on\n"
+	.string "developing next?\p"
+	.string "Our company allows us to make our\n"
+	.string "inspirations into reality.\p"
+	.string "One couldn't ask for a better\n"
+	.string "environment as an engineer.$"
+
+`
+
+// Poryscript
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilScientist {
+    lock
+    faceplayer
+    goto_if_eq (VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_StillRegenerating)
+    goto_if_eq (VAR_FOSSIL_RESURRECTION_STATE, 2, RustboroCity_DevonCorp_2F_EventScript_FossilMonReady)
+    msgbox (RustboroCity_DevonCorp_2F_Text_DevelopDeviceToResurrectFossils)
+    call (RustboroCity_DevonCorp_2F_EventScript_FossilCounting) // Fossile werden über VAR_TEMP_0 gezählt
+    if(var(VAR_TEMP_0) > 1){
+        goto (RustboroCity_DevonCorp_2F_EventScript_FossilScientist_MultipleFossil)
+    }
+    if(var(VAR_TEMP_0) == 1){
+        call (RustboroCity_DevonCorp_2F_EventScript_FossilChecking) // Fossil wird auf VAR_TEMP_1 gesetzt
+        goto (RustboroCity_DevonCorp_2F_EventScript_FossilScientist_OnlyOneFossil)
+    }
+    release
+    end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilScientist_MultipleFossil {
+    applymovement (LOCALID_FOSSIL_SCIENTIST, Common_Movement_ExclamationMark)
+	playse (SE_PIN)
+	waitmovement (0)
+    delay (48)
+    msgbox (RustboroCity_DevonCorp_2F_Text_WantToBringFossilBackToLife_Multiple, MSGBOX_YESNO)
+    if(var(VAR_RESULT) == NO){
+		setvar (VAR_TEMP_0, 0) // Zähler zurücksetzen
+        msgbox(RustboroCity_DevonCorp_2F_Text_OhIsThatSo)
+        release
+        end
+    }
+	msgbox (format("Which Fossil would you like to resurrect?"))
+	call (RustboroCity_DevonCorp_2F_EventScript_DynamicMultichoiceList)
+	bufferitemname (STR_VAR_1, VAR_TEMP_1)
+	msgbox (RustboroCity_DevonCorp_2F_Text_HandedFossilToResearcher)
+	removeitem (VAR_TEMP_1, 1)
+	setvar (VAR_FOSSIL_RESURRECTION_STATE, 1)
+	copyvar (VAR_FOSSIL_AT_SCIENTIST, VAR_TEMP_1)
+    release
+    end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilScientist_OnlyOneFossil {
+    bufferitemname (STR_VAR_1, VAR_TEMP_1)
+    applymovement (LOCALID_FOSSIL_SCIENTIST, Common_Movement_ExclamationMark)
+	playse (SE_PIN)
+	waitmovement (0)
+    delay (48)
+    msgbox (RustboroCity_DevonCorp_2F_Text_WantToBringFossilBackToLife, MSGBOX_YESNO)
+    if(var(VAR_RESULT) == NO){
+		setvar (VAR_TEMP_0, 0) // Zähler zurücksetzen
+        msgbox(RustboroCity_DevonCorp_2F_Text_OhIsThatSo)
+        release
+        end
+    }
+    msgbox (RustboroCity_DevonCorp_2F_Text_HandedFossilToResearcher)
+	removeitem (VAR_TEMP_1, 1)
+	setvar (VAR_FOSSIL_RESURRECTION_STATE, 1)
+	copyvar (VAR_FOSSIL_AT_SCIENTIST, VAR_TEMP_1)
+    release
+    end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_DynamicMultichoiceList {
+	
+	if(checkitem(ITEM_DOME_FOSSIL) == TRUE){
+		dynmultipush ("Dome Fossil", ITEM_DOME_FOSSIL)
+	}
+	if(checkitem(ITEM_OLD_AMBER) == TRUE){
+		dynmultipush ("Old Amber", ITEM_OLD_AMBER)
+	}
+	if(checkitem(ITEM_HELIX_FOSSIL) == TRUE){
+		dynmultipush ("Helix Fossil", ITEM_HELIX_FOSSIL)
+	}
+	if(checkitem(ITEM_ROOT_FOSSIL) == TRUE){
+		dynmultipush ("Root Fossil", ITEM_ROOT_FOSSIL)
+	}
+	if(checkitem(ITEM_CLAW_FOSSIL) == TRUE){
+		dynmultipush ("Claw Fossil", ITEM_CLAW_FOSSIL)
+	}
+	if(checkitem(ITEM_ARMOR_FOSSIL) == TRUE){
+		dynmultipush ("Armor Fossil", ITEM_ARMOR_FOSSIL)
+	}
+	if(checkitem(ITEM_SKULL_FOSSIL) == TRUE){
+		dynmultipush ("Skull Fossil", ITEM_SKULL_FOSSIL)
+	}
+	if(checkitem(ITEM_COVER_FOSSIL) == TRUE){
+		dynmultipush ("Cover Fossil", ITEM_COVER_FOSSIL)
+	}
+	if(checkitem(ITEM_PLUME_FOSSIL) == TRUE){
+		dynmultipush ("Plume Fossil", ITEM_PLUME_FOSSIL)
+	}
+	if(checkitem(ITEM_JAW_FOSSIL) == TRUE){
+		dynmultipush ("Jaw Fossil", ITEM_JAW_FOSSIL)
+	}
+	if(checkitem(ITEM_SAIL_FOSSIL) == TRUE){
+		dynmultipush ("Sail Fossil", ITEM_SAIL_FOSSIL)
+	}
+	if(checkitem(ITEM_FOSSILIZED_BIRD) == TRUE){
+		dynmultipush ("Fos. Bird", ITEM_FOSSILIZED_BIRD)
+	}
+	if(checkitem(ITEM_FOSSILIZED_FISH) == TRUE){
+		dynmultipush ("Fos. Fish", ITEM_FOSSILIZED_FISH)
+	}
+	if(checkitem(ITEM_FOSSILIZED_DRAKE) == TRUE){
+		dynmultipush ("Fos. Drake", ITEM_FOSSILIZED_DRAKE)
+	}
+	if(checkitem(ITEM_FOSSILIZED_DINO) == TRUE){
+		dynmultipush ("Fos. Dino", ITEM_FOSSILIZED_DINO)
+	}
+	dynmultistack(19, 0, TRUE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+	copyvar (VAR_TEMP_1, VAR_RESULT)
+	return
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_StillRegenerating {
+    msgbox (RustboroCity_DevonCorp_2F_Text_FossilRegeneratorTakesTime)
+    release
+    end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilMonReady {
+    call (RustboroCity_DevonCorp_2F_EventScript_FossilPokemonChoosing)
+	bufferspeciesname (STR_VAR_2, VAR_TEMP_2)
+	msgbox (RustboroCity_DevonCorp_2F_Text_FossilizedMonBroughtBackToLife)
+	copyvar (VAR_TEMP_TRANSFERRED_SPECIES, VAR_TEMP_2)
+	givemon (VAR_TEMP_2, 30)
+	goto_if_eq (VAR_RESULT, MON_GIVEN_TO_PARTY, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty)
+	goto_if_eq (VAR_RESULT, MON_GIVEN_TO_PC, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC)
+	goto (Common_EventScript_NoMoreRoomForPokemon)
+	end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC {
+	call (RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare)
+	msgbox ((gText_NicknameThisPokemon), MSGBOX_YESNO)
+	goto_if_eq (VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC)
+	call (Common_EventScript_NameReceivedBoxMon)
+	goto (RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC)
+	end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC{
+	call (Common_EventScript_TransferredToPC)
+	goto (RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon)
+	end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty {
+	call (RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare)
+	msgbox ((gText_NicknameThisPokemon), MSGBOX_YESNO)
+	goto_if_eq (VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon)
+	call (Common_EventScript_GetGiftMonPartySlot)
+	call (Common_EventScript_NameReceivedPartyMon)
+	goto (RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon)
+	end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare{
+	bufferspeciesname (STR_VAR_2, VAR_TEMP_2)
+	playfanfare (MUS_OBTAIN_ITEM)
+	message (RustboroCity_DevonCorp_2F_Text_ReceivedMonFromResearcher)
+	waitmessage
+	waitfanfare
+	bufferspeciesname (STR_VAR_1, VAR_TEMP_2)
+	return
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon {
+	setvar (VAR_FOSSIL_RESURRECTION_STATE, 0)
+	setflag (FLAG_RECEIVED_REVIVED_FOSSIL_MON)
+	release
+	end
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilCounting {
+
+    if(checkitem(ITEM_ROOT_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_HELIX_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_OLD_AMBER) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_DOME_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_CLAW_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_ARMOR_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_SKULL_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_COVER_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_PLUME_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_JAW_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_SAIL_FOSSIL) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_FOSSILIZED_BIRD) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }
+    if(checkitem(ITEM_FOSSILIZED_FISH) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }   
+    if(checkitem(ITEM_FOSSILIZED_DRAKE) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }   
+    if(checkitem(ITEM_FOSSILIZED_DINO) == TRUE){
+        addvar(VAR_TEMP_0, 1)
+    }   
+
+}
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilChecking {
+
+    if(checkitem(ITEM_ROOT_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_ROOT_FOSSIL)
+    }
+    if(checkitem(ITEM_HELIX_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_HELIX_FOSSIL)
+    }
+    if(checkitem(ITEM_OLD_AMBER) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_OLD_AMBER)
+    }
+    if(checkitem(ITEM_DOME_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_DOME_FOSSIL)
+    }
+    if(checkitem(ITEM_CLAW_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_CLAW_FOSSIL)
+    }
+    if(checkitem(ITEM_ARMOR_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_ARMOR_FOSSIL)
+    }
+    if(checkitem(ITEM_SKULL_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_SKULL_FOSSIL)
+    }
+    if(checkitem(ITEM_COVER_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_COVER_FOSSIL)
+    }
+    if(checkitem(ITEM_PLUME_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_PLUME_FOSSIL)
+    }
+    if(checkitem(ITEM_JAW_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_JAW_FOSSIL)
+    }
+    if(checkitem(ITEM_SAIL_FOSSIL) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_SAIL_FOSSIL)
+    }
+    if(checkitem(ITEM_FOSSILIZED_BIRD) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_FOSSILIZED_BIRD)
+    }
+    if(checkitem(ITEM_FOSSILIZED_FISH) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_FOSSILIZED_FISH)
+    }
+    if(checkitem(ITEM_FOSSILIZED_DRAKE) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_FOSSILIZED_DRAKE)
+    }
+    if(checkitem(ITEM_FOSSILIZED_DINO) == TRUE){
+        setvar(VAR_TEMP_1, ITEM_FOSSILIZED_DINO)
+    }
+
+}
+
+
+script RustboroCity_DevonCorp_2F_EventScript_FossilPokemonChoosing {
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_ROOT_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_LILEEP)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_CLAW_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_ANORITH)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_DOME_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_KABUTO)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_OLD_AMBER){
+        setvar(VAR_TEMP_2, SPECIES_AERODACTYL)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_HELIX_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_OMANYTE)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_ARMOR_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_SHIELDON)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_SKULL_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_CRANIDOS)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_COVER_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_TIRTOUGA)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_PLUME_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_ARCHEN)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_JAW_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_TYRUNT)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_SAIL_FOSSIL){
+        setvar(VAR_TEMP_2, SPECIES_AMAURA)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_FOSSILIZED_BIRD){
+        setvar(VAR_TEMP_2, SPECIES_DRACOZOLT)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_FOSSILIZED_FISH){
+        setvar(VAR_TEMP_2, SPECIES_ARCTOVISH)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_FOSSILIZED_DRAKE){
+        setvar(VAR_TEMP_2, SPECIES_DRACOVISH)
+    }
+    if(var(VAR_FOSSIL_AT_SCIENTIST) == ITEM_FOSSILIZED_DINO){
+        setvar(VAR_TEMP_2, SPECIES_ARCTOZOLT)
+    }
+
+}
+
+text RustboroCity_DevonCorp_2F_Text_WantToBringFossilBackToLife_Multiple {
+	format (
+		"Wait! That thing you have there…\n"
+		"Is that a Fossil?\p"
+		"You have also multiples of them.\p"
+		"Would you like to bring a POKéMON\n"
+		"back to life?\p"
+		"I can with my newly developed\n"
+		"FOSSIL REGENERATOR."
+	)
+}

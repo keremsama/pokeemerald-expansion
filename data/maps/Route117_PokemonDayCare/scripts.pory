@@ -1,0 +1,103 @@
+raw `
+Route117_PokemonDayCare_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route117_PokemonDayCare_OnTransition
+	.byte 0
+
+Route117_PokemonDayCare_OnTransition:
+	setflag FLAG_LANDMARK_POKEMON_DAYCARE
+	end
+`
+
+// Poryscript
+
+script Route117_PokemonDayCare_Trader {
+    lock
+    faceplayer
+    if(flag(FLAG_ROUTE117_NPC_TRADE_COMPLETED)){
+        call (Route117_PokemonDayCare_TadeCompleted)
+    }
+    setvar (VAR_0x8008, INGAME_TRADE_HORSEA)
+    copyvar (VAR_0x8004, VAR_0x8008)
+    specialvar (VAR_RESULT, GetInGameTradeSpeciesInfo)
+    copyvar (VAR_0x8009, VAR_RESULT)
+    msgbox (Route117_Trader_WillingToTrade, MSGBOX_YESNO)
+    if(var(VAR_RESULT) == NO) {
+        call (Route117_PokemonDayCare_ComeBackIfYouWant)
+    }
+    special (ChoosePartyMon)
+    waitstate
+    copyvar (VAR_0x800A, VAR_0x8004)
+    bufferspeciesname (STR_VAR_1, VAR_0x8009)  // STR_VAR's nutzen wieder die Pokemon Namen
+    bufferspeciesname (STR_VAR_2, VAR_0x8008)  // STR_VAR's nutzen wieder die Pokemon Namen
+    if(var(VAR_0x8004) == PARTY_NOTHING_CHOSEN){
+        call (Route117_PokemonDayCare_ComeBackIfYouWant)
+    }
+    copyvar (VAR_0x8005, VAR_0x800A)
+    specialvar (VAR_RESULT, GetTradeSpecies)
+    copyvar (VAR_0x800B, VAR_RESULT)
+    if(var(VAR_RESULT) != VAR_0x8009){
+        call (Route117_PokemonDayCare_ThatsNotTheMonIWant)
+    }
+    copyvar (VAR_0x8004, VAR_0x8008)
+    copyvar (VAR_0x8005, VAR_0x800A)
+    special (CreateInGameTradePokemon)
+    special (DoInGameTradeScene)
+    waitstate
+    bufferspeciesname (STR_VAR_1, VAR_0x8009)
+    msgbox (Route117_Trader_ThankYouForTrade)
+    setflag (FLAG_ROUTE117_NPC_TRADE_COMPLETED)
+    release
+    end
+}
+
+
+script Route117_PokemonDayCare_TadeCompleted {
+    msgbox(format(
+        "Thanks again for the Munchlax!\p"
+        "It's been great at keeping my snack habit in check.\p"
+        "Whenever I try grabbing a snack, it snatches it right out of my hands!\p"
+        "Hope you and my Horsea are getting along well!"
+    ))
+    release
+    end
+}
+
+script Route117_PokemonDayCare_ComeBackIfYouWant {
+    msgbox(format(
+        "No worries, no worries!\p"  
+        "I'll be right here… snacking…\p"
+        "and hoping someone brings me a {STR_VAR_1} someday."
+    ))
+    release
+    end
+}
+
+script Route117_PokemonDayCare_ThatsNotTheMonIWant {
+    msgbox(format(
+        "Hmm… That's a fine Pokémon you've got there, but it's not a {STR_VAR_1}.\p"
+        "I really need a {STR_VAR_1} to help me keep my snack habit under control!\p"
+        "Come back if you find one, alright?"
+    ))
+    release
+    end
+}
+
+text Route117_Trader_WillingToTrade{
+    format(
+        "I've been fishing for years, y'know…\p"
+        "But lately I've had a little problem.\p"
+        "You see, I snack way too much while waiting for a bite…\p"
+        "My buddies keep teasing me about it!\p"
+        "So I thought - maybe if I had a {STR_VAR_1} with me, it would eat all the snacks before I do!\p"
+        "If you've got a {STR_VAR_1} to spare, would you trade it for\l"
+        "my loyal {STR_VAR_2}?"
+    )
+}
+
+text Route117_Trader_ThankYouForTrade{
+    format(
+        "Look at that little guy! Perfect!\p"
+        "No more snack piles while waiting for a bite!\p"
+        "Take good care of {STR_VAR_2}, okay?"
+    )
+}

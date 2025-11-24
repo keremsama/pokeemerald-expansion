@@ -361,9 +361,9 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_STARDUST",
+      "trainer_sight_or_berry_tree_id": "ITEM_SAFETY_GOGGLES",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_111_STARDUST"
+      "flag": "FLAG_ITEM_ROUTE_111_SAFETY_GOGGLES"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
@@ -665,6 +665,19 @@
       "trainer_sight_or_berry_tree_id": "ITEM_TM_ENERGY_BALL",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ROUTE_111_TM_ENERGY_BALL"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 32,
+      "y": 3,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_WISE_GLASSES",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_ROUTE_111_WISE_GLASSES"
     }
   ],
   "warp_events": [
@@ -1162,6 +1175,14 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Route111_EventScript_TrainerHillSign"
+    },
+    {
+      "type": "hidden_item",
+      "x": 26,
+      "y": 114,
+      "elevation": 0,
+      "item": "ITEM_STAR_PIECE",
+      "flag": "FLAG_HIDDEN_ITEM_ROUTE111_STAR_PIECE"
     }
   ]
 }

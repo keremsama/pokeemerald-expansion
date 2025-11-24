@@ -90,6 +90,6 @@ FallarborTown_Text_TownSign:
 	.string "“A farm community with small gardens.”$"
 
 FallarborTown_Text_EvoMasterSign:
-	.string "EVO-MASTERS House.\n"
+	.string "EVOLUTION-HOUSE.\n"
 	.string "“Evolve your POKéMON!”$"
 

@@ -104,9 +104,9 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_MAX_ETHER",
+      "trainer_sight_or_berry_tree_id": "ITEM_CHARCOAL",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_113_MAX_ETHER"
+      "flag": "FLAG_ITEM_ROUTE_113_CHARCOAL"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
@@ -442,8 +442,8 @@
       "x": 66,
       "y": 3,
       "elevation": 3,
-      "item": "ITEM_ETHER",
-      "flag": "FLAG_HIDDEN_ITEM_ROUTE_113_ETHER"
+      "item": "ITEM_EXP_CANDY_M",
+      "flag": "FLAG_HIDDEN_ITEM_ROUTE_113_EXP_CANDY_M"
     },
     {
       "type": "hidden_item",
