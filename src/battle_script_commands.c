@@ -9452,6 +9452,7 @@ static void DrawLevelUpBannerText(void)
     GetMonNickname(mon, gStringVar4);
 
     printerTemplate.currentChar = gStringVar4;
+    printerTemplate.type = WINDOW_TEXT_PRINTER;
     printerTemplate.windowId = B_WIN_LEVEL_UP_BANNER;
     printerTemplate.fontId = FONT_SMALL;
     printerTemplate.x = 32;
@@ -10594,7 +10595,7 @@ static void Cmd_various(void)
     case VARIOUS_ARENA_WAIT_STRING:
     {
         VARIOUS_ARGS();
-        if (IsTextPrinterActive(ARENA_WIN_JUDGMENT_TEXT))
+        if (IsTextPrinterActiveOnWindow(ARENA_WIN_JUDGMENT_TEXT))
             return;
         break;
     }

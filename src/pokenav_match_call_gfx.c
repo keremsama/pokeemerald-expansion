@@ -1127,7 +1127,7 @@ static void PrintCallingDots(struct Pokenav_MatchCallGfx *gfx)
 static bool32 WaitForCallingDotsText(struct Pokenav_MatchCallGfx *gfx)
 {
     RunTextPrinters();
-    return IsTextPrinterActive(gfx->msgBoxWindowId);
+    return IsTextPrinterActiveOnWindow(gfx->msgBoxWindowId);
 }
 
 static void PrintTrainerIsCloseBy(struct Pokenav_MatchCallGfx *gfx)
@@ -1138,7 +1138,7 @@ static void PrintTrainerIsCloseBy(struct Pokenav_MatchCallGfx *gfx)
 static bool32 WaitForTrainerIsCloseByText(struct Pokenav_MatchCallGfx *gfx)
 {
     RunTextPrinters();
-    return IsTextPrinterActive(gfx->msgBoxWindowId);
+    return IsTextPrinterActiveOnWindow(gfx->msgBoxWindowId);
 }
 
 static void PrintMatchCallMessage(struct Pokenav_MatchCallGfx *gfx)
@@ -1157,7 +1157,7 @@ static bool32 WaitForMatchCallMessageText(struct Pokenav_MatchCallGfx *gfx)
         gTextFlags.canABSpeedUpPrint = FALSE;
 
     RunTextPrinters();
-    return IsTextPrinterActive(gfx->msgBoxWindowId);
+    return IsTextPrinterActiveOnWindow(gfx->msgBoxWindowId);
 }
 
 static void EraseCallMessageBox(struct Pokenav_MatchCallGfx *gfx)

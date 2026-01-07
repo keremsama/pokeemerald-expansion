@@ -3818,7 +3818,7 @@ static void Task_LinkRetireStatusWithBattleTowerPartner(u8 taskId)
         gTasks[taskId].tState++;
         break;
     case 6:
-        if (!IsTextPrinterActive(0))
+        if (!IsTextPrinterActiveOnWindow(0))
             gTasks[taskId].tState++;
         break;
     case 7:
