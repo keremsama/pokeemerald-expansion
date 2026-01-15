@@ -278,6 +278,7 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_WALLY_LILYCOVE
 	setflag FLAG_HIDE_PETALBURG_STEVEN
 	setflag FLAG_HIDE_EV_INFO
+	setflag FLAG_HIDE_MOJAVECAVE_SPIRITOMB
 
 	call EventScript_ResetAllBerries
 	end

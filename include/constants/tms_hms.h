@@ -95,7 +95,7 @@
     F(FLASH_CANNON) \
     F(TRICK_ROOM) \
     F(SCALD) \
-    F(WORK_UP) \
+    F(DRAGON_CHEER) \
     F(FOUL_PLAY) \
     F(FIRE_PUNCH) \
     F(THUNDER_PUNCH) \

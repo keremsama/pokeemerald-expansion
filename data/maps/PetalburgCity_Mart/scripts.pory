@@ -108,7 +108,7 @@ script LavaridgeTown_Mart_EventScript_Clerk2 {
         release
         end
     }
-    msgbox (gText_HowMayIServeYou)
+    message (gText_HowMayIServeYou)
     waitmessage
     pokemart (PetalburgCity_Mart_Pokemart_Balls)
     msgbox (gText_PleaseComeAgain)

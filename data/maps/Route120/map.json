@@ -222,8 +222,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "x": 20,
-      "y": 55,
+      "x": 1,
+      "y": 59,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -304,8 +304,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "x": 1,
-      "y": 60,
+      "x": 20,
+      "y": 55,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -389,9 +389,9 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_NEST_BALL",
+      "trainer_sight_or_berry_tree_id": "ITEM_NET_BALL",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_120_NEST_BALL"
+      "flag": "FLAG_ITEM_ROUTE_120_NET_BALL"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
@@ -402,9 +402,9 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_HYPER_POTION",
+      "trainer_sight_or_berry_tree_id": "ITEM_MAX_POTION",
       "script": "Common_EventScript_FindItem",
-      "flag": "FLAG_ITEM_ROUTE_120_HYPER_POTION"
+      "flag": "FLAG_ITEM_ROUTE_120_MAX_POTION"
     },
     {
       "local_id": "LOCALID_BRIDGE_KECLEON",

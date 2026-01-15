@@ -1292,4 +1292,20 @@ u16 RandomizeAbility(u16 species, u8 abilityNum, u16 originalAbility)
     return originalAbility;
 }
 
+// The species is stored in VAR_TEMP_2
+void RandomizeSpeciesToVarTemp2 (struct ScriptContext *ctx)
+{
+    if (FlagGet(FLAG_RANDOM_FIXED_MON))  // Die if Abfrage hier dient nur zur doppelten Absicherung, dass die Funktion nur ausgeführt wird, wenn das Feature auch aktiv ist.
+    {
+        u16 originalSpecies = VarGet(VAR_TEMP_2);  // VAR_TEMP_2 kann nach bedarf angepasst werden | ODER man erstellt sich ein komplett neues Block mit anderen Namen und anderer VAR_TEMP_X
+        u16 randomizedSpecies = RandomizeMon(
+            RANDOMIZER_REASON_FIXED_ENCOUNTER,
+            GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE),
+            GetRandomizerSeed(),
+            originalSpecies
+        );
+        VarSet(VAR_TEMP_2, randomizedSpecies);
+    }
+}
+
 #endif // RANDOMIZER_AVAILABLE

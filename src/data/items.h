@@ -11812,19 +11812,19 @@ const struct Item gItemsInfo[] =
         .secondaryId = MOVE_SCALD,
     },
 
-    [ITEM_TM_WORK_UP] =
+    [ITEM_TM_DRAGON_CHEER] =
     {
         .name = _("TM94"),
         .price = 10000,
         .description = COMPOUND_STRING(
-            "The user is roused.\n"
-            "Ups Attack\n"
-            "and Sp. Atk."),
+            "Increases allies'"
+            "critical hit ratio,\n"
+            "especially Dragons."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_WORK_UP,
+        .secondaryId = MOVE_DRAGON_CHEER,
     },
 
     [ITEM_TM_FOUL_PLAY] =

@@ -529,7 +529,7 @@ NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped:
 
 NewMauville_Inside_EventScript_TypeNull_State::
 # 270 "data/maps/NewMauville_Inside/scripts.pory"
-	goto_if_unset FLAG_BADGE06_GET, NewMauville_Inside_EventScript_TypeNull_State_1
+	goto_if_unset FLAG_BADGE07_GET, NewMauville_Inside_EventScript_TypeNull_State_1
 # 270 "data/maps/NewMauville_Inside/scripts.pory"
 	goto_if_set FLAG_NEWMAUVILLE_CATCH_TYPE_NULL, NewMauville_Inside_EventScript_TypeNull_State_1
 # 274 "data/maps/NewMauville_Inside/scripts.pory"

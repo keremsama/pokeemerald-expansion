@@ -131,6 +131,7 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("…So, it has come to this.\pShow me how far you've grown.{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_STAB_MOVE] = COMPOUND_STRING("Impressive.\pYour training is paying off.{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I won't hold back…\pAs your father - and as\na Gym Leader.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("… I see that Steven has kept his word\nand entrusted you with the Mega Ring.\pNow, watch carefully.\pI will demonstrate the proper use of\nMega Evolution.\pPay attention and learn from this\nexperience.{PAUSE_UNTIL_PRESS}"),
         },
 
         [TRAINER_BRENDAN_RUSTBORO_MUDKIP]

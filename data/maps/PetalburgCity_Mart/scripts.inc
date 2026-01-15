@@ -191,7 +191,7 @@ LavaridgeTown_Mart_EventScript_Clerk2::
 # 101 "data/maps/PetalburgCity_Mart/scripts.pory"
 	goto_if_unset FLAG_BADGE04_GET, LavaridgeTown_Mart_EventScript_Clerk2_2
 # 111 "data/maps/PetalburgCity_Mart/scripts.pory"
-	msgbox gText_HowMayIServeYou
+	message gText_HowMayIServeYou
 # 112 "data/maps/PetalburgCity_Mart/scripts.pory"
 	waitmessage
 # 113 "data/maps/PetalburgCity_Mart/scripts.pory"

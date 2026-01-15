@@ -1,5 +1,94 @@
 mapscripts MojaveCave_MapScripts {}
 
+script MojaveCave_Spiritomb {
+    if(!checkitem(ITEM_ODD_KEYSTONE)){
+        end
+    }
+    if(var(VAR_TEMP_0) == 1){
+        end
+    }
+    lock
+    faceplayer
+    msgbox (MojaveCave_Text_Spiritomb_LayDownOddKeystone, MSGBOX_YESNO)
+    if(var(VAR_RESULT) == FALSE){
+        release
+        end
+    }
+    msgbox (format("You placed the Odd Keystone on the ground."))
+    closemessage
+    removeitem (ITEM_ODD_KEYSTONE, 1)
+    fadescreen (FADE_TO_BLACK)
+    delay(90)
+    addobject (OBJ_EVENT_GFX_MOJAVE_CAVE_SPIRITOMB)
+    playmoncry(SPECIES_SPIRITOMB, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    delay (90)
+    fadescreen (FADE_FROM_BLACK)
+    delay (30)
+    playmoncry(SPECIES_SPIRITOMB, CRY_MODE_ENCOUNTER)
+    msgbox ("....tooooomb !")
+    closemessage
+    setwildbattle (SPECIES_SPIRITOMB, 50, ITEM_NONE)
+    dowildbattle
+    specialvar(VAR_RESULT, GetBattleOutcome)
+	if(var(VAR_RESULT) == B_OUTCOME_CAUGHT){
+		call(MojaveCave_Spiritomb_Caught)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_WON){
+		call(MojaveCave_Spiritomb_Won)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_RAN){
+		call(MojaveCave_Spiritomb_RanAway)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_PLAYER_TELEPORTED){
+		call(MojaveCave_Spiritomb_RanAway)
+	}
+	releaseall
+	end
+}
+ 
+script MojaveCave_Spiritomb_Caught {
+    setflag(FLAG_MOJAVECAVE_CATCH_SPIRITOMB)
+	fadescreen(FADE_TO_BLACK)
+	removeobject (OBJ_EVENT_GFX_MOJAVE_CAVE_SPIRITOMB)
+    delay(30)
+	fadescreen(FADE_FROM_BLACK)
+	return
+}
+
+script MojaveCave_Spiritomb_Won {
+	playmoncry (SPECIES_SPIRITOMB, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    fadescreen (FADE_TO_BLACK)
+	removeobject (OBJ_EVENT_GFX_MOJAVE_CAVE_SPIRITOMB)
+    delay (30)
+    fadescreen(FADE_FROM_BLACK)
+    msgbox (format("It disappered to the core.\pYou put the Keystone back in your bag."))
+    additem (ITEM_ODD_KEYSTONE, 1)
+    setvar (VAR_TEMP_0, 1)
+	return
+}
+ 
+script MojaveCave_Spiritomb_RanAway {
+	playmoncry (SPECIES_SPIRITOMB, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    fadescreen (FADE_TO_BLACK)
+	removeobject (OBJ_EVENT_GFX_MOJAVE_CAVE_SPIRITOMB)
+    delay (30)
+    fadescreen(FADE_FROM_BLACK)
+    msgbox (format("It disappered to the core.\pYou put the Keystone back in your bag."))
+    additem (ITEM_ODD_KEYSTONE, 1)
+    setvar (VAR_TEMP_0, 1)
+	return
+}
+
+text MojaveCave_Text_Spiritomb_LayDownOddKeystone {
+    format(
+        "Look's like you can place the Odd Keystone here.\p"
+        "Do you want to place it down?"
+    )
+}
+
 script MojaveCave_NPC_Hiker {
     lock
     faceplayer

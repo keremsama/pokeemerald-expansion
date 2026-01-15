@@ -267,7 +267,7 @@ NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped:
 //PORYSCRIPT
 
 script NewMauville_Inside_EventScript_TypeNull_State{
-	if (!flag(FLAG_BADGE06_GET) || flag(FLAG_NEWMAUVILLE_CATCH_TYPE_NULL)) {
+	if (!flag(FLAG_BADGE07_GET) || flag(FLAG_NEWMAUVILLE_CATCH_TYPE_NULL)) {
 		setflag(FLAG_NEWMAUVILLE_HIDE_TYPE_NULL)
 	}
 	else {

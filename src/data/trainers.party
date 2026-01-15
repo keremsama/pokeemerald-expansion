@@ -2141,7 +2141,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
+Items: Full Heal
 Double Battle: No
 AI: Check Bad Move
 
@@ -3364,8 +3364,8 @@ Music: Intense
 Double Battle: No
 AI: Check Bad Move
 
-Machop
-Level: 19
+Machamp
+Level: 36
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_ATSUSHI ===
@@ -4649,7 +4649,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Swagger
 - X-Scissor
 
-Malamar
+Malamar @ Sitrus Berry
 Level: 73
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Superpower
@@ -4665,7 +4665,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Ice Punch
 - Bulk Up
 
-Zoroark
+Zoroark @ Black Glasses
 Level: 73
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Night Daze
@@ -4708,7 +4708,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Shadow Ball
 - Flamethrower
 
-Annihilape
+Annihilape @ Sitrus Berry
 Level: 73
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Close Combat
@@ -4732,7 +4732,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Trick Room
 - Play Rough
 
-Dusknoir
+Dusknoir @ Spell Tag
 Level: 73
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Destiny Bond
@@ -4767,7 +4767,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Rock Slide
 - Amnesia
 
-Ninetales-Alola
+Ninetales-Alola @ Sitrus Berry
 Level: 73
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Ice Beam
@@ -4810,7 +4810,7 @@ Double Battle: No
 AI: Basic Trainer
 Mugshot: Blue
 
-Haxorus
+Haxorus @ Dragon Fang
 Level: 74
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Dragon Dance
@@ -4834,7 +4834,7 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Dragon Dance
 - Waterfall
 
-Flygon
+Flygon @ Yache Berry
 Level: 73
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Dragon Dance
@@ -5173,7 +5173,7 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Aerial Ace
 - Ice Punch
 
-Skarmory
+Skarmory @ Sharp Beak
 Level: 50
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Iron Defense
@@ -5276,7 +5276,7 @@ Tags: Lead
 - Swords Dance
 - Close Combat
 
-Whiscash
+Whiscash @ Mystic Water
 Level: 66
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Earthquake
@@ -6424,7 +6424,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Water Spout
 - Heavy Slam
 
-Golisopod
+Golisopod @ Eject Button
 Level: 75
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Liquidation
@@ -6432,7 +6432,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - First Impression
 - X-Scissor
 
-Basculegion
+Basculegion @ Weakness Policy
 Level: 76
 Ability: Adaptability
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
@@ -6441,7 +6441,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Aqua Jet
 - Crunch
 
-Dracovish
+Dracovish @ Quick Claw
 Level: 76
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Fishious Rend
@@ -6457,7 +6457,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Waterfall
 - Ice Fang
 
-Milotic (F) @ Sitrus Berry
+Milotic (F) @ Leftovers
 Level: 77
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Recover
@@ -16282,53 +16282,53 @@ Items: Full Restore / Full Restore / Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer
 
-Skarmory
-Level: 77
+Skarmory @ Rocky Helmet
+Level: 83
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Toxic
-- Aerial Ace
+- Brave Bird
 - Spikes
-- Steel Wing
+- Whirlwind
 
-Claydol
-Level: 75
+Tyranitar @ Assault Vest
+Level: 83
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Reflect
-- Light Screen
-- Ancient Power
 - Earthquake
+- Stone Edge
+- Ice Punch
+- Crunch
 
-Aggron
-Level: 76
+Aggron @ Air Balloon
+Level: 83
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Thunder
+- Thunder Wave
 - Earthquake
-- Solar Beam
+- Iron Head
 - Dragon Claw
 
-Cradily
-Level: 76
+Cradily @ Leftovers
+Level: 82
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Giga Drain
-- Ancient Power
-- Ingrain
+- Toxic
+- Protect
 - Confuse Ray
 
-Armaldo
-Level: 76
+Armaldo @ Silver Powder
+Level: 83
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Water Pulse
-- Ancient Power
-- Aerial Ace
-- Slash
+- X-Scissor
+- Liquidation
+- Stone Edge
+- Swords Dance
 
-Metagross @ Sitrus Berry
-Level: 78
+Metagross @ Metagrossite
+Level: 84
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Earthquake
-- Psychic
+- Zen Headbutt
 - Meteor Mash
-- Shadow Ball
+- Ice Punch
 
 === TRAINER_ANABEL ===
 Name: ANABEL
@@ -17291,11 +17291,59 @@ Class: Pkmn Trainer
 Pic: Cynthia
 Gender: Female
 Music: Male
+Items: Full Restore / Full Restore / Full Restore / Full Restore
 Double Battle: No
+AI: Smart Trainer / Prediction
+Mugshot: Yellow
 
-Kyogre
-Level: 5
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Spiritomb @ Black Glasses
+Level: 82
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Shadow Ball
+- Sucker Punch
+- Will-O-Wisp
+- Destiny Bond
+
+Lucario @ Focus Sash
+Level: 82
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Aura Sphere
+- Dragon Pulse
+- Flash Cannon
+- Earthquake
+
+Glaceon @ Choice Scarf
+Level: 81
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Ice Beam
+- Shadow Ball
+- Water Pulse
+- Signal Beam
+
+Togekiss @ Leftovers
+Level: 82
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Moonblast
+- Air Slash
+- Aura Sphere
+- Wish
+
+Garchomp @ Garchompite   
+Level: 83  
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe   
+- Dragon Claw  
+- Swords Dance  
+- Liquidation  
+- Earthquake
+
+Roserade @ Red Card
+Level: 81   
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe   
+- Leaf Storm
+- Toxic Spikes
+- Sleep Powder
+- Sludge Bomb
+
 
 === TRAINER_WALLY_LILYCOVE ===
 Name: WALLY

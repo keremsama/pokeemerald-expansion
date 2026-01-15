@@ -315,11 +315,14 @@ script RustboroCity_DevonCorp_2F_EventScript_StillRegenerating {
 }
 
 script RustboroCity_DevonCorp_2F_EventScript_FossilMonReady {
-    call (RustboroCity_DevonCorp_2F_EventScript_FossilPokemonChoosing)
+    call (RustboroCity_DevonCorp_2F_EventScript_FossilPokemonChoosing) // Setzt die Species auf VAR_TEMP_2
+	if (flag(FLAG_RANDOM_FIXED_MON)){
+		callnative (RandomizeSpeciesToVarTemp2)
+	}
 	bufferspeciesname (STR_VAR_2, VAR_TEMP_2)
 	msgbox (RustboroCity_DevonCorp_2F_Text_FossilizedMonBroughtBackToLife)
 	copyvar (VAR_TEMP_TRANSFERRED_SPECIES, VAR_TEMP_2)
-	givemon (VAR_TEMP_2, 30)
+	givemon (VAR_TEMP_2, 35)
 	goto_if_eq (VAR_RESULT, MON_GIVEN_TO_PARTY, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty)
 	goto_if_eq (VAR_RESULT, MON_GIVEN_TO_PC, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC)
 	goto (Common_EventScript_NoMoreRoomForPokemon)
@@ -353,7 +356,7 @@ script RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty {
 
 script RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare{
 	bufferspeciesname (STR_VAR_2, VAR_TEMP_2)
-	playfanfare (MUS_OBTAIN_ITEM)
+	playfanfare (MUS_OBTAIN_TMHM)
 	message (RustboroCity_DevonCorp_2F_Text_ReceivedMonFromResearcher)
 	waitmessage
 	waitfanfare
