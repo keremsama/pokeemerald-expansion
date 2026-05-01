@@ -117,6 +117,7 @@ u16 RandomizeWildEncounter(u16 species, u8 mapNum, u8 mapGroup, enum WildArea ar
 bool32 IsRandomizationPossible(u16 tableSpecies, u16 matchSpecies);
 
 u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species);
+u16 RandomizeTrainerMonAndItem(u16 trainerId, u8 slot, u8 totalMons, u16 species, u16 *heldItem);
 
 u16 RandomizeFixedEncounterMon(u16 species, u8 mapNum, u8 mapGroup, u8 localId);
 

@@ -13,6 +13,8 @@
 #include "constants/abilities.h"
 #include "data/randomizer/ability_whitelist.h"
 #include "constants/abilities.h"
+#include "constants/form_change_types.h"
+#include "constants/hold_effects.h"
 #include "constants/opponents.h"
 #include "randomizer.h"
 
@@ -430,7 +432,7 @@ static inline bool32 IsKeyItem(u16 itemId)
 
 static inline bool32 IsMegaStone(u16 itemId)
 {
-    return (itemId >= RANDOMIZER_MIN_MEGA && itemId <= RANDOMIZER_MAX_MEGA);
+    return GetItemHoldEffect(itemId) == HOLD_EFFECT_MEGA_STONE;
 }
 
 // Don't randomize HMs or key items, that can make the game unwinnable.
@@ -1069,6 +1071,153 @@ static u16 GetSpeciesBST(u16 species)
     return info->baseHP + info->baseAttack + info->baseDefense + info->baseSpAttack + info->baseSpDefense + info->baseSpeed;
 }
 
+static u32 GetTrainerPartySeed(u16 trainerId, u8 slot, u8 totalMons)
+{
+    u32 seed = (u32)trainerId << 16;
+    seed |= (u32)totalMons << 8;
+    seed |= slot;
+    return seed;
+}
+
+static bool8 TryGetTrainerTypeTheme(u16 trainerId, u8 *type)
+{
+    const struct {
+        const u16 *group;
+        u16 count;
+        u8 type;
+    } typeGroups[] = {
+        {sRustboroGymTrainers, RUSTBORO_GYM_TRAINER_COUNT, TYPE_ROCK},
+        {sMauvilleGymTrainers, MAUVILLE_GYM_TRAINER_COUNT, TYPE_ELECTRIC},
+        {sDewfordGymTrainers, DEWFORD_GYM_TRAINER_COUNT, TYPE_FIGHTING},
+        {sLavaridgeGymTrainers, LAVARIDGE_GYM_TRAINER_COUNT, TYPE_FIRE},
+        {sPetalburgGymTrainers, PETALBURG_GYM_TRAINER_COUNT, TYPE_NORMAL},
+        {sMossdeepGymTrainers, MOSSDEEP_GYM_TRAINER_COUNT, TYPE_PSYCHIC},
+        {sFortreeGymTrainers, FORTREE_GYM_TRAINER_COUNT, TYPE_FLYING},
+        {sSootopolisGymTrainers, SOOTOPOLIS_GYM_TRAINER_COUNT, TYPE_WATER},
+        {sEliteFourSidney, ELITE_FOUR_SIDNEY_COUNT, TYPE_DARK},
+        {sEliteFourPhoebe, ELITE_FOUR_PHOEBE_COUNT, TYPE_GHOST},
+        {sEliteFourGlacia, ELITE_FOUR_GLACIA_COUNT, TYPE_ICE},
+        {sEliteFourDrake, ELITE_FOUR_DRAKE_COUNT, TYPE_DRAGON},
+        {sChampWallace, CHAMP_WALLACE_COUNT, TYPE_WATER},
+    };
+
+    for (u8 i = 0; i < ARRAY_COUNT(typeGroups); i++)
+    {
+        if (IsTrainerInGroup(trainerId, typeGroups[i].group, typeGroups[i].count))
+        {
+            *type = typeGroups[i].type;
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+static bool32 SpeciesHasType(u16 species, u8 type)
+{
+    return gSpeciesInfo[species].types[0] == type || gSpeciesInfo[species].types[1] == type;
+}
+
+static u16 BuildTypedTrainerSpeciesPool(u16 originalSpecies, u8 type, u16 *pool, u16 poolSize)
+{
+    u16 count = 0;
+    bool8 requireStrongMon = FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != MON_RANDOM_BST;
+
+    for (u16 species = 1; species < SPECIES_EGG && count < poolSize; species++)
+    {
+        if (!IsSpeciesPermitted(species))
+            continue;
+        if (!SpeciesHasType(species, type))
+            continue;
+        if (requireStrongMon && GetSpeciesBST(species) <= 440)
+            continue;
+        if (!IsRandomizationPossible(originalSpecies, species))
+            continue;
+
+        pool[count++] = species;
+    }
+
+    return count;
+}
+
+static bool32 SpeciesCanMegaEvolveWithStone(u16 species)
+{
+    const struct FormChange *formChanges = GetSpeciesFormChanges(species);
+
+    for (u32 i = 0; formChanges != NULL && formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
+    {
+        if (formChanges[i].method == FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM
+            && IsMegaStone(formChanges[i].param1))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool32 TryGetMegaStoneForSpecies(u16 species, struct Sfc32State *state, u16 *heldItem)
+{
+    u16 stones[4];
+    u16 count = 0;
+    const struct FormChange *formChanges = GetSpeciesFormChanges(species);
+
+    for (u32 i = 0; formChanges != NULL && formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
+    {
+        if (formChanges[i].method == FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM
+            && IsMegaStone(formChanges[i].param1)
+            && count < ARRAY_COUNT(stones))
+        {
+            stones[count++] = formChanges[i].param1;
+        }
+    }
+
+    if (count == 0)
+        return FALSE;
+
+    *heldItem = stones[RandomizerNextRange(state, count)];
+    return TRUE;
+}
+
+static u16 BuildMegaTrainerSpeciesPool(u16 originalSpecies, u8 type, bool8 useType, bool8 respectMode, u16 *pool, u16 poolSize)
+{
+    u16 count = 0;
+    bool8 requireStrongMon = FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != MON_RANDOM_BST;
+
+    for (u16 species = 1; species < SPECIES_EGG && count < poolSize; species++)
+    {
+        if (!IsSpeciesPermitted(species))
+            continue;
+        if (!SpeciesCanMegaEvolveWithStone(species))
+            continue;
+        if (useType && !SpeciesHasType(species, type))
+            continue;
+        if (requireStrongMon && GetSpeciesBST(species) <= 440)
+            continue;
+        if (respectMode && !IsRandomizationPossible(originalSpecies, species))
+            continue;
+
+        pool[count++] = species;
+    }
+
+    return count;
+}
+
+static bool32 TryRandomizeTrainerMegaMon(u16 trainerId, u32 seed, u16 species, u16 *heldItem, u16 *randomizedSpecies)
+{
+    u16 pool[MAX_TYPE_SPECIES];
+    u16 count;
+    u8 type = TYPE_NORMAL;
+    bool8 useType = FlagGet(FLAG_RANDOM_TYPE_THEMED_ARENAS) && TryGetTrainerTypeTheme(trainerId, &type);
+    struct Sfc32State state;
+
+    count = BuildMegaTrainerSpeciesPool(species, type, useType, TRUE, pool, ARRAY_COUNT(pool));
+    if (count == 0)
+        return FALSE;
+
+    state = RandomizerRandSeed(RANDOMIZER_REASON_TRAINER_PARTY, seed, species);
+    *randomizedSpecies = pool[RandomizerNextRange(&state, count)];
+    return TryGetMegaStoneForSpecies(*randomizedSpecies, &state, heldItem);
+}
+
 // Wenn Basepool und Type Themed Arenas aktiv sind
 u16 RandomizeMonWithinTypeAndBasepool(u8 type, u16 baseSpecies, u32 seed)
 {
@@ -1103,59 +1252,22 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_TRAINER_MON))
     {
-        u32 seed = (u32)trainerId << 16;
-        seed |= (u32)totalMons << 8;
-        seed |= slot;
+        u32 seed = GetTrainerPartySeed(trainerId, slot, totalMons);
 
         if (FlagGet(FLAG_RANDOM_TYPE_THEMED_ARENAS))
         {
-            const struct {
-                const u16 *group;
-                u16 count;
-                u8 type;
-            } typeGroups[] = {
-                {sRustboroGymTrainers, RUSTBORO_GYM_TRAINER_COUNT, TYPE_ROCK},
-                {sMauvilleGymTrainers, MAUVILLE_GYM_TRAINER_COUNT, TYPE_ELECTRIC},
-                {sDewfordGymTrainers, DEWFORD_GYM_TRAINER_COUNT, TYPE_FIGHTING},
-                {sLavaridgeGymTrainers, LAVARIDGE_GYM_TRAINER_COUNT, TYPE_FIRE},
-                {sPetalburgGymTrainers, PETALBURG_GYM_TRAINER_COUNT, TYPE_NORMAL},
-                {sMossdeepGymTrainers, MOSSDEEP_GYM_TRAINER_COUNT, TYPE_PSYCHIC},
-                {sFortreeGymTrainers, FORTREE_GYM_TRAINER_COUNT, TYPE_FLYING},
-                {sSootopolisGymTrainers, SOOTOPOLIS_GYM_TRAINER_COUNT, TYPE_WATER},
-                {sEliteFourSidney, ELITE_FOUR_SIDNEY_COUNT, TYPE_DARK},
-                {sEliteFourPhoebe, ELITE_FOUR_PHOEBE_COUNT, TYPE_GHOST},
-                {sEliteFourGlacia, ELITE_FOUR_GLACIA_COUNT, TYPE_ICE},
-                {sEliteFourDrake, ELITE_FOUR_DRAKE_COUNT, TYPE_DRAGON},
-                {sChampWallace, CHAMP_WALLACE_COUNT, TYPE_WATER},
-            };
-
-            for (u8 i = 0; i < ARRAY_COUNT(typeGroups); i++)
+            u8 type;
+            if (TryGetTrainerTypeTheme(trainerId, &type))
             {
-                if (IsTrainerInGroup(trainerId, typeGroups[i].group, typeGroups[i].count))
+                u16 pool[MAX_TYPE_SPECIES];
+                u16 count = BuildTypedTrainerSpeciesPool(species, type, pool, ARRAY_COUNT(pool));
+                if (count > 0)
                 {
-                    u16 pool[MAX_TYPE_SPECIES];
-                    u16 count = GetSpeciesOfType(typeGroups[i].type, pool, MAX_TYPE_SPECIES);
-                    if (count > 0)
-                    {
-                        if (GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) == 2)
-                        {
-                            return RandomizeMonWithinTypeAndBasepool(typeGroups[i].type, species, seed);
-                        }
-                        else
-                        {
-                            struct Sfc32State state = RandomizerRandSeed(RANDOMIZER_REASON_TRAINER_PARTY, seed, species);
-                            u16 candidate;
-                            u16 tries = 0;
-                            do {
-                                candidate = pool[RandomizerNextRange(&state, count)];
-                                tries++;
-                                if (tries > 1000)
-                                    break;
-                            } while (FlagGet(FLAG_BADGE05_GET) && GetSpeciesBST(candidate) <= 440);
-                            return candidate;
-                        }
-                    }
+                    struct Sfc32State state = RandomizerRandSeed(RANDOMIZER_REASON_TRAINER_PARTY, seed, species);
+                    return pool[RandomizerNextRange(&state, count)];
                 }
+
+                return species;
             }
         }
 
@@ -1180,6 +1292,25 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
     }
 
     return species;
+}
+
+u16 RandomizeTrainerMonAndItem(u16 trainerId, u8 slot, u8 totalMons, u16 species, u16 *heldItem)
+{
+    if (RandomizerFeatureEnabled(RANDOMIZE_TRAINER_MON))
+    {
+        u32 seed = GetTrainerPartySeed(trainerId, slot, totalMons);
+
+        if (heldItem != NULL && IsMegaStone(*heldItem))
+        {
+            u16 randomizedSpecies;
+            if (TryRandomizeTrainerMegaMon(trainerId, seed, species, heldItem, &randomizedSpecies))
+                return randomizedSpecies;
+
+            return species;
+        }
+    }
+
+    return RandomizeTrainerMon(trainerId, slot, totalMons, species);
 }
 
 u16 RandomizeFixedEncounterMon(u16 species, u8 mapNum, u8 mapGroup, u8 localId)

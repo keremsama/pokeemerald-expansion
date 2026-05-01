@@ -1893,12 +1893,13 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             u32 ability = 0;
             u16 originalSpecies = partyData[monIndex].species;
             u16 species = originalSpecies;
+            u16 heldItem = partyData[monIndex].heldItem;
             bool32 useCustomMoves = TRUE;
 
             #if (RANDOMIZER_AVAILABLE)
                 if(!isTrainerBossTrainer)
                 {
-                    species = RandomizeTrainerMon(seed, i, monsCount, species);
+                    species = RandomizeTrainerMonAndItem(seed, i, monsCount, species, &heldItem);
                     if (species != originalSpecies)
                         useCustomMoves = FALSE;
                 }
@@ -1926,7 +1927,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             }
 
             CreateMon(&party[i], species, partyData[monIndex].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
-            SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[monIndex].heldItem);
+            SetMonData(&party[i], MON_DATA_HELD_ITEM, &heldItem);
 
             if (useCustomMoves)
                 CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);
