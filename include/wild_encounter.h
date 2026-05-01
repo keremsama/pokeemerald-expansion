@@ -33,6 +33,7 @@ enum WildArea
     WILD_AREA_WATER,
     WILD_AREA_ROCKS,
     WILD_AREA_FISHING,
+    WILD_AREA_HIDDEN,
 };
 
 extern const struct WildPokemonHeader gWildMonHeaders[];

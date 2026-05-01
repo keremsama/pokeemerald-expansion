@@ -499,6 +499,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum 
     case WILD_AREA_FISHING:
         // shouldn't ever happen
         break;
+    case WILD_AREA_HIDDEN:
+        return FALSE;
     }
 
     level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, area);
@@ -1119,6 +1121,9 @@ static u8 GetMaxLevelOfSpeciesInWildTable(const struct WildPokemon *wildMon, u16
         break;
     case WILD_AREA_FISHING:
         numMon = FISH_WILD_COUNT;
+        break;
+    case WILD_AREA_HIDDEN:
+        numMon = HIDDEN_WILD_COUNT;
         break;
     }
 
