@@ -95,6 +95,8 @@ script Randomizer_Option_Setup {
     }
 }
 
+// Option auf EV/DV änderung über FLAG_SYS_ENABLE_EDIT_EV_IV erlauben hinzufügen
+
 script Randomizer_Settings {
     msgbox ("Would you like to RANDOMIZE WILD\nPokémon?", MSGBOX_YESNO)
     if(var(VAR_RESULT) == YES) {

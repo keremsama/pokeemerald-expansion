@@ -5001,7 +5001,7 @@
               {
                 "min_level": 35,
                 "max_level": 55,
-                "species": "SPECIES_WISHIWASHI_SOLO"
+                "species": "SPECIES_WISHIWASHI"
               },
               {
                 "min_level": 35,
@@ -6489,63 +6489,63 @@
             "encounter_rate": 4,
             "mons": [
               {
-                "min_level": 30,
-                "max_level": 30,
+                "min_level": 55,
+                "max_level": 58,
                 "species": "SPECIES_ZUBAT"
               },
               {
-                "min_level": 31,
-                "max_level": 31,
+                "min_level": 55,
+                "max_level": 58,
                 "species": "SPECIES_ZUBAT"
               },
               {
-                "min_level": 32,
-                "max_level": 32,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_GRIMER_ALOLA"
               },
               {
-                "min_level": 33,
-                "max_level": 33,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_GRIMER"
               },
               {
-                "min_level": 28,
-                "max_level": 28,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_DUSKULL"
               },
               {
-                "min_level": 29,
-                "max_level": 29,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_DUSCLOPS"
               },
               {
-                "min_level": 34,
-                "max_level": 34,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_MUK_ALOLA"
               },
               {
-                "min_level": 35,
-                "max_level": 35,
-                "species": "SPECIES_ZUBAT"
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_MUK"
               },
               {
-                "min_level": 34,
-                "max_level": 34,
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_SABLEYE"
+              },
+              {
+                "min_level": 55,
+                "max_level": 58,
+                "species": "SPECIES_SABLEYE"
+              },
+              {
+                "min_level": 55,
+                "max_level": 58,
                 "species": "SPECIES_GOLBAT"
               },
               {
-                "min_level": 35,
-                "max_level": 35,
-                "species": "SPECIES_GOLBAT"
-              },
-              {
-                "min_level": 33,
-                "max_level": 33,
-                "species": "SPECIES_GOLBAT"
-              },
-              {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 55,
+                "max_level": 58,
                 "species": "SPECIES_GOLBAT"
               }
             ]
@@ -7049,7 +7049,7 @@
               {
                 "min_level": 45,
                 "max_level": 50,
-                "species": "SPECIES_GIRAFARIG"
+                "species": "SPECIES_SNEASEL_HISUI"
               }
             ]
           },
@@ -9584,7 +9584,7 @@
               {
                 "min_level": 45,
                 "max_level": 50,
-                "species": "SPECIES_WURMPLE"
+                "species": "SPECIES_VENONAT"
               },
               {
                 "min_level": 45,
@@ -9634,12 +9634,12 @@
               {
                 "min_level": 45,
                 "max_level": 50,
-                "species": "SPECIES_VENONAT"
+                "species": "SPECIES_SCYTHER"
               },
               {
                 "min_level": 45,
                 "max_level": 50,
-                "species": "SPECIES_VENONAT"
+                "species": "SPECIES_SCYTHER"
               }
             ]
           },
