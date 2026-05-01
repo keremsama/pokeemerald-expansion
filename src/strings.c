@@ -1314,3 +1314,4 @@ const u8 gText_BulbasaurMegaStone[] = _("Bulbasaur");
 const u8 gText_ChikoritaMegaStone[] = _("Chikorita");
 const u8 gText_CyndaquilMegaStone[] = _("Cyndaquil");
 const u8 gText_TotodileMegaStone[] = _("Totodile");
+const u8 gText_StatEditor[] = _("EDIT STATS");

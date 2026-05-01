@@ -684,7 +684,7 @@
 #define FLAG_GET_ODD_KEY_STONE          0x27D
 #define FLAG_MOJAVECAVE_CATCH_SPIRITOMB 0x27E
 #define FLAG_HIDE_MOJAVECAVE_SPIRITOMB  0x27F
-#define FLAG_UNUSED_0x280  0x280 // Unused Flag
+#define FLAG_SYS_ENABLE_EDIT_EV_IV      0x280
 #define FLAG_UNUSED_0x281  0x281 // Unused Flag
 #define FLAG_UNUSED_0x282  0x282 // Unused Flag
 #define FLAG_UNUSED_0x283  0x283 // Unused Flag

@@ -341,8 +341,13 @@ SECTIONS {
         src/gym_leader_rematch.o(.text);
         src/battle_transition_frontier.o(.text);
         src/international_string_util.o(.text);
+<<<<<<< HEAD:ld_script.ld
         src/ui_birch_case.o(.text);
     } > ROM =0
+=======
+		src/ui_stat_editor.o(.text);
+    } =0
+>>>>>>> d22eb4179161f76723deae1cd703b8b03e7d37d2:ld_script.txt
 
     script_data :
     ALIGN(4)
@@ -705,6 +710,7 @@ SECTIONS {
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
         src/ui_birch_case.o(.rodata);
+        src/ui_stat_editor.o(.rodata);
     } > ROM =0
 
     song_data :
