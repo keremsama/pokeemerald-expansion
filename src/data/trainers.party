@@ -17296,9 +17296,22 @@ Double Battle: No
 AI: Smart Trainer / Prediction
 Mugshot: Yellow
 
+Roserade @ Life Orb
+Level: 81  
+Ability: Natural Cure 
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
+EVs: 252 SpA / 4 SpD / 252 Spe
+Nature: Timid
+- Leaf Storm
+- Toxic Spikes
+- Sleep Powder
+- Sludge Bomb
+
 Spiritomb @ Black Glasses
 Level: 82
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 248 HP / 252 Atk / 8 Def
+Nature: Adamant
 - Shadow Ball
 - Sucker Punch
 - Will-O-Wisp
@@ -17306,15 +17319,21 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 Lucario @ Focus Sash
 Level: 82
+Ability: Inner Focus
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 6 HP / 252 SpA / 252 Spe
+Nature: Timid
 - Aura Sphere
 - Dragon Pulse
 - Flash Cannon
-- Earthquake
+- Nasty Plot
 
-Glaceon @ Choice Scarf
+Glaceon @ Choice Specs
 Level: 81
+Ability: Snow Cloak
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 6 HP / 252 SpA / 252 Spe
+Nature: Timid
 - Ice Beam
 - Shadow Ball
 - Water Pulse
@@ -17322,27 +17341,25 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
 Togekiss @ Leftovers
 Level: 82
+Ability: Serene Grace
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Moonblast
+EVs: 252 HP / 80 Def / 176 Spe
+Nature: Timid
+- Nasty Plot
 - Air Slash
-- Aura Sphere
-- Wish
+- Thunder Wave
+- Roost
 
 Garchomp @ Garchompite   
 Level: 83  
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe   
+Ability: Rough Skin
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 252 Atk / 4 Def / 252 Spe
+Nature: Jolly
 - Dragon Claw  
 - Swords Dance  
 - Liquidation  
 - Earthquake
-
-Roserade @ Red Card
-Level: 81   
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe   
-- Leaf Storm
-- Toxic Spikes
-- Sleep Powder
-- Sludge Bomb
 
 
 === TRAINER_WALLY_LILYCOVE ===
