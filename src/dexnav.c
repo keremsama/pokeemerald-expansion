@@ -472,9 +472,9 @@ static void AddSearchWindow(u8 width)
 }
 
 #define WINDOW_COL_0        (SPECIES_ICON_X + 4)
-#define WINDOW_COL_1        (WINDOW_COL_0 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * (POKEMON_NAME_LENGTH)))
-#define WINDOW_MOVE_NAME_X  (WINDOW_COL_1 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * 6))
-#define SEARCH_ARROW_X      (WINDOW_MOVE_NAME_X + 90)
+#define WINDOW_COL_1        (WINDOW_COL_0 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * (POKEMON_NAME_LENGTH - 2)))
+#define WINDOW_MOVE_NAME_X  (WINDOW_COL_1 + (GetFontAttribute(sDexNavSearchDataPtr->windowId, FONTATTR_MAX_LETTER_WIDTH) * 5))
+#define SEARCH_ARROW_X      (WINDOW_MOVE_NAME_X + 82)
 #define SEARCH_ARROW_Y      0
 
 static void AddSearchWindowText(u16 species, u8 proximity, u8 searchLevel, bool8 hidden)
@@ -1137,18 +1137,27 @@ static void Task_DexNavSearch(u8 taskId)
 
     //Caves and water the pokemon moves around
     if ((sDexNavSearchDataPtr->environment == ENCOUNTER_TYPE_WATER || GetCurrentMapType() == MAP_TYPE_UNDERGROUND)
-        && sDexNavSearchDataPtr->proximity < GetMovementProximityBySearchLevel() && sDexNavSearchDataPtr->movementCount < 2
+        && sDexNavSearchDataPtr->proximity < GetMovementProximityBySearchLevel()
+        && sDexNavSearchDataPtr->movementCount < 2
         && task->tRevealed)
     {
         FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
 
         if (!TryStartHiddenMonFieldEffect(sDexNavSearchDataPtr->environment, 10, 10, TRUE))
         {
-            EndDexNavSearchSetupScript(EventScript_PokemonGotAway, taskId);
-            return;
+            // Wenn der Spieler nicht schleicht, wird das Pokémon als entkommen gewertet.
+            if (!gPlayerAvatar.creeping)
+            {
+                EndDexNavSearchSetupScript(EventScript_PokemonGotAway, taskId);
+                return;
+            }
+            // Falls der Spieler jedoch schleicht, passiert nichts – das Pokémon bleibt,
+            // auch wenn der Versuch, seine Position zu ändern, fehlgeschlagen ist.
         }
-
-        sDexNavSearchDataPtr->movementCount++;
+        else
+        {
+            sDexNavSearchDataPtr->movementCount++;
+        }
     }
 
     DexNavProximityUpdate();
