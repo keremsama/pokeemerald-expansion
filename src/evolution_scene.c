@@ -4,6 +4,7 @@
 #include "battle_message.h"
 #include "bg.h"
 #include "bw_summary_screen.h"
+#include "swsh_summary_screen.h"
 #include "data.h"
 #include "decompress.h"
 #include "evolution_scene.h"
@@ -965,7 +966,13 @@ static void Task_EvolutionScene(u8 taskId)
             if (!gPaletteFade.active)
             {
                 FreeAllWindowBuffers();
-                if (BW_SUMMARY_SCREEN)
+                if (SWSH_SUMMARY_SCREEN)
+                {
+                    ShowSelectMovePokemonSummaryScreen_SwSh(gPlayerParty, gTasks[taskId].tPartyId,
+                                gPlayerPartyCount - 1, CB2_EvolutionSceneLoadGraphics,
+                                gMoveToLearn);
+                }
+                else if (BW_SUMMARY_SCREEN)
                 {
                     ShowSelectMovePokemonSummaryScreen_BW(gPlayerParty, gTasks[taskId].tPartyId,
                                 gPlayerPartyCount - 1, CB2_EvolutionSceneLoadGraphics,
@@ -1358,7 +1365,13 @@ static void Task_TradeEvolutionScene(u8 taskId)
                 Free(GetBgTilemapBuffer(0));
                 FreeAllWindowBuffers();
 
-                if (BW_SUMMARY_SCREEN)
+                if (SWSH_SUMMARY_SCREEN)
+                {
+                    ShowSelectMovePokemonSummaryScreen_SwSh(gPlayerParty, gTasks[taskId].tPartyId,
+                                gPlayerPartyCount - 1, CB2_TradeEvolutionSceneLoadGraphics,
+                                gMoveToLearn);
+                }
+                else if (BW_SUMMARY_SCREEN)
                 {
                     ShowSelectMovePokemonSummaryScreen_BW(gPlayerParty, gTasks[taskId].tPartyId,
                                 gPlayerPartyCount - 1, CB2_TradeEvolutionSceneLoadGraphics,

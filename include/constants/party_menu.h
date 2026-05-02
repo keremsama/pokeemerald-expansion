@@ -1,6 +1,12 @@
 #ifndef GUARD_CONSTANTS_PARTY_MENU_H
 #define GUARD_CONSTANTS_PARTY_MENU_H
 
+#define SWSH_PARTY_MENU                   TRUE
+#define SWSH_PARTY_MENU_PC_ACCESS         FALSE
+#define SWSH_PARTY_MON_IDLE_ANIMS         TRUE
+#define SWSH_PARTY_MON_IDLE_ANIMS_FRAMES  300
+
+#define PC_MON_CHOSEN 0xFE
 #define PARTY_NOTHING_CHOSEN 0xFF
 
 #define AILMENT_NONE  0
@@ -50,6 +56,8 @@
 #define PARTY_ACTION_MINIGAME           13
 #define PARTY_ACTION_SEND_MON_TO_BOX    14
 #define PARTY_ACTION_CHOOSE_FAINTED_MON 15
+#define PARTY_ACTION_MOVE_ITEM          16
+#define PARTY_ACTION_FUSION             17
 
 // IDs for DisplayPartyMenuStdMessage, to display the message at the bottom of the party menu
 #define PARTY_MSG_CHOOSE_MON                0
@@ -83,6 +91,8 @@
 #define PARTY_MSG_CHOOSE_SECOND_FUSION      28
 #define PARTY_MSG_NO_POKEMON                29
 #define PARTY_MSG_CHOOSE_MON_FOR_BOX        30
+#define PARTY_MSG_MOVE_ITEM_WHERE           31
+#define PARTY_MSG_SEND_MON_TO_BOX           32
 
 #define PARTY_MSG_NONE                      127
 
@@ -107,5 +117,23 @@
 #define SELECTWINDOW_MOVES       3
 #define SELECTWINDOW_CATALOG     4
 #define SELECTWINDOW_ZYGARDECUBE 5
+
+enum PcMonSelectionType
+{
+    SELECT_PC_MON_NORMAL,
+    SELECT_PC_MON_TRADE,
+    SELECT_PC_MON_DAYCARE,
+    SELECT_PC_MON_MOVE_TUTOR,
+    SELECT_PC_MON_MOVE_DELETER,
+    SELECT_PC_MON_MOVE_RELEARNER,
+};
+
+enum CanMoveBeLearned
+{
+    CAN_LEARN_MOVE,
+    CANNOT_LEARN_MOVE,
+    ALREADY_KNOWS_MOVE,
+    CANNOT_LEARN_MOVE_IS_EGG
+};
 
 #endif // GUARD_CONSTANTS_PARTY_MENU_H
