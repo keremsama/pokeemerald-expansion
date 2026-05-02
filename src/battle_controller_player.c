@@ -86,6 +86,7 @@ static void PlayerBufferRunCommand(u32 battler);
 static void MoveSelectionDisplayPpNumber(u32 battler);
 static void MoveSelectionDisplayPpString(u32 battler);
 static void MoveSelectionDisplayMoveType(u32 battler);
+static void MoveSelectionDisplaySplitIcon(u32 battler);
 static void MoveSelectionDisplayMoveNames(u32 battler);
 static void TryMoveSelectionDisplayMoveDescription(u32 battler);
 static void MoveSelectionDisplayMoveDescription(u32 battler);
@@ -1704,7 +1705,7 @@ static void MoveSelectionDisplayMoveNames(u32 battler)
 
 static void MoveSelectionDisplayPpString(u32 battler)
 {
-    StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
+    StringCopy(gDisplayedStringBattle, gText_EmptyString3);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP);
 }
 
@@ -1767,6 +1768,21 @@ static void MoveSelectionDisplayMoveType(u32 battler)
 
     PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+    MoveSelectionDisplaySplitIcon(battler);
+}
+
+static void MoveSelectionDisplaySplitIcon(u32 battler)
+{
+    static const u16 sCategoryIconsBattle_Pal[] = INCBIN_U16("graphics/interface/category_icons_battle.gbapal");
+    static const u8 sCategoryIconsBattle_Gfx[] = INCBIN_U8("graphics/interface/category_icons_battle.4bpp");
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
+    u32 move = moveInfo->moves[gMoveSelectionCursor[battler]];
+    u32 icon = GetBattleMoveCategory(move);
+
+    LoadPalette(sCategoryIconsBattle_Pal, 10 * 0x10, 0x20);
+    BlitBitmapToWindow(B_WIN_DUMMY, sCategoryIconsBattle_Gfx + 0x80 * icon, 0, 0, 16, 16);
+    PutWindowTilemap(B_WIN_DUMMY);
+    CopyWindowToVram(B_WIN_DUMMY, COPYWIN_FULL);
 }
 
 static void TryMoveSelectionDisplayMoveDescription(u32 battler)
@@ -2486,7 +2502,7 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, u32 batt
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u8 *txtPtr;
 
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
+    txtPtr = StringCopy(gDisplayedStringBattle, noIcon);
 
     if (!IsBattleMoveStatus(moveInfo->moves[gMoveSelectionCursor[battler]]))
     {
@@ -2510,6 +2526,5 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, u32 batt
             break;
         }
     }
-
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP);
 }
