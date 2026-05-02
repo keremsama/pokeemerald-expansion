@@ -40,7 +40,6 @@
 #include "script_pokemon_util.h"
 #include "pokeball.h"
 #include "constants/moves.h"
-#include "naming_screen.h"
 #include "tv.h"
 #include "randomizer.h"
 
@@ -75,7 +74,6 @@ enum TextIds
 {
     CHOOSE_MON,
     CONFIRM_SELECTION,
-    RECIEVED_MON,
 };
 
 enum Colors
@@ -796,7 +794,6 @@ static void BirchCase_InitWindows(void)
 //
 static const u8 sText_ChooseMon[] = _("Release a Pokémon!");
 static const u8 sText_AreYouSure[] = _("Are you sure?    {A_BUTTON} Yes  {B_BUTTON} No");
-static const u8 sText_RecievedMon[] = _("Give your Pokémon a Nickname?   {A_BUTTON} Yes  {B_BUTTON} No");
 static void PrintTextToBottomBar(u8 textId)
 {
     u8 speciesNameArray[16];
@@ -818,9 +815,6 @@ static void PrintTextToBottomBar(u8 textId)
             break;
         case 1:
             mainBarAlternatingText = sText_AreYouSure;
-            break;
-        case 2:
-            mainBarAlternatingText = sText_RecievedMon;
             break;
         default:
             mainBarAlternatingText = sText_ChooseMon;
@@ -850,15 +844,12 @@ static void PrintTextToBottomBar(u8 textId)
 #endif
     AddTextPrinterParameterized4(WINDOW_BOTTOM_BAR, FONT_NORMAL, x + 40, 1 + 2, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, &speciesNameArray[0]);
 
-    if(textId != 2)
-    {
 #ifdef POKEMON_EXPANSION
-        speciesCategoryText = GetSpeciesCategory(species);
+    speciesCategoryText = GetSpeciesCategory(species);
 #else
-        speciesCategoryText = GetPokedexCategoryName(dexNum);
+    speciesCategoryText = GetPokedexCategoryName(dexNum);
 #endif
-        AddTextPrinterParameterized4(WINDOW_BOTTOM_BAR, FONT_NARROW, x + 178 + GetStringCenterAlignXOffset(FONT_NARROW, speciesCategoryText, 52), y, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, speciesCategoryText);
-    }
+    AddTextPrinterParameterized4(WINDOW_BOTTOM_BAR, FONT_NARROW, x + 178 + GetStringCenterAlignXOffset(FONT_NARROW, speciesCategoryText, 52), y, 0, 0, sMenuWindowFontColors[FONT_WHITE], 0xFF, speciesCategoryText);
 
     PutWindowTilemap(WINDOW_BOTTOM_BAR);
     CopyWindowToVram(WINDOW_BOTTOM_BAR, 3);
@@ -888,44 +879,14 @@ static void Task_DelayedSpriteLoad(u8 taskId) // wait 4 frames after changing th
     }
 }
 
-static void Task_WaitForFadeAndOpenNamingScreen(u8 taskId)
-{   
-    if (!gPaletteFade.active)
-    {
-        SetMainCallback2(sBirchCaseDataPtr->savedCallback);
-        BirchCaseFreeResources();
-        DestroyTask(taskId);
-        VarSet(VAR_0x8004, gPlayerPartyCount - 1);
-        ChangePokemonNickname();
-    }
-}
-
-static void Task_BirchCaseRecievedMon(u8 taskId)
-{
-    if(JOY_NEW(A_BUTTON))
-    {
-        PlaySE(SE_SELECT);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_WaitForFadeAndOpenNamingScreen;
-        return;
-    }
-    if (JOY_NEW(B_BUTTON))
-    {
-        PlaySE(SE_SELECT);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_BirchCaseTurnOff;
-        return;
-    }
-}
-
 static void Task_BirchCaseConfirmSelection(u8 taskId)
 {
     if(JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
-        PrintTextToBottomBar(RECIEVED_MON);
         BirchCase_GiveMon();
-        gTasks[taskId].func = Task_BirchCaseRecievedMon;
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_BirchCaseTurnOff;
         return;
     }
     if (JOY_NEW(B_BUTTON))
@@ -1067,7 +1028,6 @@ static void Task_BirchCaseMain(u8 taskId)
         }
     }
 }
-
 
 
 
