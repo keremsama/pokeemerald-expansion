@@ -318,7 +318,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
 bool8 RemoveBagItem(u16 itemId, u16 count)
 {
     u8 i;
-    u16 totalQuantity = 0;
+    u32 totalQuantity = 0;
 
     if (GetItemPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
         return FALSE;
@@ -641,10 +641,10 @@ void ClearBag(void)
     }
 }
 
-u16 CountTotalItemQuantityInBag(u16 itemId)
+u32 CountTotalItemQuantityInBag(u16 itemId)
 {
     u16 i;
-    u16 ownedCount = 0;
+    u32 ownedCount = 0;
     struct BagPocket *bagPocket = &gBagPockets[GetItemPocket(itemId) - 1];
 
     for (i = 0; i < bagPocket->capacity; i++)
