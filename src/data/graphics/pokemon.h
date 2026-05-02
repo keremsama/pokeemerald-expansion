@@ -15154,6 +15154,10 @@ const u32 gObjectEventPic_Substitute[] = INCBIN_COMP("graphics/pokemon/question_
 #endif //OW_POKEMON_OBJECT_EVENTS && OW_BATTLE_ONLY_FORMS
 #endif //P_MEGA_EVOLUTIONS
 #if P_MEGA_EVOLUTIONS
+    const u32 gMonFrontPic_GarchompMegaZ[] = INCBIN_U32("graphics/pokemon/garchomp/mega_z/front.4bpp.lz");
+    const u32 gMonPalette_GarchompMegaZ[] = INCBIN_U32("graphics/pokemon/garchomp/mega_z/normal.gbapal.lz");
+    const u32 gMonBackPic_GarchompMegaZ[] = INCBIN_U32("graphics/pokemon/garchomp/mega_z/back.4bpp.lz");
+    const u32 gMonShinyPalette_GarchompMegaZ[] = INCBIN_U32("graphics/pokemon/garchomp/mega_z/shiny.gbapal.lz");
     const u8 gMonIcon_GarchompMegaZ[] = INCBIN_U8("graphics/pokemon/garchomp/mega_z/icon.4bpp");
 #endif //P_MEGA_EVOLUTIONS
 #endif //P_FAMILY_GIBLE
