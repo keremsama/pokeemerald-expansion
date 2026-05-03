@@ -374,7 +374,7 @@
     {
       "id": "LAYOUT_ROUTE122",
       "name": "Route122_Layout",
-      "width": 40,
+      "width": 80,
       "height": 40,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Lilycove",
@@ -904,8 +904,8 @@
     {
       "id": "LAYOUT_MAUVILLE_CITY_GAME_CORNER",
       "name": "MauvilleCity_GameCorner_Layout",
-      "width": 30,
-      "height": 22,
+      "width": 22,
+      "height": 11,
       "primary_tileset": "gTileset_Building",
       "secondary_tileset": "gTileset_MauvilleGameCorner",
       "border_filepath": "data/layouts/MauvilleCity_GameCorner/border.bin",
@@ -1692,6 +1692,16 @@
       "blockdata_filepath": "data/layouts/ShoalCave_HighTideInnerRoom/map.bin"
     },
     {
+      "id": "LAYOUT_SHOAL_CAVE_LAPRAS_CAVE",
+      "name": "ShoalCave_LaprasCave_Layout",
+      "width": 19,
+      "height": 18,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Cave",
+      "border_filepath": "data/layouts/ShoalCave_LaprasCave/border.bin",
+      "blockdata_filepath": "data/layouts/ShoalCave_LaprasCave/map.bin"
+    },
+    {
       "id": "LAYOUT_UNUSED_CAVE1",
       "name": "UnusedCave1_Layout",
       "width": 1,
@@ -2387,7 +2397,7 @@
       "width": 40,
       "height": 40,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Mauville",
+      "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/SafariZone_North/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_North/map.bin"
     },
@@ -2417,7 +2427,7 @@
       "width": 58,
       "height": 26,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "0",
+      "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/UnusedOutdoorArea/border.bin",
       "blockdata_filepath": "data/layouts/UnusedOutdoorArea/map.bin"
     },
@@ -3892,6 +3902,16 @@
       "blockdata_filepath": "data/layouts/DesertUnderpass/map.bin"
     },
     {
+      "id": "LAYOUT_MOJAVE_CAVE",
+      "name": "MojaveCave_Layout",
+      "width": 50,
+      "height": 25,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MirageTower",
+      "border_filepath": "data/layouts/MojaveCave/border.bin",
+      "blockdata_filepath": "data/layouts/MojaveCave/map.bin"
+    },
+    {
       "id": "LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM",
       "name": "BattleFrontier_BattleTowerMultiPartnerRoom_Layout",
       "width": 21,
@@ -3937,7 +3957,7 @@
       "width": 40,
       "height": 40,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Lavaridge",
+      "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/SafariZone_Northeast/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_Northeast/map.bin"
     },
@@ -3947,7 +3967,7 @@
       "width": 40,
       "height": 40,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Fortree",
+      "secondary_tileset": "gTileset_Lilycove",
       "border_filepath": "data/layouts/SafariZone_Southeast/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_Southeast/map.bin"
     },
@@ -4410,26 +4430,6 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
-    },
-    {
-      "id": "LAYOUT_SHOAL_CAVE_LAPRAS_CAVE",
-      "name": "ShoalCave_LaprasCave_Layout",
-      "width": 19,
-      "height": 18,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Cave",
-      "border_filepath": "data/layouts/ShoalCave_LaprasCave/border.bin",
-      "blockdata_filepath": "data/layouts/ShoalCave_LaprasCave/map.bin"
-    },
-    {
-      "id": "LAYOUT_MOJAVE_CAVE",
-      "name": "MojaveCave_Layout",
-      "width": 50,
-      "height": 25,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_MirageTower",
-      "border_filepath": "data/layouts/MojaveCave/border.bin",
-      "blockdata_filepath": "data/layouts/MojaveCave/map.bin"
     }
   ]
 }
