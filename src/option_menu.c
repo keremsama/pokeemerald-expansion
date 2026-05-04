@@ -87,6 +87,34 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
+static const u8 sText_BattleScene1x[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}1x");
+static const u8 sText_BattleScene2x[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}2x");
+static const u8 sText_BattleScene3x[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}3x");
+static const u8 sText_BattleScene4x[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}4x");
+static const u8 sText_BattleSceneBlank[] = _("          ");
+
+static const u8 sBattleSceneOrder[] =
+{
+    OPTIONS_BATTLE_SCENE_1X,
+    OPTIONS_BATTLE_SCENE_2X,
+    OPTIONS_BATTLE_SCENE_3X,
+    OPTIONS_BATTLE_SCENE_4X,
+    OPTIONS_BATTLE_SCENE_OFF,
+};
+
+static u8 SanitizeBattleSceneSelection(u8 selection)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_COUNT(sBattleSceneOrder); i++)
+    {
+        if (selection == sBattleSceneOrder[i])
+            return selection;
+    }
+
+    return OPTIONS_BATTLE_SCENE_1X;
+}
+
 static const struct WindowTemplate sOptionMenuWinTemplates[] =
 {
     [WIN_HEADER] = {
@@ -229,7 +257,7 @@ void CB2_InitOptionMenu(void)
 
         gTasks[taskId].tMenuSelection = 0;
         gTasks[taskId].tTextSpeed = gSaveBlock2Ptr->optionsTextSpeed;
-        gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff;
+        gTasks[taskId].tBattleSceneOff = SanitizeBattleSceneSelection(gSaveBlock2Ptr->optionsBattleSceneOff);
         gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
@@ -351,7 +379,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 static void Task_OptionMenuSave(u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
-    gSaveBlock2Ptr->optionsBattleSceneOff = gTasks[taskId].tBattleSceneOff;
+    gSaveBlock2Ptr->optionsBattleSceneOff = SanitizeBattleSceneSelection(gTasks[taskId].tBattleSceneOff);
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
@@ -443,9 +471,31 @@ static void TextSpeed_DrawChoices(u8 selection)
 
 static u8 BattleScene_ProcessInput(u8 selection)
 {
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    u8 i;
+
+    for (i = 0; i < ARRAY_COUNT(sBattleSceneOrder); i++)
     {
-        selection ^= 1;
+        if (selection == sBattleSceneOrder[i])
+            break;
+    }
+
+    if (i == ARRAY_COUNT(sBattleSceneOrder))
+        i = 0;
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (++i >= ARRAY_COUNT(sBattleSceneOrder))
+            i = 0;
+        selection = sBattleSceneOrder[i];
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (i == 0)
+            i = ARRAY_COUNT(sBattleSceneOrder) - 1;
+        else
+            i--;
+        selection = sBattleSceneOrder[i];
         sArrowPressed = TRUE;
     }
 
@@ -454,14 +504,30 @@ static u8 BattleScene_ProcessInput(u8 selection)
 
 static void BattleScene_DrawChoices(u8 selection)
 {
-    u8 styles[2];
+    const u8 *text;
 
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
+    switch (selection)
+    {
+    default:
+    case OPTIONS_BATTLE_SCENE_1X:
+        text = sText_BattleScene1x;
+        break;
+    case OPTIONS_BATTLE_SCENE_2X:
+        text = sText_BattleScene2x;
+        break;
+    case OPTIONS_BATTLE_SCENE_3X:
+        text = sText_BattleScene3x;
+        break;
+    case OPTIONS_BATTLE_SCENE_4X:
+        text = sText_BattleScene4x;
+        break;
+    case OPTIONS_BATTLE_SCENE_OFF:
+        text = gText_BattleSceneOff;
+        break;
+    }
 
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, YPOS_BATTLESCENE, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
+    DrawOptionMenuChoice(sText_BattleSceneBlank, 104, YPOS_BATTLESCENE, 0);
+    DrawOptionMenuChoice(text, 104, YPOS_BATTLESCENE, 1);
 }
 
 static u8 BattleStyle_ProcessInput(u8 selection)

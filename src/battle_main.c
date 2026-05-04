@@ -123,6 +123,7 @@ static void HandleEndTurn_BattleLost(void);
 static void HandleEndTurn_RanFromBattle(void);
 static void HandleEndTurn_MonFled(void);
 static void HandleEndTurn_FinishBattle(void);
+static u8 GetBattleSpeedScale(void);
 static u32 Crc32B (const u8 *data, u32 size);
 static u32 GeneratePartyHash(const struct Trainer *trainer, u32 i);
 static s32 Factorial(s32);
@@ -1722,11 +1723,52 @@ static void CB2_HandleStartMultiBattle(void)
 
 void BattleMainCB2(void)
 {
-    AnimateSprites();
-    BuildOamBuffer();
-    RunTextPrinters();
-    UpdatePaletteFade();
-    RunTasks();
+    u8 speedScale = GetBattleSpeedScale();
+
+    if (gPaletteFade.active)
+        speedScale = 1;
+
+    if (speedScale <= 1)
+    {
+        AnimateSprites();
+        BuildOamBuffer();
+        RunTextPrinters();
+        UpdatePaletteFade();
+        RunTasks();
+    }
+    else
+    {
+        u8 i;
+        u32 fadeResult = PALETTE_FADE_STATUS_DONE;
+
+        for (i = 1; i < speedScale; i++)
+        {
+            AnimateSprites();
+            RunTextPrinters();
+            fadeResult = UpdatePaletteFade();
+            RunTasks();
+
+            if (fadeResult == PALETTE_FADE_STATUS_LOADING)
+            {
+                BuildOamBuffer();
+                break;
+            }
+
+            VBlankCB_Battle();
+
+            if (gMain.callback1 != NULL)
+                gMain.callback1();
+        }
+
+        if (fadeResult != PALETTE_FADE_STATUS_LOADING)
+        {
+            AnimateSprites();
+            BuildOamBuffer();
+            RunTextPrinters();
+            UpdatePaletteFade();
+            RunTasks();
+        }
+    }
 
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
     {
@@ -1735,6 +1777,24 @@ void BattleMainCB2(void)
         ResetPaletteFadeControl();
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         SetMainCallback2(CB2_QuitRecordedBattle);
+    }
+}
+
+static u8 GetBattleSpeedScale(void)
+{
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        return 1;
+
+    switch (gSaveBlock2Ptr->optionsBattleSceneOff)
+    {
+    case OPTIONS_BATTLE_SCENE_2X:
+        return 2;
+    case OPTIONS_BATTLE_SCENE_3X:
+        return 3;
+    case OPTIONS_BATTLE_SCENE_4X:
+        return 4;
+    default:
+        return 1;
     }
 }
 
@@ -3037,7 +3097,7 @@ static void BattleStartClearSetData(void)
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff == TRUE)
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff == OPTIONS_BATTLE_SCENE_OFF)
             gHitMarker |= HITMARKER_NO_ANIMATIONS;
     }
     else if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)) && GetBattleSceneInRecordedBattle())
