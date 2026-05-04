@@ -2056,7 +2056,7 @@ static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
     [B_WIN_TYPE_ARENA]  = sTextOnWindowsInfo_Arena
 };
 
-static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
+static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, TEXT_INSTANT_DRAW};
 
 void BufferStringBattle(u16 stringID, u32 battler)
 {
