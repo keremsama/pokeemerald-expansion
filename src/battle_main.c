@@ -2783,11 +2783,18 @@ void SpriteCB_ShowAsMoveTarget(struct Sprite *sprite)
 {
     sprite->data[3] = 8;
     sprite->data[4] = sprite->invisible;
+    sprite->data[5] = 0;
     sprite->callback = SpriteCB_BlinkVisible;
 }
 
 static void SpriteCB_BlinkVisible(struct Sprite *sprite)
 {
+    u8 speedScale = GetBattleSpeedScale();
+
+    if (++sprite->data[5] < speedScale)
+        return;
+
+    sprite->data[5] = 0;
     if (--sprite->data[3] == 0)
     {
         sprite->invisible ^= 1;

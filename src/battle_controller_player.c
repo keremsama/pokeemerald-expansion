@@ -48,6 +48,11 @@
 #include "type_icons.h"
 #include "pokedex.h"
 
+#define INPUT_GUARD_NO_VBLANK 0xFFFFFFFF
+#define MOVE_SELECTION_INPUT_GUARD_KEYS (A_BUTTON | B_BUTTON)
+#define TARGET_SELECTION_INPUT_GUARD_KEYS (A_BUTTON | B_BUTTON)
+#define TARGET_SELECTION_REPEAT_GUARD_KEYS (A_BUTTON | B_BUTTON | DPAD_ANY)
+
 static void PlayerBufferExecCompleted(u32 battler);
 static void PlayerHandleLoadMonSprite(u32 battler);
 static void PlayerHandleSwitchInAnim(u32 battler);
@@ -104,6 +109,22 @@ static void ReloadMoveNames(u32 battler);
 static u32 CheckTypeEffectiveness(u32 targetId, u32 battler);
 static u32 CheckTargetTypeEffectiveness(u32 battler);
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, u32 battler);
+static void StartMoveSelectionInputGuard(u32 battler);
+static bool32 ShouldBlockMoveSelectionInput(u32 battler);
+static void StartTargetSelectionInputGuard(u32 battler);
+static bool32 ShouldBlockTargetSelectionInput(u32 battler);
+static bool32 ShouldBlockRepeatedBattleMenuInput(u16 keys, u32 *lastInputVBlank);
+static bool32 IsMoveDescriptionInputBlocked(void);
+static bool32 ShouldHandleMoveDescriptionInput(void);
+static void CloseMoveDescription(u32 battler);
+static void ToggleMoveDescription(u32 battler);
+
+static bool8 sMoveSelectionWaitForButtonUp[MAX_BATTLERS_COUNT];
+static bool8 sTargetSelectionWaitForButtonUp[MAX_BATTLERS_COUNT];
+static bool8 sMoveDescriptionWaitForButtonUp;
+static u32 sMoveSelectionInputVBlank[MAX_BATTLERS_COUNT];
+static u32 sTargetSelectionInputVBlank[MAX_BATTLERS_COUNT];
+static u32 sMoveDescriptionInputVBlank;
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
@@ -169,6 +190,15 @@ void SetControllerToPlayer(u32 battler)
     gBattlerControllerFuncs[battler] = PlayerBufferRunCommand;
     gDoingBattleAnim = FALSE;
     gPlayerDpadHoldFrames = 0;
+    sMoveSelectionWaitForButtonUp[battler] = FALSE;
+    sTargetSelectionWaitForButtonUp[battler] = FALSE;
+    sMoveSelectionInputVBlank[battler] = INPUT_GUARD_NO_VBLANK;
+    sTargetSelectionInputVBlank[battler] = INPUT_GUARD_NO_VBLANK;
+    if (battler == 0)
+    {
+        sMoveDescriptionWaitForButtonUp = FALSE;
+        sMoveDescriptionInputVBlank = INPUT_GUARD_NO_VBLANK;
+    }
 }
 
 static void PlayerBufferExecCompleted(u32 battler)
@@ -195,6 +225,115 @@ static void PlayerBufferRunCommand(u32 battler)
             sPlayerBufferCommands[gBattleResources->bufferA[battler][0]](battler);
         else
             PlayerBufferExecCompleted(battler);
+    }
+}
+
+static void StartMoveSelectionInputGuard(u32 battler)
+{
+    sMoveSelectionWaitForButtonUp[battler] = TRUE;
+    sMoveSelectionInputVBlank[battler] = gMain.vblankCounter1;
+    gPlayerDpadHoldFrames = 0;
+}
+
+static void StartTargetSelectionInputGuard(u32 battler)
+{
+    sTargetSelectionWaitForButtonUp[battler] = TRUE;
+    sTargetSelectionInputVBlank[battler] = gMain.vblankCounter1;
+    gPlayerDpadHoldFrames = 0;
+}
+
+static bool32 ShouldBlockRepeatedBattleMenuInput(u16 keys, u32 *lastInputVBlank)
+{
+    if (!JOY_NEW(keys))
+        return FALSE;
+
+    if (*lastInputVBlank == gMain.vblankCounter1)
+        return TRUE;
+
+    *lastInputVBlank = gMain.vblankCounter1;
+    return FALSE;
+}
+
+static bool32 ShouldBlockMoveSelectionInput(u32 battler)
+{
+    if (sMoveSelectionWaitForButtonUp[battler])
+    {
+        if (JOY_HELD_RAW(MOVE_SELECTION_INPUT_GUARD_KEYS))
+            return TRUE;
+
+        sMoveSelectionWaitForButtonUp[battler] = FALSE;
+    }
+
+    return ShouldBlockRepeatedBattleMenuInput(KEYS_MASK, &sMoveSelectionInputVBlank[battler]);
+}
+
+static bool32 ShouldBlockTargetSelectionInput(u32 battler)
+{
+    if (sTargetSelectionWaitForButtonUp[battler])
+    {
+        if (JOY_HELD_RAW(TARGET_SELECTION_INPUT_GUARD_KEYS))
+            return TRUE;
+
+        sTargetSelectionWaitForButtonUp[battler] = FALSE;
+    }
+
+    return ShouldBlockRepeatedBattleMenuInput(TARGET_SELECTION_REPEAT_GUARD_KEYS, &sTargetSelectionInputVBlank[battler]);
+}
+
+static bool32 IsMoveDescriptionInputBlocked(void)
+{
+    if (B_MOVE_DESCRIPTION_BUTTON == A_BUTTON || !sMoveDescriptionWaitForButtonUp)
+        return FALSE;
+
+    if (JOY_HELD_RAW(B_MOVE_DESCRIPTION_BUTTON))
+        return TRUE;
+
+    sMoveDescriptionWaitForButtonUp = FALSE;
+    return FALSE;
+}
+
+static bool32 ShouldHandleMoveDescriptionInput(void)
+{
+    if (B_MOVE_DESCRIPTION_BUTTON == A_BUTTON || !JOY_NEW(B_MOVE_DESCRIPTION_BUTTON))
+        return FALSE;
+
+    if (sMoveDescriptionInputVBlank == gMain.vblankCounter1)
+        return FALSE;
+
+    sMoveDescriptionInputVBlank = gMain.vblankCounter1;
+    sMoveDescriptionWaitForButtonUp = TRUE;
+    return TRUE;
+}
+
+static void CloseMoveDescription(u32 battler)
+{
+    gBattleStruct->descriptionSubmenu = FALSE;
+    if (gCategoryIconSpriteId != 0xFF)
+    {
+        DestroySprite(&gSprites[gCategoryIconSpriteId]);
+        gCategoryIconSpriteId = 0xFF;
+    }
+
+    FillWindowPixelBuffer(B_WIN_MOVE_DESCRIPTION, PIXEL_FILL(0));
+    ClearStdWindowAndFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
+    CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_GFX);
+    PlaySE(SE_SELECT);
+    if (B_SHOW_EFFECTIVENESS)
+        MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+    MoveSelectionDisplayPpNumber(battler);
+    MoveSelectionDisplayMoveType(battler);
+}
+
+static void ToggleMoveDescription(u32 battler)
+{
+    if (gBattleStruct->descriptionSubmenu)
+    {
+        CloseMoveDescription(battler);
+    }
+    else
+    {
+        gBattleStruct->descriptionSubmenu = TRUE;
+        TryMoveSelectionDisplayMoveDescription(battler);
     }
 }
 
@@ -255,10 +394,7 @@ static void HandleInputChooseAction(u32 battler)
     DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
     DoBounceEffect(battler, BOUNCE_MON, 7, 1);
 
-    if (JOY_REPEAT(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        gPlayerDpadHoldFrames++;
-    else
-        gPlayerDpadHoldFrames = 0;
+    gPlayerDpadHoldFrames = 0;
 
     if (B_LAST_USED_BALL == TRUE && B_LAST_USED_BALL_CYCLE == TRUE)
     {
@@ -380,7 +516,7 @@ static void HandleInputChooseAction(u32 battler)
             ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
         }
     }
-    else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
+    else if (JOY_NEW(B_BUTTON))
     {
         if (IsDoubleBattle()
          && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT
@@ -433,6 +569,9 @@ void HandleInputChooseTarget(u32 battler)
     u16 move = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_MOVE1 + gMoveSelectionCursor[battler]);
     u16 moveTarget = GetBattlerMoveTargetType(battler, move);
 
+    if (ShouldBlockTargetSelectionInput(battler))
+        return;
+
     DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 15, 1);
     for (i = 0; i < gBattlersCount; i++)
     {
@@ -440,10 +579,7 @@ void HandleInputChooseTarget(u32 battler)
             EndBounceEffect(i, BOUNCE_HEALTHBOX);
     }
 
-    if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        gPlayerDpadHoldFrames++;
-    else
-        gPlayerDpadHoldFrames = 0;
+    gPlayerDpadHoldFrames = 0;
 
     if (JOY_NEW(A_BUTTON))
     {
@@ -458,10 +594,11 @@ void HandleInputChooseTarget(u32 battler)
         HideGimmickTriggerSprite();
         PlayerBufferExecCompleted(battler);
     }
-    else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
+    else if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_HideAsMoveTarget;
+        StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
@@ -600,10 +737,10 @@ static void HideShownTargets(u32 battler)
 
 void HandleInputShowEntireFieldTargets(u32 battler)
 {
-    if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        gPlayerDpadHoldFrames++;
-    else
-        gPlayerDpadHoldFrames = 0;
+    if (ShouldBlockTargetSelectionInput(battler))
+        return;
+
+    gPlayerDpadHoldFrames = 0;
 
     if (JOY_NEW(A_BUTTON))
     {
@@ -616,10 +753,11 @@ void HandleInputShowEntireFieldTargets(u32 battler)
         HideGimmickTriggerSprite();
         PlayerBufferExecCompleted(battler);
     }
-    else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
+    else if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);
         HideAllTargets();
+        StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
@@ -628,10 +766,10 @@ void HandleInputShowEntireFieldTargets(u32 battler)
 
 void HandleInputShowTargets(u32 battler)
 {
-    if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        gPlayerDpadHoldFrames++;
-    else
-        gPlayerDpadHoldFrames = 0;
+    if (ShouldBlockTargetSelectionInput(battler))
+        return;
+
+    gPlayerDpadHoldFrames = 0;
 
     if (JOY_NEW(A_BUTTON))
     {
@@ -645,10 +783,11 @@ void HandleInputShowTargets(u32 battler)
         TryHideLastUsedBall();
         PlayerBufferExecCompleted(battler);
     }
-    else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
+    else if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);
         HideShownTargets(battler);
+        StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
@@ -670,10 +809,19 @@ void HandleInputChooseMove(u32 battler)
     u32 canSelectTarget = 0;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
 
-    if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        gPlayerDpadHoldFrames++;
-    else
-        gPlayerDpadHoldFrames = 0;
+    if (IsMoveDescriptionInputBlocked())
+        return;
+
+    if (ShouldHandleMoveDescriptionInput())
+    {
+        ToggleMoveDescription(battler);
+        return;
+    }
+
+    if (ShouldBlockMoveSelectionInput(battler))
+        return;
+
+    gPlayerDpadHoldFrames = 0;
 
     if (JOY_NEW(A_BUTTON) && !gBattleStruct->descriptionSubmenu)
     {
@@ -750,6 +898,7 @@ void HandleInputChooseMove(u32 battler)
             PlayerBufferExecCompleted(battler);
             break;
         case 1:
+            StartTargetSelectionInputGuard(battler);
             gBattlerControllerFuncs[battler] = HandleInputChooseTarget;
 
             if (moveTarget & MOVE_TARGET_USER)
@@ -764,14 +913,16 @@ void HandleInputChooseMove(u32 battler)
             gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_ShowAsMoveTarget;
             break;
         case 2:
+            StartTargetSelectionInputGuard(battler);
             gBattlerControllerFuncs[battler] = HandleInputShowTargets;
             break;
         case 3: // Entire field
+            StartTargetSelectionInputGuard(battler);
             gBattlerControllerFuncs[battler] = HandleInputShowEntireFieldTargets;
             break;
         }
     }
-    else if ((JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)  && !gBattleStruct->descriptionSubmenu)
+    else if (JOY_NEW(B_BUTTON) && !gBattleStruct->descriptionSubmenu)
     {
         PlaySE(SE_SELECT);
         gBattleStruct->gimmick.playerSelect = FALSE;
@@ -872,29 +1023,8 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (gBattleStruct->descriptionSubmenu)
     {
-        if (JOY_NEW(B_MOVE_DESCRIPTION_BUTTON) || JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
-        {
-            gBattleStruct->descriptionSubmenu = FALSE;
-            if (gCategoryIconSpriteId != 0xFF)
-            {
-                DestroySprite(&gSprites[gCategoryIconSpriteId]);
-                gCategoryIconSpriteId = 0xFF;
-            }
-
-            FillWindowPixelBuffer(B_WIN_MOVE_DESCRIPTION, PIXEL_FILL(0));
-            ClearStdWindowAndFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
-            CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_GFX);
-            PlaySE(SE_SELECT);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPpNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
-        }
-    }
-    else if (JOY_NEW(B_MOVE_DESCRIPTION_BUTTON))
-    {
-        gBattleStruct->descriptionSubmenu = TRUE;
-        TryMoveSelectionDisplayMoveDescription(battler);
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+            CloseMoveDescription(battler);
     }
     else if (JOY_NEW(START_BUTTON))
     {
@@ -2185,6 +2315,7 @@ void PlayerHandleChooseMove(u32 battler)
         if (!(gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_Z_MOVE && !gBattleStruct->zmove.viable))
             CreateGimmickTriggerSprite(battler);
 
+        StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleChooseMoveAfterDma3;
     }
 }
