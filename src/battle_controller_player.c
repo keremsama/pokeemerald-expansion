@@ -118,13 +118,18 @@ static bool32 IsMoveDescriptionInputBlocked(void);
 static bool32 ShouldHandleMoveDescriptionInput(void);
 static void CloseMoveDescription(u32 battler);
 static void ToggleMoveDescription(u32 battler);
+static bool32 IsStartButtonInputBlocked(void);
+static bool32 ShouldHandleStartButtonInput(void);
+static void TryToggleGimmickSelection(u32 battler);
 
 static bool8 sMoveSelectionWaitForButtonUp[MAX_BATTLERS_COUNT];
 static bool8 sTargetSelectionWaitForButtonUp[MAX_BATTLERS_COUNT];
 static bool8 sMoveDescriptionWaitForButtonUp;
+static bool8 sStartButtonWaitForButtonUp;
 static u32 sMoveSelectionInputVBlank[MAX_BATTLERS_COUNT];
 static u32 sTargetSelectionInputVBlank[MAX_BATTLERS_COUNT];
 static u32 sMoveDescriptionInputVBlank;
+static u32 sStartButtonInputVBlank;
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
@@ -198,6 +203,8 @@ void SetControllerToPlayer(u32 battler)
     {
         sMoveDescriptionWaitForButtonUp = FALSE;
         sMoveDescriptionInputVBlank = INPUT_GUARD_NO_VBLANK;
+        sStartButtonWaitForButtonUp = FALSE;
+        sStartButtonInputVBlank = INPUT_GUARD_NO_VBLANK;
     }
 }
 
@@ -337,6 +344,42 @@ static void ToggleMoveDescription(u32 battler)
     }
 }
 
+static bool32 IsStartButtonInputBlocked(void)
+{
+    if (!sStartButtonWaitForButtonUp)
+        return FALSE;
+
+    if (JOY_HELD_RAW(START_BUTTON))
+        return TRUE;
+
+    sStartButtonWaitForButtonUp = FALSE;
+    return FALSE;
+}
+
+static bool32 ShouldHandleStartButtonInput(void)
+{
+    if (!JOY_NEW(START_BUTTON))
+        return FALSE;
+
+    if (sStartButtonInputVBlank == gMain.vblankCounter1)
+        return FALSE;
+
+    sStartButtonInputVBlank = gMain.vblankCounter1;
+    sStartButtonWaitForButtonUp = TRUE;
+    return TRUE;
+}
+
+static void TryToggleGimmickSelection(u32 battler)
+{
+    if (gBattleStruct->gimmick.usableGimmick[battler] != GIMMICK_NONE && !HasTrainerUsedGimmick(battler, gBattleStruct->gimmick.usableGimmick[battler]))
+    {
+        gBattleStruct->gimmick.playerSelect ^= 1;
+        ReloadMoveNames(battler);
+        ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, gBattleStruct->gimmick.playerSelect);
+        PlaySE(SE_SELECT);
+    }
+}
+
 static void CompleteOnBattlerSpritePosX_0(u32 battler)
 {
     if (gSprites[gBattlerSpriteIds[battler]].x2 == 0)
@@ -395,6 +438,9 @@ static void HandleInputChooseAction(u32 battler)
     DoBounceEffect(battler, BOUNCE_MON, 7, 1);
 
     gPlayerDpadHoldFrames = 0;
+
+    if (IsStartButtonInputBlocked())
+        return;
 
     if (B_LAST_USED_BALL == TRUE && B_LAST_USED_BALL_CYCLE == TRUE)
     {
@@ -543,7 +589,7 @@ static void HandleInputChooseAction(u32 battler)
             }
         }
     }
-    else if (JOY_NEW(START_BUTTON))
+    else if (ShouldHandleStartButtonInput())
     {
         SwapHpBarsWithHpText();
     }
@@ -818,6 +864,15 @@ void HandleInputChooseMove(u32 battler)
         return;
     }
 
+    if (IsStartButtonInputBlocked())
+        return;
+
+    if (!gBattleStruct->descriptionSubmenu && ShouldHandleStartButtonInput())
+    {
+        TryToggleGimmickSelection(battler);
+        return;
+    }
+
     if (ShouldBlockMoveSelectionInput(battler))
         return;
 
@@ -1025,16 +1080,6 @@ void HandleInputChooseMove(u32 battler)
     {
         if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
             CloseMoveDescription(battler);
-    }
-    else if (JOY_NEW(START_BUTTON))
-    {
-        if (gBattleStruct->gimmick.usableGimmick[battler] != GIMMICK_NONE && !HasTrainerUsedGimmick(battler, gBattleStruct->gimmick.usableGimmick[battler]))
-        {
-            gBattleStruct->gimmick.playerSelect ^= 1;
-            ReloadMoveNames(battler);
-            ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, gBattleStruct->gimmick.playerSelect);
-            PlaySE(SE_SELECT);
-        }
     }
 }
 

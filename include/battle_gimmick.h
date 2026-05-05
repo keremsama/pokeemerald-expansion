@@ -44,6 +44,7 @@ u32 GetIndicatorPalTag(u32 battler);
 void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible);
 void UpdateIndicatorOamPriority(u32 healthboxId, u32 oamPriority);
 void UpdateIndicatorLevelData(u32 healthboxId, u32 level);
+void SyncGimmickIndicatorWithHealthbox(u32 battler);
 void CreateIndicatorSprite(u32 battler);
 
 extern const struct GimmickInfo gGimmicksInfo[];

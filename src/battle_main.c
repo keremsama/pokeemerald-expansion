@@ -2871,6 +2871,7 @@ void SpriteCB_FaintSlideAnim(struct Sprite *sprite)
 #define sWhich              data[4]
 #define sSinAccLo           data[5]
 #define sSinAccHi           data[6]
+#define sBounceBattler      data[7]
 
 void DoBounceEffect(u8 battler, u8 which, s8 delta, s8 amplitude)
 {
@@ -2918,9 +2919,11 @@ void DoBounceEffect(u8 battler, u8 which, s8 delta, s8 amplitude)
         gSprites[invisibleSpriteId].sSinAccLo = (u16)(acc & 0xFFFF);
         gSprites[invisibleSpriteId].sSinAccHi = (s16)((acc >> 16) & 0xFFFF);
     }
-    gSprites[invisibleSpriteId].sBattler = battler;
+    gSprites[invisibleSpriteId].sBounceBattler = battler;
     gSprites[bouncerSpriteId].x2 = 0;
     gSprites[bouncerSpriteId].y2 = 0;
+    if (which == BOUNCE_HEALTHBOX)
+        SyncGimmickIndicatorWithHealthbox(battler);
 }
 
 void EndBounceEffect(u8 battler, u8 which)
@@ -2948,6 +2951,8 @@ void EndBounceEffect(u8 battler, u8 which)
 
     gSprites[bouncerSpriteId].x2 = 0;
     gSprites[bouncerSpriteId].y2 = 0;
+    if (which == BOUNCE_HEALTHBOX)
+        SyncGimmickIndicatorWithHealthbox(battler);
 }
 
 static void SpriteCB_BounceEffect(struct Sprite *sprite)
@@ -2973,6 +2978,8 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
         index = (acc >> 8) & 0xFF;
         s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude;
         gSprites[bouncerSpriteId].y2 = y;
+        if (sprite->sWhich == BOUNCE_HEALTHBOX)
+            SyncGimmickIndicatorWithHealthbox(sprite->sBounceBattler);
 
         // Keep sSinIndex in sync for external reads
         sprite->sSinIndex = index;
@@ -2986,6 +2993,7 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 #undef sWhich
 #undef sSinAccLo
 #undef sSinAccHi
+#undef sBounceBattler
 
 void SpriteCB_PlayerMonFromBall(struct Sprite *sprite)
 {

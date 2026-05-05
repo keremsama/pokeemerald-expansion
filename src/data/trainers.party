@@ -4898,7 +4898,7 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Rock Tomb
 
 Onix @ Oran Berry
-Level: 16
+Level: 15
 Ability: Sturdy
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 Tags: Ace
@@ -5078,7 +5078,7 @@ Party Size: 6
 Pool Rules: Basic
 
 Stoutland
-Level: 39
+Level: 40
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Ice Fang
 - Play Rough
@@ -11452,7 +11452,7 @@ Tags: Lead
 - Swagger
 
 Coalossal
-Level: 34
+Level: 35
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 - Incinerate
 - Ancient Power
