@@ -1,6 +1,7 @@
 #include "global.h"
 #include "malloc.h"
 #include "battle.h"
+#include "battle_main.h"
 #include "pokemon.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
@@ -2410,6 +2411,7 @@ static void SafariTextIntoHealthboxObject(void *dest, u8 *windowTileData, u32 wi
 #define tRightToLeft    data[3]
 #define tBattlerId      data[4]
 #define tIsMain         data[5]
+#define tSpeedFrames    data[6]
 
 // for task
 #define tSpriteId1      data[6]
@@ -2800,8 +2802,22 @@ void UpdateAbilityPopup(u8 battlerId)
 
 #define FRAMES_TO_WAIT 48
 
+static bool32 ShouldAdvanceAbilityPopUpFrame(struct Sprite *sprite)
+{
+    u8 speedScale = GetBattleSpeedScale();
+
+    if (++sprite->tSpeedFrames < speedScale)
+        return FALSE;
+
+    sprite->tSpeedFrames = 0;
+    return TRUE;
+}
+
 static void SpriteCb_AbilityPopUp(struct Sprite *sprite)
 {
+    if (!ShouldAdvanceAbilityPopUpFrame(sprite))
+        return;
+
     if (!sprite->tHide) // Show
     {
         if (sprite->tIsMain && ++sprite->tFrames == 4)
