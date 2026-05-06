@@ -457,7 +457,7 @@ static void HandleInputChooseAction(u32 battler)
 
         if (gBattleStruct->ackBallUseBtn)
         {
-            if (JOY_HELD(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_DOWN) || JOY_NEW(DPAD_RIGHT)))
+            if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_DOWN) || JOY_NEW(DPAD_RIGHT)))
             {
                 bool32 sameBall = FALSE;
                 u32 nextBall = GetNextBall(gBallToDisplay);
@@ -469,7 +469,7 @@ static void HandleInputChooseAction(u32 battler)
                 SwapBallToDisplay(sameBall);
                 PlaySE(SE_SELECT);
             }
-            else if (JOY_HELD(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_LEFT)))
+            else if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_LEFT)))
             {
                 bool32 sameBall = FALSE;
                 u32 prevBall = GetPrevBall(gBallToDisplay);
@@ -481,13 +481,13 @@ static void HandleInputChooseAction(u32 battler)
                 SwapBallToDisplay(sameBall);
                 PlaySE(SE_SELECT);
             }
-            else if (JOY_NEW(B_BUTTON) || (!JOY_HELD(B_LAST_USED_BALL_BUTTON) && gBattleStruct->ballSwapped))
+            else if (JOY_NEW(B_BUTTON) || (!JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && gBattleStruct->ballSwapped))
             {
                 gBattleStruct->ackBallUseBtn = FALSE;
                 gBattleStruct->ballSwapped = FALSE;
                 ArrowsChangeColorLastBallCycle(FALSE);
             }
-            else if (!JOY_HELD(B_LAST_USED_BALL_BUTTON) && CanThrowLastUsedBall())
+            else if (!JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && CanThrowLastUsedBall())
             {
                 gBattleStruct->ackBallUseBtn = FALSE;
                 PlaySE(SE_SELECT);

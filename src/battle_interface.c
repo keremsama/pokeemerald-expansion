@@ -2804,9 +2804,9 @@ void UpdateAbilityPopup(u8 battlerId)
 
 static bool32 ShouldAdvanceAbilityPopUpFrame(struct Sprite *sprite)
 {
-    u8 speedScale = GetBattleSpeedScale();
-
-    if (++sprite->tSpeedFrames < speedScale)
+    // Ability pop-up should run at normal speed regardless of Battle Speed
+    // settings (2x/3x/4x). Ignore global battle speed scaling here.
+    if (++sprite->tSpeedFrames < 1)
         return FALSE;
 
     sprite->tSpeedFrames = 0;
