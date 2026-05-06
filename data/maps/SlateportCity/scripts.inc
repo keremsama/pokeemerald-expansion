@@ -2795,6 +2795,397 @@ Mint_Lady:
 	.2byte ITEM_SERIOUS_MINT
 	.2byte ITEM_NONE
 
+SlateportCity_NewMegaStoneMerchant::
+# 1420 "data/maps/SlateportCity/scripts.pory"
+	lock
+# 1421 "data/maps/SlateportCity/scripts.pory"
+	faceplayer
+# 1422 "data/maps/SlateportCity/scripts.pory"
+	goto_if_unset FLAG_NEW_MEGA_STONE_MERCHANT_FIRST_ENCOUNTER, SlateportCity_NewMegaStoneMerchant_2
+# 1438 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_NewMegaStoneMerchant_Text_1
+# 1441 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1442 "data/maps/SlateportCity/scripts.pory"
+	goto_if_set FLAG_RANDOM_FIELD_ITEMS, SlateportCity_NewMegaStoneMerchant_5
+# 1445 "data/maps/SlateportCity/scripts.pory"
+	pokemart New_Mega_Stone_Merchant
+SlateportCity_NewMegaStoneMerchant_4:
+# 1447 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_NewMegaStoneMerchant_Text_0
+# 1448 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1449 "data/maps/SlateportCity/scripts.pory"
+	release
+	end
+
+SlateportCity_NewMegaStoneMerchant_2:
+# 1423 "data/maps/SlateportCity/scripts.pory"
+	setflag FLAG_NEW_MEGA_STONE_MERCHANT_FIRST_ENCOUNTER
+# 1424 "data/maps/SlateportCity/scripts.pory"
+	msgbox Slateport_NewMegaStoneMerchant_Text_FirstEncounter
+# 1425 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1426 "data/maps/SlateportCity/scripts.pory"
+	goto_if_set FLAG_RANDOM_FIELD_ITEMS, SlateportCity_NewMegaStoneMerchant_9
+# 1431 "data/maps/SlateportCity/scripts.pory"
+	pokemart New_Mega_Stone_Merchant
+SlateportCity_NewMegaStoneMerchant_8:
+# 1433 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_NewMegaStoneMerchant_Text_0
+# 1434 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1435 "data/maps/SlateportCity/scripts.pory"
+	release
+	end
+
+SlateportCity_NewMegaStoneMerchant_5:
+# 1443 "data/maps/SlateportCity/scripts.pory"
+	pokemart All_Mega_Stone_Merchant
+	goto SlateportCity_NewMegaStoneMerchant_4
+
+SlateportCity_NewMegaStoneMerchant_9:
+# 1427 "data/maps/SlateportCity/scripts.pory"
+	msgbox Slateport_NewMegaStoneMerchant_Text_RandomFieldItems
+# 1428 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1429 "data/maps/SlateportCity/scripts.pory"
+	pokemart All_Mega_Stone_Merchant
+	goto SlateportCity_NewMegaStoneMerchant_8
+
+
+	.align 2
+# 1453 "data/maps/SlateportCity/scripts.pory"
+New_Mega_Stone_Merchant:
+# 1454 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CLEFABLITE
+# 1455 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_VICTREEBELITE
+# 1456 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_STARMINITE
+# 1457 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAGONINITE
+# 1458 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEGANIUMITE
+# 1459 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FERALIGITE
+# 1460 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SKARMORITE
+# 1461 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FROSLASSITE
+# 1462 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EMBOARITE
+# 1463 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EXCADRITE
+# 1464 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCOLIPITE
+# 1465 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCRAFTINITE
+# 1466 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EELEKTROSSITE
+# 1467 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHANDELURITE
+# 1468 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHESNAUGHTITE
+# 1469 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DELPHOXITE
+# 1470 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GRENINJITE
+# 1471 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_PYROARITE
+# 1472 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FLOETTITE
+# 1473 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MALAMARITE
+# 1474 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BARBARACITE
+# 1475 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAGALGITE
+# 1476 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HAWLUCHANITE
+# 1477 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ZYGARDITE
+# 1478 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAMPANITE
+# 1479 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FALINKSITE
+# 1480 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HEATRANITE
+# 1481 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DARKRANITE
+# 1482 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ZERAORITE
+# 1483 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_RAICHUNITE_X
+# 1484 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_RAICHUNITE_Y
+# 1485 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHIMECHITE
+# 1486 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABSOLITE_Z
+# 1487 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_STARAPTITE
+# 1488 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GARCHOMPITE_Z
+# 1489 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LUCARIONITE_Z
+# 1490 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GOLURKITE
+# 1491 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEOWSTICITE
+# 1492 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CRABOMINITE
+# 1493 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GOLISOPITE
+# 1494 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MAGEARNITE
+# 1495 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCOVILLAINITE
+# 1496 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BAXCALIBRITE
+# 1497 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_TATSUGIRINITE
+# 1498 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GLIMMORANITE
+	.2byte ITEM_NONE
+
+	.align 2
+# 1501 "data/maps/SlateportCity/scripts.pory"
+All_Mega_Stone_Merchant:
+# 1502 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_VENUSAURITE
+# 1503 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHARIZARDITE_X
+# 1504 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHARIZARDITE_Y
+# 1505 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BLASTOISINITE
+# 1506 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BEEDRILLITE
+# 1507 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_PIDGEOTITE
+# 1508 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ALAKAZITE
+# 1509 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SLOWBRONITE
+# 1510 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GENGARITE
+# 1511 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_KANGASKHANITE
+# 1512 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_PINSIRITE
+# 1513 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GYARADOSITE
+# 1514 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_AERODACTYLITE
+# 1515 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEWTWONITE_X
+# 1516 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEWTWONITE_Y
+# 1517 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_AMPHAROSITE
+# 1518 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_STEELIXITE
+# 1519 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCIZORITE
+# 1520 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HERACRONITE
+# 1521 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HOUNDOOMINITE
+# 1522 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_TYRANITARITE
+# 1523 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCEPTILITE
+# 1524 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BLAZIKENITE
+# 1525 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SWAMPERTITE
+# 1526 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GARDEVOIRITE
+# 1527 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SABLENITE
+# 1528 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MAWILITE
+# 1529 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_AGGRONITE
+# 1530 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEDICHAMITE
+# 1531 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MANECTITE
+# 1532 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SHARPEDONITE
+# 1533 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CAMERUPTITE
+# 1534 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ALTARIANITE
+# 1535 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BANETTITE
+# 1536 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABSOLITE
+# 1537 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GLALITITE
+# 1538 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SALAMENCITE
+# 1539 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_METAGROSSITE
+# 1540 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LATIASITE
+# 1541 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LATIOSITE
+# 1542 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LOPUNNITE
+# 1543 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GARCHOMPITE
+# 1544 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LUCARIONITE
+# 1545 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABOMASITE
+# 1546 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GALLADITE
+# 1547 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_AUDINITE
+# 1548 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DIANCITE
+# 1549 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CLEFABLITE
+# 1550 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_VICTREEBELITE
+# 1551 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_STARMINITE
+# 1552 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAGONINITE
+# 1553 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEGANIUMITE
+# 1554 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FERALIGITE
+# 1555 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SKARMORITE
+# 1556 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FROSLASSITE
+# 1557 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EMBOARITE
+# 1558 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EXCADRITE
+# 1559 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCOLIPITE
+# 1560 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCRAFTINITE
+# 1561 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_EELEKTROSSITE
+# 1562 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHANDELURITE
+# 1563 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHESNAUGHTITE
+# 1564 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DELPHOXITE
+# 1565 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GRENINJITE
+# 1566 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_PYROARITE
+# 1567 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FLOETTITE
+# 1568 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MALAMARITE
+# 1569 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BARBARACITE
+# 1570 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAGALGITE
+# 1571 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HAWLUCHANITE
+# 1572 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ZYGARDITE
+# 1573 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DRAMPANITE
+# 1574 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_FALINKSITE
+# 1575 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_HEATRANITE
+# 1576 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_DARKRANITE
+# 1577 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ZERAORITE
+# 1578 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_RAICHUNITE_X
+# 1579 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_RAICHUNITE_Y
+# 1580 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CHIMECHITE
+# 1581 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABSOLITE_Z
+# 1582 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_STARAPTITE
+# 1583 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GARCHOMPITE_Z
+# 1584 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_LUCARIONITE_Z
+# 1585 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GOLURKITE
+# 1586 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MEOWSTICITE
+# 1587 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_CRABOMINITE
+# 1588 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GOLISOPITE
+# 1589 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_MAGEARNITE
+# 1590 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_SCOVILLAINITE
+# 1591 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_BAXCALIBRITE
+# 1592 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_TATSUGIRINITE
+# 1593 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_GLIMMORANITE
+	.2byte ITEM_NONE
+
+SlateportCity_AbilityMerchant::
+# 1615 "data/maps/SlateportCity/scripts.pory"
+	lock
+# 1616 "data/maps/SlateportCity/scripts.pory"
+	faceplayer
+# 1617 "data/maps/SlateportCity/scripts.pory"
+	goto_if_unset FLAG_ABILITY_MERCHANT_FIRST_ENCOUNTER, SlateportCity_AbilityMerchant_2
+# 1627 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_AbilityMerchant_Text_1
+# 1630 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1631 "data/maps/SlateportCity/scripts.pory"
+	pokemart Ability_Merchant
+# 1632 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_AbilityMerchant_Text_0
+# 1633 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1634 "data/maps/SlateportCity/scripts.pory"
+	release
+	end
+
+SlateportCity_AbilityMerchant_2:
+# 1618 "data/maps/SlateportCity/scripts.pory"
+	setflag FLAG_ABILITY_MERCHANT_FIRST_ENCOUNTER
+# 1619 "data/maps/SlateportCity/scripts.pory"
+	msgbox Slateport_AbilityMerchant_Text_FirstEncounter
+# 1620 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1621 "data/maps/SlateportCity/scripts.pory"
+	pokemart Ability_Merchant
+# 1622 "data/maps/SlateportCity/scripts.pory"
+	msgbox SlateportCity_AbilityMerchant_Text_0
+# 1623 "data/maps/SlateportCity/scripts.pory"
+	waitmessage
+# 1624 "data/maps/SlateportCity/scripts.pory"
+	release
+	end
+
+
+	.align 2
+# 1638 "data/maps/SlateportCity/scripts.pory"
+Ability_Merchant:
+# 1639 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABILITY_CAPSULE
+# 1640 "data/maps/SlateportCity/scripts.pory"
+	.2byte ITEM_ABILITY_PATCH
+	.2byte ITEM_NONE
+
 SlateportCity_MintLady_Text_0:
 # 1368 "data/maps/SlateportCity/scripts.pory"
 	.string "Come back anytime - I'll have fresh\n"
@@ -2806,6 +3197,29 @@ SlateportCity_MintLady_Text_1:
 	.string "Looking to buy some more Mints today?\p"
 	.string "My Mints are as fresh as ever - perfect\n"
 	.string "for shaping your Pokémon's nature!$"
+
+SlateportCity_NewMegaStoneMerchant_Text_0:
+# 1433 "data/maps/SlateportCity/scripts.pory"
+	.string "Come back anytime - rare Mega Stones\n"
+	.string "never stay in my case for long!$"
+
+SlateportCity_NewMegaStoneMerchant_Text_1:
+# 1439 "data/maps/SlateportCity/scripts.pory"
+	.string "Back for another rare Mega Stone?\p"
+	.string "I've still got the newer stones polished\n"
+	.string "and ready for the right Pokémon.$"
+
+SlateportCity_AbilityMerchant_Text_0:
+# 1622 "data/maps/SlateportCity/scripts.pory"
+	.string "Come back quietly if your team needs...\n"
+	.string "adjustment.$"
+
+SlateportCity_AbilityMerchant_Text_1:
+# 1628 "data/maps/SlateportCity/scripts.pory"
+	.string "Keep your voice low, friend.\p"
+	.string "I still have Capsules and Patches for\n"
+	.string "Trainers who know what they are asking\l"
+	.string "for.$"
 
 Slateport_MintLady_Text_FirstEncounter::
 # 1409 "data/maps/SlateportCity/scripts.pory"
@@ -2828,3 +3242,45 @@ Slateport_MintLady_Text_FirstEncounter::
 	.string "Pokémon feels or thinks, just come to\l"
 	.string "me. A bit of nature's touch can go a long\l"
 	.string "way!$"
+
+Slateport_NewMegaStoneMerchant_Text_FirstEncounter::
+# 1596 "data/maps/SlateportCity/scripts.pory"
+	.string "Well now, a Trainer with sharp eyes!\p"
+	.string "Most folks walk right past these\n"
+	.string "stones thinking they're just pretty\l"
+	.string "trinkets.\p"
+	.string "But each one carries a special\n"
+	.string "resonance, the kind that can awaken a\l"
+	.string "Mega Evolution in the right Pokémon.\p"
+	.string "My collection focuses on the newer\n"
+	.string "Mega Stones, from Clefablite onward -\l"
+	.string "rare pieces, carefully sourced and\l"
+	.string "polished.\p"
+	.string "If you're building a team with unusual\n"
+	.string "Mega potential, take a look. You may\l"
+	.string "find exactly what your partner has\l"
+	.string "been waiting for.$"
+
+Slateport_NewMegaStoneMerchant_Text_RandomFieldItems::
+# 1606 "data/maps/SlateportCity/scripts.pory"
+	.string "Hmm... I can see the shape of this\n"
+	.string "(Randomizer-Run) from here.\p"
+	.string "You may not have access to every Mega\n"
+	.string "Stone out in the fields this time.\p"
+	.string "Call it a tiny crack in the fourth wall,\n"
+	.string "but I keep a deeper case for journeys\l"
+	.string "like yours.$"
+
+Slateport_AbilityMerchant_Text_FirstEncounter::
+# 1643 "data/maps/SlateportCity/scripts.pory"
+	.string "You did not find me by accident.\p"
+	.string "Some Pokemon are born with gifts.\n"
+	.string "Others need a little... persuasion.\p"
+	.string "I deal in Ability Capsules and Ability\n"
+	.string "Patches. Official enough to sell, rare\l"
+	.string "enough that people ask no questions.\p"
+	.string "Use them wisely. A changed ability can\n"
+	.string "open doors, but it can also reveal what\l"
+	.string "should have stayed hidden.\p"
+	.string "If that sounds useful, take a look.\n"
+	.string "If not, forget we spoke.$"

@@ -6271,7 +6271,9 @@ u16 GetBattleBGM(void)
             case SPECIES_SHAYMIN:
             case SPECIES_XERNEAS:
             case SPECIES_YVELTAL:
-            case SPECIES_ZYGARDE:
+            case SPECIES_ZYGARDE_50:
+            case SPECIES_ZYGARDE_10:
+            case SPECIES_ZYGARDE_COMPLETE:
             case SPECIES_DIANCIE:
             case SPECIES_HOOPA:
             case SPECIES_VOLCANION:

@@ -90,6 +90,7 @@ static const u8 sWindowVerticalScrollSpeeds[] = {
     [OPTIONS_TEXT_SPEED_SLOW] = 1,
     [OPTIONS_TEXT_SPEED_MID] = 2,
     [OPTIONS_TEXT_SPEED_FAST] = 4,
+    [OPTIONS_TEXT_SPEED_INSTANT] = 4,
 };
 
 static const struct GlyphWidthFunc sGlyphWidthFuncs[] =
@@ -364,7 +365,11 @@ bool32 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     sTempTextPrinter.japanese = 0;
 
     GenerateFontHalfRowLookupTable(printerTemplate->fgColor, printerTemplate->bgColor, printerTemplate->shadowColor);
-    if (speed != TEXT_SKIP_DRAW && speed != 0)
+    if (speed == TEXT_INSTANT_DRAW)
+    {
+        sTextPrinters[printerTemplate->windowId] = sTempTextPrinter;
+    }
+    else if (speed != TEXT_SKIP_DRAW && speed != 0)
     {
         --sTempTextPrinter.textSpeed;
         sTextPrinters[printerTemplate->windowId] = sTempTextPrinter;
@@ -399,17 +404,33 @@ void RunTextPrinters(void)
         {
             if (sTextPrinters[i].active)
             {
-                u16 renderCmd = RenderFont(&sTextPrinters[i]);
-                switch (renderCmd)
+                bool32 textPrinted = FALSE;
+                u16 j;
+
+                for (j = 0; j < 0x400; j++)
                 {
-                case RENDER_PRINT:
-                    CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
-                case RENDER_UPDATE:
-                    if (sTextPrinters[i].callback != NULL)
-                        sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
-                    break;
-                case RENDER_FINISH:
-                    sTextPrinters[i].active = FALSE;
+                    u16 renderCmd = RenderFont(&sTextPrinters[i]);
+                    switch (renderCmd)
+                    {
+                    case RENDER_PRINT:
+                        textPrinted = TRUE;
+                        if (sTextPrinters[i].textSpeed == TEXT_INSTANT_DRAW)
+                            continue;
+                        CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
+                        textPrinted = FALSE;
+                    case RENDER_UPDATE:
+                        if (textPrinted)
+                            CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
+                        if (sTextPrinters[i].callback != NULL)
+                            sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
+                        break;
+                    case RENDER_FINISH:
+                        if (textPrinted)
+                            CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
+                        sTextPrinters[i].active = FALSE;
+                        break;
+                    }
+
                     break;
                 }
             }
@@ -1086,7 +1107,7 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         if (JOY_HELD(A_BUTTON | B_BUTTON) && subStruct->hasPrintBeenSpedUp)
             textPrinter->delayCounter = 0;
 
-        if (textPrinter->delayCounter && textPrinter->textSpeed)
+        if (textPrinter->delayCounter && textPrinter->textSpeed != TEXT_INSTANT_DRAW)
         {
             textPrinter->delayCounter--;
             if (gTextFlags.canABSpeedUpPrint && (JOY_NEW(A_BUTTON | B_BUTTON)))
@@ -1099,6 +1120,8 @@ static u16 RenderText(struct TextPrinter *textPrinter)
 
         if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED) && gTextFlags.autoScroll)
             textPrinter->delayCounter = 3;
+        else if (textPrinter->textSpeed == TEXT_INSTANT_DRAW)
+            textPrinter->delayCounter = 0;
         else
             textPrinter->delayCounter = textPrinter->textSpeed;
 

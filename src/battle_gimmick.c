@@ -284,6 +284,16 @@ static inline u32 GetIndicatorSpriteId(u32 healthboxId)
     return gBattleStruct->gimmick.indicatorSpriteId[gSprites[healthboxId].hMain_Battler];
 }
 
+void SyncGimmickIndicatorWithHealthbox(u32 battler)
+{
+    u32 spriteId = gBattleStruct->gimmick.indicatorSpriteId[battler];
+
+    if (spriteId == 0 || spriteId >= MAX_SPRITES || !gSprites[spriteId].inUse)
+        return;
+
+    SpriteCb_GimmickIndicator(&gSprites[spriteId]);
+}
+
 const u32 *GetIndicatorSpriteSrc(u32 battler)
 {
     u32 gimmick = GetActiveGimmick(battler);

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "malloc.h"
 #include "battle.h"
+#include "battle_main.h"
 #include "pokemon.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
@@ -597,11 +598,11 @@ enum
 
 static const u16 sStatusIconColors[] =
 {
-    [PAL_STATUS_PSN] = RGB(24, 12, 24),
-    [PAL_STATUS_PAR] = RGB(23, 23, 3),
-    [PAL_STATUS_SLP] = RGB(20, 20, 17),
-    [PAL_STATUS_FRZ] = RGB(17, 22, 28),
-    [PAL_STATUS_BRN] = RGB(28, 14, 10),
+    [PAL_STATUS_PSN] = RGB(13, 7, 17),
+    [PAL_STATUS_PAR] = RGB(26, 24, 0),
+    [PAL_STATUS_SLP] = RGB(20, 20, 20),
+    [PAL_STATUS_FRZ] = RGB(6, 23, 31),
+    [PAL_STATUS_BRN] = RGB(24, 3, 3),
 };
 
 static const struct WindowTemplate sHealthboxWindowTemplate = {
@@ -2410,6 +2411,7 @@ static void SafariTextIntoHealthboxObject(void *dest, u8 *windowTileData, u32 wi
 #define tRightToLeft    data[3]
 #define tBattlerId      data[4]
 #define tIsMain         data[5]
+#define tSpeedFrames    data[6]
 
 // for task
 #define tSpriteId1      data[6]
@@ -2800,8 +2802,22 @@ void UpdateAbilityPopup(u8 battlerId)
 
 #define FRAMES_TO_WAIT 48
 
+static bool32 ShouldAdvanceAbilityPopUpFrame(struct Sprite *sprite)
+{
+    // Ability pop-up should run at normal speed regardless of Battle Speed
+    // settings (2x/3x/4x). Ignore global battle speed scaling here.
+    if (++sprite->tSpeedFrames < 1)
+        return FALSE;
+
+    sprite->tSpeedFrames = 0;
+    return TRUE;
+}
+
 static void SpriteCb_AbilityPopUp(struct Sprite *sprite)
 {
+    if (!ShouldAdvanceAbilityPopUpFrame(sprite))
+        return;
+
     if (!sprite->tHide) // Show
     {
         if (sprite->tIsMain && ++sprite->tFrames == 4)

@@ -11724,7 +11724,7 @@ F_TRAINER_FEMALE |
 #line 4697
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4696
-            .lvl = 73,
+            .lvl = 74,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11780,7 +11780,7 @@ F_TRAINER_FEMALE |
 #line 4721
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4720
-            .lvl = 72,
+            .lvl = 74,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11800,7 +11800,7 @@ F_TRAINER_FEMALE |
 #line 4729
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4728
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11820,7 +11820,7 @@ F_TRAINER_FEMALE |
 #line 4737
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 4736
-            .lvl = 73,
+            .lvl = 74,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11865,7 +11865,7 @@ F_TRAINER_FEMALE |
 #line 4756
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4755
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11883,7 +11883,7 @@ F_TRAINER_FEMALE |
 #line 4764
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4763
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11903,7 +11903,7 @@ F_TRAINER_FEMALE |
 #line 4772
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4771
-            .lvl = 73,
+            .lvl = 74,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11921,7 +11921,7 @@ F_TRAINER_FEMALE |
 #line 4780
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4779
-            .lvl = 73,
+            .lvl = 74,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11941,7 +11941,7 @@ F_TRAINER_FEMALE |
 #line 4788
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 4787
-            .lvl = 75,
+            .lvl = 76,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -11961,7 +11961,7 @@ F_TRAINER_FEMALE |
 #line 4796
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 4795
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12006,7 +12006,7 @@ F_TRAINER_FEMALE |
 #line 4815
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4814
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12024,7 +12024,7 @@ F_TRAINER_FEMALE |
 #line 4823
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4822
-            .lvl = 74,
+            .lvl = 75,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12042,7 +12042,7 @@ F_TRAINER_FEMALE |
 #line 4831
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4830
-            .lvl = 73,
+            .lvl = 76,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12062,7 +12062,7 @@ F_TRAINER_FEMALE |
 #line 4839
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4838
-            .lvl = 73,
+            .lvl = 76,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12080,7 +12080,7 @@ F_TRAINER_FEMALE |
 #line 4847
             .iv = TRAINER_PARTY_IVS(30, 30, 30, 30, 30, 30),
 #line 4846
-            .lvl = 74,
+            .lvl = 76,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12100,7 +12100,7 @@ F_TRAINER_FEMALE |
 #line 4855
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 4854
-            .lvl = 75,
+            .lvl = 77,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -12211,7 +12211,7 @@ F_TRAINER_FEMALE |
 #line 4902
             .ability = ABILITY_STURDY,
 #line 4901
-            .lvl = 16,
+            .lvl = 15,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
 #line 4904
@@ -12621,7 +12621,7 @@ F_TRAINER_FEMALE |
 #line 5082
             .iv = TRAINER_PARTY_IVS(24, 24, 24, 24, 24, 24),
 #line 5081
-            .lvl = 39,
+            .lvl = 40,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -15978,7 +15978,7 @@ F_TRAINER_FEMALE |
 #line 6421
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 6420
-            .lvl = 74,
+            .lvl = 77,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -15998,7 +15998,7 @@ F_TRAINER_FEMALE |
 #line 6429
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 6428
-            .lvl = 75,
+            .lvl = 77,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -16020,7 +16020,7 @@ F_TRAINER_FEMALE |
 #line 6437
             .ability = ABILITY_ADAPTABILITY,
 #line 6436
-            .lvl = 76,
+            .lvl = 79,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -16040,7 +16040,7 @@ F_TRAINER_FEMALE |
 #line 6446
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 6445
-            .lvl = 76,
+            .lvl = 78,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -16061,7 +16061,7 @@ F_TRAINER_FEMALE |
 #line 6454
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 6453
-            .lvl = 77,
+            .lvl = 80,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -16082,7 +16082,7 @@ F_TRAINER_FEMALE |
 #line 6462
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 6461
-            .lvl = 77,
+            .lvl = 79,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
@@ -28777,7 +28777,7 @@ F_TRAINER_FEMALE |
 #line 11456
             .iv = TRAINER_PARTY_IVS(18, 18, 18, 18, 18, 18),
 #line 11455
-            .lvl = 34,
+            .lvl = 35,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {

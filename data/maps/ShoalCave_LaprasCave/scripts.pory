@@ -1,0 +1,72 @@
+// Poryscript
+
+mapscripts ShoalCave_LaprasCave_MapScripts {}
+
+script ShoalCave_Inside_Lapras_Encounter{
+    lockall
+    delay(30)
+    faceplayer
+    playse (SE_PIN)
+    applymovement (OBJ_EVENT_ID_PLAYER, Lapras_Sees_You)
+    waitmovement (OBJ_EVENT_ID_PLAYER)
+    playmoncry(SPECIES_LAPRAS, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    msgbox ("Lapras lets out a resonant cry!")
+    setwildbattle (SPECIES_LAPRAS, 55, ITEM_NONE)
+    dowildbattle
+    specialvar(VAR_RESULT, GetBattleOutcome)
+	if(var(VAR_RESULT) == B_OUTCOME_CAUGHT){
+		call(ShoalCave_Lapras_Caught)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_WON){
+		call(ShoalCave_Lapras_Won)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_RAN){
+		call(ShoalCave_Lapras_RanAway)
+	}
+	elif(var(VAR_RESULT) == B_OUTCOME_PLAYER_TELEPORTED){
+		call(ShoalCave_Lapras_RanAway)
+	}
+	releaseall
+	end
+}
+ 
+script ShoalCave_Lapras_Caught {
+	fadescreen(FADE_TO_BLACK)
+	setflag(FLAG_HIDE_SHOALCAVE_LAPRAS)
+	removeobject (1)
+    delay(40)
+	fadescreen(FADE_FROM_BLACK)
+	return
+}
+
+script ShoalCave_Lapras_Won {
+	playmoncry(SPECIES_LAPRAS, CRY_MODE_ENCOUNTER)
+    waitmoncry
+	msgbox("Lapras's cry fades into the air...", MSGBOX_AUTOCLOSE)
+    fadescreen(FADE_TO_BLACK)
+	setflag(FLAG_HIDE_SHOALCAVE_LAPRAS)
+	removeobject (1)
+    delay(40)
+	fadescreen(FADE_FROM_BLACK)
+	return
+}
+ 
+script ShoalCave_Lapras_RanAway {
+	playmoncry(SPECIES_LAPRAS, CRY_MODE_ENCOUNTER)
+    waitmoncry
+	msgbox("Lapras slipped away into the darkness...", MSGBOX_AUTOCLOSE)
+    fadescreen(FADE_TO_BLACK)
+	setflag(FLAG_HIDE_SHOALCAVE_LAPRAS)
+	removeobject (1)
+    delay(40)
+	fadescreen(FADE_FROM_BLACK)
+	return
+}
+
+movement Lapras_Sees_You{
+    emote_exclamation_mark
+    delay_16 * 4
+}
+
+

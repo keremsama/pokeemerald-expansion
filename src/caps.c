@@ -21,7 +21,8 @@ u32 GetCurrentLevelCap(void)
         {FLAG_BADGE07_GET, 64},
         {FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, 66},  // Archie defeated in Seafloor Cavern
         {FLAG_BADGE08_GET, 68},
-        {FLAG_IS_CHAMPION, 72},
+        {FLAG_DEFEATED_WALLY_VICTORY_ROAD, 72},     // Wally defeated in Victory Road
+        {FLAG_IS_CHAMPION, 80},
     };
 
     u32 i;

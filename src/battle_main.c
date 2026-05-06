@@ -1722,11 +1722,52 @@ static void CB2_HandleStartMultiBattle(void)
 
 void BattleMainCB2(void)
 {
-    AnimateSprites();
-    BuildOamBuffer();
-    RunTextPrinters();
-    UpdatePaletteFade();
-    RunTasks();
+    u8 speedScale = GetBattleSpeedScale();
+
+    if (gPaletteFade.active)
+        speedScale = 1;
+
+    if (speedScale <= 1)
+    {
+        AnimateSprites();
+        BuildOamBuffer();
+        RunTextPrinters();
+        UpdatePaletteFade();
+        RunTasks();
+    }
+    else
+    {
+        u8 i;
+        u32 fadeResult = PALETTE_FADE_STATUS_DONE;
+
+        for (i = 1; i < speedScale; i++)
+        {
+            AnimateSprites();
+            RunTextPrinters();
+            fadeResult = UpdatePaletteFade();
+            RunTasks();
+
+            if (fadeResult == PALETTE_FADE_STATUS_LOADING)
+            {
+                BuildOamBuffer();
+                break;
+            }
+
+            VBlankCB_Battle();
+
+            if (gMain.callback1 != NULL)
+                gMain.callback1();
+        }
+
+        if (fadeResult != PALETTE_FADE_STATUS_LOADING)
+        {
+            AnimateSprites();
+            BuildOamBuffer();
+            RunTextPrinters();
+            UpdatePaletteFade();
+            RunTasks();
+        }
+    }
 
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
     {
@@ -1735,6 +1776,24 @@ void BattleMainCB2(void)
         ResetPaletteFadeControl();
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         SetMainCallback2(CB2_QuitRecordedBattle);
+    }
+}
+
+u8 GetBattleSpeedScale(void)
+{
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        return 1;
+
+    switch (gSaveBlock2Ptr->optionsBattleSceneOff)
+    {
+    case OPTIONS_BATTLE_SCENE_2X:
+        return 2;
+    case OPTIONS_BATTLE_SCENE_3X:
+        return 3;
+    case OPTIONS_BATTLE_SCENE_4X:
+        return 4;
+    default:
+        return 1;
     }
 }
 
@@ -2723,11 +2782,18 @@ void SpriteCB_ShowAsMoveTarget(struct Sprite *sprite)
 {
     sprite->data[3] = 8;
     sprite->data[4] = sprite->invisible;
+    sprite->data[5] = 0;
     sprite->callback = SpriteCB_BlinkVisible;
 }
 
 static void SpriteCB_BlinkVisible(struct Sprite *sprite)
 {
+    u8 speedScale = GetBattleSpeedScale();
+
+    if (++sprite->data[5] < speedScale)
+        return;
+
+    sprite->data[5] = 0;
     if (--sprite->data[3] == 0)
     {
         sprite->invisible ^= 1;
@@ -2798,11 +2864,14 @@ void SpriteCB_FaintSlideAnim(struct Sprite *sprite)
 #undef sSpeedX
 #undef sSpeedY
 
-#define sSinIndex           data[3]
-#define sDelta              data[4]
-#define sAmplitude          data[5]
-#define sBouncerSpriteId    data[6]
-#define sWhich              data[7]
+#define sSinIndex           data[0]
+#define sDelta              data[1]
+#define sAmplitude          data[2]
+#define sBouncerSpriteId    data[3]
+#define sWhich              data[4]
+#define sSinAccLo           data[5]
+#define sSinAccHi           data[6]
+#define sBounceBattler      data[7]
 
 void DoBounceEffect(u8 battler, u8 which, s8 delta, s8 amplitude)
 {
@@ -2841,9 +2910,20 @@ void DoBounceEffect(u8 battler, u8 which, s8 delta, s8 amplitude)
     gSprites[invisibleSpriteId].sAmplitude = amplitude;
     gSprites[invisibleSpriteId].sBouncerSpriteId = bouncerSpriteId;
     gSprites[invisibleSpriteId].sWhich = which;
-    gSprites[invisibleSpriteId].sBattler = battler;
+    // Initialize Q8 accumulator from starting sine index so phases
+    // remain identical to vanilla. The accumulator is used to add
+    // fractional increments when Battle speed > 1 so the net
+    // visible advancement per frame equals `delta`.
+    {
+        s32 acc = ((s32)(u8)gSprites[invisibleSpriteId].sSinIndex) << 8;
+        gSprites[invisibleSpriteId].sSinAccLo = (u16)(acc & 0xFFFF);
+        gSprites[invisibleSpriteId].sSinAccHi = (s16)((acc >> 16) & 0xFFFF);
+    }
+    gSprites[invisibleSpriteId].sBounceBattler = battler;
     gSprites[bouncerSpriteId].x2 = 0;
     gSprites[bouncerSpriteId].y2 = 0;
+    if (which == BOUNCE_HEALTHBOX)
+        SyncGimmickIndicatorWithHealthbox(battler);
 }
 
 void EndBounceEffect(u8 battler, u8 which)
@@ -2871,16 +2951,39 @@ void EndBounceEffect(u8 battler, u8 which)
 
     gSprites[bouncerSpriteId].x2 = 0;
     gSprites[bouncerSpriteId].y2 = 0;
+    if (which == BOUNCE_HEALTHBOX)
+        SyncGimmickIndicatorWithHealthbox(battler);
 }
 
 static void SpriteCB_BounceEffect(struct Sprite *sprite)
 {
     u8 bouncerSpriteId = sprite->sBouncerSpriteId;
-    s32 index = sprite->sSinIndex;
-    s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude;
+    s32 index;
 
-    gSprites[bouncerSpriteId].y2 = y;
-    sprite->sSinIndex = (sprite->sSinIndex + sprite->sDelta) & 0xFF;
+    // Use a Q8 accumulator to apply fractional index increments so
+    // that across the multiple AnimateSprites() internal calls the
+    // total advancement equals `sDelta` per visible frame.
+    {
+        u8 speedScale = GetBattleSpeedScale();
+        s32 incrQ8 = ((s32)sprite->sDelta << 8) / (speedScale ? speedScale : 1);
+
+        // Reconstruct 32-bit accumulator
+        s32 acc = ((s32)(s16)sprite->sSinAccHi << 16) | (u16)sprite->sSinAccLo;
+        acc += incrQ8;
+
+        // Store accumulator back
+        sprite->sSinAccLo = (u16)(acc & 0xFFFF);
+        sprite->sSinAccHi = (s16)((acc >> 16) & 0xFFFF);
+
+        index = (acc >> 8) & 0xFF;
+        s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude;
+        gSprites[bouncerSpriteId].y2 = y;
+        if (sprite->sWhich == BOUNCE_HEALTHBOX)
+            SyncGimmickIndicatorWithHealthbox(sprite->sBounceBattler);
+
+        // Keep sSinIndex in sync for external reads
+        sprite->sSinIndex = index;
+    }
 }
 
 #undef sSinIndex
@@ -2888,6 +2991,9 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 #undef sAmplitude
 #undef sBouncerSpriteId
 #undef sWhich
+#undef sSinAccLo
+#undef sSinAccHi
+#undef sBounceBattler
 
 void SpriteCB_PlayerMonFromBall(struct Sprite *sprite)
 {
@@ -3037,7 +3143,7 @@ static void BattleStartClearSetData(void)
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff == TRUE)
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff == OPTIONS_BATTLE_SCENE_OFF)
             gHitMarker |= HITMARKER_NO_ANIMATIONS;
     }
     else if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)) && GetBattleSceneInRecordedBattle())

@@ -1415,3 +1415,237 @@ text Slateport_MintLady_Text_FirstEncounter {
         "If you ever wish to change how your Pokémon feels or thinks, just come to me. A bit of nature's touch can go a long way!"
     )
 }
+
+script SlateportCity_NewMegaStoneMerchant {
+    lock
+    faceplayer
+    if (!flag(FLAG_NEW_MEGA_STONE_MERCHANT_FIRST_ENCOUNTER)){
+        setflag (FLAG_NEW_MEGA_STONE_MERCHANT_FIRST_ENCOUNTER)
+        msgbox (Slateport_NewMegaStoneMerchant_Text_FirstEncounter)
+        waitmessage
+        if (flag(FLAG_RANDOM_FIELD_ITEMS)){
+            msgbox (Slateport_NewMegaStoneMerchant_Text_RandomFieldItems)
+            waitmessage
+            pokemart (All_Mega_Stone_Merchant)
+        } else {
+            pokemart (New_Mega_Stone_Merchant)
+        }
+        msgbox(format("Come back anytime - rare Mega Stones never stay in my case for long!"))
+        waitmessage
+        release
+        end
+    }
+    msgbox(format(
+        "Back for another rare Mega Stone?\p"
+        "I've still got the newer stones polished and ready for the right Pokémon."))
+    waitmessage
+    if (flag(FLAG_RANDOM_FIELD_ITEMS)){
+        pokemart (All_Mega_Stone_Merchant)
+    } else {
+        pokemart (New_Mega_Stone_Merchant)
+    }
+    msgbox(format("Come back anytime - rare Mega Stones never stay in my case for long!"))
+    waitmessage
+    release
+    end
+}
+
+mart New_Mega_Stone_Merchant {
+    ITEM_CLEFABLITE
+    ITEM_VICTREEBELITE
+    ITEM_STARMINITE
+    ITEM_DRAGONINITE
+    ITEM_MEGANIUMITE
+    ITEM_FERALIGITE
+    ITEM_SKARMORITE
+    ITEM_FROSLASSITE
+    ITEM_EMBOARITE
+    ITEM_EXCADRITE
+    ITEM_SCOLIPITE
+    ITEM_SCRAFTINITE
+    ITEM_EELEKTROSSITE
+    ITEM_CHANDELURITE
+    ITEM_CHESNAUGHTITE
+    ITEM_DELPHOXITE
+    ITEM_GRENINJITE
+    ITEM_PYROARITE
+    ITEM_FLOETTITE
+    ITEM_MALAMARITE
+    ITEM_BARBARACITE
+    ITEM_DRAGALGITE
+    ITEM_HAWLUCHANITE
+    ITEM_ZYGARDITE
+    ITEM_DRAMPANITE
+    ITEM_FALINKSITE
+    ITEM_HEATRANITE
+    ITEM_DARKRANITE
+    ITEM_ZERAORITE
+    ITEM_RAICHUNITE_X
+    ITEM_RAICHUNITE_Y
+    ITEM_CHIMECHITE
+    ITEM_ABSOLITE_Z
+    ITEM_STARAPTITE
+    ITEM_GARCHOMPITE_Z
+    ITEM_LUCARIONITE_Z
+    ITEM_GOLURKITE
+    ITEM_MEOWSTICITE
+    ITEM_CRABOMINITE
+    ITEM_GOLISOPITE
+    ITEM_MAGEARNITE
+    ITEM_SCOVILLAINITE
+    ITEM_BAXCALIBRITE
+    ITEM_TATSUGIRINITE
+    ITEM_GLIMMORANITE
+}
+
+mart All_Mega_Stone_Merchant {
+    ITEM_VENUSAURITE
+    ITEM_CHARIZARDITE_X
+    ITEM_CHARIZARDITE_Y
+    ITEM_BLASTOISINITE
+    ITEM_BEEDRILLITE
+    ITEM_PIDGEOTITE
+    ITEM_ALAKAZITE
+    ITEM_SLOWBRONITE
+    ITEM_GENGARITE
+    ITEM_KANGASKHANITE
+    ITEM_PINSIRITE
+    ITEM_GYARADOSITE
+    ITEM_AERODACTYLITE
+    ITEM_MEWTWONITE_X
+    ITEM_MEWTWONITE_Y
+    ITEM_AMPHAROSITE
+    ITEM_STEELIXITE
+    ITEM_SCIZORITE
+    ITEM_HERACRONITE
+    ITEM_HOUNDOOMINITE
+    ITEM_TYRANITARITE
+    ITEM_SCEPTILITE
+    ITEM_BLAZIKENITE
+    ITEM_SWAMPERTITE
+    ITEM_GARDEVOIRITE
+    ITEM_SABLENITE
+    ITEM_MAWILITE
+    ITEM_AGGRONITE
+    ITEM_MEDICHAMITE
+    ITEM_MANECTITE
+    ITEM_SHARPEDONITE
+    ITEM_CAMERUPTITE
+    ITEM_ALTARIANITE
+    ITEM_BANETTITE
+    ITEM_ABSOLITE
+    ITEM_GLALITITE
+    ITEM_SALAMENCITE
+    ITEM_METAGROSSITE
+    ITEM_LATIASITE
+    ITEM_LATIOSITE
+    ITEM_LOPUNNITE
+    ITEM_GARCHOMPITE
+    ITEM_LUCARIONITE
+    ITEM_ABOMASITE
+    ITEM_GALLADITE
+    ITEM_AUDINITE
+    ITEM_DIANCITE
+    ITEM_CLEFABLITE
+    ITEM_VICTREEBELITE
+    ITEM_STARMINITE
+    ITEM_DRAGONINITE
+    ITEM_MEGANIUMITE
+    ITEM_FERALIGITE
+    ITEM_SKARMORITE
+    ITEM_FROSLASSITE
+    ITEM_EMBOARITE
+    ITEM_EXCADRITE
+    ITEM_SCOLIPITE
+    ITEM_SCRAFTINITE
+    ITEM_EELEKTROSSITE
+    ITEM_CHANDELURITE
+    ITEM_CHESNAUGHTITE
+    ITEM_DELPHOXITE
+    ITEM_GRENINJITE
+    ITEM_PYROARITE
+    ITEM_FLOETTITE
+    ITEM_MALAMARITE
+    ITEM_BARBARACITE
+    ITEM_DRAGALGITE
+    ITEM_HAWLUCHANITE
+    ITEM_ZYGARDITE
+    ITEM_DRAMPANITE
+    ITEM_FALINKSITE
+    ITEM_HEATRANITE
+    ITEM_DARKRANITE
+    ITEM_ZERAORITE
+    ITEM_RAICHUNITE_X
+    ITEM_RAICHUNITE_Y
+    ITEM_CHIMECHITE
+    ITEM_ABSOLITE_Z
+    ITEM_STARAPTITE
+    ITEM_GARCHOMPITE_Z
+    ITEM_LUCARIONITE_Z
+    ITEM_GOLURKITE
+    ITEM_MEOWSTICITE
+    ITEM_CRABOMINITE
+    ITEM_GOLISOPITE
+    ITEM_MAGEARNITE
+    ITEM_SCOVILLAINITE
+    ITEM_BAXCALIBRITE
+    ITEM_TATSUGIRINITE
+    ITEM_GLIMMORANITE
+}
+
+text Slateport_NewMegaStoneMerchant_Text_FirstEncounter {
+	format(
+        "Well now, a Trainer with sharp eyes!\p"
+        "Most folks walk right past these stones thinking they're just pretty trinkets.\p"
+        "But each one carries a special resonance, the kind that can awaken a Mega Evolution in the right Pokémon.\p"
+        "My collection focuses on the newer Mega Stones, from Clefablite onward - rare pieces, carefully sourced and polished.\p"
+        "If you're building a team with unusual Mega potential, take a look. You may find exactly what your partner has been waiting for."
+    )
+}
+
+text Slateport_NewMegaStoneMerchant_Text_RandomFieldItems {
+    format(
+        "Hmm... I can see the shape of this (Randomizer-Run) from here.\p"
+        "You may not have access to every Mega Stone out in the fields this time.\p"
+        "Call it a tiny crack in the fourth wall, but I keep a deeper case for journeys like yours."
+    )
+}
+
+script SlateportCity_AbilityMerchant {
+    lock
+    faceplayer
+    if (!flag(FLAG_ABILITY_MERCHANT_FIRST_ENCOUNTER)){
+        setflag (FLAG_ABILITY_MERCHANT_FIRST_ENCOUNTER)
+        msgbox (Slateport_AbilityMerchant_Text_FirstEncounter)
+        waitmessage
+        pokemart (Ability_Merchant)
+        msgbox(format("Come back quietly if your team needs... adjustment."))
+        waitmessage
+        release
+        end
+    }
+    msgbox(format(
+        "Keep your voice low, friend.\p"
+        "I still have Capsules and Patches for Trainers who know what they are asking for."))
+    waitmessage
+    pokemart (Ability_Merchant)
+    msgbox(format("Come back quietly if your team needs... adjustment."))
+    waitmessage
+    release
+    end
+}
+
+mart Ability_Merchant {
+    ITEM_ABILITY_CAPSULE
+    ITEM_ABILITY_PATCH
+}
+
+text Slateport_AbilityMerchant_Text_FirstEncounter {
+	format(
+        "You did not find me by accident.\p"
+        "Some Pokemon are born with gifts. Others need a little... persuasion.\p"
+        "I deal in Ability Capsules and Ability Patches. Official enough to sell, rare enough that people ask no questions.\p"
+        "Use them wisely. A changed ability can open doors, but it can also reveal what should have stayed hidden.\p"
+        "If that sounds useful, take a look.\nIf not, forget we spoke."
+    )
+}
