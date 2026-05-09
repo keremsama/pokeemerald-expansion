@@ -606,6 +606,18 @@ u8 GetPlayerTextSpeedDelay(void)
     return sTextSpeedFrameDelays[speed];
 }
 
+u8 GetPlayerBattleTextSpeedDelay(void)
+{
+    if (gSaveBlock2Ptr->optionsBattleTextSpeed == OPTIONS_TEXT_SPEED_SLOW
+     || gSaveBlock2Ptr->optionsBattleTextSpeed > OPTIONS_TEXT_SPEED_INSTANT)
+        gSaveBlock2Ptr->optionsBattleTextSpeed = OPTIONS_TEXT_SPEED_MID;
+
+    if (gTextFlags.forceMidTextSpeed)
+        return sTextSpeedFrameDelays[OPTIONS_TEXT_SPEED_MID];
+
+    return sTextSpeedFrameDelays[gSaveBlock2Ptr->optionsBattleTextSpeed];
+}
+
 u8 AddStartMenuWindow(u8 numActions)
 {
     if (sStartMenuWindowId == WINDOW_NONE)

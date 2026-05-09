@@ -606,6 +606,8 @@ static void Cmd_jumpifcaptivateaffected(void);
 static void Cmd_unused(void);
 static void Cmd_tryworryseed(void);
 static void Cmd_callnative(void);
+static bool32 IsAbilityPopUpActive(void);
+static bool32 ShouldAdvanceAbilityPopUpScriptTimer(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -929,6 +931,8 @@ static const struct WindowTemplate sUnusedWinTemplate =
     .paletteNum = 31,
     .baseBlock = 0x3F
 };
+
+EWRAM_DATA static u32 sAbilityPopUpScriptTimerVBlank = 0;
 
 static const u16 sLevelUpBanner_Pal[] = INCBIN_U16("graphics/battle_interface/level_up_banner.gbapal");
 static const u32 sLevelUpBanner_Gfx[] = INCBIN_U32("graphics/battle_interface/level_up_banner.4bpp.lz");
@@ -2985,6 +2989,34 @@ static void Cmd_printselectionstring(void)
     gBattleCommunication[MSG_DISPLAY] = 1;
 }
 
+static bool32 IsAbilityPopUpActive(void)
+{
+    u32 i;
+
+    if (gBattleScripting.fixedPopup)
+        return TRUE;
+
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        if (gBattleStruct->battlerState[i].activeAbilityPopUps)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool32 ShouldAdvanceAbilityPopUpScriptTimer(void)
+{
+    if (gTestRunnerHeadless || !IsAbilityPopUpActive())
+        return TRUE;
+
+    if (sAbilityPopUpScriptTimerVBlank == gMain.vblankCounter1)
+        return FALSE;
+
+    sAbilityPopUpScriptTimerVBlank = gMain.vblankCounter1;
+    return TRUE;
+}
+
 static void Cmd_waitmessage(void)
 {
     CMD_ARGS(u16 time);
@@ -3000,6 +3032,8 @@ static void Cmd_waitmessage(void)
             u16 toWait = cmd->time;
             if (gTestRunnerHeadless)
                 gPauseCounterBattle = toWait;
+            if (!ShouldAdvanceAbilityPopUpScriptTimer())
+                return;
             if (++gPauseCounterBattle >= toWait)
             {
                 gPauseCounterBattle = 0;
@@ -5843,6 +5877,8 @@ static void Cmd_pause(void)
         u16 value = cmd->frames;
         if (gTestRunnerHeadless)
             gPauseCounterBattle = value;
+        if (!ShouldAdvanceAbilityPopUpScriptTimer())
+            return;
         if (++gPauseCounterBattle >= value)
         {
             gPauseCounterBattle = 0;

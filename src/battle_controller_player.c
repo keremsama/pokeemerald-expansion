@@ -130,6 +130,7 @@ static u32 sMoveSelectionInputVBlank[MAX_BATTLERS_COUNT];
 static u32 sTargetSelectionInputVBlank[MAX_BATTLERS_COUNT];
 static u32 sMoveDescriptionInputVBlank;
 static u32 sStartButtonInputVBlank;
+static u32 sLastUsedBallCycleInputVBlank;
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
@@ -205,6 +206,7 @@ void SetControllerToPlayer(u32 battler)
         sMoveDescriptionInputVBlank = INPUT_GUARD_NO_VBLANK;
         sStartButtonWaitForButtonUp = FALSE;
         sStartButtonInputVBlank = INPUT_GUARD_NO_VBLANK;
+        sLastUsedBallCycleInputVBlank = INPUT_GUARD_NO_VBLANK;
     }
 }
 
@@ -457,7 +459,9 @@ static void HandleInputChooseAction(u32 battler)
 
         if (gBattleStruct->ackBallUseBtn)
         {
-            if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_DOWN) || JOY_NEW(DPAD_RIGHT)))
+            if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON)
+             && (JOY_NEW(DPAD_DOWN) || JOY_NEW(DPAD_RIGHT))
+             && !ShouldBlockRepeatedBattleMenuInput(DPAD_ANY, &sLastUsedBallCycleInputVBlank))
             {
                 bool32 sameBall = FALSE;
                 u32 nextBall = GetNextBall(gBallToDisplay);
@@ -469,7 +473,9 @@ static void HandleInputChooseAction(u32 battler)
                 SwapBallToDisplay(sameBall);
                 PlaySE(SE_SELECT);
             }
-            else if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_LEFT)))
+            else if (JOY_HELD_RAW(B_LAST_USED_BALL_BUTTON)
+                  && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_LEFT))
+                  && !ShouldBlockRepeatedBattleMenuInput(DPAD_ANY, &sLastUsedBallCycleInputVBlank))
             {
                 bool32 sameBall = FALSE;
                 u32 prevBall = GetPrevBall(gBallToDisplay);
