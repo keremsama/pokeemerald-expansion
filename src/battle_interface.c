@@ -2800,13 +2800,18 @@ void UpdateAbilityPopup(u8 battlerId)
     RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
 }
 
-#define FRAMES_TO_WAIT 48
+#define FRAMES_TO_WAIT 72
 
 static bool32 ShouldAdvanceAbilityPopUpFrame(struct Sprite *sprite)
 {
+    u8 speedScale = GetBattleSpeedScale();
+
     // Ability pop-up should run at normal speed regardless of Battle Speed
     // settings (2x/3x/4x). Ignore global battle speed scaling here.
-    if (++sprite->tSpeedFrames < 1)
+    if (speedScale < 1)
+        speedScale = 1;
+
+    if (++sprite->tSpeedFrames < speedScale)
         return FALSE;
 
     sprite->tSpeedFrames = 0;
@@ -3033,7 +3038,8 @@ void TryAddLastUsedBallItemSprites(void)
                                                        LAST_BALL_WIN_X_0,
                                                        LAST_USED_WIN_Y, 5);
         gSprites[gBattleStruct->ballSpriteIds[1]].sHide = FALSE;
-        gSprites[gBattleStruct->moveInfoSpriteId].sHide = TRUE;
+        if (gBattleStruct->moveInfoSpriteId != MAX_SPRITES)
+            gSprites[gBattleStruct->moveInfoSpriteId].sHide = TRUE;
         gLastUsedBallMenuPresent = TRUE;
     }
     if (B_LAST_USED_BALL_CYCLE == TRUE)
@@ -3074,7 +3080,8 @@ void TryToAddMoveInfoWindow(void)
 
 void TryToHideMoveInfoWindow(void)
 {
-    gSprites[gBattleStruct->moveInfoSpriteId].sHide = TRUE;
+    if (gBattleStruct->moveInfoSpriteId != MAX_SPRITES)
+        gSprites[gBattleStruct->moveInfoSpriteId].sHide = TRUE;
 }
 
 static void DestroyMoveInfoWinGfx(struct Sprite *sprite)
@@ -3206,8 +3213,17 @@ static void SpriteCB_LastUsedBallBounce(struct Sprite *sprite)
 
 static void Task_BounceBall(u8 taskId)
 {
-    struct Sprite *sprite = &gSprites[gBattleStruct->ballSpriteIds[0]];
+    u8 spriteId = gBattleStruct->ballSpriteIds[0];
+    struct Sprite *sprite;
     struct Task *task = &gTasks[taskId];
+
+    if (spriteId == MAX_SPRITES || !gSprites[spriteId].inUse)
+    {
+        DestroyTask(taskId);
+        return;
+    }
+
+    sprite = &gSprites[spriteId];
     switch(task->sState)
     {
     case 0:  // Bounce up
@@ -3229,8 +3245,9 @@ static void Task_BounceBall(u8 taskId)
         if (!sprite->inUse)
         {
             gBattleStruct->ballSpriteIds[0] = AddItemIconSprite(102, 102, gBallToDisplay);
-            gSprites[gBattleStruct->ballSpriteIds[0]].x = LAST_USED_BALL_X_F;
-            gSprites[gBattleStruct->ballSpriteIds[0]].y = LAST_USED_BALL_Y_BNC;
+            sprite = &gSprites[gBattleStruct->ballSpriteIds[0]];
+            sprite->x = LAST_USED_BALL_X_F;
+            sprite->y = LAST_USED_BALL_Y_BNC;
             task->sState++;
         }  // Fallthrough
     case 3: // Bounce Down
@@ -3260,6 +3277,10 @@ static void Task_BounceBall(u8 taskId)
 void SwapBallToDisplay(bool32 sameBall)
 {
     u8 taskId;
+
+    if (FuncIsActiveTask(Task_BounceBall))
+        return;
+
     taskId = CreateTask(Task_BounceBall, 10);
     gTasks[taskId].sSameBall = sameBall;
 }

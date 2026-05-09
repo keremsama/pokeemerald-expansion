@@ -63,6 +63,7 @@ void SetStandardWindowBorderStyle(u8 windowId, bool8 copyToVram);
 void DisplayYesNoMenuDefaultYes(void);
 u32 GetPlayerTextSpeed(void);
 u8 GetPlayerTextSpeedDelay(void);
+u8 GetPlayerBattleTextSpeedDelay(void);
 void Menu_LoadStdPalAt(u16 offset);
 void AddTextPrinterWithCallbackForMessage(bool8 canSpeedUp, void (*callback)(struct TextPrinterTemplate *, u16));
 void BgDmaFill(u32 bg, u8 value, int offset, int size);
