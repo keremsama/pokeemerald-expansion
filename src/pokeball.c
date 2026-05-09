@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_gimmick.h"
 #include "decompress.h"
 #include "graphics.h"
 #include "main.h"
@@ -1538,14 +1539,17 @@ void DoHitAnimHealthboxEffect(u8 battler)
 static void SpriteCB_HitAnimHealthoxEffect(struct Sprite *sprite)
 {
     u8 r1 = sprite->data[1];
+    u8 battler = gSprites[r1].data[6];
 
     gSprites[r1].y2 = sprite->data[0];
+    SyncGimmickIndicatorWithHealthbox(battler);
     sprite->data[0] = -sprite->data[0];
     sprite->data[2]++;
     if (sprite->data[2] == 21)
     {
         gSprites[r1].x2 = 0;
         gSprites[r1].y2 = 0;
+        SyncGimmickIndicatorWithHealthbox(battler);
         DestroySprite(sprite);
     }
 }
