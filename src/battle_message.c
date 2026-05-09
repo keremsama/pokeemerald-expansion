@@ -2058,22 +2058,6 @@ static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
 
 static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, TEXT_INSTANT_DRAW};
 
-static bool32 IsAbilityPopUpActive(void)
-{
-    u32 i;
-
-    if (gBattleScripting.fixedPopup)
-        return TRUE;
-
-    for (i = 0; i < gBattlersCount; i++)
-    {
-        if (gBattleStruct->battlerState[i].activeAbilityPopUps)
-            return TRUE;
-    }
-
-    return FALSE;
-}
-
 void BufferStringBattle(u16 stringID, u32 battler)
 {
     s32 i;
@@ -3511,7 +3495,7 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
         else
             speed = GetPlayerBattleTextSpeedDelay();
 
-        gTextFlags.canABSpeedUpPrint = !IsAbilityPopUpActive();
+        gTextFlags.canABSpeedUpPrint = 1;
     }
     else
     {
