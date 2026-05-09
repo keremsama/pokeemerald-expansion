@@ -49,7 +49,7 @@
 #include "pokedex.h"
 
 #define INPUT_GUARD_NO_VBLANK 0xFFFFFFFF
-#define MOVE_SELECTION_INPUT_GUARD_KEYS (A_BUTTON | B_BUTTON)
+#define MOVE_SELECTION_INPUT_GUARD_KEYS (A_BUTTON | B_BUTTON | SELECT_BUTTON)
 #define TARGET_SELECTION_INPUT_GUARD_KEYS (A_BUTTON | B_BUTTON)
 #define TARGET_SELECTION_REPEAT_GUARD_KEYS (A_BUTTON | B_BUTTON | DPAD_ANY)
 
@@ -1073,6 +1073,7 @@ void HandleInputChooseMove(u32 battler)
 
             MoveSelectionCreateCursorAt(gMultiUsePlayerCursor, 27);
             BattlePutTextOnWindow(gText_BattleSwitchWhich, B_WIN_SWITCH_PROMPT);
+            StartMoveSelectionInputGuard(battler);
             gBattlerControllerFuncs[battler] = HandleMoveSwitching;
         }
     }
@@ -1158,6 +1159,9 @@ void HandleMoveSwitching(u32 battler)
     u8 perMovePPBonuses[MAX_MON_MOVES];
     struct ChooseMoveStruct moveStruct;
     u8 totalPPBonuses;
+
+    if (ShouldBlockMoveSelectionInput(battler))
+        return;
 
     if (JOY_NEW(A_BUTTON | SELECT_BUTTON))
     {
@@ -1249,6 +1253,7 @@ void HandleMoveSwitching(u32 battler)
 
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
         gMoveSelectionCursor[battler] = gMultiUsePlayerCursor;
+        StartMoveSelectionInputGuard(battler);
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
         if (B_SHOW_EFFECTIVENESS)
             MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
@@ -1264,6 +1269,7 @@ void HandleMoveSwitching(u32 battler)
         MoveSelectionDestroyCursorAt(gMultiUsePlayerCursor);
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        StartMoveSelectionInputGuard(battler);
         if (B_SHOW_EFFECTIVENESS)
             MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
         else
