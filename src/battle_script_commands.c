@@ -608,6 +608,8 @@ static void Cmd_tryworryseed(void);
 static void Cmd_callnative(void);
 static bool32 IsAbilityPopUpActive(void);
 static bool32 ShouldAdvanceAbilityPopUpScriptTimer(void);
+static void MarkAbilityPopUpTextNeedsInput(void);
+static bool32 IsAbilityPopUpTextWaiting(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -933,6 +935,9 @@ static const struct WindowTemplate sUnusedWinTemplate =
 };
 
 EWRAM_DATA static u32 sAbilityPopUpScriptTimerVBlank = 0;
+EWRAM_DATA static bool8 sAbilityPopUpTextLongWait = FALSE;
+
+#define ABILITY_POP_UP_TEXT_WAIT_TIME (B_WAIT_TIME_LONG * 2)
 
 static const u16 sLevelUpBanner_Pal[] = INCBIN_U16("graphics/battle_interface/level_up_banner.gbapal");
 static const u32 sLevelUpBanner_Gfx[] = INCBIN_U32("graphics/battle_interface/level_up_banner.4bpp.lz");
@@ -2832,7 +2837,10 @@ static void Cmd_resultmessage(void)
         }
 
         if (gBattleStruct->missStringId[gBattlerTarget] > B_MSG_AVOIDED_ATK) // Wonder Guard or Levitate - show the ability pop-up
+        {
             CreateAbilityPopUp(gBattlerTarget, gBattleMons[gBattlerTarget].ability, IsDoubleBattle());
+            MarkAbilityPopUpTextNeedsInput();
+        }
         gBattleCommunication[MSG_DISPLAY] = 1;
         stringId = gMissStringIds[gBattleStruct->missStringId[gBattlerTarget]];
     }
@@ -3007,7 +3015,7 @@ static bool32 IsAbilityPopUpActive(void)
 
 static bool32 ShouldAdvanceAbilityPopUpScriptTimer(void)
 {
-    if (gTestRunnerHeadless || !IsAbilityPopUpActive())
+    if (gTestRunnerHeadless || (!IsAbilityPopUpActive() && !sAbilityPopUpTextLongWait))
         return TRUE;
 
     if (sAbilityPopUpScriptTimerVBlank == gMain.vblankCounter1)
@@ -3015,6 +3023,17 @@ static bool32 ShouldAdvanceAbilityPopUpScriptTimer(void)
 
     sAbilityPopUpScriptTimerVBlank = gMain.vblankCounter1;
     return TRUE;
+}
+
+static void MarkAbilityPopUpTextNeedsInput(void)
+{
+    if (!gTestRunnerHeadless && B_ABILITY_POP_UP == TRUE)
+        sAbilityPopUpTextLongWait = TRUE;
+}
+
+static bool32 IsAbilityPopUpTextWaiting(void)
+{
+    return !gTestRunnerHeadless && sAbilityPopUpTextLongWait;
 }
 
 static void Cmd_waitmessage(void)
@@ -3025,6 +3044,7 @@ static void Cmd_waitmessage(void)
     {
         if (!gBattleCommunication[MSG_DISPLAY])
         {
+            sAbilityPopUpTextLongWait = FALSE;
             gBattlescriptCurrInstr = cmd->nextInstr;
         }
         else
@@ -3032,13 +3052,30 @@ static void Cmd_waitmessage(void)
             u16 toWait = cmd->time;
             if (gTestRunnerHeadless)
                 gPauseCounterBattle = toWait;
-            if (!ShouldAdvanceAbilityPopUpScriptTimer())
-                return;
-            if (++gPauseCounterBattle >= toWait)
+            if (IsAbilityPopUpTextWaiting())
+            {
+                if (toWait < ABILITY_POP_UP_TEXT_WAIT_TIME)
+                    toWait = ABILITY_POP_UP_TEXT_WAIT_TIME;
+
+                if (!JOY_NEW(A_BUTTON | B_BUTTON))
+                {
+                    if (!ShouldAdvanceAbilityPopUpScriptTimer())
+                        return;
+                    if (++gPauseCounterBattle < toWait)
+                        return;
+                }
+
+                gPauseCounterBattle = 0;
+                gBattlescriptCurrInstr = cmd->nextInstr;
+                gBattleCommunication[MSG_DISPLAY] = 0;
+                sAbilityPopUpTextLongWait = FALSE;
+            }
+            else if (++gPauseCounterBattle >= toWait)
             {
                 gPauseCounterBattle = 0;
                 gBattlescriptCurrInstr = cmd->nextInstr;
                 gBattleCommunication[MSG_DISPLAY] = 0;
+                sAbilityPopUpTextLongWait = FALSE;
             }
         }
     }
@@ -5892,7 +5929,10 @@ static void Cmd_waitstate(void)
     CMD_ARGS();
 
     if (gBattleControllerExecFlags == 0)
+    {
+        sAbilityPopUpTextLongWait = FALSE;
         gBattlescriptCurrInstr = cmd->nextInstr;
+    }
 }
 
 static void Cmd_absorb(void)
@@ -11080,6 +11120,7 @@ static void Cmd_various(void)
     {
         VARIOUS_ARGS();
         CreateAbilityPopUp(battler, gBattleMons[battler].ability, (IsDoubleBattle()) != 0);
+        MarkAbilityPopUpTextNeedsInput();
         break;
     }
     case VARIOUS_UPDATE_ABILITY_POPUP:
