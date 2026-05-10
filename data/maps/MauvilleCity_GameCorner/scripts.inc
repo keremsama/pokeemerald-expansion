@@ -15,12 +15,28 @@ MauvilleCity_GameCorner_MapScripts::
 	.set TM_ICE_BEAM_COINS, 4000
 	.set DOLL_COINS, 1000
 	.set SOOTHEBELL_COINS, 1200
+	.set EXPERTBELT_COINS, 1600
+	.set PUNCHINGGLOVE_COINS, 1700
+	.set WIDELENS_COINS, 1700
 	.set THICKCLUB_COINS, 1800
+	.set MUSCLEBAND_COINS, 1800
+	.set WISEGLASSES_COINS, 1800
+	.set FOCUSSASH_COINS, 3000
+	.set ASSAULTVEST_COINS, 3300
 	.set LIFEORB_COINS, 4700
+	.set ROCKYHELMET_COINS, 3500
+	.set LOADEDDICE_COINS, 4500
 	.set FIRESTONE_COINS, 1400
 	.set THUNDERSTONE_COINS, 1400
 	.set WATERSTONE_COINS, 1400
 	.set LEAFSTONE_COINS, 1400
+	.set ICESTONE_COINS, 1400
+	.set SUNSTONE_COINS, 1400
+	.set MOONSTONE_COINS, 1400
+	.set SHINYSTONE_COINS, 1400
+	.set DUSKSTONE_COINS, 1400
+	.set DAWNSTONE_COINS, 1400
+	.set LINKINGCORD_COINS, 1400
 	.set EVIOLITE_COINS, 3300
 	.set LEFTOVERS_COINS, 4300
 
@@ -29,6 +45,9 @@ MauvilleCity_GameCorner_MapScripts::
 	.set RALTS_COINS, 3200
 	.set DRATINI_COINS, 5500
 	.set BAGON_COINS, 5500
+	.set LARVITAR_COINS, 5000
+	.set DREEPY_COINS, 6000
+	.set SCYTHER_COINS, 4800
 	.set FRIGIBAX_COINS, 6300
 	.set BELDUM_COINS, 8000
 	.set PORYGON_COINS, 9999
@@ -821,128 +840,273 @@ MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2::
 	goto MauvilleCity_GameCorner_EventScript_ChooseEvoItem	
 
 MauvilleCity_GameCorner_EventScript_ChooseTMPrize::
-	multichoice 12, 0, MULTI_GAME_CORNER_TMS, FALSE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMDoubleTeam, ITEM_TM_DOUBLE_TEAM
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMFirePunch, ITEM_TM_FIRE_PUNCH
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMThunderPunch, ITEM_TM_THUNDER_PUNCH
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMIcePunch, ITEM_TM_ICE_PUNCH
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMPsychic, ITEM_TM_PSYCHIC
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMFlamethrower, ITEM_TM_FLAMETHROWER
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMThunderbolt, ITEM_TM_THUNDERBOLT
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeTMIceBeam, ITEM_TM_ICE_BEAM
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, ITEM_NONE
+	dynmultistack 12, 0, FALSE, 6, FALSE, ITEM_TM_DOUBLE_TEAM, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
 	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_TMPsychic
-	case 1, MauvilleCity_GameCorner_EventScript_TMFlamethrower
-	case 2, MauvilleCity_GameCorner_EventScript_TMThunderbolt
-	case 3, MauvilleCity_GameCorner_EventScript_TMIceBeam
-	case 4, MauvilleCity_GameCorner_EventScript_ChooseTMPrize_Page2
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	end
-
-MauvilleCity_GameCorner_EventScript_ChooseTMPrize_Page2::
-	multichoice 12, 0, MULTI_GAME_CORNER_TMS_PAGE2, FALSE
-	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_TMDoubleTeam
-	case 1, MauvilleCity_GameCorner_EventScript_TMFirePunch
-	case 2, MauvilleCity_GameCorner_EventScript_TMThunderPunch
-	case 3, MauvilleCity_GameCorner_EventScript_TMIcePunch
-	case 4, MauvilleCity_GameCorner_EventScript_ChooseTMPrize
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
+	case ITEM_TM_DOUBLE_TEAM, MauvilleCity_GameCorner_EventScript_TMDoubleTeam
+	case ITEM_TM_FIRE_PUNCH, MauvilleCity_GameCorner_EventScript_TMFirePunch
+	case ITEM_TM_THUNDER_PUNCH, MauvilleCity_GameCorner_EventScript_TMThunderPunch
+	case ITEM_TM_ICE_PUNCH, MauvilleCity_GameCorner_EventScript_TMIcePunch
+	case ITEM_TM_PSYCHIC, MauvilleCity_GameCorner_EventScript_TMPsychic
+	case ITEM_TM_FLAMETHROWER, MauvilleCity_GameCorner_EventScript_TMFlamethrower
+	case ITEM_TM_THUNDERBOLT, MauvilleCity_GameCorner_EventScript_TMThunderbolt
+	case ITEM_TM_ICE_BEAM, MauvilleCity_GameCorner_EventScript_TMIceBeam
+	case ITEM_NONE, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end
 	
 MauvilleCity_GameCorner_EventScript_ChooseNewPrize::
-	multichoice 12, 0, MULTI_GAMECORNER_NEW, FALSE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeSootheBell, ITEM_SOOTHE_BELL
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExpertBelt, ITEM_EXPERT_BELT
+	dynmultipush MauvilleCity_GameCorner_Text_PrizePunchingGlove, ITEM_PUNCHING_GLOVE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeWideLens, ITEM_WIDE_LENS
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeThickClub, ITEM_THICK_CLUB
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeMuscleBand, ITEM_MUSCLE_BAND
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeWiseGlasses, ITEM_WISE_GLASSES
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeFocusSash, ITEM_FOCUS_SASH
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeEviolite, ITEM_EVIOLITE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeAssaultVest, ITEM_ASSAULT_VEST
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeRockyHelmet, ITEM_ROCKY_HELMET
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLeftovers, ITEM_LEFTOVERS
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLoadedDice, ITEM_LOADED_DICE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLifeOrb, ITEM_LIFE_ORB
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, ITEM_NONE
+	dynmultistack 12, 0, FALSE, 6, FALSE, ITEM_SOOTHE_BELL, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
 	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_SootheBell
-	case 1, MauvilleCity_GameCorner_EventScript_ThickClub
-	case 2, MauvilleCity_GameCorner_EventScript_Eviolite
-	case 3, MauvilleCity_GameCorner_EventScript_Leftovers
-	case 4,	MauvilleCity_GameCorner_EventScript_LifeOrb
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
+	case ITEM_SOOTHE_BELL, MauvilleCity_GameCorner_EventScript_SootheBell
+	case ITEM_EXPERT_BELT, MauvilleCity_GameCorner_EventScript_ExpertBelt
+	case ITEM_PUNCHING_GLOVE, MauvilleCity_GameCorner_EventScript_PunchingGlove
+	case ITEM_WIDE_LENS, MauvilleCity_GameCorner_EventScript_WideLens
+	case ITEM_THICK_CLUB, MauvilleCity_GameCorner_EventScript_ThickClub
+	case ITEM_MUSCLE_BAND, MauvilleCity_GameCorner_EventScript_MuscleBand
+	case ITEM_WISE_GLASSES, MauvilleCity_GameCorner_EventScript_WiseGlasses
+	case ITEM_FOCUS_SASH, MauvilleCity_GameCorner_EventScript_FocusSash
+	case ITEM_EVIOLITE, MauvilleCity_GameCorner_EventScript_Eviolite
+	case ITEM_ASSAULT_VEST, MauvilleCity_GameCorner_EventScript_AssaultVest
+	case ITEM_ROCKY_HELMET, MauvilleCity_GameCorner_EventScript_RockyHelmet
+	case ITEM_LEFTOVERS, MauvilleCity_GameCorner_EventScript_Leftovers
+	case ITEM_LOADED_DICE, MauvilleCity_GameCorner_EventScript_LoadedDice
+	case ITEM_LIFE_ORB, MauvilleCity_GameCorner_EventScript_LifeOrb
+	case ITEM_NONE, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end
 
 MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize::
-	multichoice 12, 0, MULTI_GAMECORNER_POKEMON_PRIZE, FALSE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeAbra, SPECIES_ABRA
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeCubone, SPECIES_CUBONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeRalts, SPECIES_RALTS
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeScyther, SPECIES_SCYTHER
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLarvitar, SPECIES_LARVITAR
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDratini, SPECIES_DRATINI
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeBagon, SPECIES_BAGON
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDreepy, SPECIES_DREEPY
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeFrigibax, SPECIES_FRIGIBAX
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeBeldum, SPECIES_BELDUM
+	dynmultipush MauvilleCity_GameCorner_Text_PrizePorygon, SPECIES_PORYGON
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, SPECIES_NONE
+	dynmultistack 12, 0, FALSE, 6, FALSE, SPECIES_ABRA, DYN_MULTICHOICE_CB_SHOW_MON_LEFT
 	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_Abra
-	case 1, MauvilleCity_GameCorner_EventScript_Cubone
-	case 2, MauvilleCity_GameCorner_EventScript_Ralts
-	case 3, MauvilleCity_GameCorner_EventScript_Dratini
-	case 4,	MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize_Page2
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	end
-
-MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize_Page2::
-	multichoice 12, 0, MULTI_GAMECORNER_POKEMON_PRIZE_PAGE2, FALSE
-	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_Bagon
-	case 1, MauvilleCity_GameCorner_EventScript_Frigibax
-	case 2, MauvilleCity_GameCorner_EventScript_Beldum
-	case 3, MauvilleCity_GameCorner_EventScript_Porygon
-	case 4,	MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
+	case SPECIES_ABRA, MauvilleCity_GameCorner_EventScript_Abra
+	case SPECIES_CUBONE, MauvilleCity_GameCorner_EventScript_Cubone
+	case SPECIES_RALTS, MauvilleCity_GameCorner_EventScript_Ralts
+	case SPECIES_SCYTHER, MauvilleCity_GameCorner_EventScript_Scyther
+	case SPECIES_LARVITAR, MauvilleCity_GameCorner_EventScript_Larvitar
+	case SPECIES_DRATINI, MauvilleCity_GameCorner_EventScript_Dratini
+	case SPECIES_BAGON, MauvilleCity_GameCorner_EventScript_Bagon
+	case SPECIES_DREEPY, MauvilleCity_GameCorner_EventScript_Dreepy
+	case SPECIES_FRIGIBAX, MauvilleCity_GameCorner_EventScript_Frigibax
+	case SPECIES_BELDUM, MauvilleCity_GameCorner_EventScript_Beldum
+	case SPECIES_PORYGON, MauvilleCity_GameCorner_EventScript_Porygon
+	case SPECIES_NONE, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end
 
 MauvilleCity_GameCorner_EventScript_ChooseEvoItem::
-	multichoice 12, 0, MULTI_GAMECORNER_EVO_ITEMS, FALSE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeFireStone, ITEM_FIRE_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeThunderStone, ITEM_THUNDER_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeWaterStone, ITEM_WATER_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLeafStone, ITEM_LEAF_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeIceStone, ITEM_ICE_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeSunStone, ITEM_SUN_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeMoonStone, ITEM_MOON_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeShinyStone, ITEM_SHINY_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDuskStone, ITEM_DUSK_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDawnStone, ITEM_DAWN_STONE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLinkingCord, ITEM_LINKING_CORD
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, ITEM_NONE
+	dynmultistack 12, 0, FALSE, 6, FALSE, ITEM_FIRE_STONE, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
 	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_FireStone
-	case 1, MauvilleCity_GameCorner_EventScript_ThunderStone
-	case 2, MauvilleCity_GameCorner_EventScript_WaterStone
-	case 3, MauvilleCity_GameCorner_EventScript_LeafStone
-	case 4, MauvilleCity_GameCorner_EventScript_CancelTMSelect
+	case ITEM_FIRE_STONE, MauvilleCity_GameCorner_EventScript_FireStone
+	case ITEM_THUNDER_STONE, MauvilleCity_GameCorner_EventScript_ThunderStone
+	case ITEM_WATER_STONE, MauvilleCity_GameCorner_EventScript_WaterStone
+	case ITEM_LEAF_STONE, MauvilleCity_GameCorner_EventScript_LeafStone
+	case ITEM_ICE_STONE, MauvilleCity_GameCorner_EventScript_IceStone
+	case ITEM_SUN_STONE, MauvilleCity_GameCorner_EventScript_SunStone
+	case ITEM_MOON_STONE, MauvilleCity_GameCorner_EventScript_MoonStone
+	case ITEM_SHINY_STONE, MauvilleCity_GameCorner_EventScript_ShinyStone
+	case ITEM_DUSK_STONE, MauvilleCity_GameCorner_EventScript_DuskStone
+	case ITEM_DAWN_STONE, MauvilleCity_GameCorner_EventScript_DawnStone
+	case ITEM_LINKING_CORD, MauvilleCity_GameCorner_EventScript_LinkingCord
+	case ITEM_NONE, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end		
 
 MauvilleCity_GameCorner_EventScript_Eviolite::
-	setvar VAR_TEMP_1, 8
+	setvar VAR_TEMP_1, ITEM_EVIOLITE
 	bufferitemname STR_VAR_1, ITEM_EVIOLITE
 	setvar VAR_0x8004, ITEM_EVIOLITE
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 	
 MauvilleCity_GameCorner_EventScript_Leftovers::
-	setvar VAR_TEMP_1, 9
+	setvar VAR_TEMP_1, ITEM_LEFTOVERS
 	bufferitemname STR_VAR_1, ITEM_LEFTOVERS
 	setvar VAR_0x8004, ITEM_LEFTOVERS
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize	
 	
 MauvilleCity_GameCorner_EventScript_SootheBell::
-	setvar VAR_TEMP_1, 1
+	setvar VAR_TEMP_1, ITEM_SOOTHE_BELL
 	bufferitemname STR_VAR_1, ITEM_SOOTHE_BELL
 	setvar VAR_0x8004, ITEM_SOOTHE_BELL
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 	
 MauvilleCity_GameCorner_EventScript_ThickClub::
-	setvar VAR_TEMP_1, 2
+	setvar VAR_TEMP_1, ITEM_THICK_CLUB
 	bufferitemname STR_VAR_1, ITEM_THICK_CLUB
 	setvar VAR_0x8004, ITEM_THICK_CLUB
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
 MauvilleCity_GameCorner_EventScript_LifeOrb::
-	setvar VAR_TEMP_1, 3
+	setvar VAR_TEMP_1, ITEM_LIFE_ORB
 	bufferitemname STR_VAR_1, ITEM_LIFE_ORB
 	setvar VAR_0x8004, ITEM_LIFE_ORB
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
+MauvilleCity_GameCorner_EventScript_ExpertBelt::
+	setvar VAR_TEMP_1, ITEM_EXPERT_BELT
+	bufferitemname STR_VAR_1, ITEM_EXPERT_BELT
+	setvar VAR_0x8004, ITEM_EXPERT_BELT
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_PunchingGlove::
+	setvar VAR_TEMP_1, ITEM_PUNCHING_GLOVE
+	bufferitemname STR_VAR_1, ITEM_PUNCHING_GLOVE
+	setvar VAR_0x8004, ITEM_PUNCHING_GLOVE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_WideLens::
+	setvar VAR_TEMP_1, ITEM_WIDE_LENS
+	bufferitemname STR_VAR_1, ITEM_WIDE_LENS
+	setvar VAR_0x8004, ITEM_WIDE_LENS
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_MuscleBand::
+	setvar VAR_TEMP_1, ITEM_MUSCLE_BAND
+	bufferitemname STR_VAR_1, ITEM_MUSCLE_BAND
+	setvar VAR_0x8004, ITEM_MUSCLE_BAND
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_WiseGlasses::
+	setvar VAR_TEMP_1, ITEM_WISE_GLASSES
+	bufferitemname STR_VAR_1, ITEM_WISE_GLASSES
+	setvar VAR_0x8004, ITEM_WISE_GLASSES
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_FocusSash::
+	setvar VAR_TEMP_1, ITEM_FOCUS_SASH
+	bufferitemname STR_VAR_1, ITEM_FOCUS_SASH
+	setvar VAR_0x8004, ITEM_FOCUS_SASH
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_AssaultVest::
+	setvar VAR_TEMP_1, ITEM_ASSAULT_VEST
+	bufferitemname STR_VAR_1, ITEM_ASSAULT_VEST
+	setvar VAR_0x8004, ITEM_ASSAULT_VEST
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_RockyHelmet::
+	setvar VAR_TEMP_1, ITEM_ROCKY_HELMET
+	bufferitemname STR_VAR_1, ITEM_ROCKY_HELMET
+	setvar VAR_0x8004, ITEM_ROCKY_HELMET
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_LoadedDice::
+	setvar VAR_TEMP_1, ITEM_LOADED_DICE
+	bufferitemname STR_VAR_1, ITEM_LOADED_DICE
+	setvar VAR_0x8004, ITEM_LOADED_DICE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
 MauvilleCity_GameCorner_EventScript_ThunderStone::
-	setvar VAR_TEMP_1, 5
+	setvar VAR_TEMP_1, ITEM_THUNDER_STONE
 	bufferitemname STR_VAR_1, ITEM_THUNDER_STONE
 	setvar VAR_0x8004, ITEM_THUNDER_STONE
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
 MauvilleCity_GameCorner_EventScript_WaterStone::
-	setvar VAR_TEMP_1, 6
+	setvar VAR_TEMP_1, ITEM_WATER_STONE
 	bufferitemname STR_VAR_1, ITEM_WATER_STONE
 	setvar VAR_0x8004, ITEM_WATER_STONE
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
 MauvilleCity_GameCorner_EventScript_LeafStone::
-	setvar VAR_TEMP_1, 7
+	setvar VAR_TEMP_1, ITEM_LEAF_STONE
 	bufferitemname STR_VAR_1, ITEM_LEAF_STONE
 	setvar VAR_0x8004, ITEM_LEAF_STONE
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
 MauvilleCity_GameCorner_EventScript_FireStone::
-	setvar VAR_TEMP_1, 4
+	setvar VAR_TEMP_1, ITEM_FIRE_STONE
 	bufferitemname STR_VAR_1, ITEM_FIRE_STONE
 	setvar VAR_0x8004, ITEM_FIRE_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_IceStone::
+	setvar VAR_TEMP_1, ITEM_ICE_STONE
+	bufferitemname STR_VAR_1, ITEM_ICE_STONE
+	setvar VAR_0x8004, ITEM_ICE_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_SunStone::
+	setvar VAR_TEMP_1, ITEM_SUN_STONE
+	bufferitemname STR_VAR_1, ITEM_SUN_STONE
+	setvar VAR_0x8004, ITEM_SUN_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_MoonStone::
+	setvar VAR_TEMP_1, ITEM_MOON_STONE
+	bufferitemname STR_VAR_1, ITEM_MOON_STONE
+	setvar VAR_0x8004, ITEM_MOON_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_ShinyStone::
+	setvar VAR_TEMP_1, ITEM_SHINY_STONE
+	bufferitemname STR_VAR_1, ITEM_SHINY_STONE
+	setvar VAR_0x8004, ITEM_SHINY_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_DuskStone::
+	setvar VAR_TEMP_1, ITEM_DUSK_STONE
+	bufferitemname STR_VAR_1, ITEM_DUSK_STONE
+	setvar VAR_0x8004, ITEM_DUSK_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_DawnStone::
+	setvar VAR_TEMP_1, ITEM_DAWN_STONE
+	bufferitemname STR_VAR_1, ITEM_DAWN_STONE
+	setvar VAR_0x8004, ITEM_DAWN_STONE
+	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
+
+MauvilleCity_GameCorner_EventScript_LinkingCord::
+	setvar VAR_TEMP_1, ITEM_LINKING_CORD
+	bufferitemname STR_VAR_1, ITEM_LINKING_CORD
+	setvar VAR_0x8004, ITEM_LINKING_CORD
 	goto MauvilleCity_GameCorner_EventScript_ConfirmNewPrize
 
 MauvilleCity_GameCorner_EventScript_Abra::
@@ -976,21 +1140,39 @@ MauvilleCity_GameCorner_EventScript_Bagon::
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Frigibax::
-	setvar VAR_TEMP_1, 6
+	setvar VAR_TEMP_1, 9
 	bufferspeciesname STR_VAR_1, SPECIES_FRIGIBAX
 	setvar VAR_0x8004, SPECIES_FRIGIBAX
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Beldum::
-	setvar VAR_TEMP_1, 7
+	setvar VAR_TEMP_1, 10
 	bufferspeciesname STR_VAR_1, SPECIES_BELDUM
 	setvar VAR_0x8004, SPECIES_BELDUM
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Porygon::
-	setvar VAR_TEMP_1, 8
+	setvar VAR_TEMP_1, 11
 	bufferspeciesname STR_VAR_1, SPECIES_PORYGON
 	setvar VAR_0x8004, SPECIES_PORYGON
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Larvitar::
+	setvar VAR_TEMP_1, 6
+	bufferspeciesname STR_VAR_1, SPECIES_LARVITAR
+	setvar VAR_0x8004, SPECIES_LARVITAR
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Dreepy::
+	setvar VAR_TEMP_1, 7
+	bufferspeciesname STR_VAR_1, SPECIES_DREEPY
+	setvar VAR_0x8004, SPECIES_DREEPY
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Scyther::
+	setvar VAR_TEMP_1, 8
+	bufferspeciesname STR_VAR_1, SPECIES_SCYTHER
+	setvar VAR_0x8004, SPECIES_SCYTHER
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 
@@ -999,15 +1181,31 @@ MauvilleCity_GameCorner_EventScript_ConfirmNewPrize::
 	msgbox MauvilleCity_GameCorner_Text_SoYourChoiceIsTheNewX, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	switch VAR_TEMP_1
-	case 1, MauvilleCity_GameCorner_EventScript_BuySootheBell
-	case 2, MauvilleCity_GameCorner_EventScript_BuyThickClub
-	case 3, MauvilleCity_GameCorner_EventScript_BuyLifeOrb
-	case 4, MauvilleCity_GameCorner_EventScript_BuyFireStone
-	case 5, MauvilleCity_GameCorner_EventScript_BuyThunderStone
-	case 6, MauvilleCity_GameCorner_EventScript_BuyWaterStone
-	case 7, MauvilleCity_GameCorner_EventScript_BuyLeafStone
-	case 8, MauvilleCity_GameCorner_EventScript_BuyEviolite
-	case 9, MauvilleCity_GameCorner_EventScript_BuyLeftovers
+	case ITEM_FIRE_STONE, MauvilleCity_GameCorner_EventScript_BuyFireStone
+	case ITEM_THUNDER_STONE, MauvilleCity_GameCorner_EventScript_BuyThunderStone
+	case ITEM_WATER_STONE, MauvilleCity_GameCorner_EventScript_BuyWaterStone
+	case ITEM_LEAF_STONE, MauvilleCity_GameCorner_EventScript_BuyLeafStone
+	case ITEM_ICE_STONE, MauvilleCity_GameCorner_EventScript_BuyIceStone
+	case ITEM_SUN_STONE, MauvilleCity_GameCorner_EventScript_BuySunStone
+	case ITEM_MOON_STONE, MauvilleCity_GameCorner_EventScript_BuyMoonStone
+	case ITEM_SHINY_STONE, MauvilleCity_GameCorner_EventScript_BuyShinyStone
+	case ITEM_DUSK_STONE, MauvilleCity_GameCorner_EventScript_BuyDuskStone
+	case ITEM_DAWN_STONE, MauvilleCity_GameCorner_EventScript_BuyDawnStone
+	case ITEM_LINKING_CORD, MauvilleCity_GameCorner_EventScript_BuyLinkingCord
+	case ITEM_SOOTHE_BELL, MauvilleCity_GameCorner_EventScript_BuySootheBell
+	case ITEM_EXPERT_BELT, MauvilleCity_GameCorner_EventScript_BuyExpertBelt
+	case ITEM_PUNCHING_GLOVE, MauvilleCity_GameCorner_EventScript_BuyPunchingGlove
+	case ITEM_WIDE_LENS, MauvilleCity_GameCorner_EventScript_BuyWideLens
+	case ITEM_THICK_CLUB, MauvilleCity_GameCorner_EventScript_BuyThickClub
+	case ITEM_MUSCLE_BAND, MauvilleCity_GameCorner_EventScript_BuyMuscleBand
+	case ITEM_WISE_GLASSES, MauvilleCity_GameCorner_EventScript_BuyWiseGlasses
+	case ITEM_FOCUS_SASH, MauvilleCity_GameCorner_EventScript_BuyFocusSash
+	case ITEM_EVIOLITE, MauvilleCity_GameCorner_EventScript_BuyEviolite
+	case ITEM_ASSAULT_VEST, MauvilleCity_GameCorner_EventScript_BuyAssaultVest
+	case ITEM_ROCKY_HELMET, MauvilleCity_GameCorner_EventScript_BuyRockyHelmet
+	case ITEM_LEFTOVERS, MauvilleCity_GameCorner_EventScript_BuyLeftovers
+	case ITEM_LOADED_DICE, MauvilleCity_GameCorner_EventScript_BuyLoadedDice
+	case ITEM_LIFE_ORB, MauvilleCity_GameCorner_EventScript_BuyLifeOrb
 	end
 
 MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize::
@@ -1020,14 +1218,17 @@ MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize::
 	case 3, MauvilleCity_GameCorner_EventScript_BuyRalts
 	case 4, MauvilleCity_GameCorner_EventScript_BuyDratini
 	case 5, MauvilleCity_GameCorner_EventScript_BuyBagon
-	case 6, MauvilleCity_GameCorner_EventScript_BuyFrigibax
-	case 7, MauvilleCity_GameCorner_EventScript_BuyBeldum
-	case 8, MauvilleCity_GameCorner_EventScript_BuyPorygon
+	case 6, MauvilleCity_GameCorner_EventScript_BuyLarvitar
+	case 7, MauvilleCity_GameCorner_EventScript_BuyDreepy
+	case 8, MauvilleCity_GameCorner_EventScript_BuyScyther
+	case 9, MauvilleCity_GameCorner_EventScript_BuyFrigibax
+	case 10, MauvilleCity_GameCorner_EventScript_BuyBeldum
+	case 11, MauvilleCity_GameCorner_EventScript_BuyPorygon
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyAbra::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins ABRA_COINS
 	givemon SPECIES_ABRA, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1038,7 +1239,7 @@ MauvilleCity_GameCorner_EventScript_BuyAbra::
 
 MauvilleCity_GameCorner_EventScript_BuyCubone::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins CUBONE_COINS
 	givemon SPECIES_CUBONE, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1049,7 +1250,7 @@ MauvilleCity_GameCorner_EventScript_BuyCubone::
 
 MauvilleCity_GameCorner_EventScript_BuyRalts::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins RALTS_COINS
 	givemon SPECIES_RALTS, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1060,7 +1261,7 @@ MauvilleCity_GameCorner_EventScript_BuyRalts::
 
 MauvilleCity_GameCorner_EventScript_BuyDratini::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins DRATINI_COINS
 	givemon SPECIES_DRATINI, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1071,7 +1272,7 @@ MauvilleCity_GameCorner_EventScript_BuyDratini::
 
 MauvilleCity_GameCorner_EventScript_BuyBagon::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BAGON_COINS
 	givemon SPECIES_BAGON, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1080,9 +1281,42 @@ MauvilleCity_GameCorner_EventScript_BuyBagon::
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
 	end
 
+MauvilleCity_GameCorner_EventScript_BuyLarvitar::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, LARVITAR_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins LARVITAR_COINS
+	givemon SPECIES_LARVITAR, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyDreepy::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, DREEPY_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins DREEPY_COINS
+	givemon SPECIES_DREEPY, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyScyther::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, SCYTHER_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins SCYTHER_COINS
+	givemon SPECIES_SCYTHER, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
 MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins FRIGIBAX_COINS
 	givemon SPECIES_FRIGIBAX, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1093,7 +1327,7 @@ MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 
 MauvilleCity_GameCorner_EventScript_BuyBeldum::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BELDUM_COINS
 	givemon SPECIES_BELDUM, 25, 0, ITEM_CHERISH_BALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1104,7 +1338,7 @@ MauvilleCity_GameCorner_EventScript_BuyBeldum::
 
 MauvilleCity_GameCorner_EventScript_BuyPorygon::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins PORYGON_COINS
 	givemon SPECIES_PORYGON, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1151,6 +1385,45 @@ MauvilleCity_GameCorner_EventScript_BuySootheBell::
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
 	end
+
+MauvilleCity_GameCorner_EventScript_BuyExpertBelt::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, EXPERTBELT_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_EXPERT_BELT
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins EXPERTBELT_COINS
+	additem ITEM_EXPERT_BELT
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyPunchingGlove::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, PUNCHINGGLOVE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_PUNCHING_GLOVE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins PUNCHINGGLOVE_COINS
+	additem ITEM_PUNCHING_GLOVE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyWideLens::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, WIDELENS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_WIDE_LENS
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins WIDELENS_COINS
+	additem ITEM_WIDE_LENS
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
 	
 MauvilleCity_GameCorner_EventScript_BuyThickClub::
 	checkcoins VAR_TEMP_2
@@ -1159,6 +1432,84 @@ MauvilleCity_GameCorner_EventScript_BuyThickClub::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
 	removecoins THICKCLUB_COINS
 	additem ITEM_THICK_CLUB
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyMuscleBand::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, MUSCLEBAND_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_MUSCLE_BAND
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins MUSCLEBAND_COINS
+	additem ITEM_MUSCLE_BAND
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyWiseGlasses::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, WISEGLASSES_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_WISE_GLASSES
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins WISEGLASSES_COINS
+	additem ITEM_WISE_GLASSES
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyFocusSash::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, FOCUSSASH_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_FOCUS_SASH
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins FOCUSSASH_COINS
+	additem ITEM_FOCUS_SASH
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyAssaultVest::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, ASSAULTVEST_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_ASSAULT_VEST
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins ASSAULTVEST_COINS
+	additem ITEM_ASSAULT_VEST
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyRockyHelmet::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, ROCKYHELMET_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_ROCKY_HELMET
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins ROCKYHELMET_COINS
+	additem ITEM_ROCKY_HELMET
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyLoadedDice::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, LOADEDDICE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	checkitemspace ITEM_LOADED_DICE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew
+	removecoins LOADEDDICE_COINS
+	additem ITEM_LOADED_DICE
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1230,50 +1581,141 @@ MauvilleCity_GameCorner_EventScript_BuyLeafStone::
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
 	end	
 
+MauvilleCity_GameCorner_EventScript_BuyIceStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, ICESTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_ICE_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins ICESTONE_COINS
+	additem ITEM_ICE_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuySunStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, SUNSTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_SUN_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins SUNSTONE_COINS
+	additem ITEM_SUN_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyMoonStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, MOONSTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_MOON_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins MOONSTONE_COINS
+	additem ITEM_MOON_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyShinyStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, SHINYSTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_SHINY_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins SHINYSTONE_COINS
+	additem ITEM_SHINY_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyDuskStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, DUSKSTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_DUSK_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins DUSKSTONE_COINS
+	additem ITEM_DUSK_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyDawnStone::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, DAWNSTONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_DAWN_STONE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins DAWNSTONE_COINS
+	additem ITEM_DAWN_STONE
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyLinkingCord::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, LINKINGCORD_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2
+	checkitemspace ITEM_LINKING_CORD
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForNew2
+	removecoins LINKINGCORD_COINS
+	additem ITEM_LINKING_CORD
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
+	end	
+
 MauvilleCity_GameCorner_EventScript_TMDoubleTeam::
-	setvar VAR_TEMP_1, 1
+	setvar VAR_TEMP_1, ITEM_TM_DOUBLE_TEAM
 	bufferitemname STR_VAR_1, ITEM_TM_DOUBLE_TEAM
 	setvar VAR_0x8004, ITEM_TM_DOUBLE_TEAM
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMPsychic::
-	setvar VAR_TEMP_1, 2
+	setvar VAR_TEMP_1, ITEM_TM_PSYCHIC
 	bufferitemname STR_VAR_1, ITEM_TM_PSYCHIC
 	setvar VAR_0x8004, ITEM_TM_PSYCHIC
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMFirePunch::
-	setvar VAR_TEMP_1, 3
+	setvar VAR_TEMP_1, ITEM_TM_FIRE_PUNCH
 	bufferitemname STR_VAR_1, ITEM_TM_FIRE_PUNCH
 	setvar VAR_0x8004, ITEM_TM_FIRE_PUNCH
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMThunderPunch::
-	setvar VAR_TEMP_1, 4
+	setvar VAR_TEMP_1, ITEM_TM_THUNDER_PUNCH
 	bufferitemname STR_VAR_1, ITEM_TM_THUNDER_PUNCH
 	setvar VAR_0x8004, ITEM_TM_THUNDER_PUNCH
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMIcePunch::
-	setvar VAR_TEMP_1, 5
+	setvar VAR_TEMP_1, ITEM_TM_ICE_PUNCH
 	bufferitemname STR_VAR_1, ITEM_TM_ICE_PUNCH
 	setvar VAR_0x8004, ITEM_TM_ICE_PUNCH
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMFlamethrower::
-	setvar VAR_TEMP_1, 6
+	setvar VAR_TEMP_1, ITEM_TM_FLAMETHROWER
 	bufferitemname STR_VAR_1, ITEM_TM_FLAMETHROWER
 	setvar VAR_0x8004, ITEM_TM_FLAMETHROWER
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMThunderbolt::
-	setvar VAR_TEMP_1, 7
+	setvar VAR_TEMP_1, ITEM_TM_THUNDERBOLT
 	bufferitemname STR_VAR_1, ITEM_TM_THUNDERBOLT
 	setvar VAR_0x8004, ITEM_TM_THUNDERBOLT
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_TMIceBeam::
-	setvar VAR_TEMP_1, 8
+	setvar VAR_TEMP_1, ITEM_TM_ICE_BEAM
 	bufferitemname STR_VAR_1, ITEM_TM_ICE_BEAM
 	setvar VAR_0x8004, ITEM_TM_ICE_BEAM
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
@@ -1283,14 +1725,14 @@ MauvilleCity_GameCorner_EventScript_ConfirmTMPrize::
 	msgbox MauvilleCity_GameCorner_Text_SoYourChoiceIsTheTMX, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	switch VAR_TEMP_1
-	case 1, MauvilleCity_GameCorner_EventScript_BuyTMDoubleTeam
-	case 2, MauvilleCity_GameCorner_EventScript_BuyTMPsychic
-	case 3, MauvilleCity_GameCorner_EventScript_BuyTMFirePunch
-	case 4, MauvilleCity_GameCorner_EventScript_BuyTMThunderPunch
-	case 5, MauvilleCity_GameCorner_EventScript_BuyTMIcePunch
-	case 6, MauvilleCity_GameCorner_EventScript_BuyTMFlamethrower
-	case 7, MauvilleCity_GameCorner_EventScript_BuyTMThunderbolt
-	case 8, MauvilleCity_GameCorner_EventScript_BuyTMIceBeam
+	case ITEM_TM_DOUBLE_TEAM, MauvilleCity_GameCorner_EventScript_BuyTMDoubleTeam
+	case ITEM_TM_PSYCHIC, MauvilleCity_GameCorner_EventScript_BuyTMPsychic
+	case ITEM_TM_FIRE_PUNCH, MauvilleCity_GameCorner_EventScript_BuyTMFirePunch
+	case ITEM_TM_THUNDER_PUNCH, MauvilleCity_GameCorner_EventScript_BuyTMThunderPunch
+	case ITEM_TM_ICE_PUNCH, MauvilleCity_GameCorner_EventScript_BuyTMIcePunch
+	case ITEM_TM_FLAMETHROWER, MauvilleCity_GameCorner_EventScript_BuyTMFlamethrower
+	case ITEM_TM_THUNDERBOLT, MauvilleCity_GameCorner_EventScript_BuyTMThunderbolt
+	case ITEM_TM_ICE_BEAM, MauvilleCity_GameCorner_EventScript_BuyTMIceBeam
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyTMDoubleTeam::
@@ -1406,7 +1848,12 @@ MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew::
 	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
 	end	
-	
+
+MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon::
+	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
 MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2::
 	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
@@ -1905,6 +2352,141 @@ MauvilleCity_GameCorner_Text_ExchangeCoinsForPrizes:
 
 MauvilleCity_GameCorner_Text_WhichPrize:
 	.string "Which prize would you like?$"
+
+MauvilleCity_GameCorner_Text_PrizeTMDoubleTeam:
+	.string "Double Team{CLEAR_TO 0x54}1,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMFirePunch:
+	.string "Fire Punch{CLEAR_TO 0x54}3,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMThunderPunch:
+	.string "Thunder Punch{CLEAR_TO 0x54}3,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMIcePunch:
+	.string "Ice Punch{CLEAR_TO 0x54}3,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMPsychic:
+	.string "Psychic{CLEAR_TO 0x54}3,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMFlamethrower:
+	.string "Flamethrower{CLEAR_TO 0x54}4,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMThunderbolt:
+	.string "Thunderbolt{CLEAR_TO 0x54}4,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeTMIceBeam:
+	.string "Ice Beam{CLEAR_TO 0x54}4,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeFireStone:
+	.string "Fire Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeThunderStone:
+	.string "Thunder Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeWaterStone:
+	.string "Water Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLeafStone:
+	.string "Leaf Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeIceStone:
+	.string "Ice Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeSunStone:
+	.string "Sun Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeMoonStone:
+	.string "Moon Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeShinyStone:
+	.string "Shiny Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDuskStone:
+	.string "Dusk Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDawnStone:
+	.string "Dawn Stone{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLinkingCord:
+	.string "Linking Cord{CLEAR_TO 0x54}1,400 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeSootheBell:
+	.string "Soothe Bell{CLEAR_TO 0x54}1,200 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeExpertBelt:
+	.string "Expert Belt{CLEAR_TO 0x54}1,600 C.$"
+
+MauvilleCity_GameCorner_Text_PrizePunchingGlove:
+	.string "Punching Glove{CLEAR_TO 0x54}1,700 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeWideLens:
+	.string "Wide Lens{CLEAR_TO 0x54}1,700 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeThickClub:
+	.string "Thick Club{CLEAR_TO 0x54}1,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeMuscleBand:
+	.string "Muscle Band{CLEAR_TO 0x54}1,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeWiseGlasses:
+	.string "Wise Glasses{CLEAR_TO 0x54}1,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeFocusSash:
+	.string "Focus Sash{CLEAR_TO 0x54}3,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeEviolite:
+	.string "Eviolite{CLEAR_TO 0x54}3,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeAssaultVest:
+	.string "Assault Vest{CLEAR_TO 0x54}3,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeRockyHelmet:
+	.string "Rocky Helmet{CLEAR_TO 0x54}3,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLeftovers:
+	.string "Leftovers{CLEAR_TO 0x54}4,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLoadedDice:
+	.string "Loaded Dice{CLEAR_TO 0x54}4,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLifeOrb:
+	.string "Life Orb{CLEAR_TO 0x54}4,700 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeAbra:
+	.string "Abra{CLEAR_TO 0x54}1,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeCubone:
+	.string "Cubone{CLEAR_TO 0x54}1,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeRalts:
+	.string "Ralts{CLEAR_TO 0x54}3,200 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDratini:
+	.string "Dratini{CLEAR_TO 0x54}5,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeBagon:
+	.string "Bagon{CLEAR_TO 0x54}5,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLarvitar:
+	.string "Larvitar{CLEAR_TO 0x54}5,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDreepy:
+	.string "Dreepy{CLEAR_TO 0x54}6,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeScyther:
+	.string "Scyther{CLEAR_TO 0x54}4,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeFrigibax:
+	.string "Frigibax{CLEAR_TO 0x54}6,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeBeldum:
+	.string "Beldum{CLEAR_TO 0x54}8,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizePorygon:
+	.string "Porygon{CLEAR_TO 0x54}9,999 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeExit:
+	.string "EXIT$"
 
 MauvilleCity_GameCorner_Text_SoYourChoiceIsTheTMX:
 	.string "So your choice is\n"

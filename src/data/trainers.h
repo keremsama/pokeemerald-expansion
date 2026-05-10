@@ -25538,7 +25538,7 @@ F_TRAINER_FEMALE |
             },
             {
 #line 10194
-            .species = SPECIES_POOCHYENA,
+            .species = SPECIES_TANDEMAUS,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 10196
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -32689,7 +32689,7 @@ F_TRAINER_FEMALE |
             },
             {
 #line 13005
-            .species = SPECIES_ALCREMIE,
+            .species = SPECIES_MR_MIME,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 13007
             .iv = TRAINER_PARTY_IVS(6, 6, 6, 6, 6, 6),
@@ -36438,7 +36438,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 14489
-            .species = SPECIES_MILCERY,
+            .species = SPECIES_MAUSHOLD,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 14491
             .iv = TRAINER_PARTY_IVS(1, 1, 1, 1, 1, 1),

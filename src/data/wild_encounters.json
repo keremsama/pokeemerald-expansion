@@ -1444,7 +1444,7 @@
               {
                 "min_level": 17,
                 "max_level": 19,
-                "species": "SPECIES_SEEDOT"
+                "species": "SPECIES_TYROGUE"
               },
               {
                 "min_level": 17,
@@ -1459,12 +1459,12 @@
               {
                 "min_level": 17,
                 "max_level": 19,
-                "species": "SPECIES_TYROGUE"
+                "species": "SPECIES_SEEDOT"
               },
               {
                 "min_level": 17,
                 "max_level": 19,
-                "species": "SPECIES_TYROGUE"
+                "species": "SPECIES_TANDEMAUS"
               },
               {
                 "min_level": 17,
@@ -3810,12 +3810,12 @@
               {
                 "min_level": 40,
                 "max_level": 44,
-                "species": "SPECIES_MILCERY"
+                "species": "SPECIES_TANGELA"
               },
               {
                 "min_level": 40,
                 "max_level": 44,
-                "species": "SPECIES_MILCERY"
+                "species": "SPECIES_PONYTA"
               },
               {
                 "min_level": 40,
@@ -9773,7 +9773,7 @@
               {
                 "min_level": 45,
                 "max_level": 50,
-                "species": "SPECIES_BOMBIRDIER"
+                "species": "SPECIES_GIBLE"
               },
               {
                 "min_level": 45,

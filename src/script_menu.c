@@ -6,6 +6,7 @@
 #include "item.h"
 #include "menu.h"
 #include "palette.h"
+#include "pokemon_icon.h"
 #include "script.h"
 #include "script_menu.h"
 #include "sound.h"
@@ -21,6 +22,7 @@
 #include "constants/items.h"
 #include "constants/script_menu.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 
 #include "data/script_menu.h"
 
@@ -67,6 +69,12 @@ static void MultichoiceDynamicEventDebug_OnDestroy(struct DynamicListMenuEventAr
 static void MultichoiceDynamicEventShowItem_OnInit(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowItem_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowItem_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowItemLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowItemLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowItemLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMonLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMonLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
 
 static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollections[] =
 {
@@ -81,6 +89,18 @@ static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollecti
         .OnInit = MultichoiceDynamicEventShowItem_OnInit,
         .OnSelectionChanged = MultichoiceDynamicEventShowItem_OnSelectionChanged,
         .OnDestroy = MultichoiceDynamicEventShowItem_OnDestroy
+    },
+    [DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT] =
+    {
+        .OnInit = MultichoiceDynamicEventShowItemLeft_OnInit,
+        .OnSelectionChanged = MultichoiceDynamicEventShowItemLeft_OnSelectionChanged,
+        .OnDestroy = MultichoiceDynamicEventShowItemLeft_OnDestroy
+    },
+    [DYN_MULTICHOICE_CB_SHOW_MON_LEFT] =
+    {
+        .OnInit = MultichoiceDynamicEventShowMonLeft_OnInit,
+        .OnSelectionChanged = MultichoiceDynamicEventShowMonLeft_OnSelectionChanged,
+        .OnDestroy = MultichoiceDynamicEventShowMonLeft_OnDestroy
     }
 };
 
@@ -184,6 +204,12 @@ static void MultichoiceDynamicEventShowItem_OnSelectionChanged(struct DynamicLis
         DestroySprite(&gSprites[sItemSpriteId]);
     }
 
+    if (eventArgs->selectedItem == ITEM_NONE)
+    {
+        sItemSpriteId = MAX_SPRITES;
+        return;
+    }
+
     sItemSpriteId = AddItemIconSprite(TAG_CB_ITEM_ICON, TAG_CB_ITEM_ICON, eventArgs->selectedItem);
     gSprites[sItemSpriteId].oam.priority = 0;
     gSprites[sItemSpriteId].x = x;
@@ -206,6 +232,123 @@ static void MultichoiceDynamicEventShowItem_OnDestroy(struct DynamicListMenuEven
 #undef sAuxWindowId
 #undef sItemSpriteId
 #undef TAG_CB_ITEM_ICON
+
+#define sAuxWindowId sDynamicMenuEventScratchPad[0]
+#define sItemSpriteId sDynamicMenuEventScratchPad[1]
+#define TAG_CB_ITEM_ICON 3000
+
+static void MultichoiceDynamicEventShowItemLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs)
+{
+    struct WindowTemplate *template = &gWindows[eventArgs->windowId].window;
+    u32 baseBlock = template->baseBlock + template->width * template->height;
+    struct WindowTemplate auxTemplate = CreateWindowTemplate(0, 1, 9, 4, 4, 15, baseBlock);
+    u32 auxWindowId = AddWindow(&auxTemplate);
+    SetStandardWindowBorderStyle(auxWindowId, FALSE);
+    FillWindowPixelBuffer(auxWindowId, 0x11);
+    CopyWindowToVram(auxWindowId, COPYWIN_FULL);
+    sAuxWindowId = auxWindowId;
+    sItemSpriteId = MAX_SPRITES;
+}
+
+static void MultichoiceDynamicEventShowItemLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
+{
+    if (sItemSpriteId != MAX_SPRITES)
+    {
+        FreeSpriteTilesByTag(TAG_CB_ITEM_ICON);
+        FreeSpritePaletteByTag(TAG_CB_ITEM_ICON);
+        DestroySprite(&gSprites[sItemSpriteId]);
+    }
+
+    if (eventArgs->selectedItem == ITEM_NONE)
+    {
+        sItemSpriteId = MAX_SPRITES;
+        return;
+    }
+
+    sItemSpriteId = AddItemIconSprite(TAG_CB_ITEM_ICON, TAG_CB_ITEM_ICON, eventArgs->selectedItem);
+    if (sItemSpriteId != MAX_SPRITES)
+    {
+        gSprites[sItemSpriteId].oam.priority = 0;
+        gSprites[sItemSpriteId].x = 28;
+        gSprites[sItemSpriteId].y = 92;
+    }
+}
+
+static void MultichoiceDynamicEventShowItemLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs)
+{
+    ClearStdWindowAndFrame(sAuxWindowId, TRUE);
+    RemoveWindow(sAuxWindowId);
+
+    if (sItemSpriteId != MAX_SPRITES)
+    {
+        FreeSpriteTilesByTag(TAG_CB_ITEM_ICON);
+        FreeSpritePaletteByTag(TAG_CB_ITEM_ICON);
+        DestroySprite(&gSprites[sItemSpriteId]);
+    }
+}
+
+#undef sAuxWindowId
+#undef sItemSpriteId
+#undef TAG_CB_ITEM_ICON
+
+#define sAuxWindowId sDynamicMenuEventScratchPad[0]
+#define sMonSpriteId sDynamicMenuEventScratchPad[1]
+#define sMonSpecies sDynamicMenuEventScratchPad[2]
+
+static void MultichoiceDynamicEventShowMonLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs)
+{
+    struct WindowTemplate *template = &gWindows[eventArgs->windowId].window;
+    u32 baseBlock = template->baseBlock + template->width * template->height;
+    struct WindowTemplate auxTemplate = CreateWindowTemplate(0, 1, 9, 4, 4, 15, baseBlock);
+    u32 auxWindowId = AddWindow(&auxTemplate);
+    SetStandardWindowBorderStyle(auxWindowId, FALSE);
+    FillWindowPixelBuffer(auxWindowId, 0x11);
+    CopyWindowToVram(auxWindowId, COPYWIN_FULL);
+    sAuxWindowId = auxWindowId;
+    sMonSpriteId = MAX_SPRITES;
+    sMonSpecies = SPECIES_NONE;
+}
+
+static void MultichoiceDynamicEventShowMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
+{
+    if (sMonSpriteId != MAX_SPRITES)
+    {
+        FreeAndDestroyMonIconSprite(&gSprites[sMonSpriteId]);
+        FreeMonIconPalette(sMonSpecies);
+    }
+
+    if (eventArgs->selectedItem == SPECIES_NONE)
+    {
+        sMonSpriteId = MAX_SPRITES;
+        sMonSpecies = SPECIES_NONE;
+        return;
+    }
+
+    sMonSpecies = eventArgs->selectedItem;
+    LoadMonIconPalette(sMonSpecies);
+    sMonSpriteId = CreateMonIconNoPersonality(sMonSpecies, SpriteCallbackDummy, 25, 84, 0);
+    if (sMonSpriteId != MAX_SPRITES)
+    {
+        gSprites[sMonSpriteId].callback = SpriteCallbackDummy;
+        gSprites[sMonSpriteId].oam.priority = 0;
+    }
+}
+
+static void MultichoiceDynamicEventShowMonLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs)
+{
+    ClearStdWindowAndFrame(sAuxWindowId, TRUE);
+    RemoveWindow(sAuxWindowId);
+
+    if (sMonSpriteId != MAX_SPRITES)
+    {
+        FreeAndDestroyMonIconSprite(&gSprites[sMonSpriteId]);
+        FreeMonIconPalette(sMonSpecies);
+    }
+}
+
+#undef sAuxWindowId
+#undef sMonSpriteId
+#undef sMonSpecies
 
 static void FreeListMenuItems(struct ListMenuItem *items, u32 count)
 {
