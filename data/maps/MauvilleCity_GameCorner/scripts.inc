@@ -29,6 +29,9 @@ MauvilleCity_GameCorner_MapScripts::
 	.set RALTS_COINS, 3200
 	.set DRATINI_COINS, 5500
 	.set BAGON_COINS, 5500
+	.set LARVITAR_COINS, 5000
+	.set DREEPY_COINS, 6000
+	.set SCYTHER_COINS, 4800
 	.set FRIGIBAX_COINS, 6300
 	.set BELDUM_COINS, 8000
 	.set PORYGON_COINS, 9999
@@ -857,26 +860,32 @@ MauvilleCity_GameCorner_EventScript_ChooseNewPrize::
 	end
 
 MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize::
-	multichoice 12, 0, MULTI_GAMECORNER_POKEMON_PRIZE, FALSE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeAbra, 0
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeCubone, 1
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeRalts, 2
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeScyther, 7
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLarvitar, 5
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDratini, 3
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeBagon, 4
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeDreepy, 6
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeFrigibax, 8
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeBeldum, 9
+	dynmultipush MauvilleCity_GameCorner_Text_PrizePorygon, 10
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, 11
+	dynmultistack 12, 0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
 	switch VAR_RESULT
 	case 0, MauvilleCity_GameCorner_EventScript_Abra
 	case 1, MauvilleCity_GameCorner_EventScript_Cubone
 	case 2, MauvilleCity_GameCorner_EventScript_Ralts
 	case 3, MauvilleCity_GameCorner_EventScript_Dratini
-	case 4,	MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize_Page2
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
-	end
-
-MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize_Page2::
-	multichoice 12, 0, MULTI_GAMECORNER_POKEMON_PRIZE_PAGE2, FALSE
-	switch VAR_RESULT
-	case 0, MauvilleCity_GameCorner_EventScript_Bagon
-	case 1, MauvilleCity_GameCorner_EventScript_Frigibax
-	case 2, MauvilleCity_GameCorner_EventScript_Beldum
-	case 3, MauvilleCity_GameCorner_EventScript_Porygon
-	case 4,	MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize
-	case 5, MauvilleCity_GameCorner_EventScript_CancelTMSelect
+	case 4, MauvilleCity_GameCorner_EventScript_Bagon
+	case 5, MauvilleCity_GameCorner_EventScript_Larvitar
+	case 6, MauvilleCity_GameCorner_EventScript_Dreepy
+	case 7, MauvilleCity_GameCorner_EventScript_Scyther
+	case 8, MauvilleCity_GameCorner_EventScript_Frigibax
+	case 9, MauvilleCity_GameCorner_EventScript_Beldum
+	case 10, MauvilleCity_GameCorner_EventScript_Porygon
+	case 11, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	end
 
@@ -976,21 +985,39 @@ MauvilleCity_GameCorner_EventScript_Bagon::
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Frigibax::
-	setvar VAR_TEMP_1, 6
+	setvar VAR_TEMP_1, 9
 	bufferspeciesname STR_VAR_1, SPECIES_FRIGIBAX
 	setvar VAR_0x8004, SPECIES_FRIGIBAX
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Beldum::
-	setvar VAR_TEMP_1, 7
+	setvar VAR_TEMP_1, 10
 	bufferspeciesname STR_VAR_1, SPECIES_BELDUM
 	setvar VAR_0x8004, SPECIES_BELDUM
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Porygon::
-	setvar VAR_TEMP_1, 8
+	setvar VAR_TEMP_1, 11
 	bufferspeciesname STR_VAR_1, SPECIES_PORYGON
 	setvar VAR_0x8004, SPECIES_PORYGON
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Larvitar::
+	setvar VAR_TEMP_1, 6
+	bufferspeciesname STR_VAR_1, SPECIES_LARVITAR
+	setvar VAR_0x8004, SPECIES_LARVITAR
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Dreepy::
+	setvar VAR_TEMP_1, 7
+	bufferspeciesname STR_VAR_1, SPECIES_DREEPY
+	setvar VAR_0x8004, SPECIES_DREEPY
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Scyther::
+	setvar VAR_TEMP_1, 8
+	bufferspeciesname STR_VAR_1, SPECIES_SCYTHER
+	setvar VAR_0x8004, SPECIES_SCYTHER
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 
@@ -1020,14 +1047,17 @@ MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize::
 	case 3, MauvilleCity_GameCorner_EventScript_BuyRalts
 	case 4, MauvilleCity_GameCorner_EventScript_BuyDratini
 	case 5, MauvilleCity_GameCorner_EventScript_BuyBagon
-	case 6, MauvilleCity_GameCorner_EventScript_BuyFrigibax
-	case 7, MauvilleCity_GameCorner_EventScript_BuyBeldum
-	case 8, MauvilleCity_GameCorner_EventScript_BuyPorygon
+	case 6, MauvilleCity_GameCorner_EventScript_BuyLarvitar
+	case 7, MauvilleCity_GameCorner_EventScript_BuyDreepy
+	case 8, MauvilleCity_GameCorner_EventScript_BuyScyther
+	case 9, MauvilleCity_GameCorner_EventScript_BuyFrigibax
+	case 10, MauvilleCity_GameCorner_EventScript_BuyBeldum
+	case 11, MauvilleCity_GameCorner_EventScript_BuyPorygon
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyAbra::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins ABRA_COINS
 	givemon SPECIES_ABRA, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1038,7 +1068,7 @@ MauvilleCity_GameCorner_EventScript_BuyAbra::
 
 MauvilleCity_GameCorner_EventScript_BuyCubone::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins CUBONE_COINS
 	givemon SPECIES_CUBONE, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1049,7 +1079,7 @@ MauvilleCity_GameCorner_EventScript_BuyCubone::
 
 MauvilleCity_GameCorner_EventScript_BuyRalts::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins RALTS_COINS
 	givemon SPECIES_RALTS, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1060,7 +1090,7 @@ MauvilleCity_GameCorner_EventScript_BuyRalts::
 
 MauvilleCity_GameCorner_EventScript_BuyDratini::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins DRATINI_COINS
 	givemon SPECIES_DRATINI, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1071,7 +1101,7 @@ MauvilleCity_GameCorner_EventScript_BuyDratini::
 
 MauvilleCity_GameCorner_EventScript_BuyBagon::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BAGON_COINS
 	givemon SPECIES_BAGON, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1080,9 +1110,42 @@ MauvilleCity_GameCorner_EventScript_BuyBagon::
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
 	end
 
+MauvilleCity_GameCorner_EventScript_BuyLarvitar::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, LARVITAR_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins LARVITAR_COINS
+	givemon SPECIES_LARVITAR, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyDreepy::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, DREEPY_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins DREEPY_COINS
+	givemon SPECIES_DREEPY, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyScyther::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, SCYTHER_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	removecoins SCYTHER_COINS
+	givemon SPECIES_SCYTHER, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
 MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins FRIGIBAX_COINS
 	givemon SPECIES_FRIGIBAX, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1093,7 +1156,7 @@ MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 
 MauvilleCity_GameCorner_EventScript_BuyBeldum::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BELDUM_COINS
 	givemon SPECIES_BELDUM, 25, 0, ITEM_CHERISH_BALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1104,7 +1167,7 @@ MauvilleCity_GameCorner_EventScript_BuyBeldum::
 
 MauvilleCity_GameCorner_EventScript_BuyPorygon::
 	checkcoins VAR_TEMP_2
-	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew
+	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins PORYGON_COINS
 	givemon SPECIES_PORYGON, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
 	updatecoinsbox 1, 1
@@ -1406,7 +1469,12 @@ MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew::
 	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize
 	end	
-	
+
+MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon::
+	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
 MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2::
 	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
@@ -1905,6 +1973,42 @@ MauvilleCity_GameCorner_Text_ExchangeCoinsForPrizes:
 
 MauvilleCity_GameCorner_Text_WhichPrize:
 	.string "Which prize would you like?$"
+
+MauvilleCity_GameCorner_Text_PrizeAbra:
+	.string "Abra{CLEAR_TO 0x54}1,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeCubone:
+	.string "Cubone{CLEAR_TO 0x54}1,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeRalts:
+	.string "Ralts{CLEAR_TO 0x54}3,200 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDratini:
+	.string "Dratini{CLEAR_TO 0x54}5,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeBagon:
+	.string "Bagon{CLEAR_TO 0x54}5,500 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeLarvitar:
+	.string "Larvitar{CLEAR_TO 0x54}5,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeDreepy:
+	.string "Dreepy{CLEAR_TO 0x54}6,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeScyther:
+	.string "Scyther{CLEAR_TO 0x54}4,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeFrigibax:
+	.string "Frigibax{CLEAR_TO 0x54}6,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeBeldum:
+	.string "Beldum{CLEAR_TO 0x54}8,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizePorygon:
+	.string "Porygon{CLEAR_TO 0x54}9,999 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeExit:
+	.string "EXIT$"
 
 MauvilleCity_GameCorner_Text_SoYourChoiceIsTheTMX:
 	.string "So your choice is\n"
