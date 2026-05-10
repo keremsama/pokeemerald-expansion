@@ -308,6 +308,7 @@ enum {
 #define UP 1
 #define RIGHT 2
 #define LEFT 3
+#define NO_DIRECTION 0xFF
 
 struct Snake {
     u8 state;
@@ -335,6 +336,7 @@ struct Snake {
     u8 BodyCount;
     u8 Direction; // 0 = Down, 1 = Up, 2 = Right, 3 = Left
     u8 LastDirection;
+    u8 QueuedDirection;
     u32 FrameCount;
     u32 delay;
     u8 CanMove;
@@ -1836,6 +1838,43 @@ static void CreateMenu(void)
     sSnake->MenuSpriteId = CreateSprite(&sSpriteTemplate_Menu, 40, 24, 1); 
 }
 
+static void QueueSnakeDirectionInput(void)
+{
+    if (JOY_NEW(DPAD_UP))
+        sSnake->QueuedDirection = UP;
+    else if (JOY_NEW(DPAD_DOWN))
+        sSnake->QueuedDirection = DOWN;
+    else if (JOY_NEW(DPAD_LEFT))
+        sSnake->QueuedDirection = LEFT;
+    else if (JOY_NEW(DPAD_RIGHT))
+        sSnake->QueuedDirection = RIGHT;
+}
+
+static void ApplyQueuedSnakeDirection(void)
+{
+    switch (sSnake->QueuedDirection)
+    {
+    case UP:
+        if (sSnake->LastDirection != DOWN)
+            sSnake->Direction = UP;
+        break;
+    case DOWN:
+        if (sSnake->LastDirection != UP)
+            sSnake->Direction = DOWN;
+        break;
+    case LEFT:
+        if (sSnake->LastDirection != RIGHT)
+            sSnake->Direction = LEFT;
+        break;
+    case RIGHT:
+        if (sSnake->LastDirection != LEFT)
+            sSnake->Direction = RIGHT;
+        break;
+    }
+
+    sSnake->QueuedDirection = NO_DIRECTION;
+}
+
 static void SnakeMain(u8 taskId)
 {
     u8 Count = sSnake->BodyCount - 3;
@@ -1878,6 +1917,7 @@ static void SnakeMain(u8 taskId)
             }
             break;
         case SNAKE_STATE_MOVEMENT_LOOP:
+            QueueSnakeDirectionInput();
             if (sSnake->delay == 0)
             {
                 if (sSnake->FrameCount == 0)
@@ -1914,46 +1954,17 @@ static void SnakeMain(u8 taskId)
             }
             break;
         case SNAKE_STATE_PROCESS_INPUT:
+            QueueSnakeDirectionInput();
             if (sSnake->delay == 0)
             {
                 UpdateLocations();
-                if (((JOY_HELD(DPAD_UP)) || (JOY_NEW(DPAD_UP))) && sSnake->LastDirection != DOWN)
-                {
-                    sSnake->Direction = UP;
-                }
-                else if (((JOY_HELD(DPAD_DOWN)) || (JOY_NEW(DPAD_DOWN))) && sSnake->LastDirection != UP)
-                {
-                    sSnake->Direction = DOWN;
-                }
-                else if (((JOY_HELD(DPAD_LEFT)) || (JOY_NEW(DPAD_LEFT)))  && sSnake->LastDirection != RIGHT)
-                {
-                    sSnake->Direction = LEFT;
-                }
-                else if (((JOY_HELD(DPAD_RIGHT)) || (JOY_NEW(DPAD_RIGHT)))  && sSnake->LastDirection != LEFT)
-                {
-                    sSnake->Direction = RIGHT;
-                }
+                ApplyQueuedSnakeDirection();
                 sSnake->state = SNAKE_STATE_SPRITE_UPDATE;
             }
             else
             {
                 UpdateLocations();
-                if (((JOY_HELD(DPAD_UP)) || (JOY_NEW(DPAD_UP))) && sSnake->LastDirection != DOWN)
-                {
-                    sSnake->Direction = UP;
-                }
-                else if (((JOY_HELD(DPAD_DOWN)) || (JOY_NEW(DPAD_DOWN))) && sSnake->LastDirection != UP)
-                {
-                    sSnake->Direction = DOWN;
-                }
-                else if (((JOY_HELD(DPAD_LEFT)) || (JOY_NEW(DPAD_LEFT))) && sSnake->LastDirection != RIGHT)
-                {
-                    sSnake->Direction = LEFT;
-                }
-                else if (((JOY_HELD(DPAD_RIGHT)) || (JOY_NEW(DPAD_RIGHT))) && sSnake->LastDirection != LEFT)
-                {
-                    sSnake->Direction = RIGHT;
-                }
+                ApplyQueuedSnakeDirection();
                 sSnake->delay--;
             }
             break;
@@ -2063,6 +2074,7 @@ static void InitSnakeScreen(void)
     sSnake->delay = MAX_DELAY;
     sSnake->FrameCount = MAX_FRAME_COUNT;
     sSnake->Direction = DOWN;
+    sSnake->QueuedDirection = NO_DIRECTION;
     sSnake->Body1Direction = DOWN;
     sSnake->Body2Direction = DOWN;
     sSnake->Loop = 2;
