@@ -3260,6 +3260,9 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal = (shinyValue < SHINY_ODDS) ^ boxMon->shinyModifier;
             break;
         }
+        case MON_DATA_NUZLOCKE_RIBBON:
+            retVal = boxMon->nuzlockeRibbon;
+            break;
         case MON_DATA_HIDDEN_NATURE:
         {
             u32 nature = GetNatureFromPersonality(boxMon->personality);
@@ -3689,6 +3692,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             boxMon->shinyModifier = (shinyValue < SHINY_ODDS) ^ isShiny;
             break;
         }
+        case MON_DATA_NUZLOCKE_RIBBON:
+            SET8(boxMon->nuzlockeRibbon);
+            break;
         case MON_DATA_HIDDEN_NATURE:
         {
             u32 nature = GetNatureFromPersonality(boxMon->personality);

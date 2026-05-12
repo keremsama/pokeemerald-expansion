@@ -1130,6 +1130,15 @@ struct SaveBlock1
                u8 registeredItemLastSelected:4; //max 16 items
                u8 registeredItemListCount:4;
                struct RegisteredItemSlot registeredItems[REGISTERED_ITEMS_MAX];
+               u8 tx_Challenges_Nuzlocke:1;
+               u8 tx_Challenges_NuzlockeHardcore:1;
+               u8 tx_Nuzlocke_SpeciesClause:1;
+               u8 tx_Nuzlocke_ShinyClause:1;
+               u8 tx_Nuzlocke_Nicknaming:1;
+               u8 tx_Nuzlocke_Deletion:1;
+               u8 tx_Nuzlocke_EasyMode:1;
+               u8 tx_Nuzlocke_Unused:1;
+               u8 nuzlockeEncounterFlags[32];
     // sizeof: 0x3???
 };
 

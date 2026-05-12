@@ -35,15 +35,18 @@
 #include "main.h"
 #include "malloc.h"
 #include "m4a.h"
+#include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokeball.h"
 #include "pokedex.h"
 #include "pokemon.h"
 #include "random.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "recorded_battle.h"
 #include "roamer.h"
 #include "safari_zone.h"
+#include "save.h"
 #include "scanline_effect.h"
 #include "script.h"
 #include "sound.h"
@@ -5694,6 +5697,47 @@ static void HandleEndTurn_FinishBattle(void)
         {
             TryPutBreakingNewsOnAir();
         }
+
+        if (IsNuzlockeDeathRulesActive()
+            && !(gBattleTypeFlags & (BATTLE_TYPE_LINK
+                                      | BATTLE_TYPE_LINK_IN_BATTLE
+                                      | BATTLE_TYPE_FIRST_BATTLE
+                                      | BATTLE_TYPE_WALLY_TUTORIAL
+                                      | BATTLE_TYPE_INGAME_PARTNER
+                                      | BATTLE_TYPE_TOWER_LINK_MULTI
+                                      | BATTLE_TYPE_RECORDED_LINK
+                                      | BATTLE_TYPE_FRONTIER)))
+            NuzlockeDeleteFaintedPartyPokemon();
+
+        if (IsNuzlockeActive()
+            && !(gBattleTypeFlags & (BATTLE_TYPE_DOUBLE
+                                      | BATTLE_TYPE_LINK
+                                      | BATTLE_TYPE_TRAINER
+                                      | BATTLE_TYPE_FIRST_BATTLE
+                                      | BATTLE_TYPE_LINK_IN_BATTLE
+                                      | BATTLE_TYPE_MULTI
+                                      | BATTLE_TYPE_BATTLE_TOWER
+                                      | BATTLE_TYPE_WALLY_TUTORIAL
+                                      | BATTLE_TYPE_LEGENDARY
+                                      | BATTLE_TYPE_TWO_OPPONENTS
+                                      | BATTLE_TYPE_INGAME_PARTNER
+                                      | BATTLE_TYPE_TOWER_LINK_MULTI
+                                      | BATTLE_TYPE_RECORDED_LINK)))
+        {
+            u8 nuzlockeBlock = IsNuzlockeCaptureBlocked(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL));
+            if (gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause && IsMonShiny(&gEnemyParty[0]))
+                nuzlockeBlock = FALSE;
+            if (nuzlockeBlock != 2 && nuzlockeBlock != 3)
+                NuzlockeFlagSet(GetCurrentRegionMapSectionId());
+        }
+
+        if (gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore
+            && gBattleOutcome == B_OUTCOME_LOST
+            && !(gBattleTypeFlags & (BATTLE_TYPE_LINK
+                                      | BATTLE_TYPE_LINK_IN_BATTLE
+                                      | BATTLE_TYPE_RECORDED_LINK
+                                      | BATTLE_TYPE_FRONTIER)))
+            ClearSaveData();
 
         RecordedBattle_SetPlaybackFinished();
         if (gTestRunnerEnabled)

@@ -9,6 +9,7 @@
 #include "bg.h"
 #include "gpu_regs.h"
 #include "pokemon.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "field_specials.h"
 #include "field_player_avatar.h"
 #include "event_object_movement.h"
@@ -1530,6 +1531,8 @@ static bool8 KeyboardKeyHandler_Backspace(u8 input)
 static bool8 KeyboardKeyHandler_OK(u8 input)
 {
     TryStartButtonFlash(BUTTON_OK, TRUE, FALSE);
+    if (IsNuzlockeNicknamingActive() && GetTextEntryPosition() == 0)
+        return FALSE;
     if (input == INPUT_A_BUTTON)
     {
         PlaySE(SE_SELECT);
@@ -2619,5 +2622,4 @@ static const struct SpritePalette sSpritePalettes[] =
     {gNamingScreenMenu_Pal[4], PALTAG_OK_BUTTON},
     {}
 };
-
 

@@ -106,6 +106,7 @@ enum {
     MSG_ITEM_IS_HELD,
     MSG_CHANGED_TO_ITEM,
     MSG_CANT_STORE_MAIL,
+    MSG_NUZLOCKE_CEMETERY,
 };
 
 // IDs for how to resolve variables in the above messages
@@ -1074,6 +1075,7 @@ static const struct StorageMessage sMessages[] =
     [MSG_ITEM_IS_HELD]         = {COMPOUND_STRING("{DYNAMIC 0} is now held."),   MSG_VAR_ITEM_NAME},
     [MSG_CHANGED_TO_ITEM]      = {COMPOUND_STRING("Changed to {DYNAMIC 0}."),    MSG_VAR_ITEM_NAME},
     [MSG_CANT_STORE_MAIL]      = {COMPOUND_STRING("MAIL can't be stored!"),      MSG_VAR_NONE},
+    [MSG_NUZLOCKE_CEMETERY]    = {COMPOUND_STRING("This POKéMON can no longer\nbe used."), MSG_VAR_NONE},
 };
 
 static const struct WindowTemplate sYesNoWindowTemplate =
@@ -2601,6 +2603,11 @@ static void Task_OnSelectedMon(u8 taskId)
             }
             break;
         case MENU_PLACE:
+            if (sIsMonBeingMoved && sCursorArea == CURSOR_AREA_IN_PARTY && GetMonData(&sStorage->movingMon, MON_DATA_NUZLOCKE_RIBBON))
+            {
+                sStorage->state = 7;
+                break;
+            }
             PlaySE(SE_SELECT);
             ClearBottomWindow();
             SetPokeStorageTask(Task_PlaceMon);
@@ -2609,6 +2616,10 @@ static void Task_OnSelectedMon(u8 taskId)
             if (!CanShiftMon())
             {
                 sStorage->state = 3;
+            }
+            else if (sIsMonBeingMoved && sCursorArea == CURSOR_AREA_IN_PARTY && GetMonData(&sStorage->movingMon, MON_DATA_NUZLOCKE_RIBBON))
+            {
+                sStorage->state = 7;
             }
             else
             {
@@ -2670,6 +2681,11 @@ static void Task_OnSelectedMon(u8 taskId)
             SetPokeStorageTask(Task_TakeItemForMoving);
             break;
         case MENU_GIVE:
+            if (GetCurrentBoxMonData(sCursorPosition, MON_DATA_NUZLOCKE_RIBBON))
+            {
+                sStorage->state = 7;
+                break;
+            }
             PlaySE(SE_SELECT);
             SetPokeStorageTask(Task_GiveMovingItemToMon);
             break;
@@ -2681,6 +2697,11 @@ static void Task_OnSelectedMon(u8 taskId)
             SetPokeStorageTask(Task_SwitchSelectedItem);
             break;
         case MENU_GIVE_2:
+            if (GetCurrentBoxMonData(sCursorPosition, MON_DATA_NUZLOCKE_RIBBON))
+            {
+                sStorage->state = 7;
+                break;
+            }
             PlaySE(SE_SELECT);
             SetPokeStorageTask(Task_GiveItemFromBag);
             break;
@@ -2710,6 +2731,11 @@ static void Task_OnSelectedMon(u8 taskId)
             ClearBottomWindow();
             SetPokeStorageTask(Task_PokeStorageMain);
         }
+        break;
+    case 7:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_NUZLOCKE_CEMETERY);
+        sStorage->state = 6;
         break;
     }
 }
@@ -2777,7 +2803,13 @@ static void Task_WithdrawMon(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        if (CalculatePlayerPartyCount() == PARTY_SIZE)
+        if (GetCurrentBoxMonData(sCursorPosition, MON_DATA_NUZLOCKE_RIBBON)
+            || (sIsMonBeingMoved && GetMonData(&sStorage->movingMon, MON_DATA_NUZLOCKE_RIBBON)))
+        {
+            PrintMessage(MSG_NUZLOCKE_CEMETERY);
+            sStorage->state = 1;
+        }
+        else if (CalculatePlayerPartyCount() == PARTY_SIZE)
         {
             PrintMessage(MSG_PARTY_FULL);
             sStorage->state = 1;

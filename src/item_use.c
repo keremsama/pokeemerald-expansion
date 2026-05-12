@@ -32,6 +32,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "script.h"
 #include "sound.h"
 #include "strings.h"
@@ -1098,8 +1099,12 @@ void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+static u32 GetNuzlockeBallThrowableState(void);
+
 static u32 GetBallThrowableState(void)
 {
+    u32 nuzlockeState;
+
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
         return BALL_THROW_UNABLE_TWO_MONS;
@@ -1109,6 +1114,10 @@ static u32 GetBallThrowableState(void)
         return BALL_THROW_UNABLE_SEMI_INVULNERABLE;
     else if (FlagGet(B_FLAG_NO_CATCHING))
         return BALL_THROW_UNABLE_DISABLED_FLAG;
+
+    nuzlockeState = GetNuzlockeBallThrowableState();
+    if (nuzlockeState != BALL_THROW_ABLE)
+        return nuzlockeState;
 
     return BALL_THROW_ABLE;
 }
@@ -1121,6 +1130,38 @@ bool32 CanThrowBall(void)
 static const u8 sText_CantThrowPokeBall_TwoMons[] = _("Cannot throw a ball!\nThere are two Pokémon out there!\p");
 static const u8 sText_CantThrowPokeBall_SemiInvulnerable[] = _("Cannot throw a ball!\nThere's no Pokémon in sight!\p");
 static const u8 sText_CantThrowPokeBall_Disabled[] = _("POKé BALLS cannot be used\nright now!\p");
+static const u8 sText_CantThrowPokeBall_NuzlockeArea[] = _("You have already used your\nencounter for this area!\p");
+static const u8 sText_CantThrowPokeBall_NuzlockeSpecies[] = _("You already caught a POKéMON\nin this evolution line!\p");
+static const u8 sText_CantThrowPokeBall_NuzlockeSameSpecies[] = _("You have already caught\nthis POKéMON!\p");
+
+static u32 GetNuzlockeBallThrowableState(void)
+{
+    u8 nuzlockeBlock;
+    u8 battler;
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_WALLY_TUTORIAL))
+        return BALL_THROW_ABLE;
+
+    battler = GetCatchingBattler();
+    nuzlockeBlock = IsNuzlockeCaptureBlocked(gBattleMons[battler].species);
+    if (nuzlockeBlock
+        && gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause
+        && IsMonShiny(&gEnemyParty[gBattlerPartyIndexes[battler]]))
+        return BALL_THROW_ABLE;
+
+    switch (nuzlockeBlock)
+    {
+    case 1:
+        return BALL_THROW_UNABLE_NUZLOCKE_AREA;
+    case 2:
+        return BALL_THROW_UNABLE_NUZLOCKE_SPECIES;
+    case 3:
+        return BALL_THROW_UNABLE_NUZLOCKE_SAME_SPECIES;
+    default:
+        return BALL_THROW_ABLE;
+    }
+}
+
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
     switch (GetBallThrowableState())
@@ -1156,6 +1197,24 @@ void ItemUseInBattle_PokeBall(u8 taskId)
             DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_Disabled, CloseItemMessage);
         else
             DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_Disabled, Task_CloseBattlePyramidBagMessage);
+        break;
+    case BALL_THROW_UNABLE_NUZLOCKE_AREA:
+        if (!InBattlePyramid())
+            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_NuzlockeArea, CloseItemMessage);
+        else
+            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_NuzlockeArea, Task_CloseBattlePyramidBagMessage);
+        break;
+    case BALL_THROW_UNABLE_NUZLOCKE_SPECIES:
+        if (!InBattlePyramid())
+            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_NuzlockeSpecies, CloseItemMessage);
+        else
+            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_NuzlockeSpecies, Task_CloseBattlePyramidBagMessage);
+        break;
+    case BALL_THROW_UNABLE_NUZLOCKE_SAME_SPECIES:
+        if (!InBattlePyramid())
+            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_NuzlockeSameSpecies, CloseItemMessage);
+        else
+            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_NuzlockeSameSpecies, Task_CloseBattlePyramidBagMessage);
         break;
     }
 }
@@ -1247,6 +1306,18 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
             break;
         case BALL_THROW_UNABLE_DISABLED_FLAG:
             failStr = sText_CantThrowPokeBall_Disabled;
+            cannotUse = TRUE;
+            break;
+        case BALL_THROW_UNABLE_NUZLOCKE_AREA:
+            failStr = sText_CantThrowPokeBall_NuzlockeArea;
+            cannotUse = TRUE;
+            break;
+        case BALL_THROW_UNABLE_NUZLOCKE_SPECIES:
+            failStr = sText_CantThrowPokeBall_NuzlockeSpecies;
+            cannotUse = TRUE;
+            break;
+        case BALL_THROW_UNABLE_NUZLOCKE_SAME_SPECIES:
+            failStr = sText_CantThrowPokeBall_NuzlockeSameSpecies;
             cannotUse = TRUE;
             break;
         }
