@@ -1138,7 +1138,7 @@ struct SaveBlock1
                u8 tx_Nuzlocke_Deletion:1;
                u8 tx_Nuzlocke_EasyMode:1;
                u8 tx_Nuzlocke_Unused:1;
-               u8 nuzlockeEncounterFlags[32];
+               u8 NuzlockeEncounterFlags[32];
     // sizeof: 0x3???
 };
 

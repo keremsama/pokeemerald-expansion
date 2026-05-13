@@ -72,7 +72,6 @@ enum
 enum
 {
     NUZLOCKE_MODE_OFF,
-    NUZLOCKE_MODE_EASY,
     NUZLOCKE_MODE_NORMAL,
     NUZLOCKE_MODE_HARD,
 };
@@ -111,10 +110,6 @@ static bool8 IsCurrentItemActive(u8 cursor);
 static const u8 *GetCurrentItemDescription(void);
 static void ChangeSelection(s8 delta);
 static void RefreshScrollArrows(void);
-static u16 GetNuzlockeMapSecId(u16 mapsec);
-static u16 GetSpeciesFamilyBase(u16 species);
-static bool8 IsSpeciesFamilyCaught(u16 species);
-
 static void InitPendingSettings(void)
 {
     if (sPendingSettingsInitialized)
@@ -208,23 +203,22 @@ static const u16 sTextPal[] = INCBIN_U16("graphics/interface/option_menu_text_cu
 #define TILE_BOT_EDGE     0x1A9
 #define TILE_BOT_CORNER_R 0x1AA
 
-static const u8 sTextTopPrevious[] = _("{L_BUTTON}PREVIOUS");
-static const u8 sTextTopNext[] = _("{R_BUTTON}NEXT");
+static const u8 sTextTopPrevious[] = _("{L_BUTTON} PREVIOUS");
+static const u8 sTextTopNext[] = _("NEXT {R_BUTTON}");
 static const u8 sTextRandomizerTitle[] = _("RANDOMIZER");
 static const u8 sTextNuzlockeTitle[] = _("NUZLOCKE");
 static const u8 sTextOff[] = _("OFF");
 static const u8 sTextOn[] = _("ON");
 static const u8 sTextSave[] = _("SAVE");
-static const u8 sTextModeEasy[] = _("EASY");
 static const u8 sTextModeHard[] = _("HARD");
-static const u8 sTextModeNorm[] = _("NORM");
-static const u8 sTextFaintCemetery[] = _("CEMETERY");
+static const u8 sTextModeNormal[] = _("NORMAL");
+static const u8 sTextFaintCemetery[] = _("PC");
 static const u8 sTextFaintRelease[] = _("RELEASE");
 
 static const u8 sTextRandomizer[] = _("RANDOMIZER");
 static const u8 sTextWild[] = _("WILD POKEMON");
 static const u8 sTextStarter[] = _("STARTER POKEMON");
-static const u8 sTextTrainer[] = _("TRAINER");
+static const u8 sTextTrainer[] = _("TRAINER POKEMON");
 static const u8 sTextTypeThemed[] = _("TYPE THEMED");
 static const u8 sTextStatic[] = _("STATIC POKEMON");
 static const u8 sTextEgg[] = _("EGG POKEMON");
@@ -239,9 +233,9 @@ static const u8 sTextNicknaming[] = _("NICKNAMES");
 static const u8 sTextDeletion[] = _("FAINTING");
 
 static const u8 sTextSpeciesRandom[] = _("RANDOM");
-static const u8 sTextSpeciesLegend[] = _("LEGEND");
-static const u8 sTextSpeciesBst[] = _("BST");
-static const u8 sTextSpeciesEvolution[] = _("EVOLVE");
+static const u8 sTextSpeciesLegend[] = _("LEGEND FOR LEGEND");
+static const u8 sTextSpeciesBst[] = _("SAME BASESTAT POOL");
+static const u8 sTextSpeciesEvolution[] = _("EVOLUTION");
 
 static const u8 *const sRandomizerNames[RANDOMIZER_COUNT] =
 {
@@ -305,13 +299,12 @@ static const u8 sTextDescSpeciesBst[] = _("Replacements are picked near the\nsam
 static const u8 sTextDescSpeciesEvolution[] = _("Species are replaced by members\nof evolution families.");
 
 static const u8 sTextDescNuzlockeOff[] = _("Nuzlocke mode is disabled.");
-static const u8 sTextDescNuzlockeEasy[] = _("Fainted POKEMON can't be used\nanymore.");
-static const u8 sTextDescNuzlockeNormal[] = _("One catch per route! Fainted\nPOKEMON can't be used anymore.");
-static const u8 sTextDescNuzlockeHard[] = _("Same rules as NORMAL with\nhardcore mode enabled.");
+static const u8 sTextDescNuzlockeNormal[] = _("One catch per area! Fainted\nPOKEMON can't be used anymore.");
+static const u8 sTextDescNuzlockeHard[] = _("Same rules as NORMAL.\nBlack out and your save is gone!");
 static const u8 sTextDescSpeciesClauseOff[] = _("Only the first POKEMON per area\ncan be caught.");
 static const u8 sTextDescSpeciesClauseOn[] = _("Already caught evolution lines\nwill not count as first encounter.");
 static const u8 sTextDescShinyClauseOff[] = _("Shiny POKEMON still follow the\nfirst encounter rule.");
-static const u8 sTextDescShinyClauseOn[] = _("Shiny POKEMON can always be\ncaught.");
+static const u8 sTextDescShinyClauseOn[] = _("Shiny POKEMON can always be caught.");
 static const u8 sTextDescNicknamesOff[] = _("Nicknames are optional.");
 static const u8 sTextDescNicknamesOn[] = _("Forces a nickname for every\ncaught POKEMON.");
 static const u8 sTextDescFaintCemetery[] = _("Fainted POKEMON are sent to the\nPC after battle.");
@@ -334,7 +327,7 @@ static const u8 *const sRandomizerDescriptions[RANDOMIZER_COUNT][4] =
 
 static const u8 *const sNuzlockeDescriptions[NUZLOCKE_COUNT][4] =
 {
-    [NUZLOCKE_MODE] = {sTextDescNuzlockeOff, sTextDescNuzlockeEasy, sTextDescNuzlockeNormal, sTextDescNuzlockeHard},
+    [NUZLOCKE_MODE] = {sTextDescNuzlockeOff, sTextDescNuzlockeNormal, sTextDescNuzlockeHard},
     [NUZLOCKE_SPECIES_CLAUSE] = {sTextDescSpeciesClauseOff, sTextDescSpeciesClauseOn},
     [NUZLOCKE_SHINY_CLAUSE] = {sTextDescShinyClauseOff, sTextDescShinyClauseOn},
     [NUZLOCKE_NICKNAMING] = {sTextDescNicknamesOff, sTextDescNicknamesOn},
@@ -580,19 +573,6 @@ static void DrawOptionChoice(const u8 *text, int x, int y, bool8 chosen, bool8 a
     AddTextPrinterParameterized4(WIN_OPTIONS, FONT_NORMAL, x, y, 0, 0, color, TEXT_SKIP_DRAW, text);
 }
 
-static void DrawOptionChoiceSmall(const u8 *text, int x, int y, bool8 chosen, bool8 active)
-{
-    const u8 colorRed[3] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_OPTIONS_RED_FG, TEXT_COLOR_OPTIONS_RED_SHADOW};
-    const u8 colorGray[3] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_OPTIONS_GRAY_FG, TEXT_COLOR_OPTIONS_GRAY_SHADOW};
-    const u8 colorRedDark[3] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_OPTIONS_RED_DARK_FG, TEXT_COLOR_OPTIONS_RED_DARK_SHADOW};
-    const u8 colorGrayLight[3] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG, TEXT_COLOR_OPTIONS_GRAY_SHADOW};
-    const u8 *const color = chosen
-        ? (active ? colorRed : colorRedDark)
-        : (active ? colorGray : colorGrayLight);
-
-    AddTextPrinterParameterized4(WIN_OPTIONS, FONT_SMALL, x, y, 0, 0, color, TEXT_SKIP_DRAW, text);
-}
-
 static void DrawTwoChoices(const u8 *left, const u8 *right, u8 selection, int y, bool8 active)
 {
     DrawOptionChoice(left, CHOICE_LEFT_X, y, selection == 0, active);
@@ -611,10 +591,9 @@ static void DrawOffRandomChoices(u8 selection, int y, bool8 active)
 
 static void DrawNuzlockeModeChoices(u8 selection, int y, bool8 active)
 {
-    DrawOptionChoiceSmall(sTextOff, CHOICE_LEFT_X, y + 2, selection == NUZLOCKE_MODE_OFF, active);
-    DrawOptionChoiceSmall(sTextModeEasy, 128, y + 2, selection == NUZLOCKE_MODE_EASY, active);
-    DrawOptionChoiceSmall(sTextModeNorm, 156, y + 2, selection == NUZLOCKE_MODE_NORMAL, active);
-    DrawOptionChoiceSmall(sTextModeHard, GetStringRightAlignXOffset(FONT_SMALL, sTextModeHard, 206), y + 2, selection == NUZLOCKE_MODE_HARD, active);
+    DrawOptionChoice(sTextOff, CHOICE_LEFT_X, y, selection == NUZLOCKE_MODE_OFF, active);
+    DrawOptionChoice(sTextModeNormal, 132, y, selection == NUZLOCKE_MODE_NORMAL, active);
+    DrawOptionChoice(sTextModeHard, GetStringRightAlignXOffset(FONT_NORMAL, sTextModeHard, CHOICE_RIGHT_EDGE), y, selection == NUZLOCKE_MODE_HARD, active);
 }
 
 static void DrawNuzlockeOnOffChoices(u8 selection, int y, bool8 active)
@@ -808,7 +787,7 @@ static void ChangeSelection(s8 delta)
     else
     {
         if (cursor == NUZLOCKE_MODE)
-            sMenu->nuzlocke[cursor] = (sMenu->nuzlocke[cursor] + 4 + delta) % 4;
+            sMenu->nuzlocke[cursor] = (sMenu->nuzlocke[cursor] + 3 + delta) % 3;
         else
             sMenu->nuzlocke[cursor] ^= 1;
     }
@@ -872,139 +851,12 @@ void ApplyNewGameRandomizerNuzlockeSettings(void)
 
     VarSet(VAR_RANDOM_SPECIES_MODE, sPendingRandomizer[RANDOMIZER_SPECIES_MODE]);
 
-    gSaveBlock1Ptr->tx_Nuzlocke_EasyMode = sPendingNuzlocke[NUZLOCKE_MODE] == NUZLOCKE_MODE_EASY;
-    gSaveBlock1Ptr->tx_Challenges_Nuzlocke = sPendingNuzlocke[NUZLOCKE_MODE] >= NUZLOCKE_MODE_NORMAL;
+    gSaveBlock1Ptr->tx_Nuzlocke_EasyMode = FALSE;
+    gSaveBlock1Ptr->tx_Challenges_Nuzlocke = sPendingNuzlocke[NUZLOCKE_MODE] != NUZLOCKE_MODE_OFF;
     gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore = sPendingNuzlocke[NUZLOCKE_MODE] == NUZLOCKE_MODE_HARD;
     gSaveBlock1Ptr->tx_Nuzlocke_SpeciesClause = gSaveBlock1Ptr->tx_Challenges_Nuzlocke && sPendingNuzlocke[NUZLOCKE_SPECIES_CLAUSE];
     gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause = gSaveBlock1Ptr->tx_Challenges_Nuzlocke && sPendingNuzlocke[NUZLOCKE_SHINY_CLAUSE];
     gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming = gSaveBlock1Ptr->tx_Challenges_Nuzlocke && sPendingNuzlocke[NUZLOCKE_NICKNAMING];
     gSaveBlock1Ptr->tx_Nuzlocke_Deletion = sPendingNuzlocke[NUZLOCKE_MODE] != NUZLOCKE_MODE_OFF && sPendingNuzlocke[NUZLOCKE_DELETION];
-    memset(gSaveBlock1Ptr->nuzlockeEncounterFlags, 0, sizeof(gSaveBlock1Ptr->nuzlockeEncounterFlags));
-}
-
-bool8 IsNuzlockeActive(void)
-{
-    if (FlagGet(FLAG_IS_CHAMPION))
-        return FALSE;
-
-    return gSaveBlock1Ptr->tx_Challenges_Nuzlocke;
-}
-
-bool8 IsNuzlockeDeathRulesActive(void)
-{
-    if (FlagGet(FLAG_IS_CHAMPION))
-        return FALSE;
-
-    return gSaveBlock1Ptr->tx_Challenges_Nuzlocke || gSaveBlock1Ptr->tx_Nuzlocke_EasyMode;
-}
-
-bool8 IsNuzlockeNicknamingActive(void)
-{
-    if (!gSaveBlock1Ptr->tx_Challenges_Nuzlocke)
-        return FALSE;
-    if (FlagGet(FLAG_IS_CHAMPION))
-        return FALSE;
-
-    return gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming;
-}
-
-static u16 GetNuzlockeMapSecId(u16 mapsec)
-{
-    if (mapsec < ARRAY_COUNT(gSaveBlock1Ptr->nuzlockeEncounterFlags) * 8)
-        return mapsec;
-    return MAPSEC_DYNAMIC;
-}
-
-u8 NuzlockeFlagSet(u16 mapsec)
-{
-    u16 id = GetNuzlockeMapSecId(mapsec);
-    gSaveBlock1Ptr->nuzlockeEncounterFlags[id / 8] |= 1 << (id & 7);
-    return 0;
-}
-
-u8 NuzlockeFlagClear(u16 mapsec)
-{
-    u16 id = GetNuzlockeMapSecId(mapsec);
-    gSaveBlock1Ptr->nuzlockeEncounterFlags[id / 8] &= ~(1 << (id & 7));
-    return 0;
-}
-
-u8 NuzlockeFlagGet(u16 mapsec)
-{
-    u16 id = GetNuzlockeMapSecId(mapsec);
-    return (gSaveBlock1Ptr->nuzlockeEncounterFlags[id / 8] >> (id & 7)) & 1;
-}
-
-static u16 GetSpeciesFamilyBase(u16 species)
-{
-    u16 preEvolution;
-
-    species = GET_BASE_SPECIES_ID(species);
-    while ((preEvolution = GetSpeciesPreEvolution(species)) != SPECIES_NONE)
-        species = GET_BASE_SPECIES_ID(preEvolution);
-
-    return species;
-}
-
-static bool8 IsSpeciesFamilyCaught(u16 species)
-{
-    u16 i;
-    u16 baseSpecies = GetSpeciesFamilyBase(species);
-
-    if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
-        return 2;
-
-    for (i = SPECIES_BULBASAUR; i < NUM_SPECIES; i++)
-    {
-        if (GetSpeciesFamilyBase(i) == baseSpecies
-            && GetSetPokedexFlag(SpeciesToNationalPokedexNum(i), FLAG_GET_CAUGHT))
-            return TRUE;
-    }
-    return FALSE;
-}
-
-bool8 IsNuzlockeCaptureBlocked(u16 species)
-{
-    if (!IsNuzlockeActive())
-        return FALSE;
-
-    if (gSaveBlock1Ptr->tx_Nuzlocke_SpeciesClause)
-    {
-        u8 speciesClause = IsSpeciesFamilyCaught(species);
-        if (speciesClause)
-            return speciesClause == 2 ? 3 : 2;
-    }
-
-    if (NuzlockeFlagGet(GetCurrentRegionMapSectionId()))
-        return 1;
-
-    return FALSE;
-}
-
-void NuzlockeDeleteFaintedPartyPokemon(void)
-{
-    u8 i;
-    u16 itemNone = ITEM_NONE;
-    u8 nuzlockeRibbon = TRUE;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        struct Pokemon *mon = &gPlayerParty[i];
-        if (GetMonData(mon, MON_DATA_SANITY_HAS_SPECIES, NULL)
-            && !GetMonData(mon, MON_DATA_IS_EGG, NULL)
-            && GetMonAilment(mon) == AILMENT_FNT)
-        {
-            u16 heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, NULL);
-            if (heldItem != ITEM_NONE)
-            {
-                AddBagItem(heldItem, 1);
-                SetMonData(mon, MON_DATA_HELD_ITEM, &itemNone);
-            }
-            SetMonData(mon, MON_DATA_NUZLOCKE_RIBBON, &nuzlockeRibbon);
-            if (!gSaveBlock1Ptr->tx_Nuzlocke_Deletion)
-                CopyMonToPC(mon);
-            ZeroMonData(mon);
-        }
-    }
-    CompactPartySlots();
+    memset(gSaveBlock1Ptr->NuzlockeEncounterFlags, 0, sizeof(gSaveBlock1Ptr->NuzlockeEncounterFlags));
 }

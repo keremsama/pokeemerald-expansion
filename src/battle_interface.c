@@ -30,7 +30,9 @@
 #include "item_icon.h"
 #include "item_use.h"
 #include "test_runner.h"
+#include "tx_randomizer_and_challenges.h"
 #include "constants/battle_anim.h"
+#include "constants/pokedex.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/items.h"
@@ -178,6 +180,7 @@ static u8 *AddTextPrinterAndCreateWindowOnHealthboxToFit(const u8 *, u32, u32, u
 static void RemoveWindowOnHealthbox(u32 windowId);
 static void UpdateHpTextInHealthboxInDoubles(u32 healthboxSpriteId, u32 maxOrCurrent, s16 currHp, s16 maxHp);
 static void UpdateStatusIconInHealthbox(u8);
+static bool8 IsHealthboxSpeciesCaught(u16 species);
 
 static void TextIntoHealthboxObject(void *, u8 *, s32);
 static void SafariTextIntoHealthboxObject(void *, u8 *, u32);
@@ -1771,6 +1774,7 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
 {
     u8 battler, healthBarSpriteId;
+    u16 species;
 
     if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
         return;
@@ -1780,8 +1784,22 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
     battler = gSprites[healthboxSpriteId].hMain_Battler;
     if (GetBattlerSide(battler) == B_SIDE_PLAYER)
         return;
-    if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES)), FLAG_GET_CAUGHT))
+
+    species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+    if (!IsHealthboxSpeciesCaught(species))
+    {
+        if (!IsNuzlockeActive())
+            return;
+        if (NuzlockeIsCaptureBlocked || NuzlockeIsSpeciesClauseActive || NuzlockeShouldSkipEncounterFlag)
+            return;
+
+        healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
+        if (noStatus)
+            CpuCopy32(gNuzlockeFirstEncounterIndicatorGfx, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+        else
+            CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
         return;
+    }
 
     healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
 
@@ -1789,6 +1807,20 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
         CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_BALL_CAUGHT), (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
     else
         CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+}
+
+static bool8 IsHealthboxSpeciesCaught(u16 species)
+{
+    u16 dexNum;
+
+    if (species == SPECIES_NONE || species >= NUM_SPECIES)
+        return FALSE;
+
+    dexNum = SpeciesToNationalPokedexNum(species);
+    if (dexNum == NATIONAL_DEX_NONE || dexNum > NATIONAL_DEX_COUNT)
+        return FALSE;
+
+    return GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT);
 }
 
 static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)

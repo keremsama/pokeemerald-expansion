@@ -15991,34 +15991,12 @@ static void Cmd_handleballthrow(void)
 
     u16 ballMultiplier = 100;
     s8 ballAddition = 0;
-    u8 nuzlockeBlock = FALSE;
 
     if (gBattleControllerExecFlags)
         return;
 
     gBattlerTarget = GetCatchingBattler();
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_WALLY_TUTORIAL)))
-    {
-        nuzlockeBlock = IsNuzlockeCaptureBlocked(gBattleMons[gBattlerTarget].species);
-        if (nuzlockeBlock
-            && gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause
-            && IsMonShiny(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]]))
-            nuzlockeBlock = FALSE;
-    }
-
-    if (nuzlockeBlock == 1)
-    {
-        gBattlescriptCurrInstr = BattleScript_NuzlockeCaptureBlocked;
-    }
-    else if (nuzlockeBlock == 2)
-    {
-        gBattlescriptCurrInstr = BattleScript_NuzlockeSpeciesClauseBlocked;
-    }
-    else if (nuzlockeBlock == 3)
-    {
-        gBattlescriptCurrInstr = BattleScript_NuzlockeSameSpeciesBlocked;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_TRAINER_BLOCK);
         MarkBattlerForControllerExec(gBattlerAttacker);

@@ -1136,30 +1136,14 @@ static const u8 sText_CantThrowPokeBall_NuzlockeSameSpecies[] = _("You have alre
 
 static u32 GetNuzlockeBallThrowableState(void)
 {
-    u8 nuzlockeBlock;
-    u8 battler;
-
-    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_WALLY_TUTORIAL))
-        return BALL_THROW_ABLE;
-
-    battler = GetCatchingBattler();
-    nuzlockeBlock = IsNuzlockeCaptureBlocked(gBattleMons[battler].species);
-    if (nuzlockeBlock
-        && gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause
-        && IsMonShiny(&gEnemyParty[gBattlerPartyIndexes[battler]]))
-        return BALL_THROW_ABLE;
-
-    switch (nuzlockeBlock)
-    {
-    case 1:
+    if (NuzlockeIsCaptureBlocked)
         return BALL_THROW_UNABLE_NUZLOCKE_AREA;
-    case 2:
-        return BALL_THROW_UNABLE_NUZLOCKE_SPECIES;
-    case 3:
+    if (NuzlockeIsSpeciesClauseActive == 2)
         return BALL_THROW_UNABLE_NUZLOCKE_SAME_SPECIES;
-    default:
-        return BALL_THROW_ABLE;
-    }
+    if (NuzlockeIsSpeciesClauseActive)
+        return BALL_THROW_UNABLE_NUZLOCKE_SPECIES;
+
+    return BALL_THROW_ABLE;
 }
 
 void ItemUseInBattle_PokeBall(u8 taskId)
