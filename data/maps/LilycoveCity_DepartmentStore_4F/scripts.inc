@@ -32,9 +32,6 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_GIGA_IMPACT
 	.2byte ITEM_TM_STONE_EDGE
 	.2byte ITEM_TM_CLOSE_COMBAT
-	.2byte ITEM_TM_FLASH_CANNON
-	.2byte ITEM_TM_DAZZLING_GLEAM
-	.2byte ITEM_TM_EARTH_POWER
 	.2byte ITEM_TM_ACROBATICS
 	.2byte ITEM_TM_BRINE
 	.2byte ITEM_TM_SHADOW_CLAW
@@ -61,8 +58,6 @@ LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
 
 	.align 2
 LilycoveCity_DepartmentStore_4F_Pokemart_DefenseTMs:
-	.2byte ITEM_TM_WILL_O_WISP
-	.2byte ITEM_TM_THUNDER_WAVE
 	.2byte ITEM_TM_SWORDS_DANCE
 	.2byte ITEM_TM_NASTY_PLOT
 	.2byte ITEM_TM_SAFEGUARD

@@ -8985,7 +8985,7 @@ F_TRAINER_FEMALE |
             },
             {
 #line 3612
-            .species = SPECIES_NINETALES,
+            .species = SPECIES_LARVESTA,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 3614
             .iv = TRAINER_PARTY_IVS(12, 12, 12, 12, 12, 12),
@@ -16925,7 +16925,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 6793
-            .species = SPECIES_YAMPER,
+            .species = SPECIES_TOGEPI,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 6795
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -17802,7 +17802,7 @@ F_TRAINER_FEMALE |
         {
             {
 #line 7138
-            .species = SPECIES_ARAQUANID,
+            .species = SPECIES_SHARPEDO,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 7140
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -26039,7 +26039,7 @@ F_TRAINER_FEMALE |
             },
             {
 #line 10385
-            .species = SPECIES_YAMPER,
+            .species = SPECIES_TOGEPI,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 10387
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -35254,7 +35254,7 @@ F_TRAINER_FEMALE |
             },
             {
 #line 14031
-            .species = SPECIES_DEWPIDER,
+            .species = SPECIES_TATSUGIRI,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 14033
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
