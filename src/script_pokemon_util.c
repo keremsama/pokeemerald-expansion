@@ -22,6 +22,7 @@
 #include "script.h"
 #include "sprite.h"
 #include "string_util.h"
+#include "tx_randomizer_and_challenges.h"
 #include "tv.h"
 #include "wild_encounter.h"
 #include "constants/abilities.h"
@@ -139,6 +140,8 @@ void CreateScriptedWildMon(u16 species, u8 level, u16 item)
         heldItem[1] = item >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
+
+    SetNuzlockeChecks();
 }
 void CreateScriptedDoubleWildMon(u16 species1, u8 level1, u16 item1, u16 species2, u8 level2, u16 item2)
 {

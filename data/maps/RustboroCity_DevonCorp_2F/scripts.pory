@@ -331,8 +331,11 @@ script RustboroCity_DevonCorp_2F_EventScript_FossilMonReady {
 
 script RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC {
 	call (RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare)
+	specialvar (VAR_RESULT, IsNuzlockeNicknamingActive)
+	goto_if_eq (VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC_Nuzlocke)
 	msgbox ((gText_NicknameThisPokemon), MSGBOX_YESNO)
 	goto_if_eq (VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC)
+RustboroCity_DevonCorp_2F_EventScript_ReceiveMonPC_Nuzlocke:
 	call (Common_EventScript_NameReceivedBoxMon)
 	goto (RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC)
 	end
@@ -346,8 +349,11 @@ script RustboroCity_DevonCorp_2F_EventScript_TransferMonToPC{
 
 script RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty {
 	call (RustboroCity_DevonCorp_2F_EventScript_ReceivedMonFanfare)
+	specialvar (VAR_RESULT, IsNuzlockeNicknamingActive)
+	goto_if_eq (VAR_RESULT, TRUE, RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty_Nuzlocke)
 	msgbox ((gText_NicknameThisPokemon), MSGBOX_YESNO)
 	goto_if_eq (VAR_RESULT, NO, RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon)
+RustboroCity_DevonCorp_2F_EventScript_ReceiveMonParty_Nuzlocke:
 	call (Common_EventScript_GetGiftMonPartySlot)
 	call (Common_EventScript_NameReceivedPartyMon)
 	goto (RustboroCity_DevonCorp_2F_EventScript_FinishReceivingMon)

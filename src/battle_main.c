@@ -35,12 +35,14 @@
 #include "main.h"
 #include "malloc.h"
 #include "m4a.h"
+#include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokeball.h"
 #include "pokedex.h"
 #include "pokemon.h"
 #include "random.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "recorded_battle.h"
 #include "roamer.h"
 #include "safari_zone.h"
@@ -4471,6 +4473,22 @@ static void HandleTurnActionSelectionState(void)
                         gBattleStruct->stateIdAfterSelScript[battler] = STATE_BEFORE_ACTION_CHOSEN;
                         return;
                     }
+                    else if (IsNuzlockeActive())
+                    {
+                        if (NuzlockeIsCaptureBlocked)
+                            gSelectionBattleScripts[battler] = BattleScript_NuzlockeCaptureBlocked;
+                        else if (NuzlockeIsSpeciesClauseActive == 2)
+                            gSelectionBattleScripts[battler] = BattleScript_NuzlockeSameSpeciesBlocked;
+                        else if (NuzlockeIsSpeciesClauseActive)
+                            gSelectionBattleScripts[battler] = BattleScript_NuzlockeSpeciesClauseBlocked;
+                        else
+                            break;
+
+                        gBattleCommunication[battler] = STATE_SELECTION_SCRIPT;
+                        gBattleStruct->selectionScriptFinished[battler] = FALSE;
+                        gBattleStruct->stateIdAfterSelScript[battler] = STATE_BEFORE_ACTION_CHOSEN;
+                        return;
+                    }
                     break;
                 case B_ACTION_SAFARI_POKEBLOCK:
                     BtlController_EmitChooseItem(battler, B_COMM_TO_CONTROLLER, gBattleStruct->battlerPartyOrders[battler]);
@@ -5693,6 +5711,40 @@ static void HandleEndTurn_FinishBattle(void)
             && gBattleResults.shinyWildMon)
         {
             TryPutBreakingNewsOnAir();
+        }
+
+        if (IsNuzlockeActive())
+        {
+            if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
+                                       | BATTLE_TYPE_LINK_IN_BATTLE
+                                       | BATTLE_TYPE_FIRST_BATTLE
+                                       | BATTLE_TYPE_WALLY_TUTORIAL
+                                       | BATTLE_TYPE_INGAME_PARTNER
+                                       | BATTLE_TYPE_TOWER_LINK_MULTI
+                                       | BATTLE_TYPE_RECORDED_LINK
+                                       | BATTLE_TYPE_FRONTIER)))
+                NuzlockeDeleteFaintedPartyPokemon();
+
+            if (!(gBattleTypeFlags & (BATTLE_TYPE_DOUBLE
+                                      | BATTLE_TYPE_LINK
+                                      | BATTLE_TYPE_TRAINER
+                                      | BATTLE_TYPE_FIRST_BATTLE
+                                      | BATTLE_TYPE_LINK_IN_BATTLE
+                                      | BATTLE_TYPE_MULTI
+                                      | BATTLE_TYPE_BATTLE_TOWER
+                                      | BATTLE_TYPE_WALLY_TUTORIAL
+                                      | BATTLE_TYPE_LEGENDARY
+                                      | BATTLE_TYPE_TWO_OPPONENTS
+                                      | BATTLE_TYPE_INGAME_PARTNER
+                                      | BATTLE_TYPE_TOWER_LINK_MULTI
+                                      | BATTLE_TYPE_RECORDED_LINK)))
+            {
+                if (!NuzlockeIsSpeciesClauseActive && !NuzlockeShouldSkipEncounterFlag)
+                    NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());
+            }
+            NuzlockeIsCaptureBlocked = FALSE;
+            NuzlockeIsSpeciesClauseActive = FALSE;
+            NuzlockeShouldSkipEncounterFlag = FALSE;
         }
 
         RecordedBattle_SetPlaybackFinished();

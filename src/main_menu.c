@@ -25,6 +25,7 @@
 #include "pokedex.h"
 #include "pokemon.h"
 #include "random.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "rtc.h"
 #include "save.h"
 #include "scanline_effect.h"
@@ -171,6 +172,7 @@
 
 static EWRAM_DATA bool8 sStartedPokeBallTask = 0;
 static EWRAM_DATA u16 sCurrItemAndOptionMenuCheck = 0;
+static EWRAM_DATA bool8 sReturnFromRandomizerNuzlockeMenuToName = FALSE;
 
 static u8 sBirchSpeechMainTaskId;
 
@@ -218,6 +220,9 @@ static void Task_NewGameBirchSpeech_ChooseGender(u8);
 static void NewGameBirchSpeech_ShowGenderMenu(void);
 static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void);
 static void NewGameBirchSpeech_ClearGenderWindow(u8, u8);
+static void Task_NewGameBirchSpeech_UniqueRun(u8);
+static void Task_NewGameBirchSpeech_WaitForUniqueRunText(u8);
+static void StartRandomizerNuzlockeMenuFromBirch(u8);
 static void Task_NewGameBirchSpeech_WhatsYourName(u8);
 static void Task_NewGameBirchSpeech_SlideOutOldGenderSprite(u8);
 static void Task_NewGameBirchSpeech_SlideInNewGenderSprite(u8);
@@ -246,6 +251,11 @@ static void MainMenu_FormatSavegameBadges(void);
 static void NewGameBirchSpeech_CreateDialogueWindowBorder(u8, u8, u8, u8, u8, u8);
 
 // .rodata
+
+static const u8 sText_Birch_UniqueRun[] = _("All right.\p"
+                                            "Would you like to make this\n"
+                                            "journey unique before we begin?\p"
+                                            "And what's your name?$");
 
 static const u16 sBirchSpeechBgPals[][16] = {
     INCBIN_U16("graphics/birch_speech/bg0.gbapal"),
@@ -1529,13 +1539,13 @@ static void Task_NewGameBirchSpeech_ChooseGender(u8 taskId)
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
-            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_UniqueRun;
             break;
         case FEMALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
-            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_UniqueRun;
             break;
     }
     gender2 = Menu_GetCursorPos();
@@ -1589,6 +1599,34 @@ static void Task_NewGameBirchSpeech_SlideInNewGenderSprite(u8 taskId)
             gTasks[taskId].func = Task_NewGameBirchSpeech_ChooseGender;
         }
     }
+}
+
+static void Task_NewGameBirchSpeech_UniqueRun(u8 taskId)
+{
+    NewGameBirchSpeech_ClearWindow(0);
+    StringExpandPlaceholders(gStringVar4, sText_Birch_UniqueRun);
+    AddTextPrinterForMessage(TRUE);
+    gTasks[taskId].func = Task_NewGameBirchSpeech_WaitForUniqueRunText;
+}
+
+static void Task_NewGameBirchSpeech_WaitForUniqueRunText(u8 taskId)
+{
+    if (!RunTextPrintersAndIsPrinter0Active())
+    {
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+            StartRandomizerNuzlockeMenuFromBirch(taskId);
+    }
+}
+
+static void StartRandomizerNuzlockeMenuFromBirch(u8 taskId)
+{
+    sReturnFromRandomizerNuzlockeMenuToName = TRUE;
+    gMain.savedCallback = CB2_NewGameBirchSpeech_ReturnFromNamingScreen;
+    FreeAllWindowBuffers();
+    FreeAndDestroyMonPicSprite(gTasks[taskId].tLotadSpriteId);
+    ResetAllPicSprites();
+    SetMainCallback2(CB2_InitRandomizerNuzlockeMenu);
+    DestroyTask(taskId);
 }
 
 static void Task_NewGameBirchSpeech_WhatsYourName(u8 taskId)
@@ -2319,7 +2357,15 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
     if (gTasks[taskId].tTimer-- <= 0)
     {
         NewGameBirchSpeech_ShowDialogueWindow(0, 1);
-        gTasks[taskId].func = Task_NewGameBirchSpeech_SoItsPlayerName;
+        if (sReturnFromRandomizerNuzlockeMenuToName)
+        {
+            sReturnFromRandomizerNuzlockeMenuToName = FALSE;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
+        }
+        else
+        {
+            gTasks[taskId].func = Task_NewGameBirchSpeech_SoItsPlayerName;
+        }
     }
 }
 

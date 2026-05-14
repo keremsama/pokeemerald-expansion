@@ -13,6 +13,7 @@
 #include "util.h"
 #include "pokemon.h"
 #include "random.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "text.h"
@@ -15995,7 +15996,6 @@ static void Cmd_handleballthrow(void)
         return;
 
     gBattlerTarget = GetCatchingBattler();
-
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_TRAINER_BLOCK);
@@ -16437,7 +16437,6 @@ static void Cmd_givecaughtmon(void)
         gBattleResults.caughtMonSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_SPECIES, NULL);
         GetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
         gBattleResults.caughtMonBall = GetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_POKEBALL, NULL);
-
         gSelectedMonPartyId = PARTY_SIZE;
         gBattleCommunication[MULTIUSE_STATE] = 0;
 
@@ -16596,10 +16595,18 @@ static void Cmd_trygivecaughtmonnick(void)
     {
     case 0:
         HandleBattleWindow(YESNOBOX_X_Y, 0);
-        BattlePutTextOnWindow(gText_BattleYesNoChoice, B_WIN_YESNO);
-        gBattleCommunication[MULTIUSE_STATE]++;
-        gBattleCommunication[CURSOR_POSITION] = 0;
-        BattleCreateYesNoCursorAt(0);
+        if (IsNuzlockeNicknamingActive())
+        {
+            gBattleCommunication[MULTIUSE_STATE] = 2;
+            BeginFastPaletteFade(3);
+        }
+        else
+        {
+            BattlePutTextOnWindow(gText_BattleYesNoChoice, B_WIN_YESNO);
+            gBattleCommunication[MULTIUSE_STATE]++;
+            gBattleCommunication[CURSOR_POSITION] = 0;
+            BattleCreateYesNoCursorAt(0);
+        }
         break;
     case 1:
         if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)

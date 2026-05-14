@@ -27,6 +27,7 @@
 #include "secret_base.h"
 #include "string_util.h"
 #include "overworld.h"
+#include "tx_randomizer_and_challenges.h"
 #include "field_weather.h"
 #include "battle_tower.h"
 #include "gym_leader_rematch.h"
@@ -305,6 +306,7 @@ static void CreateBattleStartTask_Debug(u8 transition, u16 song)
 
 void BattleSetup_StartWildBattle(void)
 {
+    SetNuzlockeChecks();
     if (GetSafariZoneFlag())
         DoSafariBattle();
     else
@@ -431,6 +433,7 @@ void StartWallyTutorialBattle(void)
 
 void BattleSetup_StartScriptedWildBattle(void)
 {
+    SetNuzlockeChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = 0;
