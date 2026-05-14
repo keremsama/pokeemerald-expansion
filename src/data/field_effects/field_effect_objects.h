@@ -1,5 +1,6 @@
 const struct SpritePalette gSpritePalette_GeneralFieldEffect0 = {gFieldEffectObjectPalette0, FLDEFF_PAL_TAG_GENERAL_0};
 const struct SpritePalette gSpritePalette_GeneralFieldEffect1 = {gFieldEffectObjectPalette1, FLDEFF_PAL_TAG_GENERAL_1};
+const struct SpritePalette gSpritePalette_GeneralFieldEffect3 = {gFieldEffectObjectPalette3, FLDEFF_PAL_TAG_GENERAL_3};
 
 static const union AnimCmd sAnim_Shadow[] =
 {
@@ -685,7 +686,7 @@ static const union AnimCmd *const sAnimTable_LongGrass[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_LongGrass = {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .paletteTag = FLDEFF_PAL_TAG_GENERAL_3,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_LongGrass,
     .images = sPicTable_LongGrass,
@@ -720,7 +721,7 @@ static const union AnimCmd *const sAnimTable_JumpLongGrass[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpLongGrass = {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .paletteTag = FLDEFF_PAL_TAG_GENERAL_3,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_JumpLongGrass,
     .images = sPicTable_JumpLongGrass,
@@ -794,7 +795,7 @@ static const union AnimCmd *const sAnimTable_UnusedGrass2[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_UnusedGrass2 = {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .paletteTag = FLDEFF_PAL_TAG_GENERAL_3,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_UnusedGrass2,
     .images = sPicTable_UnusedGrass2,
@@ -1024,7 +1025,7 @@ static const union AnimCmd *const sAnimTable_TreeDisguise[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_TreeDisguise = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_NPC_3,
+    .paletteTag = OBJ_EVENT_PAL_TAG_HM_OBJECTS,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_TreeDisguise,
     .images = sPicTable_TreeDisguise,

@@ -1490,7 +1490,7 @@ u32 FldEff_BerryTreeGrowthSparkle(void)
 
 u32 ShowTreeDisguiseFieldEffect(void)
 {
-    return ShowDisguiseFieldEffect(FLDEFF_TREE_DISGUISE, FLDEFFOBJ_TREE_DISGUISE, 4);
+    return ShowDisguiseFieldEffect(FLDEFF_TREE_DISGUISE, FLDEFFOBJ_TREE_DISGUISE, PALSLOT_HM_OBJEKTS);
 }
 
 u32 ShowMountainDisguiseFieldEffect(void)
@@ -1868,4 +1868,3 @@ static void UpdateGrassFieldEffectSubpriority(struct Sprite *sprite, u8 elevatio
         }
     }
 }
-
