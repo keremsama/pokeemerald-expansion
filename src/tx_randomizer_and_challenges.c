@@ -19,6 +19,7 @@ EWRAM_DATA u8 NuzlockeShouldSkipEncounterFlag = FALSE;
 
 static bool8 TryGetNuzlockeEncounterId(u16 mapsec, u16 *id);
 static u16 GetNuzlockeEncounterId(u16 mapsec);
+static bool8 TryGetNuzlockeEncounterFlagIndex(u16 mapsec, u16 *id);
 static bool8 IsSpeciesCaughtForNuzlocke(u16 species);
 static u16 GetSpeciesFamilyBase(u16 species);
 static bool8 IsEvolutionLineCaughtForNuzlocke(u16 species, u8 depth);
@@ -159,9 +160,18 @@ static u16 GetNuzlockeEncounterId(u16 mapsec)
     return MAPSEC_DYNAMIC;
 }
 
+static bool8 TryGetNuzlockeEncounterFlagIndex(u16 mapsec, u16 *id)
+{
+    *id = GetNuzlockeEncounterId(mapsec);
+    return *id < ARRAY_COUNT(gSaveBlock1Ptr->NuzlockeEncounterFlags) * 8;
+}
+
 u8 NuzlockeFlagSet(u16 mapsec)
 {
-    u16 id = GetNuzlockeEncounterId(mapsec);
+    u16 id;
+
+    if (!TryGetNuzlockeEncounterFlagIndex(mapsec, &id))
+        return 0;
 
     gSaveBlock1Ptr->NuzlockeEncounterFlags[id / 8] |= 1 << (id & 7);
     return 0;
@@ -169,7 +179,10 @@ u8 NuzlockeFlagSet(u16 mapsec)
 
 u8 NuzlockeFlagClear(u16 mapsec)
 {
-    u16 id = GetNuzlockeEncounterId(mapsec);
+    u16 id;
+
+    if (!TryGetNuzlockeEncounterFlagIndex(mapsec, &id))
+        return 0;
 
     gSaveBlock1Ptr->NuzlockeEncounterFlags[id / 8] &= ~(1 << (id & 7));
     return 0;
@@ -177,7 +190,10 @@ u8 NuzlockeFlagClear(u16 mapsec)
 
 u8 NuzlockeFlagGet(u16 mapsec)
 {
-    u16 id = GetNuzlockeEncounterId(mapsec);
+    u16 id;
+
+    if (!TryGetNuzlockeEncounterFlagIndex(mapsec, &id))
+        return 0;
 
     return (gSaveBlock1Ptr->NuzlockeEncounterFlags[id / 8] >> (id & 7)) & 1;
 }
@@ -328,9 +344,16 @@ void NuzlockeDeletePartyMon(u8 position)
 {
     u8 nuzlockeRibbon = TRUE;
     u16 itemNone = ITEM_NONE;
-    struct Pokemon *mon = &gPlayerParty[position];
-    u16 heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, NULL);
+    struct Pokemon *mon;
+    u16 heldItem;
 
+    if (position >= PARTY_SIZE)
+        return;
+    mon = &gPlayerParty[position];
+    if (!GetMonData(mon, MON_DATA_SANITY_HAS_SPECIES, NULL))
+        return;
+
+    heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, NULL);
     if (heldItem != ITEM_NONE)
     {
         AddBagItem(heldItem, 1);
@@ -359,4 +382,5 @@ void NuzlockeDeleteFaintedPartyPokemon(void)
             NuzlockeDeletePartyMon(i);
     }
     CompactPartySlots();
+    CalculatePlayerPartyCount();
 }

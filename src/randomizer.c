@@ -969,6 +969,7 @@ void GetUniqueMonList(enum RandomizerReason reason, enum RandomizerSpeciesMode m
             // If there's non-permitted Pokémon in here, something is wrong.
             // Just pass them through without marking.
             curMon = curOriginal;
+            resultSpecies[i] = curMon;
             continue;
         }
 
@@ -1429,7 +1430,9 @@ u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalStarterAndGi
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_STARTER_AND_GIFT_MON))
     {
-        if (sLastMonRandomizerSeed != GetRandomizerSeed() || sRandomizedMons[0] == SPECIES_NONE)
+        u32 randomizerSeed = GetRandomizerSeed();
+
+        if (sLastMonRandomizerSeed != randomizerSeed || sRandomizedMons[0] == SPECIES_NONE)
         {
             // The randomized starter table is stale or uninitialized. Fix that!
 
@@ -1445,6 +1448,7 @@ u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalStarterAndGi
 
             GetUniqueMonList(RANDOMIZER_REASON_STARTER_AND_GIFT_MON, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE),
                 starterHash, 0, STARTER_AND_GIFT_MON_COUNT, originalStarterAndGiftMons, sRandomizedMons);
+            sLastMonRandomizerSeed = randomizerSeed;
         }
         return sRandomizedMons[originalSlot];
     }
@@ -1459,7 +1463,9 @@ u16 RandomizeEggMon(u16 originalSlot, const u16* originalEggMons)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_EGG_MON))
     {
-        if (sLastEggMonRandomizerSeed != GetRandomizerSeed() || sRandomizedEggMons[0] == SPECIES_NONE)
+        u32 randomizerSeed = GetRandomizerSeed();
+
+        if (sLastEggMonRandomizerSeed != randomizerSeed || sRandomizedEggMons[0] == SPECIES_NONE)
         {
             // The randomized egg table is stale or uninitialized. Fix that!
 
@@ -1475,6 +1481,7 @@ u16 RandomizeEggMon(u16 originalSlot, const u16* originalEggMons)
 
             GetUniqueMonList(RANDOMIZER_REASON_EGG, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE),
                 eggHash, 0, EGG_MON_COUNT, originalEggMons, sRandomizedEggMons);
+            sLastEggMonRandomizerSeed = randomizerSeed;
         }
         return sRandomizedEggMons[originalSlot];
     }

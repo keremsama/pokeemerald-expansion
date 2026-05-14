@@ -1775,6 +1775,7 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
 {
     u8 battler, healthBarSpriteId;
     u16 species;
+    u16 tileNum;
 
     if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
         return;
@@ -1794,10 +1795,17 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
             return;
 
         healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
+        if (healthBarSpriteId >= MAX_SPRITES)
+            return;
+
+        tileNum = gSprites[healthBarSpriteId].oam.tileNum + 8;
+        if (tileNum >= 1024)
+            return;
+
         if (noStatus)
-            CpuCopy32(gNuzlockeFirstEncounterIndicatorGfx, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+            CpuCopy32(gNuzlockeFirstEncounterIndicatorGfx, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
         else
-            CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+            CpuFill32(0, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
         return;
     }
 
