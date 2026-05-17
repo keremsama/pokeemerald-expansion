@@ -599,6 +599,11 @@ New_Birch_Bag::
 	fadescreen FADE_TO_BLACK
     return
 
+New_Birch_Bag_NoBattle::
+    callnative StartNewPokeballCaseUI
+    waitstate
+    return
+
 EventScript_AfterWhiteOutHeal::
 	lockall
 	msgbox gText_FirstShouldRestoreMonsHealth
