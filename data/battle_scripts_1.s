@@ -9182,6 +9182,18 @@ BattleScript_PrintPlayerForfeitedLinkBattle::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
+BattleScript_NuzlockeCaptureBlocked::
+	printselectionstring STRINGID_NUZLOCKECAPTUREBLOCKED
+	endselectionscript
+
+BattleScript_NuzlockeSpeciesClauseBlocked::
+	printselectionstring STRINGID_SPECIESCLAUSECAPTUREBLOCKED
+	endselectionscript
+
+BattleScript_NuzlockeSameSpeciesBlocked::
+	printselectionstring STRINGID_SAMESPECIESCAPTUREBLOCKED
+	endselectionscript
+
 BattleScript_TotemFlaredToLife::
 	playanimation BS_ATTACKER, B_ANIM_TOTEM_FLARE, NULL
 	printstring STRINGID_AURAFLAREDTOLIFE

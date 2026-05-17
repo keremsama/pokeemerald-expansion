@@ -894,6 +894,9 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_ITDOESNTAFFECTTWOFOES]                = COMPOUND_STRING("It doesn't affect {B_DEF_NAME_WITH_PREFIX2} and {B_DEF_PARTNER_NAME}…"),
     [STRINGID_SENDCAUGHTMONPARTYORBOX]              = COMPOUND_STRING("Add {B_DEF_NAME} to your party?"),
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
+    [STRINGID_NUZLOCKECAPTUREBLOCKED]               = COMPOUND_STRING("You have already used your encounter\nfor this area!{PAUSE_UNTIL_PRESS}"),
+    [STRINGID_SPECIESCLAUSECAPTUREBLOCKED]          = COMPOUND_STRING("You have already caught a POKEMON\nin this evolution line!{PAUSE_UNTIL_PRESS}"),
+    [STRINGID_SAMESPECIESCAPTUREBLOCKED]            = COMPOUND_STRING("You have already caught this POKEMON!{PAUSE_UNTIL_PRESS}"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

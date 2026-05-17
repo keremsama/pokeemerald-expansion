@@ -61,6 +61,7 @@
 #include "trainer_hill.h"
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
+#include "tx_randomizer_and_challenges.h"
 #include "scanline_effect.h"
 #include "wild_encounter.h"
 #include "vs_seeker.h"
@@ -1632,6 +1633,11 @@ void CB2_WhiteOut(void)
     {
         FieldClearVBlankHBlankCallbacks();
         StopMapMusic();
+        if (gSaveBlock1Ptr->tx_Challenges_NuzlockeHardcore && IsNuzlockeActive())
+        {
+            ClearSaveData();
+            DoSoftReset();
+        }
         ResetSafariZoneFlag_();
         DoWhiteOut();
         ResetInitialPlayerAvatarState();
@@ -3519,5 +3525,4 @@ void ScriptHideItemDescription(struct ScriptContext *ctx)
 {
 }
 #endif // OW_SHOW_ITEM_DESCRIPTIONS
-
 

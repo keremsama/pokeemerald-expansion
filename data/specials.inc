@@ -190,6 +190,7 @@ gSpecials::
 	def_special DoBerryBlending
 	def_special PlayRoulette
 	def_special IsFanClubMemberFanOfPlayer
+	def_special IsNuzlockeNicknamingActive
 	def_special GetNumFansOfPlayerInTrainerFanClub
 	def_special BufferFanClubTrainerName
 	def_special TryLoseFansFromPlayTimeAfterLinkBattle
