@@ -324,13 +324,18 @@ bool32 WaitForPokenavShutdownFade(void)
 {
     if (!gPaletteFade.active)
     {
-        FreeMenuHandlerSubstruct2();
-        CleanupPokenavMainMenuResources();
-        FreeAllWindowBuffers();
+        CleanupPokenavAfterShutdownFade();
         return FALSE;
     }
 
     return TRUE;
+}
+
+void CleanupPokenavAfterShutdownFade(void)
+{
+    FreeMenuHandlerSubstruct2();
+    CleanupPokenavMainMenuResources();
+    FreeAllWindowBuffers();
 }
 
 static u32 LoopedTask_InitPokenavMenu(s32 state)

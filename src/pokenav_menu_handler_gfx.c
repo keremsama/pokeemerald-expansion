@@ -26,6 +26,7 @@
 #define PALTAG_OPTIONS_PINK 6
 #define PALTAG_OPTIONS_BEIGE 7
 #define PALTAG_OPTIONS_RED 8
+#define PALTAG_OPTIONS_TEAL 9
 
 #define PALTAG_OPTIONS_START PALTAG_OPTIONS_DEFAULT
 
@@ -155,7 +156,7 @@ static const struct CompressedSpriteSheet sPokenavOptionsSpriteSheets[] =
 {
     {
         .data = gPokenavOptions_Gfx,
-        .size = 0x3400,
+        .size = 0x3800,
         .tag = GFXTAG_OPTIONS
     },
     {
@@ -172,6 +173,7 @@ static const struct SpritePalette sPokenavOptionsSpritePalettes[] =
     {&gPokenavOptions_Pal[0x20], PALTAG_OPTIONS_PINK},
     {&gPokenavOptions_Pal[0x30], PALTAG_OPTIONS_BEIGE},
     {&gPokenavOptions_Pal[0x40], PALTAG_OPTIONS_RED},
+    {&gPokenavOptions_Pal[0x50], PALTAG_OPTIONS_TEAL},
     {sMatchCallBlueLightPal, PALTAG_BLUE_LIGHT},
     {}
 };
@@ -179,7 +181,7 @@ static const struct SpritePalette sPokenavOptionsSpritePalettes[] =
 // Tile number, palette tag offset
 static const u16 sOptionsLabelGfx_RegionMap[] = {0x000, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Condition[] = {0x020, PALTAG_OPTIONS_BLUE - PALTAG_OPTIONS_START};
-static const u16 sOptionsLabelGfx_MatchCall[] = {0x040, PALTAG_OPTIONS_RED - PALTAG_OPTIONS_START};
+static const u16 sOptionsLabelGfx_MatchCall[] = {0x040, PALTAG_OPTIONS_TEAL - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Ribbons[]   = {0x060, PALTAG_OPTIONS_PINK - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_SwitchOff[] = {0x080, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Party[]     = {0x0A0, PALTAG_OPTIONS_BLUE - PALTAG_OPTIONS_START};
@@ -190,6 +192,7 @@ static const u16 sOptionsLabelGfx_Cute[]      = {0x120, PALTAG_OPTIONS_PINK - PA
 static const u16 sOptionsLabelGfx_Smart[]     = {0x140, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Tough[]     = {0x160, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Cancel[]    = {0x180, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
+static const u16 sOptionsLabelGfx_DexNav[]    = {0x1A0, PALTAG_OPTIONS_RED - PALTAG_OPTIONS_START};
 
 struct
 {
@@ -200,12 +203,11 @@ struct
 {
     [POKENAV_MENU_TYPE_DEFAULT] =
     {
-        .yStart = 42,
+        .yStart = 52,
         .deltaY = 20,
         .gfx = {
             sOptionsLabelGfx_RegionMap,
-            sOptionsLabelGfx_Condition,
-            sOptionsLabelGfx_SwitchOff
+            sOptionsLabelGfx_Condition
         }
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC] =
@@ -215,8 +217,7 @@ struct
         .gfx = {
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
-            sOptionsLabelGfx_MatchCall,
-            sOptionsLabelGfx_SwitchOff
+            sOptionsLabelGfx_MatchCall
         }
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] =
@@ -227,8 +228,40 @@ struct
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
             sOptionsLabelGfx_MatchCall,
-            sOptionsLabelGfx_Ribbons,
-            sOptionsLabelGfx_SwitchOff
+            sOptionsLabelGfx_Ribbons
+        }
+    },
+    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV] =
+    {
+        .yStart = 42,
+        .deltaY = 20,
+        .gfx = {
+            sOptionsLabelGfx_DexNav,
+            sOptionsLabelGfx_RegionMap,
+            sOptionsLabelGfx_Condition
+        }
+    },
+    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV] =
+    {
+        .yStart = 42,
+        .deltaY = 20,
+        .gfx = {
+            sOptionsLabelGfx_DexNav,
+            sOptionsLabelGfx_RegionMap,
+            sOptionsLabelGfx_Condition,
+            sOptionsLabelGfx_MatchCall
+        }
+    },
+    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] =
+    {
+        .yStart = 42,
+        .deltaY = 20,
+        .gfx = {
+            sOptionsLabelGfx_DexNav,
+            sOptionsLabelGfx_RegionMap,
+            sOptionsLabelGfx_Condition,
+            sOptionsLabelGfx_MatchCall,
+            sOptionsLabelGfx_Ribbons
         }
     },
     [POKENAV_MENU_TYPE_CONDITION] =
@@ -273,6 +306,7 @@ static const u8 *const sPageDescriptions[] =
     [POKENAV_MENUITEM_CONDITION]               = COMPOUND_STRING("Check POKéMON in detail."),
     [POKENAV_MENUITEM_MATCH_CALL]              = COMPOUND_STRING("Call a registered TRAINER."),
     [POKENAV_MENUITEM_RIBBONS]                 = COMPOUND_STRING("Check obtained RIBBONS."),
+    [POKENAV_MENUITEM_DEXNAV]                  = COMPOUND_STRING("Search for POKéMON in this area."),
     [POKENAV_MENUITEM_SWITCH_OFF]              = COMPOUND_STRING("Put away the POKéNAV."),
     [POKENAV_MENUITEM_CONDITION_PARTY]         = COMPOUND_STRING("Check party POKéMON in detail."),
     [POKENAV_MENUITEM_CONDITION_SEARCH]        = COMPOUND_STRING("Check all POKéMON in detail."),

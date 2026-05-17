@@ -1,6 +1,7 @@
 #include "global.h"
 #include "new_game.h"
 #include "derby.h"
+#include "heat_start_menu.h"
 #include "random.h"
 #include "pokemon.h"
 #include "roamer.h"
@@ -105,6 +106,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = OPTIONS_BATTLE_SCENE_1X;
+    gSaveBlock2Ptr->optionsStartMenuPalette = DEFAULT_START_MENU_PALETTE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

@@ -131,6 +131,7 @@ enum
     POKENAV_RIBBONS_MON_LIST,                   // The list of Pokémon with ribbons
     POKENAV_RIBBONS_SUMMARY_SCREEN,             // The ribbon summary screen shown when a Pokémon has been selected
     POKENAV_RIBBONS_RETURN_TO_MON_LIST,         // Exited the summary screen back to the ribbon list
+    POKENAV_DEXNAV,
 };
 
 enum
@@ -138,6 +139,9 @@ enum
     POKENAV_MENU_TYPE_DEFAULT,
     POKENAV_MENU_TYPE_UNLOCK_MC,
     POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS,
+    POKENAV_MENU_TYPE_DEFAULT_DEXNAV,
+    POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV,
+    POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV,
     POKENAV_MENU_TYPE_CONDITION,
     POKENAV_MENU_TYPE_CONDITION_SEARCH,
     POKENAV_MENU_TYPE_COUNT
@@ -161,6 +165,7 @@ enum
     POKENAV_MENUITEM_CONDITION_SEARCH_SMART,
     POKENAV_MENUITEM_CONDITION_SEARCH_TOUGH,
     POKENAV_MENUITEM_CONDITION_SEARCH_CANCEL,
+    POKENAV_MENUITEM_DEXNAV,
 };
 
 // Max menu options (condition search uses 6)
@@ -382,6 +387,7 @@ void SlideMenuHeaderUp(void);
 void PokenavFillPalette(u32 palIndex, u16 fillValue);
 u32 PokenavMainMenuLoopedTaskIsActive(void);
 bool32 WaitForPokenavShutdownFade(void);
+void CleanupPokenavAfterShutdownFade(void);
 void SetActiveMenuLoopTasks(void *createLoopTask, void *isLoopTaskActive); // Fix types later.
 void ShutdownPokenav(void);
 

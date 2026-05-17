@@ -17,8 +17,10 @@
 #include "field_screen_effect.h"
 #include "field_specials.h"
 #include "fldeff_misc.h"
+#include "heat_start_menu.h"
 #include "item_menu.h"
 #include "link.h"
+#include "map_name_popup.h"
 #include "match_call.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
@@ -59,6 +61,8 @@ static bool32 TrySetupDiveDownScript(void);
 static bool32 TrySetupDiveEmergeScript(void);
 static bool8 TryStartStepBasedScript(struct MapPosition *, u16, u16);
 static bool8 CheckStandardWildEncounter(u16);
+static void Task_OpenStartMenu(u8 taskId);
+static void Task_OpenStartMenuAfterMapPopup(u8 taskId);
 static bool8 TryArrowWarp(struct MapPosition *, u16, u8);
 static bool8 IsWarpMetatileBehavior(u16);
 static bool8 IsArrowWarpMetatileBehavior(u16, u8);
@@ -222,8 +226,27 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
     if (input->pressedStartButton)
     {
-        PlaySE(SE_WIN_OPEN);
-        ShowStartMenu();
+        if (IsMapNamePopUpWindowActive())
+        {
+            if (!FuncIsActiveTask(Task_OpenStartMenuAfterMapPopup))
+            {
+                PlaySE(SE_WIN_OPEN);
+                HideMapNamePopUpWindow();
+                if (!IsOverworldLinkActive())
+                {
+                    FreezeObjectEvents();
+                    PlayerFreeze();
+                    StopPlayerAvatar();
+                }
+                LockPlayerFieldControls();
+                CreateTask(Task_OpenStartMenuAfterMapPopup, 8);
+            }
+        }
+        else
+        {
+            PlaySE(SE_WIN_OPEN);
+            HeatStartMenu_Init();
+        }
         return TRUE;
     }
     
@@ -1245,8 +1268,30 @@ static void Task_OpenStartMenu(u8 taskId)
     if (ArePlayerFieldControlsLocked())
         return;
 
+    if (IsMapNamePopUpWindowActive())
+    {
+        HideMapNamePopUpWindow();
+        gTasks[taskId].data[0] = 1;
+        return;
+    }
+
+    if (gTasks[taskId].data[0] != 0)
+    {
+        gTasks[taskId].data[0] = 0;
+        return;
+    }
+
     PlaySE(SE_WIN_OPEN);
-    ShowStartMenu();
+    HeatStartMenu_Init();
+    DestroyTask(taskId);
+}
+
+static void Task_OpenStartMenuAfterMapPopup(u8 taskId)
+{
+    if (gTasks[taskId].data[0]++ == 0)
+        return;
+
+    HeatStartMenu_Init();
     DestroyTask(taskId);
 }
 

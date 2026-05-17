@@ -7,6 +7,7 @@
 #include "palette.h"
 #include "pokemon_storage_system.h"
 #include "pokenav.h"
+#include "dexnav.h"
 
 #define LOOPED_TASK_DECODE_STATE(action) (action - 5)
 
@@ -459,6 +460,13 @@ static void Task_Pokenav(u8 taskId)
         {
             ShutdownPokenav();
             tState = 5;
+        }
+        else if (menuId == POKENAV_DEXNAV)
+        {
+            CleanupPokenavAfterShutdownFade();
+            FreeMenuHandlerSubstruct1();
+            FreePokenavResources();
+            SetMainCallback2(CB2_InitDexNavFromPokenav);
         }
         else if (menuId >= POKENAV_MENU_IDS_START)
         {
