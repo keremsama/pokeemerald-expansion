@@ -628,6 +628,16 @@ Route110_EventScript_BirchScene::
 	closemessage
 	delay 30
 	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
+	msgbox Route110_Text_BirchAddsDexNavToPokenav, MSGBOX_DEFAULT
+	setflag FLAG_DN_GET
+	delay 30
+	playfanfare MUS_OBTAIN_TMHM
+	msgbox Route110_Text_BirchAddsDexNavToPokenav_Notification, MSGBOX_DEFAULT
+	waitfanfare
+	closemessage
+	msgbox Route110_Text_BirchAddsDexNavToPokenav2, MSGBOX_DEFAULT
+	closemessage
+	delay 30
 	msgbox Route110_Text_KeepAnEyeOutForRival, MSGBOX_DEFAULT
 	closemessage
 	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchExit1
@@ -984,6 +994,29 @@ Route110_Text_RegisteredBirchInPokenav:
 	.string "Registered PROF. BIRCH\n"
 	.string "in the POKéNAV.$"
 
+Route110_Text_BirchAddsDexNavToPokenav:
+	.string "PROF. BIRCH: Oh, one more thing!\p"
+	.string "I was working on a prototype\n"
+	.string "software called the DEXNAV until\l"
+	.string "recently.\p"
+	.string "It's in the final stage of\n"
+	.string "development, and it's compatible\l"
+	.string "with the POKéNAV you received from\l"
+	.string "MR. STONE.\p"
+	.string "Here, let me load it onto your\n"
+	.string "POKéNAV.$"
+
+Route110_Text_BirchAddsDexNavToPokenav_Notification:
+	.string "DEXNAV is installed\n"
+	.string "in the POKéNAV.$"
+
+Route110_Text_BirchAddsDexNavToPokenav2:
+	.string "With DEXNAV, you can scan for nearby\n"
+	.string "POKéMON, check what can appear in an\l"
+	.string "area, and target specific species\l"
+	.string "more easily.\p"
+	.string "Use it well while exploring HOENN!$"
+
 Route110_Text_KeepAnEyeOutForRival:
 	.string "PROF. BIRCH: {PLAYER}{KUN}…\p"
 	.string "Please keep an eye out for my {RIVAL}.\n"
@@ -994,4 +1027,3 @@ Route110_Text_KeepAnEyeOutForRival:
 Route110_Text_TrickHouseLocked:
 	.string "The TRICK HOUSE is closed\n"
 	.string "for maintenance.$"
-

@@ -123,6 +123,7 @@ static const u8 sTextLR[] = _("LR");
 static const u8 sTextType[] = _("TYPE");
 static const u8 sTextColor[] = _("COLOR");
 static const u8 sTextStartMenuColor[] = _("MENU COLOR");
+static const u8 sTextSave[] = _("SAVE");
 
 static const u8 sTextDescTextSpeed[] = _("Choose how fast regular text\nprints in dialogue boxes.");
 static const u8 sTextDescBattleTextSpeed[] = _("Choose how fast battle text\nprints during battles.");
@@ -160,7 +161,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BUTTONMODE]      = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]       = gText_Frame,
     [MENUITEM_STARTMENUCOLOR]  = sTextStartMenuColor,
-    [MENUITEM_CANCEL]          = gText_OptionMenuCancel,
+    [MENUITEM_CANCEL]          = sTextSave,
 };
 
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};

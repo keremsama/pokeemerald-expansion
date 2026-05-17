@@ -254,8 +254,7 @@ static void NewGameBirchSpeech_CreateDialogueWindowBorder(u8, u8, u8, u8, u8, u8
 
 static const u8 sText_Birch_UniqueRun[] = _("All right.\p"
                                             "Would you like to make this\n"
-                                            "journey unique before we begin?\p"
-                                            "And what's your name?$");
+                                            "journey unique before we begin?$");
 
 static const u16 sBirchSpeechBgPals[][16] = {
     INCBIN_U16("graphics/birch_speech/bg0.gbapal"),
