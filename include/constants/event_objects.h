@@ -370,6 +370,7 @@
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_DYNAMIC                 0x1124
 #define OBJ_EVENT_PAL_TAG_CYNTHIA                 0x1125  // EIGENE Palette
+#define OBJ_EVENT_PAL_TAG_HM_OBJECTS              0x1126
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla

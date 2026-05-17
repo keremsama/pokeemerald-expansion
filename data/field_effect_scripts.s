@@ -150,11 +150,11 @@ gFieldEffectScript_JumpSmallSplash::
 	field_eff_end
 
 gFieldEffectScript_LongGrass::
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_LongGrass
+	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect3, FldEff_LongGrass
 	field_eff_end
 
 gFieldEffectScript_JumpLongGrass::
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_JumpLongGrass
+	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect3, FldEff_JumpLongGrass
 	field_eff_end
 
 gFieldEffectScript_ShakingGrass::
@@ -162,7 +162,7 @@ gFieldEffectScript_ShakingGrass::
 	field_eff_end
 
 gFieldEffectScript_ShakingGrass2::
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_ShakingGrass2
+	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect3, FldEff_ShakingGrass2
 	field_eff_end
 
 gFieldEffectScript_UnusedSand::

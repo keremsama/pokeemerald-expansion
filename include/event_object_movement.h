@@ -23,10 +23,11 @@ enum {
     PALSLOT_NPC_2_REFLECTION,
     PALSLOT_NPC_3_REFLECTION,
     PALSLOT_NPC_4_REFLECTION,
+    PALSLOT_HM_OBJEKTS,
     PALSLOT_NPC_SPECIAL,
     PALSLOT_NPC_SPECIAL_REFLECTION,
     OBJ_PALSLOT_COUNT
-    // the remaining sprite palette slots (12-15) are used by field effects, the interface, etc.
+    // the remaining sprite palette slots are used by field effects, the interface, etc.
 };
 
 enum SpinnerRunnerFollowPatterns
