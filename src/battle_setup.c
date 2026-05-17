@@ -315,6 +315,7 @@ void BattleSetup_StartWildBattle(void)
 
 void BattleSetup_StartDoubleWildBattle(void)
 {
+    SetNuzlockeChecks();
     DoStandardWildBattle(TRUE);
 }
 

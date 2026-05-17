@@ -14,6 +14,7 @@
 #include "field_weather.h"
 #include "gpu_regs.h"
 #include "heal_location.h"
+#include "heat_start_menu.h"
 #include "io_reg.h"
 #include "link.h"
 #include "link_rfu.h"
@@ -438,20 +439,10 @@ static void Task_ExitNonDoor(u8 taskId)
     }
 }
 
-static void Task_WaitForFadeShowStartMenu(u8 taskId)
-{
-    if (WaitForWeatherFadeIn() == TRUE)
-    {
-        DestroyTask(taskId);
-        CreateTask(Task_ShowStartMenu, 80);
-    }
-}
-
 void ReturnToFieldOpenStartMenu(void)
 {
+    HeatStartMenu_Init();
     FadeInFromBlack();
-    CreateTask(Task_WaitForFadeShowStartMenu, 0x50);
-    LockPlayerFieldControls();
 }
 
 bool8 FieldCB_ReturnToFieldOpenStartMenu(void)

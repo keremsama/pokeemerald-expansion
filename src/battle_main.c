@@ -149,6 +149,7 @@ EWRAM_DATA u32 gBattleTypeFlags = 0;
 EWRAM_DATA u8 gBattleEnvironment = 0;
 EWRAM_DATA struct MultiPartnerMenuPokemon gMultiPartnerParty[MULTI_PARTY_SIZE] = {0};
 EWRAM_DATA static struct MultiPartnerMenuPokemon *sMultiPartnerPartyBuffer = NULL;
+static EWRAM_DATA bool8 sDeleteFaintedNuzlockeMonsAfterBattle = FALSE;
 EWRAM_DATA u8 *gBattleAnimBgTileBuffer = NULL;
 EWRAM_DATA u8 *gBattleAnimBgTilemapBuffer = NULL;
 EWRAM_DATA u32 gBattleControllerExecFlags = 0;
@@ -1755,8 +1756,6 @@ void BattleMainCB2(void)
                 break;
             }
 
-            VBlankCB_Battle();
-
             if (gMain.callback1 != NULL)
                 gMain.callback1();
         }
@@ -3170,6 +3169,7 @@ static void BattleStartClearSetData(void)
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
     gBattleStruct->safariPkblThrowCounter = 0;
+    sDeleteFaintedNuzlockeMonsAfterBattle = FALSE;
     gBattleStruct->safariCatchFactor = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].catchRate * 100 / 1275;
     gBattleStruct->safariEscapeFactor = 3;
     gBattleStruct->wildVictorySong = 0;
@@ -5723,7 +5723,7 @@ static void HandleEndTurn_FinishBattle(void)
                                        | BATTLE_TYPE_TOWER_LINK_MULTI
                                        | BATTLE_TYPE_RECORDED_LINK
                                        | BATTLE_TYPE_FRONTIER)))
-                NuzlockeDeleteFaintedPartyPokemon();
+                sDeleteFaintedNuzlockeMonsAfterBattle = TRUE;
 
             if (!(gBattleTypeFlags & (BATTLE_TYPE_DOUBLE
                                       | BATTLE_TYPE_LINK
@@ -5858,9 +5858,16 @@ static void TryEvolvePokemon(void)
     {
         if (!(sTriedEvolving & (1u << i)))
         {
+            sTriedEvolving |= 1u << i;
+
+            if (sDeleteFaintedNuzlockeMonsAfterBattle
+             && GetMonData(&gPlayerParty[i], MON_DATA_SANITY_HAS_SPECIES, NULL)
+             && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG, NULL)
+             && GetMonAilment(&gPlayerParty[i]) == AILMENT_FNT)
+                continue;
+
             u16 species = GetEvolutionTargetSpecies(&gPlayerParty[i], EVO_MODE_BATTLE_SPECIAL, i, NULL);
             bool32 evoModeNormal = TRUE;
-            sTriedEvolving |= 1u << i;
 
             if (species == SPECIES_NONE && (gLeveledUpInBattle & (1u << i)))
             {
@@ -5898,6 +5905,11 @@ static void ReturnFromBattleToOverworld(void)
 {
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
+        if (sDeleteFaintedNuzlockeMonsAfterBattle)
+        {
+            NuzlockeDeleteFaintedPartyPokemon();
+            sDeleteFaintedNuzlockeMonsAfterBattle = FALSE;
+        }
         RandomlyGivePartyPokerus(gPlayerParty);
         PartySpreadPokerus(gPlayerParty);
     }

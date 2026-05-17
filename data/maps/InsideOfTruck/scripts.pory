@@ -32,7 +32,6 @@ InsideOfTruck_EventScript_SetIntroFlagsMale::
 	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 1
 	setdynamicwarp MAP_LITTLEROOT_TOWN, 3, 10
 	releaseall
-    call FadeScreenBlack
 	end
 
 InsideOfTruck_EventScript_SetIntroFlagsFemale::
@@ -46,7 +45,6 @@ InsideOfTruck_EventScript_SetIntroFlagsFemale::
 	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 1
 	setdynamicwarp MAP_LITTLEROOT_TOWN, 12, 10
 	releaseall
-    call FadeScreenBlack
 	end
 
 InsideOfTruck_EventScript_MovingBox::

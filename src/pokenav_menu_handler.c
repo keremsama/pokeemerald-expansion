@@ -1,8 +1,10 @@
 #include "global.h"
+#include "dexnav.h"
 #include "pokenav.h"
 #include "event_data.h"
 #include "main.h"
 #include "sound.h"
+#include "wild_encounter.h"
 #include "constants/songs.h"
 
 struct Pokenav_Menu
@@ -30,15 +32,19 @@ static u32 HandleMainMenuInputTutorial(struct Pokenav_Menu *);
 static u32 HandleMainMenuInput(struct Pokenav_Menu *);
 static u32 (*GetMainMenuInputHandler(void))(struct Pokenav_Menu *);
 static void SetMenuInputHandler(struct Pokenav_Menu *);
+static void SetMenuCursorToItem(struct Pokenav_Menu *, u8);
 
 // Number of entries - 1 for that menu type
 static const u8 sLastCursorPositions[] =
 {
-    [POKENAV_MENU_TYPE_DEFAULT]           = 2,
-    [POKENAV_MENU_TYPE_UNLOCK_MC]         = 3,
-    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] = 4,
-    [POKENAV_MENU_TYPE_CONDITION]         = 2,
-    [POKENAV_MENU_TYPE_CONDITION_SEARCH]  = 5
+    [POKENAV_MENU_TYPE_DEFAULT]                   = 1,
+    [POKENAV_MENU_TYPE_UNLOCK_MC]                 = 2,
+    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS]         = 3,
+    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV]            = 2,
+    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV]          = 3,
+    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] = 4,
+    [POKENAV_MENU_TYPE_CONDITION]                 = 2,
+    [POKENAV_MENU_TYPE_CONDITION_SEARCH]          = 5
 };
 
 static const u8 sMenuItems[][MAX_POKENAV_MENUITEMS] =
@@ -46,23 +52,41 @@ static const u8 sMenuItems[][MAX_POKENAV_MENUITEMS] =
     [POKENAV_MENU_TYPE_DEFAULT] =
     {
         POKENAV_MENUITEM_MAP,
-        POKENAV_MENUITEM_CONDITION,
-        [2 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_CONDITION
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC] =
     {
         POKENAV_MENUITEM_MAP,
         POKENAV_MENUITEM_CONDITION,
-        POKENAV_MENUITEM_MATCH_CALL,
-        [3 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_MATCH_CALL
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] =
     {
         POKENAV_MENUITEM_MAP,
         POKENAV_MENUITEM_CONDITION,
         POKENAV_MENUITEM_MATCH_CALL,
-        POKENAV_MENUITEM_RIBBONS,
-        [4 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_RIBBONS
+    },
+    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV] =
+    {
+        POKENAV_MENUITEM_DEXNAV,
+        POKENAV_MENUITEM_MAP,
+        POKENAV_MENUITEM_CONDITION
+    },
+    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV] =
+    {
+        POKENAV_MENUITEM_DEXNAV,
+        POKENAV_MENUITEM_MAP,
+        POKENAV_MENUITEM_CONDITION,
+        POKENAV_MENUITEM_MATCH_CALL
+    },
+    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] =
+    {
+        POKENAV_MENUITEM_DEXNAV,
+        POKENAV_MENUITEM_MAP,
+        POKENAV_MENUITEM_CONDITION,
+        POKENAV_MENUITEM_MATCH_CALL,
+        POKENAV_MENUITEM_RIBBONS
     },
     [POKENAV_MENU_TYPE_CONDITION] =
     {
@@ -94,7 +118,28 @@ static u8 GetPokenavMainMenuType(void)
             menuType = POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS;
     }
 
+    if (DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET))
+        menuType += POKENAV_MENU_TYPE_DEFAULT_DEXNAV - POKENAV_MENU_TYPE_DEFAULT;
+
     return menuType;
+}
+
+static void SetMenuCursorToItem(struct Pokenav_Menu *menu, u8 menuItem)
+{
+    s16 cursorPos;
+
+    for (cursorPos = 0; cursorPos <= sLastCursorPositions[menu->menuType]; cursorPos++)
+    {
+        if (sMenuItems[menu->menuType][cursorPos] == menuItem)
+        {
+            menu->cursorPos = cursorPos;
+            menu->currMenuItem = menuItem;
+            return;
+        }
+    }
+
+    menu->cursorPos = 0;
+    menu->currMenuItem = sMenuItems[menu->menuType][0];
 }
 
 bool32 PokenavCallback_Init_MainMenuCursorOnMap(void)
@@ -104,8 +149,7 @@ bool32 PokenavCallback_Init_MainMenuCursorOnMap(void)
         return FALSE;
 
     menu->menuType = GetPokenavMainMenuType();
-    menu->cursorPos = POKENAV_MENUITEM_MAP;
-    menu->currMenuItem = POKENAV_MENUITEM_MAP;
+    SetMenuCursorToItem(menu, POKENAV_MENUITEM_MAP);
     menu->helpBarIndex = HELPBAR_NONE;
     SetMenuInputHandler(menu);
     return TRUE;
@@ -118,8 +162,7 @@ bool32 PokenavCallback_Init_MainMenuCursorOnMatchCall(void)
         return FALSE;
 
     menu->menuType = GetPokenavMainMenuType();
-    menu->cursorPos = POKENAV_MENUITEM_MATCH_CALL;
-    menu->currMenuItem = POKENAV_MENUITEM_MATCH_CALL;
+    SetMenuCursorToItem(menu, POKENAV_MENUITEM_MATCH_CALL);
     menu->helpBarIndex = HELPBAR_NONE;
     SetMenuInputHandler(menu);
     return TRUE;
@@ -132,8 +175,7 @@ bool32 PokenavCallback_Init_MainMenuCursorOnRibbons(void)
         return FALSE;
 
     menu->menuType = GetPokenavMainMenuType();
-    menu->cursorPos = POKENAV_MENUITEM_RIBBONS;
-    menu->currMenuItem = POKENAV_MENUITEM_RIBBONS;
+    SetMenuCursorToItem(menu, POKENAV_MENUITEM_RIBBONS);
     SetMenuInputHandler(menu);
     return TRUE;
 }
@@ -171,10 +213,13 @@ static void SetMenuInputHandler(struct Pokenav_Menu *menu)
     switch (menu->menuType)
     {
     case POKENAV_MENU_TYPE_DEFAULT:
+    case POKENAV_MENU_TYPE_DEFAULT_DEXNAV:
         SetPokenavMode(POKENAV_MODE_NORMAL);
         // fallthrough
     case POKENAV_MENU_TYPE_UNLOCK_MC:
     case POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS:
+    case POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV:
+    case POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV:
         menu->callback = GetMainMenuInputHandler();
         break;
     case POKENAV_MENU_TYPE_CONDITION:
@@ -246,6 +291,15 @@ static u32 HandleMainMenuInput(struct Pokenav_Menu *menu)
                 menu->callback = HandleCantOpenRibbonsInput;
                 return POKENAV_MENU_FUNC_NO_RIBBON_WINNERS;
             }
+        case POKENAV_MENUITEM_DEXNAV:
+            if (MapHasNoEncounterData())
+            {
+                PlaySE(SE_FAILURE);
+                return POKENAV_MENU_FUNC_NONE;
+            }
+
+            SetMenuIdAndCB(menu, POKENAV_DEXNAV);
+            return POKENAV_MENU_FUNC_OPEN_FEATURE;
         case POKENAV_MENUITEM_SWITCH_OFF:
             return POKENAV_MENU_FUNC_EXIT;
         }
@@ -448,8 +502,7 @@ static u32 GetMenuId(struct Pokenav_Menu *menu)
 static void ReturnToMainMenu(struct Pokenav_Menu *menu)
 {
     menu->menuType = GetPokenavMainMenuType();
-    menu->cursorPos = 1;
-    menu->currMenuItem = sMenuItems[menu->menuType][menu->cursorPos];
+    SetMenuCursorToItem(menu, POKENAV_MENUITEM_CONDITION);
     menu->callback = HandleMainMenuInput;
 }
 
