@@ -51,6 +51,7 @@
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/weather.h"
 #include "rtc.h"
 #include "event_object_movement.h"
 #include "gba/isagbprint.h"
@@ -78,6 +79,7 @@ static void HeatStartMenu_LoadBgGfx(void);
 static void HeatStartMenu_ShowTimeWindow(void);
 static void HeatStartMenu_UpdateClockDisplay(void);
 static void HeatStartMenu_UpdateMenuName(void);
+static void HeatStartMenu_LoadIconPalette(void);
 static u8 RunSaveCallback(void);
 static u8 SaveDoSaveCallback(void);
 static void HideSaveInfoWindow(void);
@@ -92,6 +94,8 @@ static u8 SaveYesNoCallback(void);
 static void ShowSaveInfoWindow(void);
 static u8 SaveConfirmSaveCallback(void);
 static void InitSave(void);
+static bool8 HeatStartMenu_IsFadeActive(void);
+static bool8 HeatStartMenu_IsWeatherFadeActive(void);
 
 /* ENUMs */
 enum MENU {
@@ -126,9 +130,11 @@ struct HeatStartMenu {
   u32 sStartClockWindowId;
   u32 sMenuNameWindowId;
   u32 sSafariBallsWindowId;
+  u32 clockSecond;
   u32 flag:1; // some u32 holding values for controlling the sprite anims and lifetime
   u32 unlockAndUnfreeze:1;
-  u32 padding:30;
+  u32 iconPaletteNeedsReload:1;
+  u32 padding:29;
   
   u32 spriteIdPoketch;
   u32 spriteIdPokedex;
@@ -634,6 +640,8 @@ void HeatStartMenu_Init(void) {
   sHeatStartMenu->sStartClockWindowId = 0;
   sHeatStartMenu->flag = 0;
   sHeatStartMenu->unlockAndUnfreeze = FALSE;
+  sHeatStartMenu->iconPaletteNeedsReload = TRUE;
+  sHeatStartMenu->clockSecond = 0xFF;
 
   if (!sMenuSelectedInitialized) {
     menuSelected = MENU_SELECTED_NONE;
@@ -677,11 +685,38 @@ void HeatStartMenu_Init(void) {
 }
 
 static void HeatStartMenu_LoadSprites(void) {
-  u32 index;
   LoadSpritePalette(sSpritePal_Icon);
-  index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
-  LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
+  HeatStartMenu_LoadIconPalette();
   LoadCompressedSpriteSheet(sSpriteSheet_Icon);
+}
+
+static void HeatStartMenu_LoadIconPalette(void)
+{
+  u32 index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
+
+  if (index != 0xFF)
+    LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP);
+}
+
+static bool8 HeatStartMenu_IsFadeActive(void)
+{
+  return gPaletteFade.active || HeatStartMenu_IsWeatherFadeActive();
+}
+
+static bool8 HeatStartMenu_IsWeatherFadeActive(void)
+{
+  switch (GetCurrentWeather())
+  {
+    case WEATHER_RAIN:
+    case WEATHER_RAIN_THUNDERSTORM:
+    case WEATHER_DOWNPOUR:
+    case WEATHER_FOG_HORIZONTAL:
+    case WEATHER_SHADE:
+    case WEATHER_DROUGHT:
+      return !IsWeatherNotFadingIn();
+    default:
+      return FALSE;
+  }
 }
 
 static void HeatStartMenu_CreateSprites(void) {
@@ -807,6 +842,7 @@ static void HeatStartMenu_ShowTimeWindow(void)
     
 	AddTextPrinterParameterized(sHeatStartMenu->sStartClockWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL);
 	CopyWindowToVram(sHeatStartMenu->sStartClockWindowId, COPYWIN_GFX);
+    sHeatStartMenu->clockSecond = gLocalTime.seconds;
 }
 
 static void HeatStartMenu_UpdateClockDisplay(void)
@@ -816,6 +852,10 @@ static void HeatStartMenu_UpdateClockDisplay(void)
 	if (!FlagGet(FLAG_TEMP_5))
 		return;
 	RtcCalcLocalTime();
+    if (sHeatStartMenu->clockSecond == gLocalTime.seconds)
+        return;
+    sHeatStartMenu->clockSecond = gLocalTime.seconds;
+
     analogHour = (gLocalTime.hours >= 13 && gLocalTime.hours <= 24) ? gLocalTime.hours - 12 : gLocalTime.hours;
     
 	StringCopy(gStringVar3, gDayNameStringsTable[(gLocalTime.days % 7)]);
@@ -962,7 +1002,7 @@ static void HeatStartMenu_ExitAndClearTilemap(void) {
 }
 
 static void DoCleanUpAndChangeCallback(MainCallback callback) {
-  if (!gPaletteFade.active) {
+  if (!HeatStartMenu_IsFadeActive()) {
     DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
     PlayRainStoppingSoundEffect();
     HeatStartMenu_ExitAndClearTilemap();
@@ -973,7 +1013,7 @@ static void DoCleanUpAndChangeCallback(MainCallback callback) {
 }
 
 static void DoCleanUpAndOpenTrainerCard(void) {
-  if (!gPaletteFade.active) {
+  if (!HeatStartMenu_IsFadeActive()) {
     PlayRainStoppingSoundEffect();
     HeatStartMenu_ExitAndClearTilemap();
     CleanupOverworldWindowsAndTilemaps();
@@ -1313,7 +1353,7 @@ static void Task_HandleSave(u8 taskId) {
 #define STD_WINDOW_PALETTE_NUM 14
 
 static void DoCleanUpAndStartSaveMenu(void) {
-  if (!gPaletteFade.active) {
+  if (!HeatStartMenu_IsFadeActive()) {
     HeatStartMenu_ExitAndClearTilemap();
     FreezeObjectEvents();
     LoadUserWindowBorderGfx(sSaveInfoWindowId, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
@@ -1325,7 +1365,7 @@ static void DoCleanUpAndStartSaveMenu(void) {
 }
 
 static void DoCleanUpAndStartSafariZoneRetire(void) {
-  if (!gPaletteFade.active) {
+  if (!HeatStartMenu_IsFadeActive()) {
     HeatStartMenu_ExitAndClearTilemap();
     FreezeObjectEvents();
     LockPlayerFieldControls();
@@ -1411,15 +1451,17 @@ static void HeatStartMenu_HandleInput_DPADUP(void) {
 }
 
 static void Task_HeatStartMenu_HandleMainInput(u8 taskId) {
-  u32 index;
-  if (sHeatStartMenu->loadState == 0 && !gPaletteFade.active) {
-    index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
-    LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
+  bool8 fadeActive = HeatStartMenu_IsFadeActive();
+
+  if (fadeActive)
+    return;
+
+  if (sHeatStartMenu->loadState == 0 && sHeatStartMenu->iconPaletteNeedsReload) {
+    HeatStartMenu_LoadIconPalette();
+    sHeatStartMenu->iconPaletteNeedsReload = FALSE;
   }
 
   HeatStartMenu_UpdateClockDisplay();
-  if (gPaletteFade.active)
-    return;
 
   if (JOY_NEW(A_BUTTON)) {
     if (sHeatStartMenu->loadState == 0) {
@@ -1493,15 +1535,17 @@ static void HeatStartMenu_SafariZone_HandleInput_DPADUP(void) {
 }
 
 static void Task_HeatStartMenu_SafariZone_HandleMainInput(u8 taskId) {
-  u32 index;
-  if (sHeatStartMenu->loadState == 0 && !gPaletteFade.active) {
-    index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
-    LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
+  bool8 fadeActive = HeatStartMenu_IsFadeActive();
+
+  if (fadeActive)
+    return;
+
+  if (sHeatStartMenu->loadState == 0 && sHeatStartMenu->iconPaletteNeedsReload) {
+    HeatStartMenu_LoadIconPalette();
+    sHeatStartMenu->iconPaletteNeedsReload = FALSE;
   }
 
   HeatStartMenu_UpdateClockDisplay();
-  if (gPaletteFade.active)
-    return;
 
   if (JOY_NEW(A_BUTTON)) {
     if (sHeatStartMenu->loadState == 0) {
