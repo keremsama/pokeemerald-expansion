@@ -519,7 +519,43 @@ static void CB2_InitBattleInternal(void)
                                                                         | BATTLE_TYPE_TRAINER_HILL
                                                                         | BATTLE_TYPE_RECORDED)))
     {
-        gBattleTypeFlags |= (IsTrainerDoubleBattle(TRAINER_BATTLE_PARAM.opponentA) ? BATTLE_TYPE_DOUBLE : 0);
+        u8 trainerBattleMode = gSaveBlock2Ptr->optionsTrainerBattleMode;
+        bool8 isOriginalDouble = IsTrainerDoubleBattle(TRAINER_BATTLE_PARAM.opponentA);
+        bool8 canForceDouble = (GetMonsStateToDoubles_2() == PLAYER_HAS_TWO_USABLE_MONS
+                                && GetTrainerPartySizeFromId(TRAINER_BATTLE_PARAM.opponentA) >= 2);
+
+        if (trainerBattleMode >= OPTIONS_TRAINER_BATTLE_MODE_COUNT)
+            trainerBattleMode = OPTIONS_TRAINER_BATTLE_MODE_MIXED;
+
+        // Two-opponent battles are handled separately and should not be down/up-forced here.
+        if (!(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS))
+        {
+            switch (trainerBattleMode)
+            {
+            case OPTIONS_TRAINER_BATTLE_MODE_SINGLE:
+                gBattleTypeFlags &= ~BATTLE_TYPE_DOUBLE;
+                break;
+            case OPTIONS_TRAINER_BATTLE_MODE_DOUBLE:
+                if (canForceDouble)
+                    gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+                else if (isOriginalDouble)
+                    gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+                else
+                    gBattleTypeFlags &= ~BATTLE_TYPE_DOUBLE;
+                break;
+            case OPTIONS_TRAINER_BATTLE_MODE_MIXED:
+            default:
+                if (isOriginalDouble)
+                    gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+                else
+                    gBattleTypeFlags &= ~BATTLE_TYPE_DOUBLE;
+                break;
+            }
+        }
+        else
+        {
+            gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+        }
     }
 
     InitBattleBgsVideo();

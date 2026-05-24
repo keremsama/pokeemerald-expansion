@@ -105,6 +105,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
+    gSaveBlock2Ptr->optionsTrainerBattleMode = OPTIONS_TRAINER_BATTLE_MODE_MIXED;
     gSaveBlock2Ptr->optionsBattleSceneOff = OPTIONS_BATTLE_SCENE_1X;
     gSaveBlock2Ptr->optionsStartMenuPalette = DEFAULT_START_MENU_PALETTE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;

@@ -82,12 +82,32 @@ static void RegisterTrainerInMatchCall(void);
 static void HandleRematchVarsOnBattleEnd(void);
 static const u8 *GetIntroSpeechOfApproachingTrainer(void);
 static const u8 *GetTrainerCantBattleSpeech(void);
+static bool8 CanForceTrainerBattleToDouble(u16 opponentId);
+static bool8 ShouldUseDoubleTrainerBattleMode(u8 trainerBattleMode, u16 opponentId);
 
 EWRAM_DATA TrainerBattleParameter gTrainerBattleParameter = {0};
 EWRAM_DATA u16 gPartnerTrainerId = 0;
 EWRAM_DATA static u8 *sTrainerBattleEndScript = NULL;
 EWRAM_DATA static bool8 sShouldCheckTrainerBScript = FALSE;
 EWRAM_DATA static u8 sNoOfPossibleTrainerRetScripts = 0;
+
+static bool8 CanForceTrainerBattleToDouble(u16 opponentId)
+{
+    return GetMonsStateToDoubles_2() == PLAYER_HAS_TWO_USABLE_MONS
+        && GetTrainerPartySizeFromId(opponentId) >= 2;
+}
+
+static bool8 ShouldUseDoubleTrainerBattleMode(u8 trainerBattleMode, u16 opponentId)
+{
+    if (trainerBattleMode == OPTIONS_TRAINER_BATTLE_MODE_DOUBLE)
+        return CanForceTrainerBattleToDouble(opponentId);
+    return FALSE;
+}
+
+static bool8 ShouldUseSingleTrainerBattleMode(u8 trainerBattleMode)
+{
+    return trainerBattleMode == OPTIONS_TRAINER_BATTLE_MODE_SINGLE;
+}
 
 // The first transition is used if the enemy Pokémon are lower level than our Pokémon.
 // Otherwise, the second transition is used.
@@ -1008,34 +1028,52 @@ void SetMapVarsToTrainerB(void)
 // expects parameters have been loaded correctly with TrainerBattleLoadArgs
 const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
 {
+    u8 trainerBattleModeSetting = gSaveBlock2Ptr->optionsTrainerBattleMode;
+    if (trainerBattleModeSetting >= OPTIONS_TRAINER_BATTLE_MODE_COUNT)
+        trainerBattleModeSetting = OPTIONS_TRAINER_BATTLE_MODE_MIXED;
+    bool8 forceDouble = ShouldUseDoubleTrainerBattleMode(trainerBattleModeSetting, TRAINER_BATTLE_PARAM.opponentA);
+    bool8 forceSingle = ShouldUseSingleTrainerBattleMode(trainerBattleModeSetting);
+
     switch (TRAINER_BATTLE_PARAM.mode)
     {
     case TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT:
         return EventScript_DoNoIntroTrainerBattle;
     case TRAINER_BATTLE_DOUBLE:
         SetMapVarsToTrainerA();
+        if (forceSingle)
+            return EventScript_TryDoNormalTrainerBattle;
         return EventScript_TryDoDoubleTrainerBattle;
     case TRAINER_BATTLE_CONTINUE_SCRIPT:
         if (gApproachingTrainerId == 0)
         {
             SetMapVarsToTrainerA();
         }
+        if (forceDouble)
+            return EventScript_TryDoDoubleTrainerBattle;
         return EventScript_TryDoNormalTrainerBattle;
     case TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC:
         SetMapVarsToTrainerA();
+        if (forceDouble)
+            return EventScript_TryDoDoubleTrainerBattle;
         return EventScript_TryDoNormalTrainerBattle;
     case TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE:
     case TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC:
         SetMapVarsToTrainerA();
+        if (forceSingle)
+            return EventScript_TryDoNormalTrainerBattle;
         return EventScript_TryDoDoubleTrainerBattle;
 #if FREE_MATCH_CALL == FALSE
     case TRAINER_BATTLE_REMATCH_DOUBLE:
         SetMapVarsToTrainerA();
         TRAINER_BATTLE_PARAM.opponentA = GetRematchTrainerId(TRAINER_BATTLE_PARAM.opponentA);
+        if (forceSingle)
+            return EventScript_TryDoRematchBattle;
         return EventScript_TryDoDoubleRematchBattle;
     case TRAINER_BATTLE_REMATCH:
         SetMapVarsToTrainerA();
         TRAINER_BATTLE_PARAM.opponentA = GetRematchTrainerId(TRAINER_BATTLE_PARAM.opponentA);
+        if (ShouldUseDoubleTrainerBattleMode(trainerBattleModeSetting, TRAINER_BATTLE_PARAM.opponentA))
+            return EventScript_TryDoDoubleRematchBattle;
         return EventScript_TryDoRematchBattle;
 #endif //FREE_MATCH_CALL
     case TRAINER_BATTLE_PYRAMID:
@@ -1071,6 +1109,8 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         {
             SetMapVarsToTrainerA();
         }
+        if (forceDouble)
+            return EventScript_TryDoDoubleTrainerBattle;
         return EventScript_TryDoNormalTrainerBattle;
     }
 }

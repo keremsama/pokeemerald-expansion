@@ -26,12 +26,13 @@
 #define tBattleTextSpeed     data[2]
 #define tBattleSceneOff      data[3]
 #define tBattleStyle         data[4]
-#define tSound               data[5]
-#define tButtonMode          data[6]
-#define tWindowFrameType     data[7]
-#define tStartMenuPalette    data[8]
-#define tTopOption           data[9]
-#define tArrowTaskId         data[10]
+#define tTrainerBattleMode   data[5]
+#define tSound               data[6]
+#define tButtonMode          data[7]
+#define tWindowFrameType     data[8]
+#define tStartMenuPalette    data[9]
+#define tTopOption           data[10]
+#define tArrowTaskId         data[11]
 
 enum
 {
@@ -39,6 +40,7 @@ enum
     MENUITEM_BATTLETEXTSPEED,
     MENUITEM_BATTLESCENE,
     MENUITEM_BATTLESTYLE,
+    MENUITEM_TRAINERBATTLEMODE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
@@ -100,7 +102,9 @@ static u8 SanitizeTextSpeedSelection(u8 selection);
 static u8 BattleScene_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeBattleSceneSelection(u8 selection);
 static u8 Toggle_ProcessInput(u8 selection);
+static u8 TrainerBattleMode_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeButtonModeSelection(u8 selection);
+static u8 SanitizeTrainerBattleModeSelection(u8 selection);
 static u8 FrameType_ProcessInput(u8 selection, s8 delta);
 static u8 StartMenuPalette_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeStartMenuPaletteSelection(u8 selection);
@@ -116,6 +120,10 @@ static const u8 sTextBattleScene4x[] = _("4x");
 static const u8 sTextBattleSceneOffPlain[] = _("OFF");
 static const u8 sTextShift[] = _("SHIFT");
 static const u8 sTextSet[] = _("SET");
+static const u8 sTextBattleMode[] = _("BATTLE MODE");
+static const u8 sTextMixed[] = _("MIXED");
+static const u8 sText1v1[] = _("1v1");
+static const u8 sText2v2[] = _("2v2");
 static const u8 sTextMono[] = _("MONO");
 static const u8 sTextStereo[] = _("STEREO");
 static const u8 sTextNormal[] = _("NORMAL");
@@ -129,6 +137,7 @@ static const u8 sTextDescTextSpeed[] = _("Choose how fast regular text\nprints i
 static const u8 sTextDescBattleTextSpeed[] = _("Choose how fast battle text\nprints during battles.");
 static const u8 sTextDescBattleScene[] = _("Set battle animation speed, or\nturn battle animations off.");
 static const u8 sTextDescBattleStyle[] = _("SHIFT asks before switching.\nSET keeps battling without prompts.");
+static const u8 sTextDescTrainerBattleMode[] = _("MIXED keeps original battles.\n1v1 or 2v2 force when valid.");
 static const u8 sTextDescSound[] = _("Choose MONO or STEREO sound.");
 static const u8 sTextDescButtonMode[] = _("NORMAL keeps default controls.\nLR lets L/R act like left/right.");
 static const u8 sTextDescFrameType[] = _("Choose the textbox frame style.");
@@ -157,6 +166,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLETEXTSPEED] = gText_BattleTextSpeed,
     [MENUITEM_BATTLESCENE]     = gText_BattleScene,
     [MENUITEM_BATTLESTYLE]     = gText_BattleStyle,
+    [MENUITEM_TRAINERBATTLEMODE] = sTextBattleMode,
     [MENUITEM_SOUND]           = gText_Sound,
     [MENUITEM_BUTTONMODE]      = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]       = gText_Frame,
@@ -312,6 +322,7 @@ static void InitOptionMenuTaskData(u8 taskId)
     gTasks[taskId].tBattleTextSpeed = SanitizeTextSpeedSelection(gSaveBlock2Ptr->optionsBattleTextSpeed);
     gTasks[taskId].tBattleSceneOff = SanitizeBattleSceneSelection(gSaveBlock2Ptr->optionsBattleSceneOff);
     gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
+    gTasks[taskId].tTrainerBattleMode = SanitizeTrainerBattleModeSelection(gSaveBlock2Ptr->optionsTrainerBattleMode);
     gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
     gTasks[taskId].tButtonMode = SanitizeButtonModeSelection(gSaveBlock2Ptr->optionsButtonMode);
     gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
@@ -374,6 +385,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsBattleTextSpeed = SanitizeTextSpeedSelection(gTasks[taskId].tBattleTextSpeed);
     gSaveBlock2Ptr->optionsBattleSceneOff = SanitizeBattleSceneSelection(gTasks[taskId].tBattleSceneOff);
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
+    gSaveBlock2Ptr->optionsTrainerBattleMode = SanitizeTrainerBattleModeSelection(gTasks[taskId].tTrainerBattleMode);
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = SanitizeButtonModeSelection(gTasks[taskId].tButtonMode);
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
@@ -445,6 +457,10 @@ static bool8 ChangeSelection(u8 taskId, s8 delta)
         previousOption = gTasks[taskId].tBattleStyle;
         gTasks[taskId].tBattleStyle = Toggle_ProcessInput(gTasks[taskId].tBattleStyle);
         return previousOption != gTasks[taskId].tBattleStyle;
+    case MENUITEM_TRAINERBATTLEMODE:
+        previousOption = gTasks[taskId].tTrainerBattleMode;
+        gTasks[taskId].tTrainerBattleMode = TrainerBattleMode_ProcessInput(gTasks[taskId].tTrainerBattleMode, delta);
+        return previousOption != gTasks[taskId].tTrainerBattleMode;
     case MENUITEM_SOUND:
         previousOption = gTasks[taskId].tSound;
         gTasks[taskId].tSound = Toggle_ProcessInput(gTasks[taskId].tSound);
@@ -505,10 +521,10 @@ static void DrawTextSpeedChoices(u8 selection, int y)
 static void DrawBattleSceneChoices(u8 selection, int y)
 {
     selection = SanitizeBattleSceneSelection(selection);
-    DrawOptionMenuChoice(sTextBattleScene1x, 102, y, selection == OPTIONS_BATTLE_SCENE_1X);
-    DrawOptionMenuChoice(sTextBattleScene2x, 122, y, selection == OPTIONS_BATTLE_SCENE_2X);
-    DrawOptionMenuChoice(sTextBattleScene3x, 142, y, selection == OPTIONS_BATTLE_SCENE_3X);
-    DrawOptionMenuChoice(sTextBattleScene4x, 161, y, selection == OPTIONS_BATTLE_SCENE_4X);
+    DrawOptionMenuChoice(sTextBattleScene1x, 103, y, selection == OPTIONS_BATTLE_SCENE_1X);
+    DrawOptionMenuChoice(sTextBattleScene2x, 123, y, selection == OPTIONS_BATTLE_SCENE_2X);
+    DrawOptionMenuChoice(sTextBattleScene3x, 143, y, selection == OPTIONS_BATTLE_SCENE_3X);
+    DrawOptionMenuChoice(sTextBattleScene4x, 162, y, selection == OPTIONS_BATTLE_SCENE_4X);
     DrawOptionMenuChoice(sTextBattleSceneOffPlain, GetStringRightAlignXOffset(FONT_NORMAL, sTextBattleSceneOffPlain, CHOICE_RIGHT_EDGE), y, selection == OPTIONS_BATTLE_SCENE_OFF);
 }
 
@@ -553,6 +569,11 @@ static void DrawChoices(u8 taskId, u8 item, int y)
         break;
     case MENUITEM_BATTLESTYLE:
         DrawTwoChoices(sTextShift, sTextSet, gTasks[taskId].tBattleStyle, y);
+        break;
+    case MENUITEM_TRAINERBATTLEMODE:
+        DrawOptionMenuChoice(sTextMixed, 103, y, gTasks[taskId].tTrainerBattleMode == OPTIONS_TRAINER_BATTLE_MODE_MIXED);
+        DrawOptionMenuChoice(sText1v1, 147, y, gTasks[taskId].tTrainerBattleMode == OPTIONS_TRAINER_BATTLE_MODE_SINGLE);
+        DrawOptionMenuChoice(sText2v2, GetStringRightAlignXOffset(FONT_NORMAL, sText2v2, CHOICE_RIGHT_EDGE), y, gTasks[taskId].tTrainerBattleMode == OPTIONS_TRAINER_BATTLE_MODE_DOUBLE);
         break;
     case MENUITEM_SOUND:
         DrawTwoChoices(sTextMono, sTextStereo, gTasks[taskId].tSound, y);
@@ -626,6 +647,8 @@ static const u8 *GetOptionDescription(u8 item)
         return sTextDescBattleScene;
     case MENUITEM_BATTLESTYLE:
         return sTextDescBattleStyle;
+    case MENUITEM_TRAINERBATTLEMODE:
+        return sTextDescTrainerBattleMode;
     case MENUITEM_SOUND:
         return sTextDescSound;
     case MENUITEM_BUTTONMODE:
@@ -707,10 +730,32 @@ static u8 Toggle_ProcessInput(u8 selection)
     return selection ^ 1;
 }
 
+static u8 TrainerBattleMode_ProcessInput(u8 selection, s8 delta)
+{
+    selection = SanitizeTrainerBattleModeSelection(selection);
+
+    if (delta > 0)
+        selection = (selection + 1) % OPTIONS_TRAINER_BATTLE_MODE_COUNT;
+    else if (selection == 0)
+        selection = OPTIONS_TRAINER_BATTLE_MODE_COUNT - 1;
+    else
+        selection--;
+
+    return selection;
+}
+
 static u8 SanitizeButtonModeSelection(u8 selection)
 {
     if (selection >= OPTIONS_BUTTON_MODE_COUNT)
         return OPTIONS_BUTTON_MODE_NORMAL;
+
+    return selection;
+}
+
+static u8 SanitizeTrainerBattleModeSelection(u8 selection)
+{
+    if (selection >= OPTIONS_TRAINER_BATTLE_MODE_COUNT)
+        return OPTIONS_TRAINER_BATTLE_MODE_MIXED;
 
     return selection;
 }
