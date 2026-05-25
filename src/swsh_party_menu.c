@@ -1224,15 +1224,30 @@ static void FreePartyPointers(void)
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     
     if (sPartyMenuInternal)
+    {
         Free(sPartyMenuInternal);
+        sPartyMenuInternal = NULL;
+    }
     if (sPartyBgTilemapBuffer)
+    {
         Free(sPartyBgTilemapBuffer);
+        sPartyBgTilemapBuffer = NULL;
+    }
     if (sPartyBg3TilemapBuffer)
+    {
         Free(sPartyBg3TilemapBuffer);
+        sPartyBg3TilemapBuffer = NULL;
+    }
     if (sPartyBgGfxTilemap)
+    {
         Free(sPartyBgGfxTilemap);
+        sPartyBgGfxTilemap = NULL;
+    }
     if (sPartyMenuBoxes)
+    {
         Free(sPartyMenuBoxes);
+        sPartyMenuBoxes = NULL;
+    }
     FreeAllWindowBuffers();
 }
 
@@ -1796,7 +1811,7 @@ static void SavePartyMenuStateForPC(void)
     sSavedPartyMenuType = gPartyMenu.menuType;
     sSavedPartyLayout = gPartyMenu.layout;
     sSavedPartyAction = gPartyMenu.action;
-    sSavedPartySlotId = 0;
+    sSavedPartySlotId = gPartyMenu.slotId;
     sSavedPartyMessageId = PARTY_MSG_NONE;
     sSavedPartyTask = Task_HandleChooseMonInput;
     sSavedPartyExitCallback = gPartyMenu.exitCallback;
@@ -6055,6 +6070,10 @@ static u8 CreateMonSprite(struct Pokemon *mon, bool32 isShadow)
 
 static void DestroyMonSprite(void)
 {
+    StopPokemonAnimationDelayTask();
+    SummaryScreen_SetAnimDelayTaskId_SwSh(TASK_NONE);
+    SummaryScreen_SetShadowAnimDelayTaskId_SwSh(TASK_NONE);
+
     if (sShadowAnimDelayTaskActive)
     {
         DestroyTask(sShadowAnimDelayTaskId);
@@ -7895,7 +7914,7 @@ static void RestoreFusionMon(struct Pokemon *mon)
     }
 }
 
-static void DeleteInvalidFusionMoves(struct Pokemon *mon, u32 species)
+static void UNUSED DeleteInvalidFusionMoves(struct Pokemon *mon, u32 species)
 {
     for (u32 i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -7938,7 +7957,7 @@ static void DeleteInvalidFusionMoves(struct Pokemon *mon, u32 species)
 }
 
 #if P_FUSION_FORMS
-static void SwapFusionMonMoves(struct Pokemon *mon, const u16 moveTable[][2], u32 mode)
+static void UNUSED SwapFusionMonMoves(struct Pokemon *mon, const u16 moveTable[][2], u32 mode)
 {
     u32 oldMoveIndex, newMoveIndex;
     if (mode == FUSE_MON)
