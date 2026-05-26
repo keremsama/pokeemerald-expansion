@@ -498,6 +498,37 @@ u32 ScriptGiveMon(u16 species, u8 level, u16 item)
     return ScriptGiveMonParameterized(0, PARTY_SIZE, species, level, item, ITEM_POKE_BALL, NUM_NATURES, NUM_ABILITY_PERSONALITY, MON_GENDERLESS, evs, ivs, moves, FALSE, FALSE, NUMBER_OF_MON_TYPES, 0);
 }
 
+void GiveGameCornerPrizeMonWithRandomIVs(void)
+{
+    u32 i;
+    u16 species = gSpecialVar_0x8004;
+    u8 abilityNum;
+    u8 evs[NUM_STATS] = {0, 0, 0, 0, 0, 0};
+    u8 ivs[NUM_STATS];
+    u16 moves[MAX_MON_MOVES] = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE};
+
+    for (i = 0; i < NUM_STATS; i++)
+        ivs[i] = 23 + (Random() % 9);
+
+    switch (species)
+    {
+    case SPECIES_ABRA:
+    case SPECIES_CUBONE:
+    case SPECIES_RALTS:
+    case SPECIES_PORYGON:
+        abilityNum = 2;
+        break;
+    case SPECIES_BELDUM:
+        abilityNum = 0;
+        break;
+    default:
+        abilityNum = 1;
+        break;
+    }
+
+    gSpecialVar_Result = ScriptGiveMonParameterized(0, PARTY_SIZE, species, 25, ITEM_NONE, ITEM_CHERISH_BALL, NATURE_HARDY, abilityNum, MON_MALE, evs, ivs, moves, FALSE, FALSE, NUMBER_OF_MON_TYPES, 0);
+}
+
 #define PARSE_FLAG(n, default_) (flags & (1 << (n))) ? VarGet(ScriptReadHalfword(ctx)) : (default_)
 
 /* Give or create a mon to either player or opponent

@@ -2677,52 +2677,24 @@ void ShowFinalMessage(void)
     CopyWindowToVram(sTextWindowId, 3);
 }
 
+static void SetGachaMonIVsInRange(struct Pokemon *mon, u8 minIV)
+{
+    u32 i;
+    u8 iv;
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        iv = minIV + (Random() % (MAX_PER_STAT_IVS + 1 - minIV));
+        SetMonData(mon, MON_DATA_HP_IV + i, &iv);
+    }
+    CalculateMonStats(mon);
+}
+
 
 static void GachaMain(u8 taskId)
 {
-    u16 level;
+    u16 level = 25;
     u32 pos = B_POSITION_OPPONENT_RIGHT;
-
-    if (FlagGet(FLAG_IS_CHAMPION) == TRUE)
-    {
-        level = (Random() % 30) + 40;
-    }
-    else if (FlagGet(FLAG_BADGE08_GET) == TRUE)
-    {
-        level = (Random() % 15) + 36;
-    }
-    else if (FlagGet(FLAG_BADGE07_GET) == TRUE)
-    {
-        level = (Random() % 9) + 28;
-    }
-    else if (FlagGet(FLAG_BADGE06_GET) == TRUE)
-    {
-        level = (Random() % 10) + 21;
-    }
-    else if (FlagGet(FLAG_BADGE05_GET) == TRUE)
-    {
-        level = (Random() % 10) + 19;
-    }
-    else if (FlagGet(FLAG_BADGE04_GET) == TRUE)
-    {
-        level = (Random() % 6) + 18;
-    }
-    else if (FlagGet(FLAG_BADGE03_GET) == TRUE)
-    {
-        level = (Random() % 8) + 13;
-    }
-    else if (FlagGet(FLAG_BADGE02_GET) == TRUE)
-    {
-        level = (Random() % 6) + 7;
-    }
-    else if (FlagGet(FLAG_BADGE01_GET) == TRUE)
-    {
-        level = (Random() % 7) + 5;
-    }
-    else
-    {
-        level = (Random() % 5) + 2;
-    }
     
     switch (sGacha->state)
     {
@@ -2866,6 +2838,10 @@ static void GachaMain(u8 taskId)
         if (gSprites[sGacha->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
             CreateMon(&gEnemyParty[0], sGacha->CalculatedSpecies, level, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+            if (sGacha->Rarity == RARITY_RARE)
+                SetGachaMonIVsInRange(&gEnemyParty[0], 15);
+            else if (sGacha->Rarity == RARITY_ULTRA_RARE)
+                SetGachaMonIVsInRange(&gEnemyParty[0], 23);
             GiveMonToPlayer(&gEnemyParty[0]);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(sGacha->CalculatedSpecies), FLAG_SET_SEEN);
             HandleSetPokedexFlag(SpeciesToNationalPokedexNum(sGacha->CalculatedSpecies), FLAG_SET_CAUGHT, GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY));

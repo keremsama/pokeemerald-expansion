@@ -18,6 +18,7 @@ gSpecials::
 	def_special HealPlayerParty
 	def_special StartBlackJack
 	def_special StartGacha
+	def_special GiveGameCornerPrizeMonWithRandomIVs, requests_effects=1
 	def_special StartBlockStacker
 	def_special StartDerby
 	def_special GetNewDerby

@@ -1255,7 +1255,8 @@ MauvilleCity_GameCorner_EventScript_BuyAbra::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins ABRA_COINS
-	givemon SPECIES_ABRA, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_ABRA
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1266,7 +1267,8 @@ MauvilleCity_GameCorner_EventScript_BuyCubone::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins CUBONE_COINS
-	givemon SPECIES_CUBONE, 25, 0, ITEM_CHERISH_BALL, 0, 2, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_CUBONE
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1277,7 +1279,8 @@ MauvilleCity_GameCorner_EventScript_BuyRalts::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins RALTS_COINS
-	givemon SPECIES_RALTS, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_RALTS
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1288,7 +1291,8 @@ MauvilleCity_GameCorner_EventScript_BuyDratini::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins DRATINI_COINS
-	givemon SPECIES_DRATINI, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_DRATINI
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1299,7 +1303,8 @@ MauvilleCity_GameCorner_EventScript_BuyBagon::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BAGON_COINS
-	givemon SPECIES_BAGON, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_BAGON
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1310,7 +1315,8 @@ MauvilleCity_GameCorner_EventScript_BuyLarvitar::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, LARVITAR_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins LARVITAR_COINS
-	givemon SPECIES_LARVITAR, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_LARVITAR
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1321,7 +1327,8 @@ MauvilleCity_GameCorner_EventScript_BuyLarvesta::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, LARVESTA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins LARVESTA_COINS
-	givemon SPECIES_LARVESTA, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_LARVESTA
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1332,7 +1339,8 @@ MauvilleCity_GameCorner_EventScript_BuyDreepy::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, DREEPY_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins DREEPY_COINS
-	givemon SPECIES_DREEPY, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_DREEPY
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1343,7 +1351,8 @@ MauvilleCity_GameCorner_EventScript_BuyScyther::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, SCYTHER_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins SCYTHER_COINS
-	givemon SPECIES_SCYTHER, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_SCYTHER
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1354,7 +1363,8 @@ MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins FRIGIBAX_COINS
-	givemon SPECIES_FRIGIBAX, 25, 0, ITEM_CHERISH_BALL, 0, 1, MON_MALE, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_FRIGIBAX
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1365,7 +1375,8 @@ MauvilleCity_GameCorner_EventScript_BuyBeldum::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins BELDUM_COINS
-	givemon SPECIES_BELDUM, 25, 0, ITEM_CHERISH_BALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_BELDUM
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
@@ -1376,7 +1387,8 @@ MauvilleCity_GameCorner_EventScript_BuyPorygon::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
 	removecoins PORYGON_COINS
-	givemon SPECIES_PORYGON, 25, 0, ITEM_CHERISH_BALL, 0, 2, 0, 0, 0, 0, 0, 0, 0, 28, 28, 28, 28, 28, 28
+	setvar VAR_0x8004, SPECIES_PORYGON
+	special GiveGameCornerPrizeMonWithRandomIVs
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
