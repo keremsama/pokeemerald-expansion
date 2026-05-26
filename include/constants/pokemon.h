@@ -289,6 +289,7 @@ enum EvolutionMethods {
     EVO_ITEM_NIGHT,                      // specified item is used on Pokémon, is night
     EVO_ITEM_DAY,                        // specified item is used on Pokémon, is day
     EVO_ITEM_HOLD,                       // Pokémon levels up, holds specified item
+    EVO_ITEM_HOLD_LEVEL,                 // Pokémon reaches the specified level, holds specified item
     EVO_LEVEL_FOG,                       // Pokémon reaches the specified level during fog in the overworld
     EVO_MOVE_TWO_SEGMENT,                // Pokémon levels up, knows specified move, has a personality value with a modulus of 0
     EVO_MOVE_THREE_SEGMENT,              // Pokémon levels up, knows specified move, has a personality value with a modulus of 1-99
@@ -300,6 +301,10 @@ enum EvolutionMethods {
     EVO_ITEM_COUNT_999,                  // Pokémon levels up after trainer has collected 999 of a specific item
     EVO_DEFEAT_THREE_WITH_ITEM,          // Pokémon levels up after having defeat 3 Pokémon of the same species holding the specified item
     EVO_OVERWORLD_STEPS,                 // Pokémon levels up after having taken a specific amount of steps in the overworld
+    EVO_ITEM_SPECIFIC_MAP,               // specified item is used on Pokémon on specified map
+    EVO_LEVEL_SPECIFIC_MAP,              // Pokémon reaches the specified level on specified map
+    EVO_ITEM_MOVE,                       // specified item is used on Pokémon that knows specified move
+    EVO_LEVEL_MAPSEC,                    // Pokémon reaches the specified level on specified mapsec
 };
 
 enum EvolutionMode {

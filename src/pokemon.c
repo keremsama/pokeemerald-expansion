@@ -5086,9 +5086,18 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 
                 if (gMapHeader.regionMapSectionId == evolutions[i].param)
                     targetSpecies = evolutions[i].targetSpecies;
                 break;
+            case EVO_LEVEL_MAPSEC:
+                if (evolutions[i].param <= level && gMapHeader.regionMapSectionId == evolutions[i].param2)
+                    targetSpecies = evolutions[i].targetSpecies;
+                break;
             case EVO_SPECIFIC_MAP:
                 currentMap = ((gSaveBlock1Ptr->location.mapGroup) << 8 | gSaveBlock1Ptr->location.mapNum);
                 if (currentMap == evolutions[i].param)
+                    targetSpecies = evolutions[i].targetSpecies;
+                break;
+            case EVO_LEVEL_SPECIFIC_MAP:
+                currentMap = ((gSaveBlock1Ptr->location.mapGroup) << 8 | gSaveBlock1Ptr->location.mapNum);
+                if (evolutions[i].param <= level && evolutions[i].param2 == currentMap)
                     targetSpecies = evolutions[i].targetSpecies;
                 break;
             case EVO_LEVEL_NATURE_AMPED:
@@ -5140,6 +5149,13 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 
                 break;
             case EVO_ITEM_HOLD:
                 if (heldItem == evolutions[i].param)
+                {
+                    targetSpecies = evolutions[i].targetSpecies;
+                    consumeItem = TRUE;
+                }
+                break;
+            case EVO_ITEM_HOLD_LEVEL:
+                if (heldItem == evolutions[i].param && evolutions[i].param2 <= level)
                 {
                     targetSpecies = evolutions[i].targetSpecies;
                     consumeItem = TRUE;
@@ -5241,6 +5257,15 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 
                 break;
             case EVO_ITEM_DAY:
                 if (GetTimeOfDay() != TIME_NIGHT && evolutions[i].param == evolutionItem)
+                    targetSpecies = evolutions[i].targetSpecies;
+                break;
+            case EVO_ITEM_SPECIFIC_MAP:
+                currentMap = ((gSaveBlock1Ptr->location.mapGroup) << 8 | gSaveBlock1Ptr->location.mapNum);
+                if (evolutions[i].param == evolutionItem && evolutions[i].param2 == currentMap)
+                    targetSpecies = evolutions[i].targetSpecies;
+                break;
+            case EVO_ITEM_MOVE:
+                if (evolutions[i].param == evolutionItem && MonKnowsMove(mon, evolutions[i].param2))
                     targetSpecies = evolutions[i].targetSpecies;
                 break;
             }

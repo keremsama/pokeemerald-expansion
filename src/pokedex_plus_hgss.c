@@ -245,12 +245,17 @@ static const u8 sText_EVO_WATER_SCROLL[] = _("ScrollOfWatrs is used");
 static const u8 sText_EVO_ITEM_NIGHT[] = _("{STR_VAR_2} is used, night");
 static const u8 sText_EVO_ITEM_DAY[] = _("{STR_VAR_2} is used, day");
 static const u8 sText_EVO_ITEM_HOLD[] = _("{LV}{UP_ARROW}, holds {STR_VAR_2}");
+static const u8 sText_EVO_ITEM_HOLD_LEVEL[] = _("{LV}{UP_ARROW} to {STR_VAR_3}, holds {STR_VAR_2}");
 static const u8 sText_EVO_USE_MOVE_TWENTY_TIMES[] = _("{LV}{UP_ARROW} after 20x {STR_VAR_2}");
 static const u8 sText_EVO_RECOIL_DAMAGE_MALE[] = _("{LV}{UP_ARROW} with {STR_VAR_2} recoil, male");
 static const u8 sText_EVO_RECOIL_DAMAGE_FEMALE[] = _("{LV}{UP_ARROW} with {STR_VAR_2} recoil, female");
 static const u8 sText_EVO_ITEM_COUNT_999[] = _("{LV}{UP_ARROW} with 999 {STR_VAR_2} in bag");
 static const u8 sText_EVO_DEFEAT_THREE_WITH_ITEM[] = _("{LV}{UP_ARROW} defeating 3 {STR_VAR_3} holding {STR_VAR_2}");
 static const u8 sText_EVO_OVERWORLD_STEPS[] = _("{LV}{UP_ARROW} after {STR_VAR_2} steps");
+static const u8 sText_EVO_ITEM_SPECIFIC_MAP[] = _("{STR_VAR_2} is used on {STR_VAR_3}");
+static const u8 sText_EVO_LEVEL_SPECIFIC_MAP[] = _("{LV}{UP_ARROW} to {STR_VAR_2} on {STR_VAR_3}");
+static const u8 sText_EVO_ITEM_MOVE[] = _("{STR_VAR_2} used, knows {STR_VAR_3}");
+static const u8 sText_EVO_LEVEL_MAPSEC[] = _("{LV}{UP_ARROW} to {STR_VAR_2} on {STR_VAR_3}");
 static const u8 sText_EVO_UNKNOWN[] = _("Method unknown");
 static const u8 sText_EVO_NONE[] = _("{STR_VAR_1} has no evolution.");
 
@@ -6607,6 +6612,12 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, u16 species, u8 dept
             CopyItemName(item, gStringVar2);
             StringExpandPlaceholders(gStringVar4, sText_EVO_ITEM_HOLD );
             break;
+        case EVO_ITEM_HOLD_LEVEL:
+            item = evolutions[i].param;
+            CopyItemName(item, gStringVar2);
+            ConvertIntToDecimalStringN(gStringVar3, evolutions[i].param2, STR_CONV_MODE_LEADING_ZEROS, EVO_SCREEN_LVL_DIGITS);
+            StringExpandPlaceholders(gStringVar4, sText_EVO_ITEM_HOLD_LEVEL );
+            break;
         case EVO_USE_MOVE_TWENTY_TIMES:
             StringCopy(gStringVar2, GetMoveName(evolutions[i].param));
             StringExpandPlaceholders(gStringVar4, sText_EVO_USE_MOVE_TWENTY_TIMES );
@@ -6633,6 +6644,30 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, u16 species, u8 dept
         case EVO_OVERWORLD_STEPS:
             ConvertIntToDecimalStringN(gStringVar2, evolutions[i].param, STR_CONV_MODE_LEADING_ZEROS, 4);
             StringExpandPlaceholders(gStringVar4, sText_EVO_OVERWORLD_STEPS);
+            break;
+        case EVO_ITEM_SPECIFIC_MAP:
+            item = evolutions[i].param;
+            CopyItemName(item, gStringVar2);
+            mapHeader = Overworld_GetMapHeaderByGroupAndId(evolutions[i].param2 >> 8, evolutions[i].param2 & 0xFF);
+            GetMapName(gStringVar3, mapHeader->regionMapSectionId, 0);
+            StringExpandPlaceholders(gStringVar4, sText_EVO_ITEM_SPECIFIC_MAP);
+            break;
+        case EVO_LEVEL_SPECIFIC_MAP:
+            ConvertIntToDecimalStringN(gStringVar2, evolutions[i].param, STR_CONV_MODE_LEADING_ZEROS, EVO_SCREEN_LVL_DIGITS);
+            mapHeader = Overworld_GetMapHeaderByGroupAndId(evolutions[i].param2 >> 8, evolutions[i].param2 & 0xFF);
+            GetMapName(gStringVar3, mapHeader->regionMapSectionId, 0);
+            StringExpandPlaceholders(gStringVar4, sText_EVO_LEVEL_SPECIFIC_MAP);
+            break;
+        case EVO_LEVEL_MAPSEC:
+            ConvertIntToDecimalStringN(gStringVar2, evolutions[i].param, STR_CONV_MODE_LEADING_ZEROS, EVO_SCREEN_LVL_DIGITS);
+            StringCopy(gStringVar3, gRegionMapEntries[evolutions[i].param2].name);
+            StringExpandPlaceholders(gStringVar4, sText_EVO_LEVEL_MAPSEC);
+            break;
+        case EVO_ITEM_MOVE:
+            item = evolutions[i].param;
+            CopyItemName(item, gStringVar2);
+            StringCopy(gStringVar3, GetMoveName(evolutions[i].param2));
+            StringExpandPlaceholders(gStringVar4, sText_EVO_ITEM_MOVE);
             break;
         default:
             StringExpandPlaceholders(gStringVar4, sText_EVO_UNKNOWN);
