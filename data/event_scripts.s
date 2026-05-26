@@ -583,6 +583,7 @@ gStdScripts_End::
 	.include "data/scripts/hall_of_fame.inc"
 
 	.include "data/scripts/config.inc"
+	.include "data/scripts/cap_man.inc"
 	.include "data/scripts/debug.inc"
 
 EventScript_WhiteOut::

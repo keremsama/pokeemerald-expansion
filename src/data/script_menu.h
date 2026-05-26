@@ -70,6 +70,23 @@ static const struct MenuAction MultichoiceList_StatusInfo[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_CapManCap[] =
+{
+    {COMPOUND_STRING("BOTTLE CAP")},
+    {COMPOUND_STRING("GOLD BOTTLE CAP")},
+    {gText_Cancel2},
+};
+
+static const struct MenuAction MultichoiceList_CapManStat[] =
+{
+    {COMPOUND_STRING("HP")},
+    {COMPOUND_STRING("ATTACK")},
+    {COMPOUND_STRING("DEFENSE")},
+    {COMPOUND_STRING("SPEED")},
+    {COMPOUND_STRING("SP. ATK")},
+    {COMPOUND_STRING("SP. DEF")},
+};
+
 static const struct MenuAction MultichoiceList_BrineyOffDewford[] =
 {
     {COMPOUND_STRING("DEWFORD")},
@@ -983,7 +1000,9 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
     [MULTI_BERRY_PLOT]                 = MULTICHOICE(MultichoiceList_BerryPlot),
     [MULTI_RANDOMIZER_SPECIES_CHOICE]  = MULTICHOICE(MultichoiceList_RandomSpeciesMode),
-    [MULTI_STARTER_MEGA_STONE]         = MULTICHOICE(MultichoiceList_StarterMegaStone)
+    [MULTI_STARTER_MEGA_STONE]         = MULTICHOICE(MultichoiceList_StarterMegaStone),
+    [MULTI_CAPMAN_CAP]                 = MULTICHOICE(MultichoiceList_CapManCap),
+    [MULTI_CAPMAN_STAT]                = MULTICHOICE(MultichoiceList_CapManStat)
 };
 
 const u8 *const gStdStrings[] =

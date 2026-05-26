@@ -477,6 +477,10 @@ Route119_EventScript_ScottWonAtFortreeGymCall::
 	releaseall
 	end
 
+Route119_EventScript_CapMan_Sign::
+	msgbox Route119_Text_CapManSign, MSGBOX_SIGN
+	end
+
 Route119_Text_MayIntro:
 	.string "MAY: {PLAYER}{KUN}!\n"
 	.string "Where were you? I was looking for you!\p"
@@ -610,3 +614,8 @@ Route119_Text_TrainerTipsDecoration:
 	.string "Pick your favorite items and create\n"
 	.string "your very own SECRET BASE exactly the\l"
 	.string "way you want.$"
+
+Route119_Text_CapManSign:
+	.string "CAP MAN's House.\p"
+	.string "Hypertrain your POKéMON for\n"
+	.string "BOTTLE CAP's here!$"

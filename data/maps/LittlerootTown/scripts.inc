@@ -2059,6 +2059,405 @@ cynthia_fight::
 	end
 
 
+CapMan_EventScript_Npc::
+# 1057 "data/maps/LittlerootTown/scripts.pory"
+	lock
+# 1058 "data/maps/LittlerootTown/scripts.pory"
+	faceplayer
+# 1060 "data/maps/LittlerootTown/scripts.pory"
+	setvar VAR_0x8009, FALSE
+# 1062 "data/maps/LittlerootTown/scripts.pory"
+	goto_if_unset FLAG_MET_CAP_MAN, CapMan_EventScript_Npc_2
+# 1075 "data/maps/LittlerootTown/scripts.pory"
+	setvar VAR_0x8009, TRUE
+CapMan_EventScript_Npc_1:
+# 1078 "data/maps/LittlerootTown/scripts.pory"
+	specialvar VAR_RESULT, CapMan_GetBottleCapAvailability
+# 1079 "data/maps/LittlerootTown/scripts.pory"
+	copyvar VAR_0x8008, VAR_RESULT
+# 1081 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8009, TRUE
+	goto_if_eq CapMan_EventScript_Npc_6
+CapMan_EventScript_Npc_5:
+# 1085 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8008, 0
+	goto_if_eq CapMan_EventScript_Npc_9
+# 1093 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8009, TRUE
+	goto_if_eq CapMan_EventScript_Npc_12
+CapMan_EventScript_Npc_11:
+# 1102 "data/maps/LittlerootTown/scripts.pory"
+	switch VAR_0x8008
+# 1103 "data/maps/LittlerootTown/scripts.pory"
+	case 1, CapMan_EventScript_Npc_16
+# 1105 "data/maps/LittlerootTown/scripts.pory"
+	case 2, CapMan_EventScript_Npc_17
+# 1107 "data/maps/LittlerootTown/scripts.pory"
+	case 3, CapMan_EventScript_Npc_18
+CapMan_EventScript_Npc_14:
+CapMan_EventScript_Npc_20:
+# 1112 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_6
+# 1113 "data/maps/LittlerootTown/scripts.pory"
+	multichoice 22, 6, MULTI_YESNOINFO, FALSE
+# 1115 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, 0
+	goto_if_eq CapMan_EventScript_Npc_26
+# 1119 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, 2
+	goto_if_eq CapMan_EventScript_Npc_35
+# 1128 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_8
+# 1129 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_2:
+# 1063 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_0
+# 1073 "data/maps/LittlerootTown/scripts.pory"
+	setflag FLAG_MET_CAP_MAN
+	goto CapMan_EventScript_Npc_1
+
+CapMan_EventScript_Npc_6:
+# 1082 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_1
+	goto CapMan_EventScript_Npc_5
+
+CapMan_EventScript_Npc_9:
+# 1086 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_2
+# 1089 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_12:
+# 1094 "data/maps/LittlerootTown/scripts.pory"
+	playse SE_PIN
+# 1095 "data/maps/LittlerootTown/scripts.pory"
+	applymovement 9, CapMan_EventScript_Npc_Movement_0
+# 1099 "data/maps/LittlerootTown/scripts.pory"
+	waitmovement 9
+	goto CapMan_EventScript_Npc_11
+
+CapMan_EventScript_Npc_16:
+# 1104 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_3
+	goto CapMan_EventScript_Npc_14
+
+CapMan_EventScript_Npc_17:
+# 1106 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_4
+	goto CapMan_EventScript_Npc_14
+
+CapMan_EventScript_Npc_18:
+# 1108 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_5
+	goto CapMan_EventScript_Npc_14
+
+CapMan_EventScript_Npc_19:
+CapMan_EventScript_Npc_23:
+# 1134 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_9
+# 1135 "data/maps/LittlerootTown/scripts.pory"
+	special ChoosePartyMon
+# 1136 "data/maps/LittlerootTown/scripts.pory"
+	waitstate
+# 1138 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8004, PARTY_NOTHING_CHOSEN
+	goto_if_eq CapMan_EventScript_Npc_32
+	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
+# 0 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, SPECIES_EGG
+	goto_if_eq CapMan_EventScript_Npc_41
+# 1152 "data/maps/LittlerootTown/scripts.pory"
+	bufferpartymonnick STR_VAR_1, VAR_0x8004
+# 1154 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_11
+	checkitem ITEM_BOTTLE_CAP
+# 0 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, TRUE
+	goto_if_eq CapMan_EventScript_Npc_29
+CapMan_EventScript_Npc_28:
+	checkitem ITEM_GOLD_BOTTLE_CAP
+# 0 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, TRUE
+	goto_if_eq CapMan_EventScript_Npc_38
+CapMan_EventScript_Npc_37:
+# 1161 "data/maps/LittlerootTown/scripts.pory"
+	dynmultistack 22, 8, FALSE, 2, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+# 1163 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, MULTI_B_PRESSED
+	goto_if_eq CapMan_EventScript_Npc_44
+# 1169 "data/maps/LittlerootTown/scripts.pory"
+	copyvar VAR_0x8005, VAR_RESULT
+# 1171 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8005, ITEM_BOTTLE_CAP
+	goto_if_eq CapMan_EventScript_Npc_47
+CapMan_EventScript_Npc_46:
+# 1184 "data/maps/LittlerootTown/scripts.pory"
+	special CapMan_HyperTrainSelectedMon
+# 1185 "data/maps/LittlerootTown/scripts.pory"
+	removeitem VAR_0x8005, 1
+# 1187 "data/maps/LittlerootTown/scripts.pory"
+	playfanfare MUS_LEVEL_UP
+# 1188 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_0x8005, ITEM_GOLD_BOTTLE_CAP
+	goto_if_eq CapMan_EventScript_Npc_50
+# 1191 "data/maps/LittlerootTown/scripts.pory"
+	switch VAR_0x8006
+# 1192 "data/maps/LittlerootTown/scripts.pory"
+	case 0, CapMan_EventScript_Npc_57
+# 1194 "data/maps/LittlerootTown/scripts.pory"
+	case 1, CapMan_EventScript_Npc_58
+# 1196 "data/maps/LittlerootTown/scripts.pory"
+	case 2, CapMan_EventScript_Npc_59
+# 1198 "data/maps/LittlerootTown/scripts.pory"
+	case 3, CapMan_EventScript_Npc_60
+# 1200 "data/maps/LittlerootTown/scripts.pory"
+	case 4, CapMan_EventScript_Npc_61
+# 1202 "data/maps/LittlerootTown/scripts.pory"
+	case 5, CapMan_EventScript_Npc_62
+CapMan_EventScript_Npc_49:
+# 1206 "data/maps/LittlerootTown/scripts.pory"
+	waitfanfare
+# 1208 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_22
+# 1210 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_26:
+	goto CapMan_EventScript_Npc_19
+
+CapMan_EventScript_Npc_29:
+# 1156 "data/maps/LittlerootTown/scripts.pory"
+	dynmultipush CapMan_EventScript_Npc_Text_12, ITEM_BOTTLE_CAP
+	goto CapMan_EventScript_Npc_28
+
+CapMan_EventScript_Npc_32:
+# 1139 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_8
+# 1140 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_35:
+# 1120 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_7
+	goto CapMan_EventScript_Npc_20
+
+CapMan_EventScript_Npc_38:
+# 1159 "data/maps/LittlerootTown/scripts.pory"
+	dynmultipush CapMan_EventScript_Npc_Text_13, ITEM_GOLD_BOTTLE_CAP
+	goto CapMan_EventScript_Npc_37
+
+CapMan_EventScript_Npc_41:
+# 1145 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_10
+	goto CapMan_EventScript_Npc_23
+
+CapMan_EventScript_Npc_44:
+# 1164 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_8
+# 1165 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_47:
+# 1172 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_14
+# 1173 "data/maps/LittlerootTown/scripts.pory"
+	multichoicegrid 14, 6, MULTI_CAPMAN_STAT, 2, FALSE
+# 1175 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, 6
+	goto_if_ge CapMan_EventScript_Npc_54
+# 1181 "data/maps/LittlerootTown/scripts.pory"
+	copyvar VAR_0x8006, VAR_RESULT
+	goto CapMan_EventScript_Npc_46
+
+CapMan_EventScript_Npc_50:
+# 1189 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_15
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_54:
+# 1176 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_8
+# 1177 "data/maps/LittlerootTown/scripts.pory"
+	release
+	end
+
+CapMan_EventScript_Npc_57:
+# 1193 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_16
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_58:
+# 1195 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_17
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_59:
+# 1197 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_18
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_60:
+# 1199 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_19
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_61:
+# 1201 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_20
+	goto CapMan_EventScript_Npc_49
+
+CapMan_EventScript_Npc_62:
+# 1203 "data/maps/LittlerootTown/scripts.pory"
+	msgbox CapMan_EventScript_Npc_Text_21
+	goto CapMan_EventScript_Npc_49
+
+
+# 1095 "data/maps/LittlerootTown/scripts.pory"
+CapMan_EventScript_Npc_Movement_0:
+# 1096 "data/maps/LittlerootTown/scripts.pory"
+	emote_exclamation_mark
+# 1097 "data/maps/LittlerootTown/scripts.pory"
+	delay_16
+# 1097 "data/maps/LittlerootTown/scripts.pory"
+	delay_16
+# 1097 "data/maps/LittlerootTown/scripts.pory"
+	delay_16
+# 1097 "data/maps/LittlerootTown/scripts.pory"
+	delay_16
+	step_end
+
+CapMan_EventScript_Npc_Text_0:
+# 1064 "data/maps/LittlerootTown/scripts.pory"
+	.string "Ah, a Trainer with a sharp eye!\p"
+	.string "I'm the CAP MAN.\p"
+	.string "I used to scout promising Trainers for\n"
+	.string "the ELITE FOUR.\p"
+	.string "These days, I would rather awaken the\n"
+	.string "hidden potential sleeping inside\l"
+	.string "Pokémon.\p"
+	.string "With a BOTTLE CAP, I can bring out a\n"
+	.string "Pokémon's hidden potential.\p"
+	.string "A regular BOTTLE CAP lets me max out\n"
+	.string "one IV.\p"
+	.string "A GOLD BOTTLE CAP lets me max out every\n"
+	.string "IV at once.\p"
+	.string "I only ask for caps in return. I collect\n"
+	.string "them, you see.$"
+
+CapMan_EventScript_Npc_Text_1:
+# 1082 "data/maps/LittlerootTown/scripts.pory"
+	.string "Hey, it's you again! Looking to Hyper\n"
+	.string "Train another Pokémon?$"
+
+CapMan_EventScript_Npc_Text_2:
+# 1087 "data/maps/LittlerootTown/scripts.pory"
+	.string "No caps right now? Bring me one, and I'll\n"
+	.string "Hyper Train one of your Pokémon.$"
+
+CapMan_EventScript_Npc_Text_3:
+# 1104 "data/maps/LittlerootTown/scripts.pory"
+	.string "Ah, I see you have a BOTTLE CAP!$"
+
+CapMan_EventScript_Npc_Text_4:
+# 1106 "data/maps/LittlerootTown/scripts.pory"
+	.string "Ah, I see you have a GOLD BOTTLE CAP!$"
+
+CapMan_EventScript_Npc_Text_5:
+# 1108 "data/maps/LittlerootTown/scripts.pory"
+	.string "Ah, I see you have both a BOTTLE CAP\n"
+	.string "and a GOLD BOTTLE CAP!$"
+
+CapMan_EventScript_Npc_Text_6:
+# 1112 "data/maps/LittlerootTown/scripts.pory"
+	.string "Would you like me to Hyper Train one of\n"
+	.string "your Pokémon?$"
+
+CapMan_EventScript_Npc_Text_7:
+# 1121 "data/maps/LittlerootTown/scripts.pory"
+	.string "A BOTTLE CAP lets me max out one IV of\n"
+	.string "your choice.\p"
+	.string "A GOLD BOTTLE CAP maxes out all six IVs\n"
+	.string "at once.\p"
+	.string "Choose the Pokémon first, then choose\n"
+	.string "which cap I should use.$"
+
+CapMan_EventScript_Npc_Text_8:
+# 1128 "data/maps/LittlerootTown/scripts.pory"
+	.string "All right. Come back whenever you're\n"
+	.string "ready.$"
+
+CapMan_EventScript_Npc_Text_9:
+# 1134 "data/maps/LittlerootTown/scripts.pory"
+	.string "Which Pokémon would you like me to\n"
+	.string "Hyper Train?$"
+
+CapMan_EventScript_Npc_Text_10:
+# 1145 "data/maps/LittlerootTown/scripts.pory"
+	.string "I can't Hyper Train an Egg.\p"
+	.string "Please choose another Pokémon.$"
+
+CapMan_EventScript_Npc_Text_11:
+# 1154 "data/maps/LittlerootTown/scripts.pory"
+	.string "Which cap should I use?$"
+
+CapMan_EventScript_Npc_Text_12:
+# 1156 "data/maps/LittlerootTown/scripts.pory"
+	.string "BOTTLE CAP$"
+
+CapMan_EventScript_Npc_Text_13:
+# 1159 "data/maps/LittlerootTown/scripts.pory"
+	.string "GOLD BOTTLE CAP$"
+
+CapMan_EventScript_Npc_Text_14:
+# 1172 "data/maps/LittlerootTown/scripts.pory"
+	.string "Which IV should I max out?$"
+
+CapMan_EventScript_Npc_Text_15:
+# 1189 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential has been\n"
+	.string "fully maxed out!$"
+
+CapMan_EventScript_Npc_Text_16:
+# 1193 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in HP has\n"
+	.string "been maxed out!$"
+
+CapMan_EventScript_Npc_Text_17:
+# 1195 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in ATTACK\n"
+	.string "has been maxed out!$"
+
+CapMan_EventScript_Npc_Text_18:
+# 1197 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in DEFENSE\n"
+	.string "has been maxed out!$"
+
+CapMan_EventScript_Npc_Text_19:
+# 1199 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in SPEED\n"
+	.string "has been maxed out!$"
+
+CapMan_EventScript_Npc_Text_20:
+# 1201 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in SP. ATK\n"
+	.string "has been maxed out!$"
+
+CapMan_EventScript_Npc_Text_21:
+# 1203 "data/maps/LittlerootTown/scripts.pory"
+	.string "{STR_VAR_1}'s potential in SP. DEF\n"
+	.string "has been maxed out!$"
+
+CapMan_EventScript_Npc_Text_22:
+# 1208 "data/maps/LittlerootTown/scripts.pory"
+	.string "Come back anytime you find another cap.$"
+
 Beispiel_Intro::
 # 1042 "data/maps/LittlerootTown/scripts.pory"
 	.string "Intro Text!$"

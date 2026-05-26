@@ -1050,3 +1050,163 @@ text Beispiel_Outro {
 text Beispiel_Postbattle {
 	format("Postbattle text.")
 }
+
+
+
+script CapMan_EventScript_Npc {
+    lock
+    faceplayer
+
+    setvar(VAR_0x8009, FALSE)
+
+    if (!flag(FLAG_MET_CAP_MAN)) {
+        msgbox(format(
+            "Ah, a Trainer with a sharp eye!\p"
+            "I'm the CAP MAN.\p"
+            "I used to scout promising Trainers for the ELITE FOUR.\p"
+            "These days, I would rather awaken the hidden potential sleeping inside Pokémon.\p"
+            "With a BOTTLE CAP, I can bring out a Pokémon's hidden potential.\p"
+            "A regular BOTTLE CAP lets me max out one IV.\p"
+            "A GOLD BOTTLE CAP lets me max out every IV at once.\p"
+            "I only ask for caps in return. I collect them, you see."
+        ))
+        setflag(FLAG_MET_CAP_MAN)
+    } else {
+        setvar(VAR_0x8009, TRUE)
+    }
+
+    specialvar(VAR_RESULT, CapMan_GetBottleCapAvailability)
+    copyvar(VAR_0x8008, VAR_RESULT)
+
+    if (var(VAR_0x8009) == TRUE) {
+        msgbox(format("Hey, it's you again! Looking to Hyper Train another Pokémon?"))
+    }
+
+    if (var(VAR_0x8008) == 0) {
+        msgbox(format(
+            "No caps right now? Bring me one, and I'll Hyper Train one of your Pokémon."
+        ))
+        release
+        end
+    }
+
+    if (var(VAR_0x8009) == TRUE) {
+        playse(SE_PIN)
+        applymovement(9, moves(
+            emote_exclamation_mark
+            delay_16 * 4
+        ))
+        waitmovement(9)
+    }
+
+    switch (var(VAR_0x8008)) {
+        case 1:
+            msgbox(format("Ah, I see you have a BOTTLE CAP!"))
+        case 2:
+            msgbox(format("Ah, I see you have a GOLD BOTTLE CAP!"))
+        case 3:
+            msgbox(format("Ah, I see you have both a BOTTLE CAP and a GOLD BOTTLE CAP!"))
+    }
+
+    while {
+        msgbox(format("Would you like me to Hyper Train one of your Pokémon?"))
+        multichoice(22, 6, MULTI_YESNOINFO, FALSE)
+
+        if (var(VAR_RESULT) == 0) {
+            break
+        }
+
+        if (var(VAR_RESULT) == 2) {
+            msgbox(format(
+                "A BOTTLE CAP lets me max out one IV of your choice.\p"
+                "A GOLD BOTTLE CAP maxes out all six IVs at once.\p"
+                "Choose the Pokémon first, then choose which cap I should use."
+            ))
+            continue
+        }
+
+        msgbox(format("All right. Come back whenever you're ready."))
+        release
+        end
+    }
+
+    while {
+        msgbox(format("Which Pokémon would you like me to Hyper Train?"))
+        special(ChoosePartyMon)
+        waitstate
+
+        if (var(VAR_0x8004) == PARTY_NOTHING_CHOSEN) {
+            msgbox(format("All right. Come back whenever you're ready."))
+            release
+            end
+        }
+
+        if (specialvar(VAR_RESULT, ScriptGetPartyMonSpecies) == SPECIES_EGG) {
+            msgbox(format("I can't Hyper Train an Egg.\pPlease choose another Pokémon."))
+            continue
+        }
+
+        break
+    }
+
+    bufferpartymonnick(STR_VAR_1, VAR_0x8004)
+
+    msgbox(format("Which cap should I use?"))
+    if (checkitem(ITEM_BOTTLE_CAP) == TRUE) {
+        dynmultipush("BOTTLE CAP", ITEM_BOTTLE_CAP)
+    }
+    if (checkitem(ITEM_GOLD_BOTTLE_CAP) == TRUE) {
+        dynmultipush("GOLD BOTTLE CAP", ITEM_GOLD_BOTTLE_CAP)
+    }
+    dynmultistack(22, 8, FALSE, 2, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+
+    if (var(VAR_RESULT) == MULTI_B_PRESSED) {
+        msgbox(format("All right. Come back whenever you're ready."))
+        release
+        end
+    }
+
+    copyvar(VAR_0x8005, VAR_RESULT)
+
+    if (var(VAR_0x8005) == ITEM_BOTTLE_CAP) {
+        msgbox(format("Which IV should I max out?"))
+        multichoicegrid(14, 6, MULTI_CAPMAN_STAT, 2, FALSE)
+
+        if (var(VAR_RESULT) >= 6) {
+            msgbox(format("All right. Come back whenever you're ready."))
+            release
+            end
+        }
+
+        copyvar(VAR_0x8006, VAR_RESULT)
+    }
+
+    special(CapMan_HyperTrainSelectedMon)
+    removeitem(VAR_0x8005, 1)
+
+    playfanfare(MUS_LEVEL_UP)
+    if (var(VAR_0x8005) == ITEM_GOLD_BOTTLE_CAP) {
+        msgbox(format("{STR_VAR_1}'s potential has been fully maxed out!"))
+    } else {
+        switch (var(VAR_0x8006)) {
+            case 0:
+                msgbox(format("{STR_VAR_1}'s potential in HP has been maxed out!"))
+            case 1:
+                msgbox(format("{STR_VAR_1}'s potential in ATTACK has been maxed out!"))
+            case 2:
+                msgbox(format("{STR_VAR_1}'s potential in DEFENSE has been maxed out!"))
+            case 3:
+                msgbox(format("{STR_VAR_1}'s potential in SPEED has been maxed out!"))
+            case 4:
+                msgbox(format("{STR_VAR_1}'s potential in SP. ATK has been maxed out!"))
+            case 5:
+                msgbox(format("{STR_VAR_1}'s potential in SP. DEF has been maxed out!"))
+        }
+    }
+    waitfanfare
+
+    msgbox(format("Come back anytime you find another cap."))
+
+    release
+    end
+}

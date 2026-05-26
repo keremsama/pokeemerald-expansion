@@ -19,6 +19,7 @@
 #include "field_weather.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "item.h"
 #include "item_icon.h"
 #include "link.h"
 #include "load_save.h"
@@ -1586,6 +1587,57 @@ u8 GetLeadMonIndex(void)
 u16 ScriptGetPartyMonSpecies(void)
 {
     return GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES_OR_EGG, NULL);
+}
+
+u16 CapMan_GetBottleCapAvailability(void)
+{
+    u16 availability = 0;
+
+    if (CheckBagHasItem(ITEM_BOTTLE_CAP, 1))
+        availability |= 1;
+    if (CheckBagHasItem(ITEM_GOLD_BOTTLE_CAP, 1))
+        availability |= 2;
+
+    return availability;
+}
+
+static void CapMan_SetSelectedMonIVs(const u8 *ivStats, u32 statCount)
+{
+    u32 i;
+    u32 iv = MAX_PER_STAT_IVS;
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+
+    for (i = 0; i < statCount; i++)
+        SetMonData(mon, ivStats[i], &iv);
+
+    CalculateMonStats(mon);
+}
+
+void CapMan_HyperTrainSelectedMon(void)
+{
+    static const u8 sIvStats[] =
+    {
+        MON_DATA_HP_IV,
+        MON_DATA_ATK_IV,
+        MON_DATA_DEF_IV,
+        MON_DATA_SPEED_IV,
+        MON_DATA_SPATK_IV,
+        MON_DATA_SPDEF_IV,
+    };
+    u8 stat;
+
+    if (gSpecialVar_0x8004 >= PARTY_SIZE)
+        return;
+
+    if (gSpecialVar_0x8005 == ITEM_GOLD_BOTTLE_CAP)
+    {
+        CapMan_SetSelectedMonIVs(sIvStats, ARRAY_COUNT(sIvStats));
+        return;
+    }
+
+    stat = gSpecialVar_0x8006;
+    if (stat < ARRAY_COUNT(sIvStats))
+        CapMan_SetSelectedMonIVs(&sIvStats[stat], 1);
 }
 
 // Removed for Emerald

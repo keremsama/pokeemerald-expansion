@@ -130,6 +130,8 @@
 #define MULTI_GAME_CORNER_TMS_PAGE2        119
 #define MULTI_GAMECORNER_POKEMON_PRIZE     120
 #define MULTI_GAMECORNER_POKEMON_PRIZE_PAGE2 121
+#define MULTI_CAPMAN_CAP                   122
+#define MULTI_CAPMAN_STAT                  123
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0
