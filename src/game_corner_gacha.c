@@ -42,6 +42,7 @@
 #include "constants/vars.h"
 #include "scanline_effect.h"
 #include "pokemon_storage_system.h"
+#include "randomizer.h"
 #include "string_util.h"
 #include "field_specials.h"
 
@@ -2244,6 +2245,22 @@ u16 GetGachaMon(u16 randNum)
     return species;
 }
 
+static u16 RandomizeGachaMon(u16 species)
+{
+#if RANDOMIZER_AVAILABLE == TRUE
+    u32 seed;
+
+    if (!RandomizerFeatureEnabled(RANDOMIZE_FIXED_MON) || species == SPECIES_NONE)
+        return species;
+
+    seed = Random();
+    seed = (seed << 16) | Random();
+    return RandomizeMon(RANDOMIZER_REASON_FIXED_ENCOUNTER, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed, species);
+#else
+    return species;
+#endif
+}
+
 static inline bool32 CheckIfOwned(u16 species)
 {
     u16 nationalDexNo;
@@ -2412,6 +2429,27 @@ void DeterminePokemonRarityAndNewStatus(void)
     u16 newPokemonChance;
     u16 randomValue;
     u32 attempts = 1000;
+
+#if RANDOMIZER_AVAILABLE == TRUE
+    if (RandomizerFeatureEnabled(RANDOMIZE_FIXED_MON))
+    {
+        randomValue = Random() % 100;
+
+        if (randomValue < RARITY_COMMON_ODDS)
+            sGacha->Rarity = RARITY_COMMON;
+        else if (randomValue < (RARITY_COMMON_ODDS + RARITY_UNCOMMON_ODDS))
+            sGacha->Rarity = RARITY_UNCOMMON;
+        else if (randomValue < (RARITY_COMMON_ODDS + RARITY_UNCOMMON_ODDS + RARITY_RARE_ODDS))
+            sGacha->Rarity = RARITY_RARE;
+        else
+            sGacha->Rarity = RARITY_ULTRA_RARE;
+
+        totalMax = GetMaxAvailableGachaRaritySpecies(sGacha->GachaId, sGacha->Rarity);
+        species = GetGachaMon(Random() % totalMax);
+        sGacha->CalculatedSpecies = RandomizeGachaMon(species);
+        return;
+    }
+#endif
 
     while (TRUE)
     {

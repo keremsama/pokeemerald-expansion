@@ -85,6 +85,7 @@ struct RandomizerGroupSet {
 
 u32 GetRandomizerSeed(void);
 bool32 RandomizerFeatureEnabled(enum RandomizerFeature feature);
+u16 GetRandomizerOption(enum RandomizerOption option);
 
 struct Sfc32State RandomizerRandSeed(enum RandomizerReason reason, u32 data1, u32 data2);
 
@@ -120,6 +121,9 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species);
 u16 RandomizeTrainerMonAndItem(u16 trainerId, u8 slot, u8 totalMons, u16 species, u16 *heldItem);
 
 u16 RandomizeFixedEncounterMon(u16 species, u8 mapNum, u8 mapGroup, u8 localId);
+u16 GetGameCornerPrizeMonSpecies(u16 species);
+void BuildGameCornerPokemonPrizeMenu(struct ScriptContext *ctx);
+void RandomizeGameCornerPrizeMon(struct ScriptContext *ctx);
 
 // Given a starter/gift slot and the list of original starters/gifts, returns the random mon in that slot.
 u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalStarterAndGiftMons);

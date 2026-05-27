@@ -1840,14 +1840,34 @@ static void CreateMenu(void)
 
 static void QueueSnakeDirectionInput(void)
 {
-    if (JOY_NEW(DPAD_UP))
-        sSnake->QueuedDirection = UP;
-    else if (JOY_NEW(DPAD_DOWN))
-        sSnake->QueuedDirection = DOWN;
-    else if (JOY_NEW(DPAD_LEFT))
-        sSnake->QueuedDirection = LEFT;
-    else if (JOY_NEW(DPAD_RIGHT))
-        sSnake->QueuedDirection = RIGHT;
+    u8 direction = NO_DIRECTION;
+    u16 keys = gMain.newKeys & DPAD_ANY;
+
+    if (sSnake->QueuedDirection != NO_DIRECTION)
+        return;
+
+    if (keys == 0)
+        keys = gMain.heldKeys & DPAD_ANY;
+
+    if (keys & DPAD_UP)
+        direction = UP;
+    else if (keys & DPAD_DOWN)
+        direction = DOWN;
+    else if (keys & DPAD_LEFT)
+        direction = LEFT;
+    else if (keys & DPAD_RIGHT)
+        direction = RIGHT;
+
+    if (direction == NO_DIRECTION || direction == sSnake->Direction)
+        return;
+
+    if ((direction == UP && sSnake->Direction == DOWN)
+     || (direction == DOWN && sSnake->Direction == UP)
+     || (direction == LEFT && sSnake->Direction == RIGHT)
+     || (direction == RIGHT && sSnake->Direction == LEFT))
+        return;
+
+    sSnake->QueuedDirection = direction;
 }
 
 static void ApplyQueuedSnakeDirection(void)

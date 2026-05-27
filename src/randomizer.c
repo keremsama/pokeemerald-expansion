@@ -2,6 +2,7 @@
 
 #if RANDOMIZER_AVAILABLE == TRUE
 #include "main.h"
+#include "malloc.h"
 #include "new_game.h"
 #include "item.h"
 #include "event_data.h"
@@ -17,6 +18,10 @@
 #include "constants/hold_effects.h"
 #include "constants/opponents.h"
 #include "randomizer.h"
+#include "script_menu.h"
+#include "string_util.h"
+#include "strings.h"
+#include "constants/characters.h"
 
 // Add the mons you wish to be randomized when given as starter/gift mon to this list
 const u16 gStarterAndGiftMonTable[STARTER_AND_GIFT_MON_COUNT] =
@@ -1421,6 +1426,96 @@ u16 RandomizeFixedEncounterMon(u16 species, u8 mapNum, u8 mapGroup, u8 localId)
     }
 
     return species;
+}
+
+struct GameCornerPrizeMon
+{
+    u16 species;
+    const u8 *priceText;
+};
+
+static const u8 sText_GameCornerPrizePriceAbra[] = _("1,500 C.");
+static const u8 sText_GameCornerPrizePriceCubone[] = _("1,800 C.");
+static const u8 sText_GameCornerPrizePriceRalts[] = _("3,200 C.");
+static const u8 sText_GameCornerPrizePriceScyther[] = _("4,800 C.");
+static const u8 sText_GameCornerPrizePriceLarvitar[] = _("5,000 C.");
+static const u8 sText_GameCornerPrizePriceLarvesta[] = _("5,200 C.");
+static const u8 sText_GameCornerPrizePriceDratini[] = _("5,500 C.");
+static const u8 sText_GameCornerPrizePriceBagon[] = _("5,500 C.");
+static const u8 sText_GameCornerPrizePriceDreepy[] = _("6,000 C.");
+static const u8 sText_GameCornerPrizePriceFrigibax[] = _("6,300 C.");
+static const u8 sText_GameCornerPrizePriceBeldum[] = _("8,000 C.");
+static const u8 sText_GameCornerPrizePricePorygon[] = _("9,999 C.");
+
+static const struct GameCornerPrizeMon sGameCornerPrizeMons[] =
+{
+    {SPECIES_ABRA,     sText_GameCornerPrizePriceAbra},
+    {SPECIES_CUBONE,   sText_GameCornerPrizePriceCubone},
+    {SPECIES_RALTS,    sText_GameCornerPrizePriceRalts},
+    {SPECIES_SCYTHER,  sText_GameCornerPrizePriceScyther},
+    {SPECIES_LARVITAR, sText_GameCornerPrizePriceLarvitar},
+    {SPECIES_LARVESTA, sText_GameCornerPrizePriceLarvesta},
+    {SPECIES_DRATINI,  sText_GameCornerPrizePriceDratini},
+    {SPECIES_BAGON,    sText_GameCornerPrizePriceBagon},
+    {SPECIES_DREEPY,   sText_GameCornerPrizePriceDreepy},
+    {SPECIES_FRIGIBAX, sText_GameCornerPrizePriceFrigibax},
+    {SPECIES_BELDUM,   sText_GameCornerPrizePriceBeldum},
+    {SPECIES_PORYGON,  sText_GameCornerPrizePricePorygon},
+};
+
+u16 GetGameCornerPrizeMonSpecies(u16 species)
+{
+    if (RandomizerFeatureEnabled(RANDOMIZE_FIXED_MON))
+        return RandomizeMon(RANDOMIZER_REASON_FIXED_ENCOUNTER, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), 0x47434D4E, species);
+
+    return species;
+}
+
+static void BuildGameCornerPokemonPrizeText(u8 *dest, u16 species, const u8 *priceText)
+{
+    dest = StringCopy(dest, GetSpeciesName(GetGameCornerPrizeMonSpecies(species)));
+    *(dest++) = EXT_CTRL_CODE_BEGIN;
+    *(dest++) = EXT_CTRL_CODE_CLEAR_TO;
+    *(dest++) = 0x54;
+    dest = StringCopy(dest, priceText);
+    *dest = EOS;
+}
+
+void BuildGameCornerPokemonPrizeMenu(struct ScriptContext *ctx)
+{
+    u32 i;
+
+    (void)ctx;
+
+    for (i = 0; i < ARRAY_COUNT(sGameCornerPrizeMons); i++)
+    {
+        struct ListMenuItem item;
+        u8 *nameBuffer = Alloc(100);
+
+        BuildGameCornerPokemonPrizeText(nameBuffer, sGameCornerPrizeMons[i].species, sGameCornerPrizeMons[i].priceText);
+        item.name = nameBuffer;
+        item.id = sGameCornerPrizeMons[i].species;
+        MultichoiceDynamic_PushElement(item);
+    }
+
+    {
+        struct ListMenuItem item;
+        u8 *nameBuffer = Alloc(100);
+
+        StringCopy(nameBuffer, gText_Exit);
+        item.name = nameBuffer;
+        item.id = SPECIES_NONE;
+        MultichoiceDynamic_PushElement(item);
+    }
+}
+
+void RandomizeGameCornerPrizeMon(struct ScriptContext *ctx)
+{
+    u16 species = VarGet(VAR_0x8004);
+
+    (void)ctx;
+
+    VarSet(VAR_0x8004, GetGameCornerPrizeMonSpecies(species));
 }
 
 EWRAM_DATA static u32 sLastMonRandomizerSeed = 0;

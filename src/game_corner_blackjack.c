@@ -301,8 +301,8 @@ static const u8 sText_YouLose[] = _("You lose!");
 static const u8 sText_YouWin[] = _("You win!");
 static const u8 sText_Push[] = _("PUSH!");
 static const u8 sText_BlackJack[] = _("BLACKJACK!");
-static const u8 sText_Betting[] = _("Your current\nbet is ¥{STR_VAR_1}.");
-static const u8 sText_NoBetting[] = _("Your current\nbet is ¥0.");
+static const u8 sText_Betting[] = _("Current bet:\n{STR_VAR_1} COINS.");
+static const u8 sText_NoBetting[] = _("Current bet:\n0 COINS.");
 static const u8 sText_NoCoins[] = _("You do not have\nenough Coins.");
 static const u8 sHelpBarHitStandText[] = _("{DPAD_UPDOWN}PICK  {A_BUTTON}SELECT  {B_BUTTON}EXIT");
 

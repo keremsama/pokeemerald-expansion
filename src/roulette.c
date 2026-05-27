@@ -807,13 +807,13 @@ static const struct RouletteSlot sRouletteSlots[] =
         .flag = F_PURPLE_MAKUHITA,
     },
 };
-static const u8 sTableMinBets[] = {1, 3, 1, 6};
+static const u8 sTableMinBets[] = {5, 20, 5, 20};
 
 static const struct RouletteTable sRouletteTables[] =
 {
     // Left table
     {
-        .minBet = 1,
+        .minBet = 5,
         .randDistanceHigh = DEGREES_PER_SLOT * 2,
         .randDistanceLow = DEGREES_PER_SLOT,
         .wheelSpeed = 1,
@@ -834,7 +834,7 @@ static const struct RouletteTable sRouletteTables[] =
     },
     // Right table
     {
-        .minBet = 3,
+        .minBet = 20,
         .randDistanceHigh = DEGREES_PER_SLOT,
         .randDistanceLow = DEGREES_PER_SLOT / 2,
         .wheelSpeed = 1,
@@ -1127,8 +1127,8 @@ static void InitRouletteTableData(void)
     sRoulette->minBet = sTableMinBets[sRoulette->tableId + sRoulette->isSpecialRate * 2];
     sRoulette->unk1 = 1;
 
-    // Left table (with min bet of 1) has red background, other table has green
-    if (sRoulette->minBet == 1)
+    // Left table has red background, other table has green
+    if (sRoulette->tableId == 0)
         gPlttBufferUnfaded[BG_PLTT_ID(0)] = gPlttBufferUnfaded[BG_PLTT_ID(5) + 1] = gPlttBufferFaded[BG_PLTT_ID(0)] = gPlttBufferFaded[BG_PLTT_ID(5) + 1] = bgColors[0];
     else
         gPlttBufferUnfaded[BG_PLTT_ID(0)] = gPlttBufferUnfaded[BG_PLTT_ID(5) + 1] = gPlttBufferFaded[BG_PLTT_ID(0)] = gPlttBufferFaded[BG_PLTT_ID(5) + 1] = bgColors[1];
@@ -1471,7 +1471,7 @@ static void Task_StartSpin(u8 taskId)
 {
     IncrementDailyRouletteUses();
     sRoulette->selectionRectDrawState = SELECT_STATE_ERASE;
-    if (sRoulette->minBet == 1)
+    if (sRoulette->tableId == 0)
         sRoulette->wheelDelay = 1;
     else
         sRoulette->wheelDelay = 0;
@@ -1863,7 +1863,7 @@ static void Task_GivePayout(u8 taskId)
 
 static void Task_PrintPayout(u8 taskId)
 {
-    ConvertIntToDecimalStringN(gStringVar1, (sRoulette->minBet * gTasks[taskId].tMultiplier), STR_CONV_MODE_LEFT_ALIGN, 2);
+    ConvertIntToDecimalStringN(gStringVar1, (sRoulette->minBet * gTasks[taskId].tMultiplier), STR_CONV_MODE_LEFT_ALIGN, 3);
     StringExpandPlaceholders(gStringVar4, Roulette_Text_YouveWonXCoins);
     DrawStdWindowFrame(sTextWindowId, FALSE);
     AddTextPrinterParameterized(sTextWindowId, FONT_NORMAL, gStringVar4, 0, 1, TEXT_SKIP_DRAW, NULL);
@@ -3423,7 +3423,7 @@ static void Task_PrintMinBet(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         u32 minBet = sTableMinBets[GET_MIN_BET_ID(gSpecialVar_0x8004)];
-        ConvertIntToDecimalStringN(gStringVar1, minBet, STR_CONV_MODE_LEADING_ZEROS, 1);
+        ConvertIntToDecimalStringN(gStringVar1, minBet, STR_CONV_MODE_LEFT_ALIGN, 2);
         StringExpandPlaceholders(gStringVar4, Roulette_Text_PlayMinimumWagerIsX);
         DrawStdWindowFrame(0, FALSE);
         AddTextPrinterParameterized(0, FONT_NORMAL, gStringVar4, 0, 1, TEXT_SKIP_DRAW, NULL);
@@ -3437,7 +3437,7 @@ static void Task_PrintRouletteEntryMsg(u8 taskId)
     s32 minBet;
     PrintCoinsString(gTasks[taskId].tCoins);
     minBet = sTableMinBets[GET_MIN_BET_ID(gSpecialVar_0x8004)];
-    ConvertIntToDecimalStringN(gStringVar1, minBet, STR_CONV_MODE_LEADING_ZEROS, 1);
+    ConvertIntToDecimalStringN(gStringVar1, minBet, STR_CONV_MODE_LEFT_ALIGN, 2);
 
     if (gTasks[taskId].tCoins >= minBet)
     {
@@ -3776,7 +3776,7 @@ static void SetBallCounterNumLeft(u8 numBalls)
 {
     u8 i;
     u8 t = 0;
-    if (sRoulette->minBet == 1)
+    if (sRoulette->tableId == 0)
         t = 2;
     switch (numBalls)
     {

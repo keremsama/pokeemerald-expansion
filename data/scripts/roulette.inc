@@ -24,8 +24,8 @@ Roulette_EventScript_Play::
 	end
 
 Roulette_Text_PlayMinimumWagerIsX::
-	.string "The minimum wager at this table\n"
-	.string "is {STR_VAR_1}. Do you want to play?$"
+	.string "The minimum wager at this table is {STR_VAR_1}.\n"
+	.string "Do you want to play?$"
 
 Roulette_Text_NotEnoughCoins::
 	.string "You don't have enough COINS.$"

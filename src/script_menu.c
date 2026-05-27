@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "palette.h"
 #include "pokemon_icon.h"
+#include "randomizer.h"
 #include "script.h"
 #include "script_menu.h"
 #include "sound.h"
@@ -75,6 +76,7 @@ static void MultichoiceDynamicEventShowItemLeft_OnDestroy(struct DynamicListMenu
 static void MultichoiceDynamicEventShowMonLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowMonLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
 
 static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollections[] =
 {
@@ -100,6 +102,12 @@ static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollecti
     {
         .OnInit = MultichoiceDynamicEventShowMonLeft_OnInit,
         .OnSelectionChanged = MultichoiceDynamicEventShowMonLeft_OnSelectionChanged,
+        .OnDestroy = MultichoiceDynamicEventShowMonLeft_OnDestroy
+    },
+    [DYN_MULTICHOICE_CB_SHOW_GAME_CORNER_PRIZE_MON_LEFT] =
+    {
+        .OnInit = MultichoiceDynamicEventShowMonLeft_OnInit,
+        .OnSelectionChanged = MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged,
         .OnDestroy = MultichoiceDynamicEventShowMonLeft_OnDestroy
     }
 };
@@ -344,6 +352,16 @@ static void MultichoiceDynamicEventShowMonLeft_OnDestroy(struct DynamicListMenuE
         FreeAndDestroyMonIconSprite(&gSprites[sMonSpriteId]);
         FreeMonIconPalette(sMonSpecies);
     }
+}
+
+static void MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
+{
+    struct DynamicListMenuEventArgs prizeEventArgs = *eventArgs;
+
+    if (prizeEventArgs.selectedItem != SPECIES_NONE)
+        prizeEventArgs.selectedItem = GetGameCornerPrizeMonSpecies(prizeEventArgs.selectedItem);
+
+    MultichoiceDynamicEventShowMonLeft_OnSelectionChanged(&prizeEventArgs);
 }
 
 #undef sAuxWindowId
