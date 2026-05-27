@@ -26,11 +26,11 @@ MauvilleCity_GameCorner_MapScripts::
 	.set THICKCLUB_COINS, 1800
 	.set MUSCLEBAND_COINS, 1800
 	.set WISEGLASSES_COINS, 1800
-	.set FOCUSSASH_COINS, 3000
-	.set ASSAULTVEST_COINS, 3300
-	.set LIFEORB_COINS, 4700
-	.set ROCKYHELMET_COINS, 3500
-	.set LOADEDDICE_COINS, 4500
+	.set FOCUSSASH_COINS, 2400
+	.set ASSAULTVEST_COINS, 2800
+	.set LIFEORB_COINS, 3800
+	.set ROCKYHELMET_COINS, 3000
+	.set LOADEDDICE_COINS, 3600
 	.set FIRESTONE_COINS, 1400
 	.set THUNDERSTONE_COINS, 1400
 	.set WATERSTONE_COINS, 1400
@@ -41,9 +41,11 @@ MauvilleCity_GameCorner_MapScripts::
 	.set SHINYSTONE_COINS, 1400
 	.set DUSKSTONE_COINS, 1400
 	.set DAWNSTONE_COINS, 1400
-	.set LINKINGCORD_COINS, 1400
-	.set EVIOLITE_COINS, 3300
-	.set LEFTOVERS_COINS, 4300
+	.set LINKINGCORD_COINS, 1500
+	.set EVIOLITE_COINS, 2700
+	.set LEFTOVERS_COINS, 3500
+	.set BOTTLECAP_COINS, 2300
+	.set GOLDBOTTLECAP_COINS, 7000
 
 	.set ABRA_COINS, 1500
 	.set CUBONE_COINS, 1800
@@ -2022,6 +2024,248 @@ MauvilleCity_GameCorner_EventScript_NoRoomForNew2::
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseNewPrize2
 	end		
 
+MauvilleCity_GameCorner_EventScript_Bottle_Cap_Clerk::
+	lock
+	goto_if_set FLAG_MET_BOTTLE_CAP_CLERK, MauvilleCity_GameCorner_EventScript_BottleCapClerkStandard
+	msgbox MauvilleCity_GameCorner_Text_BottleCapClerkFirst, MSGBOX_DEFAULT
+	applymovement 9, MauvilleCity_GameCorner_Movement_BottleCapClerkExclamation
+	playse SE_PIN
+	waitmovement 0
+	faceplayer
+	setflag FLAG_MET_BOTTLE_CAP_CLERK
+	msgbox MauvilleCity_GameCorner_Text_BottleCapClerkOffer, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_BottleCapClerkOpenShop
+
+MauvilleCity_GameCorner_EventScript_BottleCapClerkStandard::
+	faceplayer
+	msgbox MauvilleCity_GameCorner_Text_BottleCapClerkStandard, MSGBOX_DEFAULT
+
+MauvilleCity_GameCorner_EventScript_BottleCapClerkOpenShop::
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_BottleCapClerkNeedCoinCase
+	message MauvilleCity_GameCorner_Text_BottleCapClerkWhichCap
+	waitmessage
+	showcoinsbox 1, 1
+	goto MauvilleCity_GameCorner_EventScript_ChooseBottleCapPrize
+
+MauvilleCity_GameCorner_EventScript_ReturnToChooseBottleCapPrize::
+	message MauvilleCity_GameCorner_Text_BottleCapClerkWhichCap
+	waitmessage
+	goto MauvilleCity_GameCorner_EventScript_ChooseBottleCapPrize
+
+MauvilleCity_GameCorner_EventScript_ChooseBottleCapPrize::
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeBottleCap, ITEM_BOTTLE_CAP
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeGoldBottleCap, ITEM_GOLD_BOTTLE_CAP
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, ITEM_NONE
+	dynmultistack 12, 0, FALSE, 3, FALSE, ITEM_BOTTLE_CAP, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
+	switch VAR_RESULT
+	case ITEM_BOTTLE_CAP, MauvilleCity_GameCorner_EventScript_BottleCap
+	case ITEM_GOLD_BOTTLE_CAP, MauvilleCity_GameCorner_EventScript_GoldBottleCap
+	case ITEM_NONE, MauvilleCity_GameCorner_EventScript_CancelBottleCapSelect
+	goto MauvilleCity_GameCorner_EventScript_CancelBottleCapSelect
+	end
+
+MauvilleCity_GameCorner_EventScript_BottleCap::
+	setvar VAR_TEMP_1, ITEM_BOTTLE_CAP
+	bufferitemname STR_VAR_1, ITEM_BOTTLE_CAP
+	goto MauvilleCity_GameCorner_EventScript_ConfirmBottleCapPrize
+
+MauvilleCity_GameCorner_EventScript_GoldBottleCap::
+	setvar VAR_TEMP_1, ITEM_GOLD_BOTTLE_CAP
+	bufferitemname STR_VAR_1, ITEM_GOLD_BOTTLE_CAP
+	goto MauvilleCity_GameCorner_EventScript_ConfirmBottleCapPrize
+
+MauvilleCity_GameCorner_EventScript_ConfirmBottleCapPrize::
+	msgbox MauvilleCity_GameCorner_Text_SoYourChoiceIsTheNewX, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_CancelBottleCapSelect
+	switch VAR_TEMP_1
+	case ITEM_BOTTLE_CAP, MauvilleCity_GameCorner_EventScript_BuyBottleCap
+	case ITEM_GOLD_BOTTLE_CAP, MauvilleCity_GameCorner_EventScript_BuyGoldBottleCap
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyBottleCap::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, BOTTLECAP_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForBottleCap
+	checkitemspace ITEM_BOTTLE_CAP
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForBottleCap
+	removecoins BOTTLECAP_COINS
+	additem ITEM_BOTTLE_CAP
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseBottleCapPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyGoldBottleCap::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, GOLDBOTTLECAP_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForBottleCap
+	checkitemspace ITEM_GOLD_BOTTLE_CAP
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForBottleCap
+	removecoins GOLDBOTTLECAP_COINS
+	additem ITEM_GOLD_BOTTLE_CAP
+	updatecoinsbox 1, 1
+	playse SE_SHOP
+	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseBottleCapPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForBottleCap::
+	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseBottleCapPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_NoRoomForBottleCap::
+	call Common_EventScript_BagIsFull
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseBottleCapPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_CancelBottleCapSelect::
+	msgbox MauvilleCity_GameCorner_Text_BottleCapClerkComeBack, MSGBOX_DEFAULT
+	hidecoinsbox 0, 0
+	applymovement 9, MauvilleCity_GameCorner_Movement_BottleCapClerkFaceRight
+	waitmovement 0
+	release
+	end
+
+MauvilleCity_GameCorner_EventScript_BottleCapClerkNeedCoinCase::
+	msgbox MauvilleCity_GameCorner_Text_NeedCoinCaseForCoins, MSGBOX_DEFAULT
+	applymovement 9, MauvilleCity_GameCorner_Movement_BottleCapClerkFaceRight
+	waitmovement 0
+	release
+	end
+
+MauvilleCity_GameCorner_Movement_BottleCapClerkExclamation:
+	emote_exclamation_mark
+	delay_16
+	delay_16
+	delay_16
+	delay_16
+	step_end
+
+MauvilleCity_GameCorner_Movement_BottleCapClerkFaceRight:
+	face_right
+	step_end
+
+MauvilleCity_GameCorner_EventScript_VendingMachine::
+	lockall
+	message MauvilleCity_GameCorner_Text_WhichDrinkWouldYouLike
+	waitmessage
+	showmoneybox 0, 0
+	goto MauvilleCity_GameCorner_EventScript_ChooseDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_ChooseDrink::
+	multichoice 16, 0, MULTI_VENDING_MACHINE, FALSE
+	copyvar VAR_TEMP_1, VAR_RESULT
+	switch VAR_TEMP_1
+	case 0, MauvilleCity_GameCorner_EventScript_FreshWater
+	case 1, MauvilleCity_GameCorner_EventScript_SodaPop
+	case 2, MauvilleCity_GameCorner_EventScript_Lemonade
+	msgbox MauvilleCity_GameCorner_Text_DecidedAgainstBuyingDrink, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ExitVendingMachine
+	end
+
+MauvilleCity_GameCorner_EventScript_FreshWater::
+	setvar VAR_TEMP_0, ITEM_FRESH_WATER
+	goto MauvilleCity_GameCorner_EventScript_TryBuyDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_SodaPop::
+	setvar VAR_TEMP_0, ITEM_SODA_POP
+	goto MauvilleCity_GameCorner_EventScript_TryBuyDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_Lemonade::
+	setvar VAR_TEMP_0, ITEM_LEMONADE
+	goto MauvilleCity_GameCorner_EventScript_TryBuyDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_CheckMoneyFreshWater::
+	checkmoney 200
+	return
+
+MauvilleCity_GameCorner_EventScript_CheckMoneySodaPop::
+	checkmoney 300
+	return
+
+MauvilleCity_GameCorner_EventScript_CheckMoneyLemonade::
+	checkmoney 350
+	return
+
+MauvilleCity_GameCorner_EventScript_RemoveMoneyFreshWater::
+	removemoney 200
+	return
+
+MauvilleCity_GameCorner_EventScript_RemoveMoneySodaPop::
+	removemoney 300
+	return
+
+MauvilleCity_GameCorner_EventScript_RemoveMoneyLemonade::
+	removemoney 350
+	return
+
+MauvilleCity_GameCorner_EventScript_TryBuyDrink::
+	call_if_eq VAR_TEMP_1, 0, MauvilleCity_GameCorner_EventScript_CheckMoneyFreshWater
+	call_if_eq VAR_TEMP_1, 1, MauvilleCity_GameCorner_EventScript_CheckMoneySodaPop
+	call_if_eq VAR_TEMP_1, 2, MauvilleCity_GameCorner_EventScript_CheckMoneyLemonade
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoneyForDrink
+	checkitemspace VAR_TEMP_0
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForDrink
+	call_if_eq VAR_TEMP_1, 0, MauvilleCity_GameCorner_EventScript_RemoveMoneyFreshWater
+	call_if_eq VAR_TEMP_1, 1, MauvilleCity_GameCorner_EventScript_RemoveMoneySodaPop
+	call_if_eq VAR_TEMP_1, 2, MauvilleCity_GameCorner_EventScript_RemoveMoneyLemonade
+	updatemoneybox
+	bufferitemname STR_VAR_1, VAR_TEMP_0
+	playse SE_VEND
+	msgbox MauvilleCity_GameCorner_Text_CanOfDrinkDroppedDown, MSGBOX_DEFAULT
+	additem VAR_TEMP_0
+	bufferitemname STR_VAR_2, VAR_TEMP_0
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS
+	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
+	random 64
+	goto_if_ne VAR_RESULT, 0, MauvilleCity_GameCorner_EventScript_ChooseNewDrink
+	checkitemspace VAR_TEMP_0
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForDrink
+	playse SE_VEND
+	msgbox MauvilleCity_GameCorner_Text_ExtraCanOfDrinkDroppedDown, MSGBOX_DEFAULT
+	additem VAR_TEMP_0
+	bufferitemname STR_VAR_2, VAR_TEMP_0
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS
+	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
+	random 64
+	goto_if_ne VAR_RESULT, 0, MauvilleCity_GameCorner_EventScript_ChooseNewDrink
+	checkitemspace VAR_TEMP_0
+	goto_if_eq VAR_RESULT, 0, MauvilleCity_GameCorner_EventScript_NoRoomForDrink
+	playse SE_VEND
+	msgbox MauvilleCity_GameCorner_Text_ExtraCanOfDrinkDroppedDown, MSGBOX_DEFAULT
+	additem VAR_TEMP_0
+	bufferitemname STR_VAR_2, VAR_TEMP_0
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS
+	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ChooseNewDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_ChooseNewDrink::
+	message MauvilleCity_GameCorner_Text_WhichDrinkWouldYouLike
+	waitmessage
+	goto MauvilleCity_GameCorner_EventScript_ChooseDrink
+	end
+
+MauvilleCity_GameCorner_EventScript_NotEnoughMoneyForDrink::
+	msgbox MauvilleCity_GameCorner_Text_NotEnoughMoney, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ExitVendingMachine
+	end
+
+MauvilleCity_GameCorner_EventScript_NoRoomForDrink::
+	msgbox gText_TheBagIsFull, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ExitVendingMachine
+	end
+
+MauvilleCity_GameCorner_EventScript_ExitVendingMachine::
+	hidemoneybox
+	releaseall
+	end
+
 MauvilleCity_GameCorner_EventScript_CancelTMSelect::
 	msgbox MauvilleCity_GameCorner_Text_OhIsThatSo, MSGBOX_DEFAULT
 	hidecoinsbox 0, 0
@@ -2571,7 +2815,7 @@ MauvilleCity_GameCorner_Text_PrizeDawnStone:
 	.string "Dawn Stone{CLEAR_TO 0x54}1,400 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLinkingCord:
-	.string "Linking Cord{CLEAR_TO 0x54}1,400 C.$"
+	.string "Linking Cord{CLEAR_TO 0x54}1,500 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeSootheBell:
 	.string "Soothe Bell{CLEAR_TO 0x54}1,200 C.$"
@@ -2595,25 +2839,31 @@ MauvilleCity_GameCorner_Text_PrizeWiseGlasses:
 	.string "Wise Glasses{CLEAR_TO 0x54}1,800 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeFocusSash:
-	.string "Focus Sash{CLEAR_TO 0x54}3,000 C.$"
+	.string "Focus Sash{CLEAR_TO 0x54}2,400 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeEviolite:
-	.string "Eviolite{CLEAR_TO 0x54}3,300 C.$"
+	.string "Eviolite{CLEAR_TO 0x54}2,700 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeAssaultVest:
-	.string "Assault Vest{CLEAR_TO 0x54}3,300 C.$"
+	.string "Assault Vest{CLEAR_TO 0x54}2,800 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeRockyHelmet:
-	.string "Rocky Helmet{CLEAR_TO 0x54}3,500 C.$"
+	.string "Rocky Helmet{CLEAR_TO 0x54}3,000 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLeftovers:
-	.string "Leftovers{CLEAR_TO 0x54}4,300 C.$"
+	.string "Leftovers{CLEAR_TO 0x54}3,500 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLoadedDice:
-	.string "Loaded Dice{CLEAR_TO 0x54}4,500 C.$"
+	.string "Loaded Dice{CLEAR_TO 0x54}3,600 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLifeOrb:
-	.string "Life Orb{CLEAR_TO 0x54}4,700 C.$"
+	.string "Life Orb{CLEAR_TO 0x54}3,800 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeBottleCap:
+	.string "Bottle Cap{CLEAR_TO 0x54}2,300 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeGoldBottleCap:
+	.string "Gold Bottle Cap{CLEAR_TO 0x54}7,000 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeAbra:
 	.string "Abra{CLEAR_TO 0x54}1,500 C.$"
@@ -2664,6 +2914,46 @@ MauvilleCity_GameCorner_Text_SoYourChoiceIsTheNewX:
 
 MauvilleCity_GameCorner_Text_SoYourChoiceIsThisPokemon:
 	.string "So your choice is {STR_VAR_1}?$"
+
+MauvilleCity_GameCorner_Text_BottleCapClerkFirst:
+	.string "Gaaahh...!\n"
+	.string "I lost almost all my COINS...$"
+
+MauvilleCity_GameCorner_Text_BottleCapClerkOffer:
+	.string "Yo! You got COINS?\p"
+	.string "I'll trade you these BOTTLE CAPS\n"
+	.string "for them!$"
+
+MauvilleCity_GameCorner_Text_BottleCapClerkStandard:
+	.string "Yo! You got COINS?\p"
+	.string "I'll trade you BOTTLE CAPS\n"
+	.string "for them!$"
+
+MauvilleCity_GameCorner_Text_BottleCapClerkWhichCap:
+	.string "Which BOTTLE CAP do you want?$"
+
+MauvilleCity_GameCorner_Text_BottleCapClerkComeBack:
+	.string "That's it?\n"
+	.string "Fine, I'll get some new COINS ...$"
+
+MauvilleCity_GameCorner_Text_WhichDrinkWouldYouLike:
+	.string "It's a VENDING MACHINE.\n"
+	.string "Which drink would you like?$"
+
+MauvilleCity_GameCorner_Text_CanOfDrinkDroppedDown:
+	.string "Clang!\p"
+	.string "A can of {STR_VAR_1} dropped down.$"
+
+MauvilleCity_GameCorner_Text_ExtraCanOfDrinkDroppedDown:
+	.string "Clang!\p"
+	.string "Score! An extra can of {STR_VAR_1}\n"
+	.string "dropped down!$"
+
+MauvilleCity_GameCorner_Text_NotEnoughMoney:
+	.string "Not enough money...$"
+
+MauvilleCity_GameCorner_Text_DecidedAgainstBuyingDrink:
+	.string "Decided against buying a drink.$"
 
 MauvilleCity_GameCorner_Text_BlackJack:
 	.string "It's a BLACKJACK TABLE!\n"

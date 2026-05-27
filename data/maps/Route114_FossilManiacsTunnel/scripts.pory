@@ -250,6 +250,8 @@ script Route114_FossilManiacsTunnel_UncleDigger_ItemListedScript {
         ITEM_SHINY_STONE
         ITEM_DUSK_STONE
         ITEM_DAWN_STONE
+        ITEM_BOTTLE_CAP
+        ITEM_GOLD_BOTTLE_CAP
     )
 }
 

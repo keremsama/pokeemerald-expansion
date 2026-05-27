@@ -6,7 +6,7 @@ script FallarborTown_MoveRelearnersHouse_EvoStoneMan{
     faceplayer
     if (!flag(FLAG_EVO_STONE_MAN_FIRST_ENCOUNTER)){
         setflag (FLAG_EVO_STONE_MAN_FIRST_ENCOUNTER)
-        msgbox (Slateport_EvoStoneMan_Text_FirstEncounter)
+        msgbox (FallarborTown_EvoStoneMan_Text_FirstEncounter)
         waitmessage
         if(flag(FLAG_BADGE05_GET)){
             pokemart (EvoStone_Man_Expanded)
@@ -38,53 +38,34 @@ script FallarborTown_MoveRelearnersHouse_EvoStoneMan{
 }
 
 
-script FallarborTown_MoveRelearnersHouse_EvoItemLady{
+script FallarborTown_MoveRelearnersHouse_EvoItemLady {
     lock
     faceplayer
-    if (!flag(FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)){
-        setflag (FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)
-        msgbox (Slateport_EvoItemLady_Text_FirstEncounter)
-        waitmessage
-        if(flag(FLAG_BADGE05_GET)){
-            pokemart (EvoItem_Lady_Expanded)
-        }
-        elif(flag(FLAG_BADGE04_GET)){
-            pokemart (EvoItem_Lady) 
-        }
-        else{
-            msgbox(EvoItem_Lady_Text_ImSorryNoStock)
-            waitmessage
-            release
-            end
-        }
-        msgbox(format("May your Pokémon shine ever brighter.\pEvolution is just another form of growth, after all!"))
-        waitmessage
+    if (!flag(FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)) {
+        setflag(FLAG_EVO_ITEM_LADY_FIRST_ENCOUNTER)
+        msgbox(FallarborTown_MoveRelearnersHouse_Text_EvoItemLadyFirstEncounter)
+    } else {
+        msgbox(format(
+            "Welcome back!\p"
+            "Looking for something to help your Pokémon reach their next stage?\p"
+            "Take a look and see what catches your eye."))
+    }
+    if (!flag(FLAG_BADGE04_GET)) {
+        msgbox(EvoItem_Lady_Text_ImSorryNoStock)
         release
         end
     }
-    if(!flag(FLAG_BADGE04_GET)){
-        msgbox(EvoItem_Lady_Text_ImSorryNoStock)
-        waitmessage
-        release
-        end
+    if (flag(FLAG_BADGE05_GET)) {
+        pokemart(EvoItem_Lady_Expanded)
+    } else {
+        pokemart(EvoItem_Lady)
     }
     msgbox(format(
-        "Welcome back!\p"
-        "Looking for something to help your Pokémon reach their next stage?\p"
-        "I might have a few new treasures since your last visit - my stock changes whenever fortune smiles on me.\p"
-        "Take a look and see what catches your eye."))
-    waitmessage
-    if(flag(FLAG_BADGE05_GET)){
-        pokemart (EvoItem_Lady_Expanded)
-    }
-    else{
-        pokemart (EvoItem_Lady) 
-    }
-    msgbox(format("Take care out there, Trainer.\pAnd remember - the right stone can bring out a Pokémon's true nature!"))
-    waitmessage
+        "Take care out there, Trainer.\p"
+        "And remember - the right stone can bring out a Pokémon's true nature!"))
     release
     end
-}  
+}
 
 mart EvoStone_Man {
     ITEM_FIRE_STONE
@@ -149,7 +130,7 @@ mart EvoItem_Lady_Expanded {
     ITEM_PEAT_BLOCK
 }
 
-text Slateport_EvoStoneMan_Text_FirstEncounter {
+text FallarborTown_EvoStoneMan_Text_FirstEncounter {
 	format(
         "Hello there, young traveler!\p"
         "They call me the Evo-Stone Man! For years, I've studied the mysterious power hidden inside these beautiful stones.\p"
@@ -159,7 +140,7 @@ text Slateport_EvoStoneMan_Text_FirstEncounter {
     )
 }
 
-text Slateport_EvoItemLady_Text_FirstEncounter {
+text FallarborTown_MoveRelearnersHouse_Text_EvoItemLadyFirstEncounter {
     format(
         "Hey Trainer!\p"
         "You've got the look of a Trainer who cares deeply for their Pokémon\p"

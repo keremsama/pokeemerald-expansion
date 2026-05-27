@@ -395,32 +395,32 @@ Route114_FossilManiacsTunnel_UncleDigger_RNG_11:
 
 Route114_FossilManiacsTunnel_UncleDigger_ItemListedScript::
 # 216 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
-	randomelement ITEM_NUGGET ITEM_BIG_NUGGET ITEM_STARDUST ITEM_STAR_PIECE ITEM_COMET_SHARD ITEM_RARE_BONE ITEM_POKE_BALL ITEM_GREAT_BALL ITEM_ULTRA_BALL ITEM_POTION ITEM_SUPER_POTION ITEM_HYPER_POTION ITEM_MAX_POTION ITEM_FULL_RESTORE ITEM_REVIVE ITEM_MAX_REVIVE ITEM_ENERGY_ROOT ITEM_ANTIDOTE ITEM_PARALYZE_HEAL ITEM_PARALYZE_HEAL ITEM_BURN_HEAL ITEM_ICE_HEAL ITEM_AWAKENING ITEM_FULL_HEAL ITEM_ETHER ITEM_ELIXIR ITEM_FIRE_STONE ITEM_WATER_STONE ITEM_THUNDER_STONE ITEM_LEAF_STONE ITEM_ICE_STONE ITEM_SUN_STONE ITEM_MOON_STONE ITEM_SHINY_STONE ITEM_DUSK_STONE ITEM_DAWN_STONE
+	randomelement ITEM_NUGGET ITEM_BIG_NUGGET ITEM_STARDUST ITEM_STAR_PIECE ITEM_COMET_SHARD ITEM_RARE_BONE ITEM_POKE_BALL ITEM_GREAT_BALL ITEM_ULTRA_BALL ITEM_POTION ITEM_SUPER_POTION ITEM_HYPER_POTION ITEM_MAX_POTION ITEM_FULL_RESTORE ITEM_REVIVE ITEM_MAX_REVIVE ITEM_ENERGY_ROOT ITEM_ANTIDOTE ITEM_PARALYZE_HEAL ITEM_PARALYZE_HEAL ITEM_BURN_HEAL ITEM_ICE_HEAL ITEM_AWAKENING ITEM_FULL_HEAL ITEM_ETHER ITEM_ELIXIR ITEM_FIRE_STONE ITEM_WATER_STONE ITEM_THUNDER_STONE ITEM_LEAF_STONE ITEM_ICE_STONE ITEM_SUN_STONE ITEM_MOON_STONE ITEM_SHINY_STONE ITEM_DUSK_STONE ITEM_DAWN_STONE ITEM_BOTTLE_CAP ITEM_GOLD_BOTTLE_CAP
 	return
 
 
 Route114_FossilManiacsTunnel_UncleDigger_FossilListedScript::
-# 257 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+# 259 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	randomelement ITEM_DOME_FOSSIL ITEM_OLD_AMBER ITEM_HELIX_FOSSIL ITEM_ROOT_FOSSIL ITEM_CLAW_FOSSIL ITEM_ARMOR_FOSSIL ITEM_SKULL_FOSSIL ITEM_COVER_FOSSIL ITEM_PLUME_FOSSIL ITEM_JAW_FOSSIL ITEM_SAIL_FOSSIL ITEM_FOSSILIZED_BIRD ITEM_FOSSILIZED_FISH ITEM_FOSSILIZED_DRAKE ITEM_FOSSILIZED_DINO
 	return
 
 
 Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney::
-# 278 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
-	hidemoneybox
-# 279 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
-	msgbox Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney_Text_0
 # 280 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+	hidemoneybox
+# 281 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+	msgbox Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney_Text_0
+# 282 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	release
 	end
 
 
 Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain::
-# 285 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
-	hidemoneybox
-# 286 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
-	msgbox Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain_Text_0
 # 287 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+	hidemoneybox
+# 288 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+	msgbox Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain_Text_0
+# 289 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	release
 	end
 
@@ -481,16 +481,16 @@ Route114_FossilManiacsTunnel_UncleDigger_RNG_Text_3:
 	.string "back after making some space.$"
 
 Route114_FossilManiacsTunnel_UncleDigger_NotEnoughMoney_Text_0:
-# 279 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+# 281 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	.string "You need ¥300 for me to dig...$"
 
 Route114_FossilManiacsTunnel_UncleDigger_ComeBackAgain_Text_0:
-# 286 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+# 288 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	.string "No digging? No worries, come back\n"
 	.string "anytime.$"
 
 Route114_FossilManiacsTunnel_UncleDigger_YouGotAFossil::
-# 291 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+# 293 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	.string "Oh ho! Would you look at that!\p"
 	.string "A real fossil - a {STR_VAR_1}, and in\n"
 	.string "remarkable condition.\p"
@@ -498,7 +498,7 @@ Route114_FossilManiacsTunnel_UncleDigger_YouGotAFossil::
 	.string "be revived from it someday!$"
 
 Route114_FossilManiacsTunnel_UncleDigger_Text_FirstEncounter::
-# 300 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
+# 302 "data/maps/Route114_FossilManiacsTunnel/scripts.pory"
 	.string "Hey there, traveler!\p"
 	.string "My nephew is absolutely obsessed with\n"
 	.string "his fossils, and he claims everything he\l"
