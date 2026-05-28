@@ -80,6 +80,12 @@ static void HeatStartMenu_ShowTimeWindow(void);
 static void HeatStartMenu_UpdateClockDisplay(void);
 static void HeatStartMenu_UpdateMenuName(void);
 static void HeatStartMenu_LoadIconPalette(void);
+static bool8 HeatStartMenu_IsFlashWindowActive(void);
+static void HeatStartMenu_EnableFlashIconWindows(void);
+static u32 HeatStartMenu_CreateIconSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 *windowSpriteId);
+static void HeatStartMenu_DestroyIconSprite(u32 *spriteId);
+static void HeatStartMenu_RestoreFlashIconWindows(void);
+static void HeatStartMenu_UpdateIconSelection(struct Sprite* sprite, u8 menuId);
 static u8 RunSaveCallback(void);
 static u8 SaveDoSaveCallback(void);
 static void HideSaveInfoWindow(void);
@@ -131,19 +137,30 @@ struct HeatStartMenu {
   u32 sMenuNameWindowId;
   u32 sSafariBallsWindowId;
   u32 clockSecond;
+  u16 savedDispcnt;
+  u16 savedWinOut;
   u32 flag:1; // some u32 holding values for controlling the sprite anims and lifetime
   u32 unlockAndUnfreeze:1;
   u32 iconPaletteNeedsReload:1;
-  u32 padding:29;
+  u32 hasFlashIconWindows:1;
+  u32 padding:28;
   
   u32 spriteIdPoketch;
+  u32 spriteIdPoketchWindow;
   u32 spriteIdPokedex;
+  u32 spriteIdPokedexWindow;
   u32 spriteIdParty;
+  u32 spriteIdPartyWindow;
   u32 spriteIdBag;
+  u32 spriteIdBagWindow;
   u32 spriteIdTrainerCard;
+  u32 spriteIdTrainerCardWindow;
   u32 spriteIdSave;
+  u32 spriteIdSaveWindow;
   u32 spriteIdOptions;
+  u32 spriteIdOptionsWindow;
   u32 spriteIdFlag;
+  u32 spriteIdFlagWindow;
 };
 
 static EWRAM_DATA struct HeatStartMenu *sHeatStartMenu = NULL;
@@ -478,91 +495,64 @@ static const struct SpriteTemplate gSpriteIconFlag = {
 };
 
 static void SpriteCB_IconPoketch(struct Sprite* sprite) {
-  if (menuSelected == MENU_POKETCH && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_POKETCH) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  }
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_POKETCH);
 }
 
 static void SpriteCB_IconPokedex(struct Sprite* sprite) {
-  if (menuSelected == MENU_POKEDEX && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_POKEDEX) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  }
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_POKEDEX);
 }
 
 static void SpriteCB_IconParty(struct Sprite* sprite) {
-  if (menuSelected == MENU_PARTY && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_PARTY) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  }
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_PARTY);
 }
 
 static void SpriteCB_IconBag(struct Sprite* sprite) {
-  if (menuSelected == MENU_BAG && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_BAG) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  } 
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_BAG);
 }
 
 static void SpriteCB_IconTrainerCard(struct Sprite* sprite) {
-  if (menuSelected == MENU_TRAINER_CARD && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_TRAINER_CARD) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  } 
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_TRAINER_CARD);
 }
 
 static void SpriteCB_IconSave(struct Sprite* sprite) {
-  if (menuSelected == MENU_SAVE && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_SAVE) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  } 
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_SAVE);
 }
 
 static void SpriteCB_IconOptions(struct Sprite* sprite) {
-  if (menuSelected == MENU_OPTIONS && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_OPTIONS) {
-    StartSpriteAnim(sprite, 0);
-    StartSpriteAffineAnim(sprite, 0);
-  } 
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_OPTIONS);
 }
 
 static void SpriteCB_IconFlag(struct Sprite* sprite) {
-  if (menuSelected == MENU_FLAG && sHeatStartMenu->flag == FLAG_VALUE_NOT_SET) {
-    sHeatStartMenu->flag = FLAG_VALUE_SET;
-    StartSpriteAnim(sprite, 1);
-    StartSpriteAffineAnim(sprite, 1);
-  } else if (menuSelected != MENU_FLAG) {
+  HeatStartMenu_UpdateIconSelection(sprite, MENU_FLAG);
+}
+
+static void HeatStartMenu_UpdateIconSelection(struct Sprite* sprite, u8 menuId)
+{
+  if (menuSelected == menuId)
+  {
+    if (sprite->oam.objMode == ST_OAM_OBJ_WINDOW)
+    {
+      if (!sprite->data[0])
+      {
+        sprite->data[0] = TRUE;
+        StartSpriteAnim(sprite, 1);
+        StartSpriteAffineAnim(sprite, 1);
+      }
+    }
+    else if (sHeatStartMenu->flag == FLAG_VALUE_NOT_SET)
+    {
+      sHeatStartMenu->flag = FLAG_VALUE_SET;
+      sprite->data[0] = TRUE;
+      StartSpriteAnim(sprite, 1);
+      StartSpriteAffineAnim(sprite, 1);
+    }
+  }
+  else
+  {
+    sprite->data[0] = FALSE;
     StartSpriteAnim(sprite, 0);
     StartSpriteAffineAnim(sprite, 0);
-  } 
+  }
 }
 
 // If you want to shorten the dates to Sat., Sun., etc., change this to 70
@@ -641,7 +631,24 @@ void HeatStartMenu_Init(void) {
   sHeatStartMenu->flag = 0;
   sHeatStartMenu->unlockAndUnfreeze = FALSE;
   sHeatStartMenu->iconPaletteNeedsReload = TRUE;
+  sHeatStartMenu->hasFlashIconWindows = FALSE;
   sHeatStartMenu->clockSecond = 0xFF;
+  sHeatStartMenu->spriteIdPoketch = MAX_SPRITES;
+  sHeatStartMenu->spriteIdPoketchWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdPokedex = MAX_SPRITES;
+  sHeatStartMenu->spriteIdPokedexWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdParty = MAX_SPRITES;
+  sHeatStartMenu->spriteIdPartyWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdBag = MAX_SPRITES;
+  sHeatStartMenu->spriteIdBagWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdTrainerCard = MAX_SPRITES;
+  sHeatStartMenu->spriteIdTrainerCardWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdSave = MAX_SPRITES;
+  sHeatStartMenu->spriteIdSaveWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdOptions = MAX_SPRITES;
+  sHeatStartMenu->spriteIdOptionsWindow = MAX_SPRITES;
+  sHeatStartMenu->spriteIdFlag = MAX_SPRITES;
+  sHeatStartMenu->spriteIdFlagWindow = MAX_SPRITES;
 
   if (!sMenuSelectedInitialized) {
     menuSelected = MENU_SELECTED_NONE;
@@ -698,6 +705,62 @@ static void HeatStartMenu_LoadIconPalette(void)
     LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP);
 }
 
+static bool8 HeatStartMenu_IsFlashWindowActive(void)
+{
+  return GetFlashLevel() > 0 || InBattlePyramid_();
+}
+
+static void HeatStartMenu_EnableFlashIconWindows(void)
+{
+  if (sHeatStartMenu->hasFlashIconWindows)
+    return;
+
+  sHeatStartMenu->savedDispcnt = GetGpuReg(REG_OFFSET_DISPCNT);
+  sHeatStartMenu->savedWinOut = GetGpuReg(REG_OFFSET_WINOUT);
+  SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
+  SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_OBJ);
+  sHeatStartMenu->hasFlashIconWindows = TRUE;
+}
+
+static u32 HeatStartMenu_CreateIconSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 *windowSpriteId)
+{
+  u32 spriteId = CreateSprite(template, x, y, 0);
+
+  *windowSpriteId = MAX_SPRITES;
+  if (spriteId != MAX_SPRITES && HeatStartMenu_IsFlashWindowActive())
+  {
+    HeatStartMenu_EnableFlashIconWindows();
+    *windowSpriteId = CreateSprite(template, x, y, 0);
+    if (*windowSpriteId != MAX_SPRITES)
+    {
+      gSprites[*windowSpriteId].oam.objMode = ST_OAM_OBJ_WINDOW;
+      gSprites[*windowSpriteId].oam.priority = gSprites[spriteId].oam.priority;
+    }
+  }
+
+  return spriteId;
+}
+
+static void HeatStartMenu_DestroyIconSprite(u32 *spriteId)
+{
+  if (*spriteId == MAX_SPRITES)
+    return;
+
+  FreeSpriteOamMatrix(&gSprites[*spriteId]);
+  DestroySprite(&gSprites[*spriteId]);
+  *spriteId = MAX_SPRITES;
+}
+
+static void HeatStartMenu_RestoreFlashIconWindows(void)
+{
+  if (!sHeatStartMenu->hasFlashIconWindows)
+    return;
+
+  SetGpuReg(REG_OFFSET_DISPCNT, sHeatStartMenu->savedDispcnt);
+  SetGpuReg(REG_OFFSET_WINOUT, sHeatStartMenu->savedWinOut);
+  sHeatStartMenu->hasFlashIconWindows = FALSE;
+}
+
 static bool8 HeatStartMenu_IsFadeActive(void)
 {
   return gPaletteFade.active || HeatStartMenu_IsWeatherFadeActive();
@@ -730,34 +793,34 @@ static void HeatStartMenu_CreateSprites(void) {
   u32 y7 = 150;
 
   if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
-    sHeatStartMenu->spriteIdPokedex = CreateSprite(&gSpriteIconPokedex, x-1, y1-2, 0);
-    sHeatStartMenu->spriteIdParty   = CreateSprite(&gSpriteIconParty, x, y2-3, 0);
-    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y3-2, 0);
-    sHeatStartMenu->spriteIdPoketch = CreateSprite(&gSpriteIconPoketch, x, y4+1, 0);
-    sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y5, 0);
-    sHeatStartMenu->spriteIdSave    = CreateSprite(&gSpriteIconSave, x, y6, 0);
-    sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y7, 0);
+    sHeatStartMenu->spriteIdPokedex = HeatStartMenu_CreateIconSprite(&gSpriteIconPokedex, x-1, y1-2, &sHeatStartMenu->spriteIdPokedexWindow);
+    sHeatStartMenu->spriteIdParty   = HeatStartMenu_CreateIconSprite(&gSpriteIconParty, x, y2-3, &sHeatStartMenu->spriteIdPartyWindow);
+    sHeatStartMenu->spriteIdBag     = HeatStartMenu_CreateIconSprite(&gSpriteIconBag, x, y3-2, &sHeatStartMenu->spriteIdBagWindow);
+    sHeatStartMenu->spriteIdPoketch = HeatStartMenu_CreateIconSprite(&gSpriteIconPoketch, x, y4+1, &sHeatStartMenu->spriteIdPoketchWindow);
+    sHeatStartMenu->spriteIdTrainerCard = HeatStartMenu_CreateIconSprite(&gSpriteIconTrainerCard, x, y5, &sHeatStartMenu->spriteIdTrainerCardWindow);
+    sHeatStartMenu->spriteIdSave    = HeatStartMenu_CreateIconSprite(&gSpriteIconSave, x, y6, &sHeatStartMenu->spriteIdSaveWindow);
+    sHeatStartMenu->spriteIdOptions = HeatStartMenu_CreateIconSprite(&gSpriteIconOptions, x, y7, &sHeatStartMenu->spriteIdOptionsWindow);
     return;
   } else if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE) {
-    sHeatStartMenu->spriteIdPokedex = CreateSprite(&gSpriteIconPokedex, x-1, y1, 0);
-    sHeatStartMenu->spriteIdParty = CreateSprite(&gSpriteIconParty, x, y2-1, 0);
-    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y3+1, 0);
-    sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y4 + 2, 0);
-    sHeatStartMenu->spriteIdSave    = CreateSprite(&gSpriteIconSave, x, y5 - 1, 0);
-    sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y6-2, 0);
+    sHeatStartMenu->spriteIdPokedex = HeatStartMenu_CreateIconSprite(&gSpriteIconPokedex, x-1, y1, &sHeatStartMenu->spriteIdPokedexWindow);
+    sHeatStartMenu->spriteIdParty = HeatStartMenu_CreateIconSprite(&gSpriteIconParty, x, y2-1, &sHeatStartMenu->spriteIdPartyWindow);
+    sHeatStartMenu->spriteIdBag     = HeatStartMenu_CreateIconSprite(&gSpriteIconBag, x, y3+1, &sHeatStartMenu->spriteIdBagWindow);
+    sHeatStartMenu->spriteIdTrainerCard = HeatStartMenu_CreateIconSprite(&gSpriteIconTrainerCard, x, y4 + 2, &sHeatStartMenu->spriteIdTrainerCardWindow);
+    sHeatStartMenu->spriteIdSave    = HeatStartMenu_CreateIconSprite(&gSpriteIconSave, x, y5 - 1, &sHeatStartMenu->spriteIdSaveWindow);
+    sHeatStartMenu->spriteIdOptions = HeatStartMenu_CreateIconSprite(&gSpriteIconOptions, x, y6-2, &sHeatStartMenu->spriteIdOptionsWindow);
     return;
   } else if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE) {
-    sHeatStartMenu->spriteIdParty = CreateSprite(&gSpriteIconParty, x, y1, 0);
-    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y2 + 1, 0);
-    sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y3 + 3, 0);
-    sHeatStartMenu->spriteIdSave    = CreateSprite(&gSpriteIconSave, x, y4 + 1, 0);
-    sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y5 - 4, 0);
+    sHeatStartMenu->spriteIdParty = HeatStartMenu_CreateIconSprite(&gSpriteIconParty, x, y1, &sHeatStartMenu->spriteIdPartyWindow);
+    sHeatStartMenu->spriteIdBag     = HeatStartMenu_CreateIconSprite(&gSpriteIconBag, x, y2 + 1, &sHeatStartMenu->spriteIdBagWindow);
+    sHeatStartMenu->spriteIdTrainerCard = HeatStartMenu_CreateIconSprite(&gSpriteIconTrainerCard, x, y3 + 3, &sHeatStartMenu->spriteIdTrainerCardWindow);
+    sHeatStartMenu->spriteIdSave    = HeatStartMenu_CreateIconSprite(&gSpriteIconSave, x, y4 + 1, &sHeatStartMenu->spriteIdSaveWindow);
+    sHeatStartMenu->spriteIdOptions = HeatStartMenu_CreateIconSprite(&gSpriteIconOptions, x, y5 - 4, &sHeatStartMenu->spriteIdOptionsWindow);
     return;
   } else {
-    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y1, 0);
-    sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y2 + 1, 0);
-    sHeatStartMenu->spriteIdSave    = CreateSprite(&gSpriteIconSave, x, y3 + 3, 0);
-    sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y4 + 1, 0);
+    sHeatStartMenu->spriteIdBag     = HeatStartMenu_CreateIconSprite(&gSpriteIconBag, x, y1, &sHeatStartMenu->spriteIdBagWindow);
+    sHeatStartMenu->spriteIdTrainerCard = HeatStartMenu_CreateIconSprite(&gSpriteIconTrainerCard, x, y2 + 1, &sHeatStartMenu->spriteIdTrainerCardWindow);
+    sHeatStartMenu->spriteIdSave    = HeatStartMenu_CreateIconSprite(&gSpriteIconSave, x, y3 + 3, &sHeatStartMenu->spriteIdSaveWindow);
+    sHeatStartMenu->spriteIdOptions = HeatStartMenu_CreateIconSprite(&gSpriteIconOptions, x, y4 + 1, &sHeatStartMenu->spriteIdOptionsWindow);
   }
 }
 
@@ -770,12 +833,12 @@ static void HeatStartMenu_SafariZone_CreateSprites(void) {
   u32 y5 = 109;
   u32 y6 = 130;
 
-  sHeatStartMenu->spriteIdFlag = CreateSprite(&gSpriteIconFlag, x, y1, 0);
-  sHeatStartMenu->spriteIdPokedex = CreateSprite(&gSpriteIconPokedex, x-1, y2, 0);
-  sHeatStartMenu->spriteIdParty   = CreateSprite(&gSpriteIconParty, x, y3, 0);
-  sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y4, 0);
-  sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y5, 0);
-  sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y6, 0);
+  sHeatStartMenu->spriteIdFlag = HeatStartMenu_CreateIconSprite(&gSpriteIconFlag, x, y1, &sHeatStartMenu->spriteIdFlagWindow);
+  sHeatStartMenu->spriteIdPokedex = HeatStartMenu_CreateIconSprite(&gSpriteIconPokedex, x-1, y2, &sHeatStartMenu->spriteIdPokedexWindow);
+  sHeatStartMenu->spriteIdParty   = HeatStartMenu_CreateIconSprite(&gSpriteIconParty, x, y3, &sHeatStartMenu->spriteIdPartyWindow);
+  sHeatStartMenu->spriteIdBag     = HeatStartMenu_CreateIconSprite(&gSpriteIconBag, x, y4, &sHeatStartMenu->spriteIdBagWindow);
+  sHeatStartMenu->spriteIdTrainerCard = HeatStartMenu_CreateIconSprite(&gSpriteIconTrainerCard, x, y5, &sHeatStartMenu->spriteIdTrainerCardWindow);
+  sHeatStartMenu->spriteIdOptions = HeatStartMenu_CreateIconSprite(&gSpriteIconOptions, x, y6, &sHeatStartMenu->spriteIdOptionsWindow);
 }
 
 static void HeatStartMenu_LoadBgGfx(void) {
@@ -959,33 +1022,23 @@ static void HeatStartMenu_ExitAndClearTilemap(void) {
   }
   ScheduleBgCopyTilemapToVram(0);
 
-  if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE) {
-    FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdPokedex]);
-    DestroySprite(&gSprites[sHeatStartMenu->spriteIdPokedex]);
-  }
-  if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE) {
-    FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdParty]);
-    DestroySprite(&gSprites[sHeatStartMenu->spriteIdParty]);
-  }
-  
-  if (GetSafariZoneFlag() == FALSE) {
-    FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdSave]);
-    DestroySprite(&gSprites[sHeatStartMenu->spriteIdSave]); 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
-      FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdPoketch]);
-      DestroySprite(&gSprites[sHeatStartMenu->spriteIdPoketch]);
-    }
-  } else {
-    FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdFlag]);
-    DestroySprite(&gSprites[sHeatStartMenu->spriteIdFlag]); 
-  }
-
-  FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdBag]);
-  FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdTrainerCard]);
-  FreeSpriteOamMatrix(&gSprites[sHeatStartMenu->spriteIdOptions]);
-  DestroySprite(&gSprites[sHeatStartMenu->spriteIdBag]);
-  DestroySprite(&gSprites[sHeatStartMenu->spriteIdTrainerCard]);
-  DestroySprite(&gSprites[sHeatStartMenu->spriteIdOptions]);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdPoketchWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdPokedexWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdPartyWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdBagWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdTrainerCardWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdSaveWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdOptionsWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdFlagWindow);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdPoketch);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdPokedex);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdParty);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdBag);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdTrainerCard);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdSave);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdOptions);
+  HeatStartMenu_DestroyIconSprite(&sHeatStartMenu->spriteIdFlag);
+  HeatStartMenu_RestoreFlashIconWindows();
 
   
   if (sHeatStartMenu ->unlockAndUnfreeze)
