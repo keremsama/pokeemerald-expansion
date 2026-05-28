@@ -23,7 +23,6 @@
 
 #define tMenuSelection       data[0]
 #define tTextSpeed           data[1]
-#define tBattleTextSpeed     data[2]
 #define tBattleSceneOff      data[3]
 #define tBattleStyle         data[4]
 #define tTrainerBattleMode   data[5]
@@ -37,7 +36,6 @@
 enum
 {
     MENUITEM_TEXTSPEED,
-    MENUITEM_BATTLETEXTSPEED,
     MENUITEM_BATTLESCENE,
     MENUITEM_BATTLESTYLE,
     MENUITEM_TRAINERBATTLEMODE,
@@ -99,6 +97,7 @@ static void RefreshScrollArrows(u8 taskId);
 static const u8 *GetOptionDescription(u8 item);
 static u8 TextSpeed_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeTextSpeedSelection(u8 selection);
+static u8 GetBattleTextSpeedFromTextSpeed(u8 textSpeed);
 static u8 BattleScene_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeBattleSceneSelection(u8 selection);
 static u8 Toggle_ProcessInput(u8 selection);
@@ -134,7 +133,6 @@ static const u8 sTextStartMenuColor[] = _("MENU COLOR");
 static const u8 sTextSave[] = _("SAVE");
 
 static const u8 sTextDescTextSpeed[] = _("Choose how fast regular text\nprints in dialogue boxes.");
-static const u8 sTextDescBattleTextSpeed[] = _("Choose how fast battle text\nprints during battles.");
 static const u8 sTextDescBattleScene[] = _("Set battle animation speed, or\nturn battle animations off.");
 static const u8 sTextDescBattleStyle[] = _("SHIFT asks before switching.\nSET keeps battling without prompts.");
 static const u8 sTextDescTrainerBattleMode[] = _("MIXED keeps original battles.\n1v1 or 2v2 force when valid.");
@@ -163,7 +161,6 @@ static const u8 sBattleSceneOrder[] =
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]       = gText_TextSpeed,
-    [MENUITEM_BATTLETEXTSPEED] = gText_BattleTextSpeed,
     [MENUITEM_BATTLESCENE]     = gText_BattleScene,
     [MENUITEM_BATTLESTYLE]     = gText_BattleStyle,
     [MENUITEM_TRAINERBATTLEMODE] = sTextBattleMode,
@@ -319,7 +316,6 @@ static void InitOptionMenuTaskData(u8 taskId)
     gTasks[taskId].tMenuSelection = 0;
     gTasks[taskId].tTopOption = 0;
     gTasks[taskId].tTextSpeed = SanitizeTextSpeedSelection(gSaveBlock2Ptr->optionsTextSpeed);
-    gTasks[taskId].tBattleTextSpeed = SanitizeTextSpeedSelection(gSaveBlock2Ptr->optionsBattleTextSpeed);
     gTasks[taskId].tBattleSceneOff = SanitizeBattleSceneSelection(gSaveBlock2Ptr->optionsBattleSceneOff);
     gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
     gTasks[taskId].tTrainerBattleMode = SanitizeTrainerBattleModeSelection(gSaveBlock2Ptr->optionsTrainerBattleMode);
@@ -382,7 +378,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 static void Task_OptionMenuSave(u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = SanitizeTextSpeedSelection(gTasks[taskId].tTextSpeed);
-    gSaveBlock2Ptr->optionsBattleTextSpeed = SanitizeTextSpeedSelection(gTasks[taskId].tBattleTextSpeed);
+    gSaveBlock2Ptr->optionsBattleTextSpeed = GetBattleTextSpeedFromTextSpeed(gSaveBlock2Ptr->optionsTextSpeed);
     gSaveBlock2Ptr->optionsBattleSceneOff = SanitizeBattleSceneSelection(gTasks[taskId].tBattleSceneOff);
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsTrainerBattleMode = SanitizeTrainerBattleModeSelection(gTasks[taskId].tTrainerBattleMode);
@@ -445,10 +441,6 @@ static bool8 ChangeSelection(u8 taskId, s8 delta)
         previousOption = gTasks[taskId].tTextSpeed;
         gTasks[taskId].tTextSpeed = TextSpeed_ProcessInput(gTasks[taskId].tTextSpeed, delta);
         return previousOption != gTasks[taskId].tTextSpeed;
-    case MENUITEM_BATTLETEXTSPEED:
-        previousOption = gTasks[taskId].tBattleTextSpeed;
-        gTasks[taskId].tBattleTextSpeed = TextSpeed_ProcessInput(gTasks[taskId].tBattleTextSpeed, delta);
-        return previousOption != gTasks[taskId].tBattleTextSpeed;
     case MENUITEM_BATTLESCENE:
         previousOption = gTasks[taskId].tBattleSceneOff;
         gTasks[taskId].tBattleSceneOff = BattleScene_ProcessInput(gTasks[taskId].tBattleSceneOff, delta);
@@ -561,9 +553,6 @@ static void DrawChoices(u8 taskId, u8 item, int y)
     case MENUITEM_TEXTSPEED:
         DrawTextSpeedChoices(gTasks[taskId].tTextSpeed, y);
         break;
-    case MENUITEM_BATTLETEXTSPEED:
-        DrawTextSpeedChoices(gTasks[taskId].tBattleTextSpeed, y);
-        break;
     case MENUITEM_BATTLESCENE:
         DrawBattleSceneChoices(gTasks[taskId].tBattleSceneOff, y);
         break;
@@ -641,8 +630,6 @@ static const u8 *GetOptionDescription(u8 item)
     {
     case MENUITEM_TEXTSPEED:
         return sTextDescTextSpeed;
-    case MENUITEM_BATTLETEXTSPEED:
-        return sTextDescBattleTextSpeed;
     case MENUITEM_BATTLESCENE:
         return sTextDescBattleScene;
     case MENUITEM_BATTLESTYLE:
@@ -689,6 +676,15 @@ static u8 SanitizeTextSpeedSelection(u8 selection)
         return OPTIONS_TEXT_SPEED_MID;
 
     return selection;
+}
+
+static u8 GetBattleTextSpeedFromTextSpeed(u8 textSpeed)
+{
+    textSpeed = SanitizeTextSpeedSelection(textSpeed);
+    if (textSpeed == OPTIONS_TEXT_SPEED_MID)
+        return OPTIONS_TEXT_SPEED_MID;
+
+    return OPTIONS_TEXT_SPEED_FAST;
 }
 
 static u8 BattleScene_ProcessInput(u8 selection, s8 delta)
