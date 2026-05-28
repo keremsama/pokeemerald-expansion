@@ -16,6 +16,13 @@ EWRAM_DATA u8 *gItemIcon4x4Buffer = NULL;
 // const rom data
 #include "data/item_icon_table.h"
 
+#define ITEM_ICON_GFX_SIZE 0x120
+#define ITEM_ICON_PAL_SIZE 0x20
+
+static bool32 IsValidItemIconPointer(const void *ptr);
+static const void *GetSafeItemIconPic(u16 itemId);
+static const void *GetSafeItemIconPalette(u16 itemId);
+
 static const struct OamData sOamData_ItemIcon =
 {
     .y = 0,
@@ -99,18 +106,23 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
         struct CompressedSpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
-        LZDecompressWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
+        LZDecompressWram(GetSafeItemIconPic(itemId), gItemIconDecompressionBuffer);
         CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
         spriteSheet.data = gItemIcon4x4Buffer;
         spriteSheet.size = 0x200;
         spriteSheet.tag = tilesTag;
         LoadSpriteSheet(&spriteSheet);
 
-        spritePalette.data = GetItemIconPalette(itemId);
+        spritePalette.data = GetSafeItemIconPalette(itemId);
         spritePalette.tag = paletteTag;
         LoadCompressedSpritePalette(&spritePalette);
 
         spriteTemplate = Alloc(sizeof(*spriteTemplate));
+        if (spriteTemplate == NULL)
+        {
+            FreeItemIconTemporaryBuffers();
+            return MAX_SPRITES;
+        }
         CpuCopy16(&gItemIconSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
         spriteTemplate->tileTag = tilesTag;
         spriteTemplate->paletteTag = paletteTag;
@@ -136,18 +148,23 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
         struct CompressedSpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
-        LZDecompressWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
+        LZDecompressWram(GetSafeItemIconPic(itemId), gItemIconDecompressionBuffer);
         CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
         spriteSheet.data = gItemIcon4x4Buffer;
         spriteSheet.size = 0x200;
         spriteSheet.tag = tilesTag;
         LoadSpriteSheet(&spriteSheet);
 
-        spritePalette.data = GetItemIconPalette(itemId);
+        spritePalette.data = GetSafeItemIconPalette(itemId);
         spritePalette.tag = paletteTag;
         LoadCompressedSpritePalette(&spritePalette);
 
         spriteTemplate = Alloc(sizeof(*spriteTemplate));
+        if (spriteTemplate == NULL)
+        {
+            FreeItemIconTemporaryBuffers();
+            return MAX_SPRITES;
+        }
         CpuCopy16(customSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
         spriteTemplate->tileTag = tilesTag;
         spriteTemplate->paletteTag = paletteTag;
@@ -186,4 +203,31 @@ const void *GetItemIconPalette(u16 itemId)
         return gTypesInfo[GetMoveType(gItemsInfo[itemId].secondaryId)].paletteTMHM;
 
     return gItemsInfo[itemId].iconPalette;
+}
+
+static bool32 IsValidItemIconPointer(const void *ptr)
+{
+    u32 address = (u32)ptr;
+
+    return address >= ROM_START && address < ROM_END && (address & 3) == 0;
+}
+
+static const void *GetSafeItemIconPic(u16 itemId)
+{
+    const void *pic = GetItemIconPic(itemId);
+
+    if (!IsValidItemIconPointer(pic) || IsLZ77Data(pic, ITEM_ICON_GFX_SIZE, ITEM_ICON_GFX_SIZE) == 0)
+        return gItemsInfo[ITEM_NONE].iconPic;
+
+    return pic;
+}
+
+static const void *GetSafeItemIconPalette(u16 itemId)
+{
+    const void *palette = GetItemIconPalette(itemId);
+
+    if (!IsValidItemIconPointer(palette) || IsLZ77Data(palette, ITEM_ICON_PAL_SIZE, ITEM_ICON_PAL_SIZE) == 0)
+        return gItemsInfo[ITEM_NONE].iconPalette;
+
+    return palette;
 }
