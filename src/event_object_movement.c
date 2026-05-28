@@ -2211,6 +2211,7 @@ void UpdateFollowingPokemon(void)
     // 3. flag is set
     if (OW_POKEMON_OBJECT_EVENTS == FALSE
      || OW_FOLLOWERS_ENABLED == FALSE
+     || gSaveBlock2Ptr->optionsPokemonFollower == OPTIONS_POKEMON_FOLLOWER_OFF
      || FlagGet(B_FLAG_FOLLOWERS_DISABLED)
      || !GetFollowerInfo(&species, &shiny, &female)
      || SpeciesToGraphicsInfo(species, shiny, female) == NULL
@@ -2268,7 +2269,8 @@ void RemoveFollowingPokemon(void)
 // Determine whether follower *should* be visible
 bool32 IsFollowerVisible(void)
 {
-    return !(TestPlayerAvatarFlags(FOLLOWER_INVISIBLE_FLAGS)
+    return !(gSaveBlock2Ptr->optionsPokemonFollower == OPTIONS_POKEMON_FOLLOWER_OFF
+            || TestPlayerAvatarFlags(FOLLOWER_INVISIBLE_FLAGS)
             || MetatileBehavior_IsSurfableWaterOrUnderwater(gObjectEvents[gPlayerAvatar.objectEventId].previousMetatileBehavior)
             || MetatileBehavior_IsForcedMovementTile(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior));
 }

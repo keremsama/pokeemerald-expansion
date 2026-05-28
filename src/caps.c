@@ -11,6 +11,7 @@ u32 GetCurrentLevelCap(void)
     {
         {FLAG_BADGE01_GET, 15},
         {FLAG_BADGE02_GET, 19},
+        {FLAG_RIVAL_DEFEATED_ROUTE_110, 23},        // Rival defeated on Route 110
         {FLAG_BADGE03_GET, 28},
         {FLAG_DEFEATED_EVIL_TEAM_MT_CHIMNEY, 35},   // Team Magma defeated at Mt. Chimney
         {FLAG_BADGE04_GET, 37},

@@ -108,6 +108,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsTrainerBattleMode = OPTIONS_TRAINER_BATTLE_MODE_MIXED;
     gSaveBlock2Ptr->optionsBattleSceneOff = OPTIONS_BATTLE_SCENE_1X;
     gSaveBlock2Ptr->optionsStartMenuPalette = DEFAULT_START_MENU_PALETTE;
+    gSaveBlock2Ptr->optionsPokemonFollower = OPTIONS_POKEMON_FOLLOWER_ON;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

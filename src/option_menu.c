@@ -32,6 +32,7 @@
 #define tStartMenuPalette    data[9]
 #define tTopOption           data[10]
 #define tArrowTaskId         data[11]
+#define tPokemonFollower     data[12]
 
 enum
 {
@@ -43,6 +44,7 @@ enum
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_STARTMENUCOLOR,
+    MENUITEM_POKEMONFOLLOWER,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -104,6 +106,7 @@ static u8 Toggle_ProcessInput(u8 selection);
 static u8 TrainerBattleMode_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeButtonModeSelection(u8 selection);
 static u8 SanitizeTrainerBattleModeSelection(u8 selection);
+static u8 SanitizePokemonFollowerSelection(u8 selection);
 static u8 FrameType_ProcessInput(u8 selection, s8 delta);
 static u8 StartMenuPalette_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeStartMenuPaletteSelection(u8 selection);
@@ -130,6 +133,8 @@ static const u8 sTextLR[] = _("LR");
 static const u8 sTextType[] = _("TYPE");
 static const u8 sTextColor[] = _("COLOR");
 static const u8 sTextStartMenuColor[] = _("MENU COLOR");
+static const u8 sTextPokemonFollower[] = _("FOLLOWER");
+static const u8 sTextOn[] = _("ON");
 static const u8 sTextSave[] = _("SAVE");
 
 static const u8 sTextDescTextSpeed[] = _("Choose how fast regular text\nprints in dialogue boxes.");
@@ -140,6 +145,7 @@ static const u8 sTextDescSound[] = _("Choose MONO or STEREO sound.");
 static const u8 sTextDescButtonMode[] = _("NORMAL keeps default controls.\nLR lets L/R act like left/right.");
 static const u8 sTextDescFrameType[] = _("Choose the textbox frame style.");
 static const u8 sTextDescStartMenuColor[] = _("Choose the Start Menu background\ncolor palette.");
+static const u8 sTextDescPokemonFollower[] = _("Show or hide your lead POKéMON\nas an overworld follower.");
 static const u8 sTextDescCancel[] = _("Save options and return.");
 
 static const u8 sTextSpeedOrder[] =
@@ -168,6 +174,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BUTTONMODE]      = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]       = gText_Frame,
     [MENUITEM_STARTMENUCOLOR]  = sTextStartMenuColor,
+    [MENUITEM_POKEMONFOLLOWER] = sTextPokemonFollower,
     [MENUITEM_CANCEL]          = sTextSave,
 };
 
@@ -323,6 +330,7 @@ static void InitOptionMenuTaskData(u8 taskId)
     gTasks[taskId].tButtonMode = SanitizeButtonModeSelection(gSaveBlock2Ptr->optionsButtonMode);
     gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
     gTasks[taskId].tStartMenuPalette = SanitizeStartMenuPaletteSelection(gSaveBlock2Ptr->optionsStartMenuPalette);
+    gTasks[taskId].tPokemonFollower = SanitizePokemonFollowerSelection(gSaveBlock2Ptr->optionsPokemonFollower);
     gTasks[taskId].tArrowTaskId = TASK_NONE;
 }
 
@@ -386,6 +394,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsButtonMode = SanitizeButtonModeSelection(gTasks[taskId].tButtonMode);
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->optionsStartMenuPalette = SanitizeStartMenuPaletteSelection(gTasks[taskId].tStartMenuPalette);
+    gSaveBlock2Ptr->optionsPokemonFollower = SanitizePokemonFollowerSelection(gTasks[taskId].tPokemonFollower);
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -472,6 +481,10 @@ static bool8 ChangeSelection(u8 taskId, s8 delta)
         previousOption = gTasks[taskId].tStartMenuPalette;
         gTasks[taskId].tStartMenuPalette = StartMenuPalette_ProcessInput(gTasks[taskId].tStartMenuPalette, delta);
         return previousOption != gTasks[taskId].tStartMenuPalette;
+    case MENUITEM_POKEMONFOLLOWER:
+        previousOption = gTasks[taskId].tPokemonFollower;
+        gTasks[taskId].tPokemonFollower = Toggle_ProcessInput(gTasks[taskId].tPokemonFollower);
+        return previousOption != gTasks[taskId].tPokemonFollower;
     default:
         return FALSE;
     }
@@ -576,6 +589,9 @@ static void DrawChoices(u8 taskId, u8 item, int y)
     case MENUITEM_STARTMENUCOLOR:
         DrawNumberedChoice(sTextColor, gTasks[taskId].tStartMenuPalette, y);
         break;
+    case MENUITEM_POKEMONFOLLOWER:
+        DrawTwoChoices(sTextOn, sTextBattleSceneOffPlain, gTasks[taskId].tPokemonFollower, y);
+        break;
     }
 }
 
@@ -644,6 +660,8 @@ static const u8 *GetOptionDescription(u8 item)
         return sTextDescFrameType;
     case MENUITEM_STARTMENUCOLOR:
         return sTextDescStartMenuColor;
+    case MENUITEM_POKEMONFOLLOWER:
+        return sTextDescPokemonFollower;
     default:
         return sTextDescCancel;
     }
@@ -752,6 +770,14 @@ static u8 SanitizeTrainerBattleModeSelection(u8 selection)
 {
     if (selection >= OPTIONS_TRAINER_BATTLE_MODE_COUNT)
         return OPTIONS_TRAINER_BATTLE_MODE_MIXED;
+
+    return selection;
+}
+
+static u8 SanitizePokemonFollowerSelection(u8 selection)
+{
+    if (selection >= OPTIONS_POKEMON_FOLLOWER_COUNT)
+        return OPTIONS_POKEMON_FOLLOWER_ON;
 
     return selection;
 }
