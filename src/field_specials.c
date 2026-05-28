@@ -66,6 +66,7 @@
 #include "constants/songs.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
+#include "constants/pokemon.h"
 #include "constants/battle_frontier.h"
 #include "constants/weather.h"
 #include "constants/metatile_labels.h"
@@ -1587,6 +1588,65 @@ u8 GetLeadMonIndex(void)
 u16 ScriptGetPartyMonSpecies(void)
 {
     return GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES_OR_EGG, NULL);
+}
+
+u16 Script_ToggleSelectedMonGender(void)
+{
+    enum
+    {
+        GENDER_CHANGE_RESULT_SUCCESS,
+        GENDER_CHANGE_RESULT_EGG,
+        GENDER_CHANGE_RESULT_GENDERLESS,
+        GENDER_CHANGE_RESULT_FIXED_GENDER,
+    };
+
+    u32 i;
+    u32 personality;
+    u32 nature;
+    u16 species;
+    u8 currentGender;
+    u8 targetGender;
+    u8 genderRatio;
+    struct Pokemon *mon;
+
+    if (gSpecialVar_0x8004 >= PARTY_SIZE)
+        return GENDER_CHANGE_RESULT_GENDERLESS;
+
+    mon = &gPlayerParty[gSpecialVar_0x8004];
+    if (GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_EGG
+     || GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        return GENDER_CHANGE_RESULT_EGG;
+
+    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    genderRatio = gSpeciesInfo[species].genderRatio;
+    if (genderRatio == MON_GENDERLESS)
+        return GENDER_CHANGE_RESULT_GENDERLESS;
+    if (genderRatio == MON_MALE || genderRatio == MON_FEMALE)
+        return GENDER_CHANGE_RESULT_FIXED_GENDER;
+
+    currentGender = GetMonGender(mon);
+    if (currentGender != MON_MALE && currentGender != MON_FEMALE)
+        return GENDER_CHANGE_RESULT_GENDERLESS;
+
+    personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+    nature = personality % NUM_NATURES;
+    targetGender = (currentGender == MON_MALE) ? MON_FEMALE : MON_MALE;
+
+    for (i = 0; i <= 0xFF; i++)
+    {
+        u32 newPersonality = (personality & 0xFFFFFF00) | i;
+
+        if (newPersonality % NUM_NATURES != nature)
+            continue;
+        if (GetGenderFromSpeciesAndPersonality(species, newPersonality) != targetGender)
+            continue;
+
+        UpdateMonPersonality(&mon->box, newPersonality);
+        CalculateMonStats(mon);
+        return GENDER_CHANGE_RESULT_SUCCESS;
+    }
+
+    return GENDER_CHANGE_RESULT_FIXED_GENDER;
 }
 
 u16 CapMan_GetBottleCapAvailability(void)

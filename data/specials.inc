@@ -355,6 +355,7 @@ gSpecials::
 	def_special SetRoute123Weather
 	def_special GetContestMultiplayerId
 	def_special ScriptGetPartyMonSpecies
+	def_special Script_ToggleSelectedMonGender
 	def_special CapMan_GetBottleCapAvailability
 	def_special CapMan_HyperTrainSelectedMon
 	def_special IsSelectedMonEgg
