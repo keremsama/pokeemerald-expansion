@@ -318,9 +318,16 @@ static bool32 IsSpeciesPermitted(u16 species)
         return FALSE;
     if (gSpeciesInfo[species].randomizerMode == MON_RANDOMIZER_INVALID)
         return FALSE;
+    if (gSpeciesInfo[species].isMegaEvolution)
+        return FALSE;
 
     return TRUE;
 };
+
+static bool32 IsRandomizerSelectableForm(u16 species)
+{
+    return !gSpeciesInfo[species].isMegaEvolution;
+}
 
 u32 GenerateSeedForRandomizer(void)
 {
@@ -1021,11 +1028,26 @@ static u16 ChooseRandomForm(struct Sfc32State *state, const u16 baseSpecies)
     if (formsTable)
     {
         u32 formCount = 0;
-        while (formsTable[formCount] != FORM_SPECIES_END)
+        u32 targetForm;
+        u32 i;
+        for (i = 0; formsTable[i] != FORM_SPECIES_END; i++)
         {
-            formCount++;
+            if (IsRandomizerSelectableForm(formsTable[i]))
+                formCount++;
         }
-        return formsTable[RandomizerNextRange(state, formCount)];
+
+        if (formCount == 0)
+            return baseSpecies;
+
+        targetForm = RandomizerNextRange(state, formCount);
+        for (i = 0; formsTable[i] != FORM_SPECIES_END; i++)
+        {
+            if (!IsRandomizerSelectableForm(formsTable[i]))
+                continue;
+            if (targetForm == 0)
+                return formsTable[i];
+            targetForm--;
+        }
     }
 
     return baseSpecies;
