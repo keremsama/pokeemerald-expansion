@@ -845,7 +845,7 @@ MauvilleCity_EventScript_Wattson::
 # 423 "data/maps/MauvilleCity/scripts.pory"
 	faceplayer
 # 424 "data/maps/MauvilleCity/scripts.pory"
-	goto_if_set FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON, MauvilleCity_EventScript_ReceivedThunderbolt
+	goto_if_set FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON, MauvilleCity_EventScript_ReceivedWattsonTM
 # 425 "data/maps/MauvilleCity/scripts.pory"
 	goto_if_eq VAR_NEW_MAUVILLE_STATE, 2, MauvilleCity_EventScript_CompletedNewMauville
 # 426 "data/maps/MauvilleCity/scripts.pory"
@@ -879,30 +879,51 @@ MauvilleCity_EventScript_BegunNewMauville::
 # 440 "data/maps/MauvilleCity/scripts.pory"
 MauvilleCity_EventScript_CompletedNewMauville::
 # 441 "data/maps/MauvilleCity/scripts.pory"
-	msgbox MauvilleCity_Text_WattsonThanksTakeTM, MSGBOX_DEFAULT
+	checkitem ITEM_TM_THUNDERBOLT
 # 442 "data/maps/MauvilleCity/scripts.pory"
-	giveitem ITEM_TM_THUNDERBOLT
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_EventScript_GiveChargeBeamInstead
 # 443 "data/maps/MauvilleCity/scripts.pory"
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox MauvilleCity_Text_WattsonThanksTakeTM, MSGBOX_DEFAULT
 # 444 "data/maps/MauvilleCity/scripts.pory"
-	setflag FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON
+	giveitem ITEM_TM_THUNDERBOLT
 # 445 "data/maps/MauvilleCity/scripts.pory"
-	msgbox MauvilleCity_Text_WattsonYoungTakeCharge, MSGBOX_DEFAULT
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 # 446 "data/maps/MauvilleCity/scripts.pory"
-	release
+	setflag FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON
 # 447 "data/maps/MauvilleCity/scripts.pory"
-	end
-# 448 "data/maps/MauvilleCity/scripts.pory"
-
-# 449 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_EventScript_ReceivedThunderbolt::
-# 450 "data/maps/MauvilleCity/scripts.pory"
 	msgbox MauvilleCity_Text_WattsonYoungTakeCharge, MSGBOX_DEFAULT
-# 451 "data/maps/MauvilleCity/scripts.pory"
+# 448 "data/maps/MauvilleCity/scripts.pory"
 	release
-# 452 "data/maps/MauvilleCity/scripts.pory"
+# 449 "data/maps/MauvilleCity/scripts.pory"
 	end
+# 450 "data/maps/MauvilleCity/scripts.pory"
+
+MauvilleCity_EventScript_GiveChargeBeamInstead::
+# 451 "data/maps/MauvilleCity/scripts.pory"
+	msgbox MauvilleCity_Text_WattsonAlreadyHasThunderbolt, MSGBOX_DEFAULT
+# 452 "data/maps/MauvilleCity/scripts.pory"
+	giveitem ITEM_TM_CHARGE_BEAM
 # 453 "data/maps/MauvilleCity/scripts.pory"
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+# 454 "data/maps/MauvilleCity/scripts.pory"
+	setflag FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON
+# 455 "data/maps/MauvilleCity/scripts.pory"
+	msgbox MauvilleCity_Text_WattsonYoungTakeCharge, MSGBOX_DEFAULT
+# 456 "data/maps/MauvilleCity/scripts.pory"
+	release
+# 457 "data/maps/MauvilleCity/scripts.pory"
+	end
+# 458 "data/maps/MauvilleCity/scripts.pory"
+
+# 459 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_EventScript_ReceivedWattsonTM::
+# 460 "data/maps/MauvilleCity/scripts.pory"
+	msgbox MauvilleCity_Text_WattsonYoungTakeCharge, MSGBOX_DEFAULT
+# 461 "data/maps/MauvilleCity/scripts.pory"
+	release
+# 462 "data/maps/MauvilleCity/scripts.pory"
+	end
+# 463 "data/maps/MauvilleCity/scripts.pory"
 
 # 454 "data/maps/MauvilleCity/scripts.pory"
 MauvilleCity_EventScript_RegisterWallyCall::
@@ -1225,14 +1246,30 @@ MauvilleCity_Text_WattsonThanksTakeTM:
 # 613 "data/maps/MauvilleCity/scripts.pory"
 
 # 614 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_WattsonYoungTakeCharge:
+MauvilleCity_Text_WattsonAlreadyHasThunderbolt:
 # 615 "data/maps/MauvilleCity/scripts.pory"
 	.string "WATTSON: Wahahahaha!\p"
 # 616 "data/maps/MauvilleCity/scripts.pory"
-	.string "It pleases me to no end to see\n"
+	.string "I meant to give you the TM for\n"
 # 617 "data/maps/MauvilleCity/scripts.pory"
-	.string "the young step up and take charge!$"
+	.string "THUNDERBOLT...\p"
 # 618 "data/maps/MauvilleCity/scripts.pory"
+	.string "But it looks like you already have it!\p"
+# 619 "data/maps/MauvilleCity/scripts.pory"
+	.string "I've got another TM that's nearly\n"
+# 620 "data/maps/MauvilleCity/scripts.pory"
+	.string "as good. Take this one instead!$"
+# 621 "data/maps/MauvilleCity/scripts.pory"
+
+# 622 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_Text_WattsonYoungTakeCharge:
+# 623 "data/maps/MauvilleCity/scripts.pory"
+	.string "WATTSON: Wahahahaha!\p"
+# 624 "data/maps/MauvilleCity/scripts.pory"
+	.string "It pleases me to no end to see\n"
+# 625 "data/maps/MauvilleCity/scripts.pory"
+	.string "the young step up and take charge!$"
+# 626 "data/maps/MauvilleCity/scripts.pory"
 
 # 619 "data/maps/MauvilleCity/scripts.pory"
 MauvilleCity_Text_NurseHurtMonBackToHealth:
