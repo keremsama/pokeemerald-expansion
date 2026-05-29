@@ -326,7 +326,11 @@ static bool32 IsSpeciesPermitted(u16 species)
 
 static bool32 IsRandomizerSelectableForm(u16 species)
 {
-    return !gSpeciesInfo[species].isMegaEvolution;
+    return !gSpeciesInfo[species].isMegaEvolution
+        && !gSpeciesInfo[species].isGigantamax
+        && !gSpeciesInfo[species].isPrimalReversion
+        && !gSpeciesInfo[species].isUltraBurst
+        && !gSpeciesInfo[species].isTeraForm;
 }
 
 u32 GenerateSeedForRandomizer(void)
@@ -550,7 +554,7 @@ static inline bool32 ShouldRandomizeItem(u16 itemId)
 #include "data/randomizer/item_whitelist.h"
 
 // Given a found item and its location in the game, returns a replacement for that item.
-u16 RandomizeFoundItem(u16 itemId, u8 mapNum, u8 mapGroup, u8 localId)
+u16 RandomizeFoundItem(u16 itemId, u8 mapGroup, u8 mapNum, u16 localId)
 {
     struct Sfc32State state;
     u16 result;
@@ -561,8 +565,8 @@ u16 RandomizeFoundItem(u16 itemId, u8 mapNum, u8 mapGroup, u8 localId)
 
     // Seed the generator using the original item and the object event that led up
     // to this call.
-    mapSeed = ((u32)mapGroup) << 16;
-    mapSeed |= ((u32)mapNum) << 8;
+    mapSeed = ((u32)mapGroup) << 24;
+    mapSeed |= ((u32)mapNum) << 16;
     mapSeed |= localId;
 
     state = RandomizerRandSeed(RANDOMIZER_REASON_FIELD_ITEM, mapSeed, itemId);
@@ -600,6 +604,19 @@ static inline void RandomizeFoundItemScript(u16 *scriptVar)
     }
 }
 
+static inline void RandomizeHiddenItemScript(u16 *scriptVar)
+{
+    if (RandomizerFeatureEnabled(RANDOMIZE_FIELD_ITEMS))
+    {
+        u16 hiddenItemId = gSpecialVar_0x8004 - FLAG_HIDDEN_ITEMS_START;
+        *scriptVar = RandomizeFoundItem(
+            *scriptVar,
+            gSaveBlock1Ptr->location.mapGroup,
+            gSaveBlock1Ptr->location.mapNum,
+            hiddenItemId);
+    }
+}
+
 // These functions are invoked by the scripts that handle found items and
 // write the results of the randomization to the correct script variable.
 void FindItemRandomize_NativeCall(struct ScriptContext *ctx)
@@ -609,7 +626,7 @@ void FindItemRandomize_NativeCall(struct ScriptContext *ctx)
 
 void FindHiddenItemRandomize_NativeCall(struct ScriptContext *ctx)
 {
-    RandomizeFoundItemScript(&gSpecialVar_0x8005);
+    RandomizeHiddenItemScript(&gSpecialVar_0x8005);
 }
 
 // Both legendary and mythical Pokémon are included in this category.
@@ -791,7 +808,7 @@ static void MarkEvolutions(struct SpeciesTable *entries, u16 species, u16 stage)
         u32 i;
         for (i = 0; evos[i].method != 0xFFFF; i++)
         {
-            if(entries->groupData[species-1] <= stage)
+            if(entries->groupData[species] <= stage)
                 MarkEvolutions(entries, evos[i].targetSpecies, stage+1);
         }
     }
@@ -877,7 +894,7 @@ static void BuildRandomizerSpeciesTable(enum RandomizerSpeciesMode mode)
 
     // Heap sort the table.
     start = RANDOMIZER_SPECIES_COUNT/2;
-    end = RANDOMIZER_SPECIES_COUNT-1;
+    end = RANDOMIZER_SPECIES_COUNT;
 
     while (end > 1)
     {
@@ -965,10 +982,67 @@ static u16 RandomizeMonFromSeed(struct Sfc32State *state, enum RandomizerSpecies
 
 }
 
+static bool32 UniqueMonListHasSeen(const u32 *seenMonBitVector, u16 species)
+{
+    u16 adjustedSpecies;
+    if (species == SPECIES_NONE)
+        return TRUE;
+    adjustedSpecies = species - 1;
+    return (seenMonBitVector[adjustedSpecies / 32] & (1u << (adjustedSpecies & 31))) != 0;
+}
+
+static void UniqueMonListMarkSeen(u32 *seenMonBitVector, u16 species)
+{
+    u16 adjustedSpecies = species - 1;
+    seenMonBitVector[adjustedSpecies / 32] |= 1u << (adjustedSpecies & 31);
+}
+
+static bool32 SpeciesMatchesRandomizerMode(enum RandomizerSpeciesMode mode, u16 originalSpecies, u16 targetSpecies)
+{
+    u16 minGroup, maxGroup, originalGroup, targetGroup;
+    const struct SpeciesTable* table;
+
+    if (mode >= MAX_MON_MODE)
+        mode = MON_RANDOM;
+    if (mode == MON_RANDOM)
+        return TRUE;
+
+    table = GetSpeciesTable(mode);
+    originalGroup = GetSpeciesGroup(table, originalSpecies);
+    targetGroup = GetSpeciesGroup(table, targetSpecies);
+    GetGroupRange(originalGroup, mode, &minGroup, &maxGroup);
+
+    return targetGroup >= minGroup && targetGroup <= maxGroup;
+}
+
+static bool32 TryGetFallbackUniqueMon(struct Sfc32State *state, enum RandomizerSpeciesMode mode, u16 originalSpecies, const u32 *seenMonBitVector, u16 *result)
+{
+    u32 i;
+    u16 start = RandomizerNextRange(state, RANDOMIZER_SPECIES_COUNT);
+
+    for (i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
+    {
+        u16 species = (start + i) % RANDOMIZER_SPECIES_COUNT;
+
+        if (!IsSpeciesPermitted(species))
+            continue;
+        if (UniqueMonListHasSeen(seenMonBitVector, species))
+            continue;
+        if (!SpeciesMatchesRandomizerMode(mode, originalSpecies, species))
+            continue;
+
+        *result = species;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 // Fills an array with count Pokémon, with no repeats.
 void GetUniqueMonList(enum RandomizerReason reason, enum RandomizerSpeciesMode mode, u32 seed1, u16 seed2, u8 count, const u16 *originalSpecies, u16 *resultSpecies)
 {
-    u32 i, curMon;
+    u32 i;
+    u16 curMon;
     u32 seenMonBitVector[(RANDOMIZER_SPECIES_COUNT-1)/32+1] = {};
     struct Sfc32State state = RandomizerRandSeed(reason, seed1, seed2);
 
@@ -986,31 +1060,30 @@ void GetUniqueMonList(enum RandomizerReason reason, enum RandomizerSpeciesMode m
         }
 
         // Find the next mon.
-        while (!foundNextMon)
+        for (u32 tries = 0; tries < RANDOMIZER_SPECIES_COUNT * 2 && !foundNextMon; tries++)
         {
-            u16 wordIndex, adjustedCurMon;
-            u32 bitVectorWord;
-            u8 bitIndex;
-
             // Generate a Pokémon. If it has already been generated, keep generating new ones
             // until one that hasn't been seen is picked.
 
             curMon = RandomizeMonFromSeed(&state, mode, curOriginal);
 
-            // Compute the bit address of this mon.
-            adjustedCurMon = curMon - 1;
-            wordIndex = adjustedCurMon / 32;
-            bitIndex = adjustedCurMon & 31;
-            bitVectorWord = seenMonBitVector[wordIndex];
-
             // If set, this mon has been seen already.
-            if (bitVectorWord & (1 << bitIndex))
+            if (UniqueMonListHasSeen(seenMonBitVector, curMon))
                 continue;
 
-            bitVectorWord |= 1 << bitIndex;
-            seenMonBitVector[wordIndex] = bitVectorWord;
+            UniqueMonListMarkSeen(seenMonBitVector, curMon);
             foundNextMon = TRUE;
         }
+
+        if (!foundNextMon && TryGetFallbackUniqueMon(&state, mode, curOriginal, seenMonBitVector, &curMon))
+        {
+            UniqueMonListMarkSeen(seenMonBitVector, curMon);
+            foundNextMon = TRUE;
+        }
+
+        if (!foundNextMon)
+            curMon = RandomizeMonFromSeed(&state, mode, curOriginal);
+
         resultSpecies[i] = curMon;
     }
 }
@@ -1394,9 +1467,9 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
 
         // Fallback für alle Trainer außerhalb von Gyms oder ohne Type-Flag
         u16 randomizedSpecies;
-        if (FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != 2)
+        if (FlagGet(FLAG_BADGE05_GET) && GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE) != MON_RANDOM_BST)
         {
-            u8 tries = 0;
+            u16 tries = 0;
             do
             {
                 randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed + tries, species);
