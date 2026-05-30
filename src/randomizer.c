@@ -1273,6 +1273,14 @@ static u32 GetTrainerPartySeed(u16 trainerId, u8 slot, u8 totalMons)
     return seed;
 }
 
+static u32 GetTrainerPartyRetrySeed(u32 seed, u16 tries)
+{
+    if (tries == 0)
+        return seed;
+
+    return seed ^ (0x9E3779B9u * tries);
+}
+
 static bool8 TryGetTrainerTypeTheme(u16 trainerId, u8 *type)
 {
     const struct {
@@ -1472,7 +1480,7 @@ u16 RandomizeTrainerMon(u16 trainerId, u8 slot, u8 totalMons, u16 species)
             u16 tries = 0;
             do
             {
-                randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), seed + tries, species);
+                randomizedSpecies = RandomizeMon(RANDOMIZER_REASON_TRAINER_PARTY, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE), GetTrainerPartyRetrySeed(seed, tries), species);
                 tries++;
                 if (tries > 1000)
                     break;

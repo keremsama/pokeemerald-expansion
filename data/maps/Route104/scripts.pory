@@ -1193,25 +1193,25 @@ script Petalburg_StevenEncounter_Continue{
     waitmessage
     multichoice(25, 0, MULTI_STARTER_MEGA_STONE, 1)
     if (var(VAR_RESULT) == 0) {
-        msgbox(format("So you chose Treecko as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Treecko as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_SCEPTILITE, 1)
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 1) {
-        msgbox(format("So you chose Mudkip as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Mudkip as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_SWAMPERTITE, 1)
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 2) {
-        msgbox(format("So you chose Torchic as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Torchic as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_BLAZIKENITE, 1)
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 3) {
-        msgbox(format("So you chose Charmander as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Charmander as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_CHARIZARDITE_X, 1)
         waitmessage
@@ -1219,22 +1219,22 @@ script Petalburg_StevenEncounter_Continue{
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!\pCharmander has two different Mega Evolutions, so I gave you both Mega Stones!"))
     }
     elif (var(VAR_RESULT) == 4) {
-        msgbox(format("So you chose Squirtle as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Squirtle as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_BLASTOISINITE, 1)
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 5) {
-        msgbox(format("So you chose Bulbasaur as your starter? Great choice!\pHere's something for you!"))
+        msgbox(format("So you chose Bulbasaur as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
         giveitem(ITEM_VENUSAURITE, 1)
         msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 6) {
-        msgbox(format("So you chose Chikorita as your starter?\pUnfortunately, there is no Mega Evolution for it.\pHowever, I have something else for you!"))
+        msgbox(format("So you chose Chikorita as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
-        giveitem(ITEM_MASTER_BALL, 1)
-        msgbox(format("With this ball, you're guaranteed to catch any Pokémon. Use it wisely!"))
+        giveitem(ITEM_MEGANIUMITE, 1)
+        msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     elif (var(VAR_RESULT) == 7) {
         msgbox(format("So you chose Cyndaquil as your starter?\pUnfortunately, there is no Mega Evolution for it.\pHowever, I have something else for you!"))
@@ -1243,10 +1243,10 @@ script Petalburg_StevenEncounter_Continue{
         msgbox(format("With this ball, you're guaranteed to catch any Pokémon. Use it wisely!"))
     }
     elif (var(VAR_RESULT) == 8) {
-        msgbox(format("So you chose Totodile as your starter?\pUnfortunately, there is no Mega Evolution for it.\pHowever, I have something else for you!"))
+        msgbox(format("So you chose Totodile as your starter?\pGreat choice!\pHere's something for you!"))
         waitmessage
-        giveitem(ITEM_MASTER_BALL, 1)
-        msgbox(format("With this ball, you're guaranteed to catch any Pokémon. Use it wisely!"))
+        giveitem(ITEM_FERALIGITE, 1)
+        msgbox(format("Once your partner reaches its final stage, you'll be able to unlock its full potential!"))
     }
     waitmessage
     delay (30)

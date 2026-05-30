@@ -2510,20 +2510,20 @@ Petalburg_StevenEncounter_Continue_8:
 # 1235 "data/maps/Route104/scripts.pory"
 	waitmessage
 # 1236 "data/maps/Route104/scripts.pory"
-	giveitem ITEM_MASTER_BALL, 1
+	giveitem ITEM_MEGANIUMITE, 1
 # 1237 "data/maps/Route104/scripts.pory"
-	msgbox Petalburg_StevenEncounter_Continue_Text_10
+	msgbox Petalburg_StevenEncounter_Continue_Text_2
 	goto Petalburg_StevenEncounter_Continue_1
 
 Petalburg_StevenEncounter_Continue_9:
 # 1240 "data/maps/Route104/scripts.pory"
-	msgbox Petalburg_StevenEncounter_Continue_Text_11
+	msgbox Petalburg_StevenEncounter_Continue_Text_10
 # 1241 "data/maps/Route104/scripts.pory"
 	waitmessage
 # 1242 "data/maps/Route104/scripts.pory"
 	giveitem ITEM_MASTER_BALL, 1
 # 1243 "data/maps/Route104/scripts.pory"
-	msgbox Petalburg_StevenEncounter_Continue_Text_10
+	msgbox Petalburg_StevenEncounter_Continue_Text_11
 	goto Petalburg_StevenEncounter_Continue_1
 
 Petalburg_StevenEncounter_Continue_10:
@@ -2532,9 +2532,9 @@ Petalburg_StevenEncounter_Continue_10:
 # 1247 "data/maps/Route104/scripts.pory"
 	waitmessage
 # 1248 "data/maps/Route104/scripts.pory"
-	giveitem ITEM_MASTER_BALL, 1
+	giveitem ITEM_FERALIGITE, 1
 # 1249 "data/maps/Route104/scripts.pory"
-	msgbox Petalburg_StevenEncounter_Continue_Text_10
+	msgbox Petalburg_StevenEncounter_Continue_Text_2
 	goto Petalburg_StevenEncounter_Continue_1
 
 
@@ -2586,7 +2586,7 @@ Petalburg_StevenEncounter_Continue_Text_0:
 
 Petalburg_StevenEncounter_Continue_Text_1:
 # 1196 "data/maps/Route104/scripts.pory"
-	.string "So you chose Treecko as your starter?\n"
+	.string "So you chose Treecko as your starter?\p"
 	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
@@ -2598,20 +2598,21 @@ Petalburg_StevenEncounter_Continue_Text_2:
 
 Petalburg_StevenEncounter_Continue_Text_3:
 # 1202 "data/maps/Route104/scripts.pory"
-	.string "So you chose Mudkip as your starter?\n"
+	.string "So you chose Mudkip as your starter?\p"
 	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_4:
 # 1208 "data/maps/Route104/scripts.pory"
-	.string "So you chose Torchic as your starter?\n"
+	.string "So you chose Torchic as your starter?\p"
 	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_5:
 # 1214 "data/maps/Route104/scripts.pory"
 	.string "So you chose Charmander as your\n"
-	.string "starter? Great choice!\p"
+	.string "starter?\p"
+	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_6:
@@ -2625,29 +2626,24 @@ Petalburg_StevenEncounter_Continue_Text_6:
 
 Petalburg_StevenEncounter_Continue_Text_7:
 # 1222 "data/maps/Route104/scripts.pory"
-	.string "So you chose Squirtle as your starter?\n"
+	.string "So you chose Squirtle as your starter?\p"
 	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_8:
 # 1228 "data/maps/Route104/scripts.pory"
 	.string "So you chose Bulbasaur as your\n"
-	.string "starter? Great choice!\p"
+	.string "starter?\p"
+	.string "Great choice!\p"
 	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_9:
 # 1234 "data/maps/Route104/scripts.pory"
 	.string "So you chose Chikorita as your starter?\p"
-	.string "Unfortunately, there is no Mega\n"
-	.string "Evolution for it.\p"
-	.string "However, I have something else for you!$"
+	.string "Great choice!\p"
+	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_10:
-# 1237 "data/maps/Route104/scripts.pory"
-	.string "With this ball, you're guaranteed to\n"
-	.string "catch any Pokémon. Use it wisely!$"
-
-Petalburg_StevenEncounter_Continue_Text_11:
 # 1240 "data/maps/Route104/scripts.pory"
 	.string "So you chose Cyndaquil as your\n"
 	.string "starter?\p"
@@ -2655,12 +2651,16 @@ Petalburg_StevenEncounter_Continue_Text_11:
 	.string "Evolution for it.\p"
 	.string "However, I have something else for you!$"
 
+Petalburg_StevenEncounter_Continue_Text_11:
+# 1243 "data/maps/Route104/scripts.pory"
+	.string "With this ball, you're guaranteed to\n"
+	.string "catch any Pokémon. Use it wisely!$"
+
 Petalburg_StevenEncounter_Continue_Text_12:
 # 1246 "data/maps/Route104/scripts.pory"
 	.string "So you chose Totodile as your starter?\p"
-	.string "Unfortunately, there is no Mega\n"
-	.string "Evolution for it.\p"
-	.string "However, I have something else for you!$"
+	.string "Great choice!\p"
+	.string "Here's something for you!$"
 
 Petalburg_StevenEncounter_Continue_Text_13:
 # 1253 "data/maps/Route104/scripts.pory"
