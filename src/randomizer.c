@@ -544,6 +544,36 @@ static const u16 sRandomizerMegaStonePool[] =
     ITEM_GLIMMORANITE,
 };
 
+static const u16 sRandomizerOverworldTMPool[] =
+{
+    ITEM_TM_RAIN_DANCE,
+    ITEM_TM_ICE_BEAM,
+    ITEM_TM_TOXIC,
+    ITEM_TM_ROCK_POLISH,
+    ITEM_TM_FOCUS_BLAST,
+    ITEM_TM_IRON_TAIL,
+    ITEM_TM_DRAGON_CLAW,
+    ITEM_TM_SCORCHING_SANDS,
+    ITEM_TM_SHADOW_BALL,
+    ITEM_TM_SKILL_SWAP,
+    ITEM_TM_ENERGY_BALL,
+    ITEM_TM_SANDSTORM,
+    ITEM_TM_DOUBLE_TEAM,
+    ITEM_TM_ROOST,
+    ITEM_TM_DRAGON_DANCE,
+    ITEM_TM_FOCUS_PUNCH,
+    ITEM_TM_BUG_BUZZ,
+    ITEM_TM_DRAGON_CHEER,
+    ITEM_TM_DRAGON_PULSE,
+    ITEM_TM_SCALD,
+    ITEM_TM_DRAIN_PUNCH,
+    ITEM_TM_SOLAR_BEAM,
+    ITEM_TM_SUNNY_DAY,
+    ITEM_TM_EARTHQUAKE,
+    ITEM_TM_HAIL,
+    ITEM_TM_PSYCHIC,
+};
+
 // Don't randomize HMs or key items, that can make the game unwinnable.
 // ITEM_NONE also should not be randomized as it is invalid.
 static inline bool32 ShouldRandomizeItem(u16 itemId)
@@ -574,7 +604,7 @@ u16 RandomizeFoundItem(u16 itemId, u8 mapGroup, u8 mapNum, u16 localId)
     // Randomize TMs to TMs. Because HMs shouldn't be randomized, we can assume
     // this is a TM.
     if (IsItemTMHM(itemId))
-        return RandomizerNextRange(&state, RANDOMIZER_MAX_TM - ITEM_TM01 + 1) + ITEM_TM01;
+        return sRandomizerOverworldTMPool[RandomizerNextRange(&state, ARRAY_COUNT(sRandomizerOverworldTMPool))];
     
     // Randomize Mega Stones to Mega Stones.
     if (IsMegaStone(itemId))

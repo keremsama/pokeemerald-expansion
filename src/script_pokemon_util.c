@@ -495,6 +495,20 @@ u32 ScriptGiveMon(u16 species, u8 level, u16 item)
                                 MAX_PER_STAT_IVS + 1, MAX_PER_STAT_IVS + 1, MAX_PER_STAT_IVS + 1};  // ScriptGiveMonParameterized won't touch the stats' IV.
     u16 moves[MAX_MON_MOVES] = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE};
 
+#if RANDOMIZER_AVAILABLE == TRUE
+    u16 i;
+    for (i = 0; i < STARTER_AND_GIFT_MON_COUNT; i++)
+    {
+        if (gStarterAndGiftMonTable[i] == species)
+        {
+            species = RandomizeStarterAndGiftMon(i, gStarterAndGiftMonTable);
+            break;
+        }
+    }
+#endif
+
+    VarSet(VAR_TEMP_TRANSFERRED_SPECIES, species);
+
     return ScriptGiveMonParameterized(0, PARTY_SIZE, species, level, item, ITEM_POKE_BALL, NUM_NATURES, NUM_ABILITY_PERSONALITY, MON_GENDERLESS, evs, ivs, moves, FALSE, FALSE, NUMBER_OF_MON_TYPES, 0);
 }
 

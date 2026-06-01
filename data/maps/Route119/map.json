@@ -590,7 +590,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
       "x": 38,
-      "y": 64,
+      "y": 65,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -862,8 +862,8 @@
       "x": 17,
       "y": 82,
       "elevation": 3,
-      "item": "ITEM_CALCIUM",
-      "flag": "FLAG_HIDDEN_ITEM_ROUTE_119_CALCIUM"
+      "item": "ITEM_NUGGET",
+      "flag": "FLAG_HIDDEN_ITEM_ROUTE_119_NUGGET"
     },
     {
       "type": "secret_base",

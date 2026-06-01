@@ -624,11 +624,13 @@ MauvilleCity_Text_WattsonThanksTakeTM:
 
 MauvilleCity_Text_WattsonAlreadyHasThunderbolt:
 	.string "WATTSON: Wahahahaha!\p"
+	.string "I knew it, {PLAYER}{KUN}! I knew I'd made\n"
+	.string "the right choice asking you!\p"
+	.string "This is my thanks--a TM containing\n"
+	.string "CHARGE BEAM!\p"
 	.string "I meant to give you the TM for\n"
 	.string "THUNDERBOLT...\p"
-	.string "But it looks like you already have it!\p"
-	.string "I've got another TM that's nearly\n"
-	.string "as good. Take this one instead!$"
+	.string "But it looks like you already have it!$"
 
 MauvilleCity_Text_WattsonYoungTakeCharge:
 	.string "WATTSON: Wahahahaha!\p"
@@ -696,9 +698,8 @@ script MauvilleCity_EventScript_CantGoNorth{
         playse (SE_PIN)
         applymovement(OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement1)
         waitmovement(OBJ_EVENT_ID_PLAYER)
-        msgbox ("''I suppose they're filming an interview\n"
-                "over there.''\p"
-                "''I'd better not disturb them right now.''")
+        msgbox ("They're filming an interview\n"
+                "over there...\p")
         closemessage
         applymovement(OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement2)
         waitmovement(OBJ_EVENT_ID_PLAYER)

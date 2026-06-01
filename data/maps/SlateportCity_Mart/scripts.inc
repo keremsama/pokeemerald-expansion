@@ -41,7 +41,6 @@ SlateportCity_Mart_Pokemart_TM:
 	.2byte ITEM_TM_STEALTH_ROCK
 	.2byte ITEM_TM_BULLDOZE
 	.2byte ITEM_TM_SWAGGER
-	.2byte ITEM_TM_U_TURN
 	.2byte ITEM_TM_TRICK_ROOM
 	.2byte ITEM_TM_GRASS_KNOT
 	.2byte ITEM_TM_X_SCISSOR

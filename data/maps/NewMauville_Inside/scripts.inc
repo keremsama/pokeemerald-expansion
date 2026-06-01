@@ -357,7 +357,7 @@ NewMauville_Inside_EventScript_Voltorb1::
 # 179 "data/maps/NewMauville_Inside/scripts.pory"
 	faceplayer
 # 180 "data/maps/NewMauville_Inside/scripts.pory"
-	setwildbattle SPECIES_VOLTORB, 25
+	setwildbattle SPECIES_VOLTORB, 40
 # 181 "data/maps/NewMauville_Inside/scripts.pory"
 	waitse
 # 182 "data/maps/NewMauville_Inside/scripts.pory"
@@ -405,7 +405,7 @@ NewMauville_Inside_EventScript_Voltorb2::
 # 203 "data/maps/NewMauville_Inside/scripts.pory"
 	faceplayer
 # 204 "data/maps/NewMauville_Inside/scripts.pory"
-	setwildbattle SPECIES_VOLTORB, 25
+	setwildbattle SPECIES_VOLTORB, 40
 # 205 "data/maps/NewMauville_Inside/scripts.pory"
 	waitse
 # 206 "data/maps/NewMauville_Inside/scripts.pory"
@@ -453,7 +453,7 @@ NewMauville_Inside_EventScript_Voltorb3::
 # 227 "data/maps/NewMauville_Inside/scripts.pory"
 	faceplayer
 # 228 "data/maps/NewMauville_Inside/scripts.pory"
-	setwildbattle SPECIES_VOLTORB, 25
+	setwildbattle SPECIES_VOLTORB, 40
 # 229 "data/maps/NewMauville_Inside/scripts.pory"
 	waitse
 # 230 "data/maps/NewMauville_Inside/scripts.pory"

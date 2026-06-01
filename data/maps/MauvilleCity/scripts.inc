@@ -1251,183 +1251,186 @@ MauvilleCity_Text_WattsonAlreadyHasThunderbolt:
 # 626 "data/maps/MauvilleCity/scripts.pory"
 	.string "WATTSON: Wahahahaha!\p"
 # 627 "data/maps/MauvilleCity/scripts.pory"
-	.string "I meant to give you the TM for\n"
+	.string "I knew it, {PLAYER}{KUN}! I knew I'd made\n"
 # 628 "data/maps/MauvilleCity/scripts.pory"
-	.string "THUNDERBOLT...\p"
+	.string "the right choice asking you!\p"
 # 629 "data/maps/MauvilleCity/scripts.pory"
-	.string "But it looks like you already have it!\p"
+	.string "This is my thanks--a TM containing\n"
 # 630 "data/maps/MauvilleCity/scripts.pory"
-	.string "I've got another TM that's nearly\n"
+	.string "CHARGE BEAM!\p"
 # 631 "data/maps/MauvilleCity/scripts.pory"
-	.string "as good. Take this one instead!$"
+	.string "I meant to give you the TM for\n"
 # 632 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "THUNDERBOLT...\p"
 # 633 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_WattsonYoungTakeCharge:
+	.string "But it looks like you already have it!$"
 # 634 "data/maps/MauvilleCity/scripts.pory"
-	.string "WATTSON: Wahahahaha!\p"
+
 # 635 "data/maps/MauvilleCity/scripts.pory"
-	.string "It pleases me to no end to see\n"
+MauvilleCity_Text_WattsonYoungTakeCharge:
 # 636 "data/maps/MauvilleCity/scripts.pory"
-	.string "the young step up and take charge!$"
+	.string "WATTSON: Wahahahaha!\p"
 # 637 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "It pleases me to no end to see\n"
 # 638 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_NurseHurtMonBackToHealth:
+	.string "the young step up and take charge!$"
 # 639 "data/maps/MauvilleCity/scripts.pory"
-	.string "You know, it's cool to have POKéMON\n"
+
 # 640 "data/maps/MauvilleCity/scripts.pory"
-	.string "battles and stuff…\p"
+MauvilleCity_Text_NurseHurtMonBackToHealth:
 # 641 "data/maps/MauvilleCity/scripts.pory"
-	.string "But if your POKéMON gets hurt,\n"
+	.string "You know, it's cool to have POKéMON\n"
 # 642 "data/maps/MauvilleCity/scripts.pory"
-	.string "you have to nurse it back to health.$"
+	.string "battles and stuff…\p"
 # 643 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "But if your POKéMON gets hurt,\n"
 # 644 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_AllSortsOfPeopleComeThrough:
+	.string "you have to nurse it back to health.$"
 # 645 "data/maps/MauvilleCity/scripts.pory"
-	.string "The roads of this town stretch north\n"
+
 # 646 "data/maps/MauvilleCity/scripts.pory"
-	.string "and south, and east and west.\p"
+MauvilleCity_Text_AllSortsOfPeopleComeThrough:
 # 647 "data/maps/MauvilleCity/scripts.pory"
-	.string "Because of that, we get all sorts of\n"
+	.string "The roads of this town stretch north\n"
 # 648 "data/maps/MauvilleCity/scripts.pory"
-	.string "people coming through.$"
+	.string "and south, and east and west.\p"
 # 649 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "Because of that, we get all sorts of\n"
 # 650 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_RydelVeryGenerous:
+	.string "people coming through.$"
 # 651 "data/maps/MauvilleCity/scripts.pory"
-	.string "Have you been to RYDEL'S CYCLES yet?\p"
+
 # 652 "data/maps/MauvilleCity/scripts.pory"
-	.string "RYDEL, the owner, is a very generous\n"
+MauvilleCity_Text_RydelVeryGenerous:
 # 653 "data/maps/MauvilleCity/scripts.pory"
-	.string "man.$"
+	.string "Have you been to RYDEL'S CYCLES yet?\p"
 # 654 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "RYDEL, the owner, is a very generous\n"
 # 655 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_PokemonCanJumpYouOnBike:
+	.string "man.$"
 # 656 "data/maps/MauvilleCity/scripts.pory"
-	.string "Even if you're riding a BIKE,\n"
+
 # 657 "data/maps/MauvilleCity/scripts.pory"
-	.string "wild POKéMON could jump you.$"
+MauvilleCity_Text_PokemonCanJumpYouOnBike:
 # 658 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "Even if you're riding a BIKE,\n"
 # 659 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_CitySign:
+	.string "wild POKéMON could jump you.$"
 # 660 "data/maps/MauvilleCity/scripts.pory"
-	.string "MAUVILLE CITY\n"
+
 # 661 "data/maps/MauvilleCity/scripts.pory"
-	.string "“The bright and shiny city of fun!”$"
+MauvilleCity_Text_CitySign:
 # 662 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "MAUVILLE CITY\n"
 # 663 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_GymSign:
+	.string "“The bright and shiny city of fun!”$"
 # 664 "data/maps/MauvilleCity/scripts.pory"
-	.string "MAUVILLE CITY POKéMON GYM\n"
+
 # 665 "data/maps/MauvilleCity/scripts.pory"
-	.string "LEADER: WATTSON\l"
+MauvilleCity_Text_GymSign:
 # 666 "data/maps/MauvilleCity/scripts.pory"
-	.string "“The cheerfully electrifying man!”$"
+	.string "MAUVILLE CITY POKéMON GYM\n"
 # 667 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "LEADER: WATTSON\l"
 # 668 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_BikeShopSign:
+	.string "“The cheerfully electrifying man!”$"
 # 669 "data/maps/MauvilleCity/scripts.pory"
-	.string "“Ride in gravel and shake up your\n"
+
 # 670 "data/maps/MauvilleCity/scripts.pory"
-	.string "soul!”\l"
+MauvilleCity_Text_BikeShopSign:
 # 671 "data/maps/MauvilleCity/scripts.pory"
-	.string "RYDEL'S CYCLES$"
+	.string "“Ride in gravel and shake up your\n"
 # 672 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "soul!”\l"
 # 673 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_GameCornerSign:
+	.string "RYDEL'S CYCLES$"
 # 674 "data/maps/MauvilleCity/scripts.pory"
-	.string "“The play spot for all!”\n"
+
 # 675 "data/maps/MauvilleCity/scripts.pory"
-	.string "MAUVILLE GAME CORNER$"
+MauvilleCity_Text_GameCornerSign:
 # 676 "data/maps/MauvilleCity/scripts.pory"
-
+	.string "“The play spot for all!”\n"
 # 677 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_ExplainTV:
+	.string "MAUVILLE GAME CORNER$"
 # 678 "data/maps/MauvilleCity/scripts.pory"
-	.string "Hi, do you check out TV at all?\p"
-# 679 "data/maps/MauvilleCity/scripts.pory"
-	.string "They've added a bunch of cool new\n"
-# 680 "data/maps/MauvilleCity/scripts.pory"
-	.string "shows recently.\p"
-# 681 "data/maps/MauvilleCity/scripts.pory"
-	.string "TV is so cool. I've seen my friends on\n"
-# 682 "data/maps/MauvilleCity/scripts.pory"
-	.string "TV just out of the blue.\p"
-# 683 "data/maps/MauvilleCity/scripts.pory"
-	.string "And, sometimes, they even put you on TV\n"
-# 684 "data/maps/MauvilleCity/scripts.pory"
-	.string "without telling you.\p"
-# 685 "data/maps/MauvilleCity/scripts.pory"
-	.string "I wish I would be on TV sometime.\p"
-# 686 "data/maps/MauvilleCity/scripts.pory"
-	.string "That's why I think you should check\n"
-# 687 "data/maps/MauvilleCity/scripts.pory"
-	.string "out TVs whenever you can.$"
-# 688 "data/maps/MauvilleCity/scripts.pory"
 
+# 679 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_Text_ExplainTV:
+# 680 "data/maps/MauvilleCity/scripts.pory"
+	.string "Hi, do you check out TV at all?\p"
+# 681 "data/maps/MauvilleCity/scripts.pory"
+	.string "They've added a bunch of cool new\n"
+# 682 "data/maps/MauvilleCity/scripts.pory"
+	.string "shows recently.\p"
+# 683 "data/maps/MauvilleCity/scripts.pory"
+	.string "TV is so cool. I've seen my friends on\n"
+# 684 "data/maps/MauvilleCity/scripts.pory"
+	.string "TV just out of the blue.\p"
+# 685 "data/maps/MauvilleCity/scripts.pory"
+	.string "And, sometimes, they even put you on TV\n"
+# 686 "data/maps/MauvilleCity/scripts.pory"
+	.string "without telling you.\p"
+# 687 "data/maps/MauvilleCity/scripts.pory"
+	.string "I wish I would be on TV sometime.\p"
+# 688 "data/maps/MauvilleCity/scripts.pory"
+	.string "That's why I think you should check\n"
 # 689 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_Text_BeenCheckingOutTV:
+	.string "out TVs whenever you can.$"
 # 690 "data/maps/MauvilleCity/scripts.pory"
+
+# 691 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_Text_BeenCheckingOutTV:
+# 692 "data/maps/MauvilleCity/scripts.pory"
 	.string "Hi, have you been checking out TVs?$"
 
 MauvilleCity_EventScript_CantGoNorth::
-# 694 "data/maps/MauvilleCity/scripts.pory"
+# 696 "data/maps/MauvilleCity/scripts.pory"
 	goto_if_unset FLAG_BADGE03_GET, MauvilleCity_EventScript_CantGoNorth_1
 	return
 
 MauvilleCity_EventScript_CantGoNorth_1:
-# 695 "data/maps/MauvilleCity/scripts.pory"
-	lockall
-# 696 "data/maps/MauvilleCity/scripts.pory"
-	playse SE_PIN
 # 697 "data/maps/MauvilleCity/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement1
+	lockall
 # 698 "data/maps/MauvilleCity/scripts.pory"
-	waitmovement OBJ_EVENT_ID_PLAYER
+	playse SE_PIN
 # 699 "data/maps/MauvilleCity/scripts.pory"
-	msgbox MauvilleCity_EventScript_CantGoNorth_Text_0
-# 702 "data/maps/MauvilleCity/scripts.pory"
-	closemessage
-# 703 "data/maps/MauvilleCity/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement2
-# 704 "data/maps/MauvilleCity/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement1
+# 700 "data/maps/MauvilleCity/scripts.pory"
 	waitmovement OBJ_EVENT_ID_PLAYER
+# 701 "data/maps/MauvilleCity/scripts.pory"
+	msgbox MauvilleCity_EventScript_CantGoNorth_Text_0
+# 703 "data/maps/MauvilleCity/scripts.pory"
+	closemessage
+# 704 "data/maps/MauvilleCity/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement2
 # 705 "data/maps/MauvilleCity/scripts.pory"
+	waitmovement OBJ_EVENT_ID_PLAYER
+# 706 "data/maps/MauvilleCity/scripts.pory"
 	release
 	end
 
 
-# 710 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_EventScript_CantGoNorth_Movement1:
 # 711 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_EventScript_CantGoNorth_Movement1:
+# 712 "data/maps/MauvilleCity/scripts.pory"
 	emote_exclamation_mark
-# 712 "data/maps/MauvilleCity/scripts.pory"
+# 713 "data/maps/MauvilleCity/scripts.pory"
 	delay_16
-# 712 "data/maps/MauvilleCity/scripts.pory"
+# 713 "data/maps/MauvilleCity/scripts.pory"
 	delay_16
-# 712 "data/maps/MauvilleCity/scripts.pory"
+# 713 "data/maps/MauvilleCity/scripts.pory"
 	delay_16
-# 712 "data/maps/MauvilleCity/scripts.pory"
+# 713 "data/maps/MauvilleCity/scripts.pory"
 	delay_16
 	step_end
 
-# 715 "data/maps/MauvilleCity/scripts.pory"
-MauvilleCity_EventScript_CantGoNorth_Movement2:
 # 716 "data/maps/MauvilleCity/scripts.pory"
+MauvilleCity_EventScript_CantGoNorth_Movement2:
+# 717 "data/maps/MauvilleCity/scripts.pory"
 	walk_down
 	step_end
 
 MauvilleCity_EventScript_CantGoNorth_Text_0:
-# 699 "data/maps/MauvilleCity/scripts.pory"
-	.string "''I suppose they're filming an interview\n"
-	.string "over there.''\p"
-	.string "''I'd better not disturb them right now.''$"
+# 701 "data/maps/MauvilleCity/scripts.pory"
+	.string "They're filming an interview\n"
+	.string "over there...\p$"
