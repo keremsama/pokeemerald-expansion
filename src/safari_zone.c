@@ -8,8 +8,10 @@
 #include "safari_zone.h"
 #include "script.h"
 #include "string_util.h"
+#include "tx_randomizer_and_challenges.h"
 #include "tv.h"
 #include "constants/game_stat.h"
+#include "constants/region_map_sections.h"
 #include "field_screen_effect.h"
 
 struct PokeblockFeeder
@@ -52,6 +54,14 @@ void ResetSafariZoneFlag(void)
     FlagClear(FLAG_SYS_SAFARI_MODE);
 }
 
+bool8 SafariZone_IsFirstNuzlockeSessionActive(void)
+{
+    return IsNuzlockeActive()
+        && GetSafariZoneFlag()
+        && GetGameStat(GAME_STAT_ENTERED_SAFARI_ZONE) == 1
+        && !NuzlockeFlagGet(MAPSEC_SAFARI_ZONE);
+}
+
 void EnterSafariMode(void)
 {
     IncrementGameStat(GAME_STAT_ENTERED_SAFARI_ZONE);
@@ -65,6 +75,9 @@ void EnterSafariMode(void)
 
 void ExitSafariMode(void)
 {
+    if (SafariZone_IsFirstNuzlockeSessionActive())
+        NuzlockeFlagSet(MAPSEC_SAFARI_ZONE);
+
     TryPutSafariFanClubOnAir(sSafariZoneCaughtMons, sSafariZonePkblkUses);
     ResetSafariZoneFlag();
     ClearAllPokeblockFeeders();

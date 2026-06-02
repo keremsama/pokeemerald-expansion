@@ -9,6 +9,7 @@ void ResetSafariZoneFlag(void);
 
 void EnterSafariMode(void);
 void ExitSafariMode(void);
+bool8 SafariZone_IsFirstNuzlockeSessionActive(void);
 
 bool8 SafariZoneTakeStep(void);
 void SafariZoneRetirePrompt(void);

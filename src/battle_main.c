@@ -5775,8 +5775,15 @@ static void HandleEndTurn_FinishBattle(void)
                                       | BATTLE_TYPE_TOWER_LINK_MULTI
                                       | BATTLE_TYPE_RECORDED_LINK)))
             {
-                if (!NuzlockeIsSpeciesClauseActive && !NuzlockeShouldSkipEncounterFlag)
+                if ((gBattleTypeFlags & BATTLE_TYPE_SAFARI) && SafariZone_IsFirstNuzlockeSessionActive())
+                {
+                    if (gBattleOutcome == B_OUTCOME_CAUGHT)
+                        NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());
+                }
+                else if (!NuzlockeIsSpeciesClauseActive && !NuzlockeShouldSkipEncounterFlag)
+                {
                     NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());
+                }
             }
             NuzlockeIsCaptureBlocked = FALSE;
             NuzlockeIsSpeciesClauseActive = FALSE;
