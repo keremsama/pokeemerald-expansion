@@ -1304,6 +1304,13 @@ static void Cmd_attackcanceler(void)
         return;
     }
 
+    if (IsBattlerProtectedByPiercingDrill(gBattlerAttacker, gBattlerTarget, gCurrentMove))
+    {
+        BattleScriptPush(cmd->nextInstr);
+        gBattlescriptCurrInstr = BattleScript_PiercingDrillBreaksProtection;
+        return;
+    }
+
     for (i = 0; i < gBattlersCount; i++)
     {
         if ((gProtectStructs[gBattlerByTurnOrder[i]].stealMove) && MoveCanBeSnatched(gCurrentMove))
@@ -1527,7 +1534,7 @@ u32 GetTotalAccuracy(u32 battlerAtk, u32 battlerDef, u32 move, u32 atkAbility, u
 
     moveAcc = GetMoveAccuracy(move);
     // Check Thunder and Hurricane on sunny weather.
-    if (IsBattlerWeatherAffected(battlerDef, B_WEATHER_SUN) && GetMoveEffect(move) == EFFECT_THUNDER)
+    if ((IsBattlerWeatherAffected(battlerDef, B_WEATHER_SUN) || BattlerHasMegaSol(battlerAtk)) && GetMoveEffect(move) == EFFECT_THUNDER)
         moveAcc = 50;
     // Check Wonder Skin.
     if (defAbility == ABILITY_WONDER_SKIN && IsBattleMoveStatus(move) && moveAcc > 50)
@@ -1555,11 +1562,11 @@ u32 GetTotalAccuracy(u32 battlerAtk, u32 battlerDef, u32 move, u32 atkAbility, u
     switch (defAbility)
     {
     case ABILITY_SAND_VEIL:
-        if (HasWeatherEffect() && gBattleWeather & B_WEATHER_SANDSTORM)
+        if (!BattlerHasMegaSol(battlerAtk) && HasWeatherEffect() && gBattleWeather & B_WEATHER_SANDSTORM)
             calc = (calc * 80) / 100; // 1.2 sand veil loss
         break;
     case ABILITY_SNOW_CLOAK:
-        if (HasWeatherEffect() && (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)))
+        if (!BattlerHasMegaSol(battlerAtk) && HasWeatherEffect() && (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)))
             calc = (calc * 80) / 100; // 1.2 snow cloak loss
         break;
     case ABILITY_TANGLED_FEET:
@@ -14702,7 +14709,9 @@ static void Cmd_recoverbasedonsunlight(void)
         }
         else
         {
-            if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_UTILITY_UMBRELLA)
+            if (BattlerHasMegaSol(gBattlerAttacker))
+                gBattleStruct->moveDamage[gBattlerAttacker] = 20 * GetNonDynamaxMaxHP(gBattlerAttacker) / 30;
+            else if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_UTILITY_UMBRELLA)
                 gBattleStruct->moveDamage[gBattlerAttacker] = GetNonDynamaxMaxHP(gBattlerAttacker) / 2;
             else if (gBattleWeather & B_WEATHER_SUN)
                 gBattleStruct->moveDamage[gBattlerAttacker] = 20 * GetNonDynamaxMaxHP(gBattlerAttacker) / 30;
@@ -14866,6 +14875,8 @@ static bool32 CheckIfCanFireTwoTurnMoveNow(u8 battler, bool8 checkChargeTurnEffe
 
     // Certain two-turn moves may fire on the first turn in the right weather (Solar Beam, Electro Shot)
     // By default, all two-turn moves have the option of adding weather to their argument
+    if (BattlerHasMegaSol(battler) && GetMoveTwoTurnAttackWeather(gCurrentMove) == B_WEATHER_SUN)
+        return TRUE;
     if (IsBattlerWeatherAffected(battler, GetMoveTwoTurnAttackWeather(gCurrentMove)))
         return TRUE;
 
@@ -14875,8 +14886,9 @@ static bool32 CheckIfCanFireTwoTurnMoveNow(u8 battler, bool8 checkChargeTurnEffe
 static void Cmd_tryfiretwoturnmovenowbyeffect(void)
 {
     CMD_ARGS(u8 battler, bool8 checkChargeTurnEffects, const u8 *jumpInstr);
+    u32 battlerId = GetBattlerForBattleScript(cmd->battler);
 
-    if (CheckIfCanFireTwoTurnMoveNow(cmd->battler, cmd->checkChargeTurnEffects) == TRUE)
+    if (CheckIfCanFireTwoTurnMoveNow(battlerId, cmd->checkChargeTurnEffects) == TRUE)
     {
         gBattleScripting.animTurn = 1;
         gBattlescriptCurrInstr = cmd->jumpInstr;

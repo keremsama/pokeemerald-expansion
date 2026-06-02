@@ -6898,6 +6898,12 @@ BattleScript_MegaEvolutionAfterString:
 	printstring STRINGID_MEGAEVOEVOLVED
 	waitmessage B_WAIT_TIME_LONG
 	switchinabilities BS_SCRIPTING
+	jumpifability BS_SCRIPTING, ABILITY_MEGA_SOL, BattleScript_MegaEvolutionMegaSol
+	end3
+BattleScript_MegaEvolutionMegaSol:
+	call BattleScript_AbilityPopUpScripting
+	printstring STRINGID_MEGASOLAURA
+	waitmessage B_WAIT_TIME_LONG
 	end3
 
 BattleScript_WishMegaEvolution::
@@ -10054,6 +10060,13 @@ BattleScript_PokemonCantUseTheMove::
 	goto BattleScript_MoveEnd
 
 BattleScript_CouldntFullyProtect::
+	printstring STRINGID_COULDNTFULLYPROTECT
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_PiercingDrillBreaksProtection::
+	copybyte gBattlerAbility, gBattlerAttacker
+	call BattleScript_AbilityPopUp
 	printstring STRINGID_COULDNTFULLYPROTECT
 	waitmessage B_WAIT_TIME_LONG
 	return

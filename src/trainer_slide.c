@@ -218,6 +218,48 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("This isn't over yet!{PAUSE_UNTIL_PRESS}"),
         },
 
+        [TRAINER_BRENDAN_ROUTE_119_MUDKIP]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far both of us\nhave come!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'm not done yet!\pA good Trainer keeps fighting\nuntil the very end!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI learned how to use that\npower too.\pLet's push our partners beyond\ntheir limits!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_119_TREECKO]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far both of us\nhave come!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'm not done yet!\pA good Trainer keeps fighting\nuntil the very end!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI learned how to use that\npower too.\pLet's push our partners beyond\ntheir limits!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_119_TORCHIC]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("Let's see how far both of us\nhave come!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I'm not done yet!\pA good Trainer keeps fighting\nuntil the very end!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI learned how to use that\npower too.\pLet's push our partners beyond\ntheir limits!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_119_MUDKIP]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I was hoping we could battle\nbefore the Fortree Gym challenge.\pSo, no holding back, okay?{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("My last POKéMON...\pOkay, deep breath...\pWe've still got a chance!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI can use that power too.\pLet's show ourselves what Mega Evolution\ncan do!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_119_TREECKO]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I was hoping we could battle\nbefore the Fortree Gym challenge.\pSo, no holding back, okay?{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("My last POKéMON...\pOkay, deep breath...\pWe've still got a chance!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI can use that power too.\pLet's show ourselves what Mega Evolution\ncan do!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_119_TORCHIC]
+        {
+            [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I was hoping we could battle\nbefore the Fortree Gym challenge.\pSo, no holding back, okay?{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("My last POKéMON...\pOkay, deep breath...\pWe've still got a chance!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_MEGA_EVOLUTION] = COMPOUND_STRING("I see you've got a Mega Ring.\pBut guess what?\pI can use that power too.\pLet's show ourselves what Mega Evolution\ncan do!{PAUSE_UNTIL_PRESS}"),
+        },
+
         [TRAINER_WALLY_MAUVILLE]
         {
             [TRAINER_SLIDE_BEFORE_FIRST_TURN] = COMPOUND_STRING("I'll show you how strong I've become!{PAUSE_UNTIL_PRESS}"),

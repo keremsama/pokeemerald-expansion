@@ -897,6 +897,7 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_NUZLOCKECAPTUREBLOCKED]               = COMPOUND_STRING("You have already used your encounter\nfor this area!{PAUSE_UNTIL_PRESS}"),
     [STRINGID_SPECIESCLAUSECAPTUREBLOCKED]          = COMPOUND_STRING("You have already caught a POKEMON\nin this evolution line!{PAUSE_UNTIL_PRESS}"),
     [STRINGID_SAMESPECIESCAPTUREBLOCKED]            = COMPOUND_STRING("You have already caught this POKEMON!{PAUSE_UNTIL_PRESS}"),
+    [STRINGID_MEGASOLAURA]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} radiates a brilliant solar aura!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

@@ -208,6 +208,8 @@ enum {
 
 #define MAX_PLAYER_CARDS 9
 #define MAX_DEALER_CARDS 9
+#define BET_REPEAT_DELAY 72
+#define BET_REPEAT_INTERVAL 4
 
 #define CARD_SCORE_2     2
 #define CARD_SCORE_3     3
@@ -265,6 +267,8 @@ struct BlackJack {
     u8 optionMode:3;
     u8 exitToggle:1;
     u8 unused:7;
+    u8 betRepeatDelay;
+    u8 betRepeatTimer;
     u8 dealerScore;
     u8 playerScore;
     u16 betBlackJack;
@@ -294,6 +298,8 @@ static void BJMain(u8 taskId);
 static void HandleInput_BJComplete(void);
 static void PrintInitMessage(void);
 static void AButton(void);
+static void ResetBetRepeat(void);
+static bool8 TryRepeatBetAdjustment(void);
 
 //BlackJack
 static const u8 sText_Bust[] = _("BUST!");
@@ -2487,22 +2493,64 @@ static void HandleInput(void)
     if (JOY_NEW(A_BUTTON))
     {
         AButton();
+        ResetBetRepeat();
         if (sBlackJack->clearBlackJack)
             sBlackJack->clearBlackJack = FALSE;
     }
+    else if (TryRepeatBetAdjustment())
+    {
+        return;
+    }
     else if (JOY_NEW(B_BUTTON))
     {
+        ResetBetRepeat();
         if (sBlackJack->exitToggle == FALSE)
             sBlackJack->state = BJ_STATE_START_EXIT;
     }
     else if (JOY_NEW(DPAD_UP))
     {
+        ResetBetRepeat();
         MoveCursor(0);
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
+        ResetBetRepeat();
         MoveCursor(2);
     }
+}
+
+static void ResetBetRepeat(void)
+{
+    sBlackJack->betRepeatDelay = 0;
+    sBlackJack->betRepeatTimer = 0;
+}
+
+static bool8 TryRepeatBetAdjustment(void)
+{
+    if (!JOY_HELD(A_BUTTON)
+     || sBlackJack->optionMode != OPTION_BET
+     || (gSprites[sBlackJack->cursorSpriteId].y != 57
+      && gSprites[sBlackJack->cursorSpriteId].y != 57 + 16))
+    {
+        ResetBetRepeat();
+        return FALSE;
+    }
+
+    if (sBlackJack->betRepeatDelay < BET_REPEAT_DELAY)
+    {
+        sBlackJack->betRepeatDelay++;
+        return TRUE;
+    }
+
+    if (sBlackJack->betRepeatTimer != 0)
+    {
+        sBlackJack->betRepeatTimer--;
+        return TRUE;
+    }
+
+    AButton();
+    sBlackJack->betRepeatTimer = BET_REPEAT_INTERVAL;
+    return TRUE;
 }
 
 static void UpdateCardVisibility(void)

@@ -2412,13 +2412,19 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_PIERCING_DRILL] =
     {
         .name = _("Piercing Drill"),
-        .description = COMPOUND_STRING("Unimplemented."),
+        .description = COMPOUND_STRING(
+            "Contact moves pierce\n"
+            "protection, weakly."),
+        .aiRating = 7,
     },
 
     [ABILITY_DRAGONIZE] =
     {
         .name = _("Dragonize"),
-        .description = COMPOUND_STRING("Unimplemented."),
+        .description = COMPOUND_STRING(
+            "Turns Normal moves\n"
+            "Dragon and boosts them."),
+        .aiRating = 8,
     },
 
     [ABILITY_313] =
@@ -2436,7 +2442,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_MEGA_SOL] =
     {
         .name = _("Mega Sol"),
-        .description = COMPOUND_STRING("Unimplemented."),
+        .description = COMPOUND_STRING(
+            "Its moves act as if\n"
+            "under harsh sunlight."),
+        .aiRating = 8,
     },
 
     [ABILITY_316] =
@@ -2454,6 +2463,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_SPICY_SPRAY] =
     {
         .name = _("Spicy Spray"),
-        .description = COMPOUND_STRING("Unimplemented."),
+        .description = COMPOUND_STRING(
+            "Burns attackers that\n"
+            "damage it with moves."),
+        .aiRating = 5,
     },
 };

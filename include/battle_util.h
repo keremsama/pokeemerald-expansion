@@ -221,12 +221,14 @@ bool32 TryPrimalReversion(u32 battler);
 bool32 IsNeutralizingGasOnField(void);
 bool32 IsMoldBreakerTypeAbility(u32 battler, u32 ability);
 u32 GetBattlerAbility(u32 battler);
+bool32 BattlerHasMegaSol(u32 battler);
 u32 IsAbilityOnSide(u32 battler, u32 ability);
 u32 IsAbilityOnOpposingSide(u32 battler, u32 ability);
 u32 IsAbilityOnField(u32 ability);
 u32 IsAbilityOnFieldExcept(u32 battler, u32 ability);
 u32 IsAbilityPreventingEscape(u32 battler);
 bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move);
+bool32 IsBattlerProtectedByPiercingDrill(u32 battlerAtk, u32 battlerDef, u32 move);
 bool32 CanBattlerEscape(u32 battler); // no ability check
 void BattleScriptExecute(const u8 *BS_ptr);
 void BattleScriptPushCursorAndCallback(const u8 *BS_ptr);
