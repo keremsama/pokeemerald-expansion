@@ -78,6 +78,13 @@ enum {
 };
 
 enum {
+    BAG_SORT_BY_NAME,
+    BAG_SORT_BY_TYPE,
+    BAG_SORT_BY_AMOUNT,
+    BAG_SORT_BY_NUMBER,
+};
+
+enum {
     ACTION_USE,
     ACTION_TOSS,
     ACTION_REGISTER,
@@ -93,6 +100,10 @@ enum {
     ACTION_GIVE_FAVOR_LADY,
     ACTION_CONFIRM_QUIZ_LADY,
     ACTION_SELECT_BUTTON,
+    ACTION_BY_NAME,
+    ACTION_BY_TYPE,
+    ACTION_BY_AMOUNT,
+    ACTION_BY_NUMBER,
     ACTION_DUMMY,
 };
 
@@ -218,12 +229,51 @@ static void Task_FadeAndCloseBagMenuIfMulch(u8 taskId);
 
 static void ItemMenu_RegisterList(u8 taskId);
 static void ItemMenu_Deselect(u8 taskId);
+static void Task_LoadBagSortOptions(u8 taskId);
+static void ItemMenu_SortByName(u8 taskId);
+static void ItemMenu_SortByType(u8 taskId);
+static void ItemMenu_SortByAmount(u8 taskId);
+static void ItemMenu_SortByNumber(u8 taskId);
+static void SortBagItems(u8 taskId);
+static void Task_SortFinish(u8 taskId);
+static bool8 CanSortItems(void);
+static u8 GetSortableItemCount(void);
+static void SortItemsInBag(u8 pocket, u8 sortType);
+static void SwapBagItemSlots(struct ItemSlot *a, struct ItemSlot *b);
+static const u8 *GetBagSortName(u16 itemId);
+static u16 GetBagItemSlotQuantity(const struct ItemSlot *itemSlot);
+static u16 GetTmHmNumberSortKey(u16 itemId);
+static u32 GetBagSortTypeKey(u16 itemId);
+static s32 CompareBagItemSlotsByName(const struct ItemSlot *a, const struct ItemSlot *b);
+static s32 CompareBagItemSlotsByType(const struct ItemSlot *a, const struct ItemSlot *b);
+static s32 CompareBagItemSlotsByAmount(const struct ItemSlot *a, const struct ItemSlot *b);
+static s32 CompareBagItemSlotsByNumber(const struct ItemSlot *a, const struct ItemSlot *b);
+static void AddBagSortSubMenu(void);
 
 static const u8 sText_Var1CantBeHeldHere[] = _("The {STR_VAR_1} can't be held\nhere.");
 static const u8 sText_DepositHowManyVar1[] = _("Deposit how many\n{STR_VAR_1}?");
 static const u8 sText_DepositedVar2Var1s[] = _("Deposited {STR_VAR_2}\n{STR_VAR_1}.");
 static const u8 sText_NoRoomForItems[] = _("There's no room to\nstore items.");
 static const u8 sText_CantStoreImportantItems[] = _("Important items\ncan't be stored in\nthe PC!");
+static const u8 sMenuText_ByName[] = _("Name");
+static const u8 sMenuText_ByType[] = _("Type");
+static const u8 sMenuText_ByAmount[] = _("Amount");
+static const u8 sMenuText_ByNumber[] = _("Number");
+static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
+static const u8 sText_SortItemsHow[] = _("Sort items how?");
+static const u8 sText_SortedByName[] = _("name");
+static const u8 sText_SortedByType[] = _("type");
+static const u8 sText_SortedByAmount[] = _("amount");
+static const u8 sText_SortedByNumber[] = _("number");
+static const u8 sText_ItemsSorted[] = _("Items sorted by {STR_VAR_1}!");
+
+static const u8 *const sSortTypeStrings[] =
+{
+    [BAG_SORT_BY_NAME] = sText_SortedByName,
+    [BAG_SORT_BY_TYPE] = sText_SortedByType,
+    [BAG_SORT_BY_AMOUNT] = sText_SortedByAmount,
+    [BAG_SORT_BY_NUMBER] = sText_SortedByNumber,
+};
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
 {
@@ -293,6 +343,10 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_SHOW]              = {COMPOUND_STRING("SHOW"),      {ItemMenu_Show}},
     [ACTION_GIVE_FAVOR_LADY]   = {gMenuText_Give2,              {ItemMenu_GiveFavorLady}},
     [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm,            {ItemMenu_ConfirmQuizLady}},
+    [ACTION_BY_NAME]           = {sMenuText_ByName,              {ItemMenu_SortByName}},
+    [ACTION_BY_TYPE]           = {sMenuText_ByType,              {ItemMenu_SortByType}},
+    [ACTION_BY_AMOUNT]         = {sMenuText_ByAmount,            {ItemMenu_SortByAmount}},
+    [ACTION_BY_NUMBER]         = {sMenuText_ByNumber,            {ItemMenu_SortByNumber}},
     [ACTION_DUMMY]             = {gText_EmptyString2, {NULL}}
 };
 
@@ -351,6 +405,25 @@ static const u8 sContextMenuItems_FavorLady[] = {
 
 static const u8 sContextMenuItems_QuizLady[] = {
     ACTION_CONFIRM_QUIZ_LADY, ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_SortItemsPocket[] = {
+    ACTION_BY_NAME,     ACTION_BY_TYPE,
+    ACTION_BY_AMOUNT,   ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_SortKeyItemsPocket[] = {
+    ACTION_BY_NAME,     ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_SortSimplePocket[] = {
+    ACTION_BY_NAME,     ACTION_BY_AMOUNT,
+    ACTION_DUMMY,       ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_SortTmHmPocket[] = {
+    ACTION_BY_NAME,     ACTION_BY_NUMBER,
+    ACTION_DUMMY,       ACTION_CANCEL
 };
 
 static const TaskFunc sContextMenuFuncs[] = {
@@ -686,6 +759,7 @@ void VBlankCB_BagMenuRun(void)
 #define tListPosition      data[1]
 #define tQuantity          data[2]
 #define tNeverRead         data[3]
+#define tSortType          data[4]
 #define tItemCount         data[8]
 #define tMsgWindowId       data[10]
 #define tPocketSwitchDir   data[11]
@@ -1273,6 +1347,26 @@ static void Task_BagMenu_HandleInput(u8 taskId)
                         StartItemSwap(taskId);
                     }
                 }
+                return;
+            }
+            else if (JOY_NEW(START_BUTTON) && CanSortItems() == TRUE)
+            {
+                if (GetSortableItemCount() <= 1)
+                {
+                    PlaySE(SE_FAILURE);
+                    DisplayItemMessage(taskId, FONT_NORMAL, sText_NothingToSort, HandleErrorMessage);
+                    return;
+                }
+
+                PlaySE(SE_SELECT);
+                ListMenuGetScrollAndRow(tListTaskId, scrollPos, cursorPos);
+                tListPosition = *scrollPos + *cursorPos;
+                if (!gBagMenu->hideCloseBagText && tListPosition == gBagMenu->numItemStacks[gBagPosition.pocket] - 1)
+                    tListPosition = LIST_CANCEL;
+                BagDestroyPocketScrollArrowPair();
+                DestroyPocketSwitchArrowPair();
+                BagMenu_PrintCursor(tListTaskId, COLORID_GRAY_CURSOR);
+                gTasks[taskId].func = Task_LoadBagSortOptions;
                 return;
             }
             break;
@@ -2608,6 +2702,291 @@ static void RemoveItemMessageWindow(u8 windowType)
 void BagMenu_YesNo(u8 taskId, u8 windowType, const struct YesNoFuncTable *funcTable)
 {
     CreateYesNoMenuWithCallbacks(taskId, &sContextMenuWindowTemplates[windowType], 1, 0, 2, 1, 14, funcTable);
+}
+
+static bool8 CanSortItems(void)
+{
+    if (MenuHelpers_IsLinkActive() == TRUE || InUnionRoom() == TRUE || IsWallysBag())
+        return FALSE;
+
+    switch (gBagPosition.location)
+    {
+    case ITEMMENULOCATION_FIELD:
+    case ITEMMENULOCATION_BATTLE:
+    case ITEMMENULOCATION_SHOP:
+    case ITEMMENULOCATION_ITEMPC:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+static u8 GetSortableItemCount(void)
+{
+    u8 count = gBagMenu->numItemStacks[gBagPosition.pocket];
+
+    if (!gBagMenu->hideCloseBagText && count != 0)
+        count--;
+
+    return count;
+}
+
+static void AddBagSortSubMenu(void)
+{
+    switch (gBagPosition.pocket)
+    {
+    case KEYITEMS_POCKET:
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_SortKeyItemsPocket;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_SortKeyItemsPocket);
+        break;
+    case TMHM_POCKET:
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_SortTmHmPocket;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_SortTmHmPocket);
+        break;
+    case BALLS_POCKET:
+    case BERRIES_POCKET:
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_SortSimplePocket;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_SortSimplePocket);
+        break;
+    case ITEMS_POCKET:
+    default:
+        gBagMenu->contextMenuItemsPtr = sContextMenuItems_SortItemsPocket;
+        gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_SortItemsPocket);
+        break;
+    }
+
+    StringExpandPlaceholders(gStringVar4, sText_SortItemsHow);
+    FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
+    BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
+    PutWindowTilemap(WIN_DESCRIPTION);
+
+    if (gBagMenu->contextMenuNumItems == 2)
+        PrintContextMenuItems(BagMenu_AddWindow(ITEMWIN_1x2));
+    else if (gBagMenu->contextMenuNumItems == 4)
+        PrintContextMenuItemGrid(BagMenu_AddWindow(ITEMWIN_2x2), 2, 2);
+    else
+        PrintContextMenuItemGrid(BagMenu_AddWindow(ITEMWIN_2x3), 2, 3);
+}
+
+static void Task_LoadBagSortOptions(u8 taskId)
+{
+    AddBagSortSubMenu();
+
+    if (gBagMenu->contextMenuNumItems <= 2)
+        gTasks[taskId].func = Task_ItemContext_SingleRow;
+    else
+        gTasks[taskId].func = Task_ItemContext_MultipleRows;
+}
+
+static void ItemMenu_SortByName(u8 taskId)
+{
+    gTasks[taskId].tSortType = BAG_SORT_BY_NAME;
+    gTasks[taskId].func = SortBagItems;
+}
+
+static void ItemMenu_SortByType(u8 taskId)
+{
+    gTasks[taskId].tSortType = BAG_SORT_BY_TYPE;
+    gTasks[taskId].func = SortBagItems;
+}
+
+static void ItemMenu_SortByAmount(u8 taskId)
+{
+    gTasks[taskId].tSortType = BAG_SORT_BY_AMOUNT;
+    gTasks[taskId].func = SortBagItems;
+}
+
+static void ItemMenu_SortByNumber(u8 taskId)
+{
+    gTasks[taskId].tSortType = BAG_SORT_BY_NUMBER;
+    gTasks[taskId].func = SortBagItems;
+}
+
+static void SortBagItems(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+
+    RemoveContextWindow();
+    SortItemsInBag(gBagPosition.pocket, tSortType);
+
+    DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
+    UpdatePocketListPosition(gBagPosition.pocket);
+    LoadBagItemListBuffers(gBagPosition.pocket);
+    tListTaskId = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+    ScheduleBgCopyTilemapToVram(0);
+
+    StringCopy(gStringVar1, sSortTypeStrings[tSortType]);
+    StringExpandPlaceholders(gStringVar4, sText_ItemsSorted);
+    DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_SortFinish);
+}
+
+static void Task_SortFinish(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        RemoveItemMessageWindow(ITEMWIN_MESSAGE);
+        PrintItemDescription(tListPosition);
+        ReturnToItemList(taskId);
+    }
+}
+
+static void SortItemsInBag(u8 pocket, u8 sortType)
+{
+    u16 i, j;
+    struct ItemSlot *itemSlots = gBagPockets[pocket].itemSlots;
+    u16 itemCount = gBagPockets[pocket].capacity;
+    s32 (*compare)(const struct ItemSlot *a, const struct ItemSlot *b);
+
+    switch (sortType)
+    {
+    case BAG_SORT_BY_NUMBER:
+        compare = CompareBagItemSlotsByNumber;
+        break;
+    case BAG_SORT_BY_AMOUNT:
+        compare = CompareBagItemSlotsByAmount;
+        break;
+    case BAG_SORT_BY_TYPE:
+        compare = CompareBagItemSlotsByType;
+        break;
+    case BAG_SORT_BY_NAME:
+    default:
+        compare = CompareBagItemSlotsByName;
+        break;
+    }
+
+    for (i = 1; i < itemCount; i++)
+    {
+        for (j = i; j > 0 && compare(&itemSlots[j], &itemSlots[j - 1]) < 0; j--)
+            SwapBagItemSlots(&itemSlots[j], &itemSlots[j - 1]);
+    }
+}
+
+static void SwapBagItemSlots(struct ItemSlot *a, struct ItemSlot *b)
+{
+    struct ItemSlot temp;
+
+    SWAP(*a, *b, temp);
+}
+
+static const u8 *GetBagSortName(u16 itemId)
+{
+    if (GetItemPocket(itemId) == POCKET_TM_HM)
+        return GetMoveName(ItemIdToBattleMoveId(itemId));
+
+    return GetItemName(itemId);
+}
+
+static u16 GetBagItemSlotQuantity(const struct ItemSlot *itemSlot)
+{
+    return gSaveBlock2Ptr->encryptionKey ^ itemSlot->quantity;
+}
+
+static u16 GetTmHmNumberSortKey(u16 itemId)
+{
+    if (itemId >= ITEM_TM01 && itemId < ITEM_TM01 + NUM_TECHNICAL_MACHINES)
+        return itemId - ITEM_TM01;
+
+    if (itemId >= ITEM_HM01 && itemId < ITEM_HM01 + NUM_HIDDEN_MACHINES)
+        return NUM_TECHNICAL_MACHINES + (itemId - ITEM_HM01);
+
+    return 0xFFFF;
+}
+
+static u32 GetBagSortTypeKey(u16 itemId)
+{
+    return ((GetItemType(itemId) & 0xFF) << 24)
+         | ((GetItemBattleUsage(itemId) & 0xFF) << 16)
+         | ((GetItemHoldEffect(itemId) & 0xFF) << 8)
+         | (GetItemSecondaryId(itemId) & 0xFF);
+}
+
+static s32 CompareBagItemSlotsByName(const struct ItemSlot *a, const struct ItemSlot *b)
+{
+    s32 result;
+
+    if (a->itemId == ITEM_NONE && b->itemId == ITEM_NONE)
+        return 0;
+    if (a->itemId == ITEM_NONE)
+        return 1;
+    if (b->itemId == ITEM_NONE)
+        return -1;
+
+    result = StringCompare(GetBagSortName(a->itemId), GetBagSortName(b->itemId));
+    if (result != 0)
+        return result;
+
+    return a->itemId - b->itemId;
+}
+
+static s32 CompareBagItemSlotsByType(const struct ItemSlot *a, const struct ItemSlot *b)
+{
+    u32 keyA;
+    u32 keyB;
+
+    if (a->itemId == ITEM_NONE && b->itemId == ITEM_NONE)
+        return 0;
+    if (a->itemId == ITEM_NONE)
+        return 1;
+    if (b->itemId == ITEM_NONE)
+        return -1;
+
+    keyA = GetBagSortTypeKey(a->itemId);
+    keyB = GetBagSortTypeKey(b->itemId);
+    if (keyA < keyB)
+        return -1;
+    if (keyA > keyB)
+        return 1;
+
+    return CompareBagItemSlotsByName(a, b);
+}
+
+static s32 CompareBagItemSlotsByAmount(const struct ItemSlot *a, const struct ItemSlot *b)
+{
+    u16 quantityA;
+    u16 quantityB;
+
+    if (a->itemId == ITEM_NONE && b->itemId == ITEM_NONE)
+        return 0;
+    if (a->itemId == ITEM_NONE)
+        return 1;
+    if (b->itemId == ITEM_NONE)
+        return -1;
+
+    quantityA = GetBagItemSlotQuantity(a);
+    quantityB = GetBagItemSlotQuantity(b);
+    if (quantityA > quantityB)
+        return -1;
+    if (quantityA < quantityB)
+        return 1;
+
+    return CompareBagItemSlotsByName(a, b);
+}
+
+static s32 CompareBagItemSlotsByNumber(const struct ItemSlot *a, const struct ItemSlot *b)
+{
+    u16 keyA;
+    u16 keyB;
+
+    if (a->itemId == ITEM_NONE && b->itemId == ITEM_NONE)
+        return 0;
+    if (a->itemId == ITEM_NONE)
+        return 1;
+    if (b->itemId == ITEM_NONE)
+        return -1;
+
+    keyA = GetTmHmNumberSortKey(a->itemId);
+    keyB = GetTmHmNumberSortKey(b->itemId);
+    if (keyA < keyB)
+        return -1;
+    if (keyA > keyB)
+        return 1;
+
+    return CompareBagItemSlotsByName(a, b);
 }
 
 static void DisplayCurrentMoneyWindow(void)

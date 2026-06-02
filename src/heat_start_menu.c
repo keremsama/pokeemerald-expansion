@@ -82,6 +82,7 @@ static void HeatStartMenu_UpdateMenuName(void);
 static void HeatStartMenu_LoadIconPalette(void);
 static bool8 HeatStartMenu_IsFlashWindowActive(void);
 static void HeatStartMenu_EnableFlashIconWindows(void);
+static void HeatStartMenu_DestroyInputTask(void);
 static u32 HeatStartMenu_CreateIconSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 *windowSpriteId);
 static void HeatStartMenu_DestroyIconSprite(u32 *spriteId);
 static void HeatStartMenu_RestoreFlashIconWindows(void);
@@ -782,6 +783,21 @@ static bool8 HeatStartMenu_IsWeatherFadeActive(void)
   }
 }
 
+static void HeatStartMenu_DestroyInputTask(void)
+{
+  u8 taskId = FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput);
+
+  if (taskId != TASK_NONE)
+  {
+    DestroyTask(taskId);
+    return;
+  }
+
+  taskId = FindTaskIdByFunc(Task_HeatStartMenu_SafariZone_HandleMainInput);
+  if (taskId != TASK_NONE)
+    DestroyTask(taskId);
+}
+
 static void HeatStartMenu_CreateSprites(void) {
   u32 x = 224;
   u32 y1 = 14;
@@ -991,7 +1007,7 @@ static void HeatStartMenu_UpdateMenuName(void) {
       AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Flag, 1, 0, 0xFF, NULL);
       break;
   }
-  CopyWindowToVram(sHeatStartMenu->sMenuNameWindowId, COPYWIN_GFX);
+  CopyWindowToVram(sHeatStartMenu->sMenuNameWindowId, COPYWIN_FULL);
 }
 
 static void HeatStartMenu_ExitAndClearTilemap(void) {
@@ -1056,7 +1072,7 @@ static void HeatStartMenu_ExitAndClearTilemap(void) {
 
 static void DoCleanUpAndChangeCallback(MainCallback callback) {
   if (!HeatStartMenu_IsFadeActive()) {
-    DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
+    HeatStartMenu_DestroyInputTask();
     PlayRainStoppingSoundEffect();
     HeatStartMenu_ExitAndClearTilemap();
     CleanupOverworldWindowsAndTilemaps();
@@ -1072,13 +1088,13 @@ static void DoCleanUpAndOpenTrainerCard(void) {
     CleanupOverworldWindowsAndTilemaps();
     if (IsOverworldLinkActive() || InUnionRoom()) {
       ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
-      DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
+      HeatStartMenu_DestroyInputTask();
     } else if (FlagGet(FLAG_SYS_FRONTIER_PASS)) {
       ShowFrontierPass(CB2_ReturnToFieldWithOpenMenu); // Display frontier pass
-      DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
+      HeatStartMenu_DestroyInputTask();
     } else {
       ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
-      DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
+      HeatStartMenu_DestroyInputTask();
     }
   }
 }
@@ -1411,7 +1427,7 @@ static void DoCleanUpAndStartSaveMenu(void) {
     FreezeObjectEvents();
     LoadUserWindowBorderGfx(sSaveInfoWindowId, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
     LockPlayerFieldControls();
-    DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_HandleMainInput));
+    HeatStartMenu_DestroyInputTask();
     InitSave();
     CreateTask(Task_HandleSave, 0x80);
   }
@@ -1422,7 +1438,7 @@ static void DoCleanUpAndStartSafariZoneRetire(void) {
     HeatStartMenu_ExitAndClearTilemap();
     FreezeObjectEvents();
     LockPlayerFieldControls();
-    DestroyTask(FindTaskIdByFunc(Task_HeatStartMenu_SafariZone_HandleMainInput));
+    HeatStartMenu_DestroyInputTask();
     SafariZoneRetirePrompt();
   }
 }
@@ -1609,6 +1625,7 @@ static void Task_HeatStartMenu_SafariZone_HandleMainInput(u8 taskId) {
     }
   } else if (JOY_NEW(B_BUTTON) && sHeatStartMenu->loadState == 0) {
     PlaySE(SE_SELECT);
+    sHeatStartMenu->unlockAndUnfreeze = TRUE;
     HeatStartMenu_ExitAndClearTilemap();  
     DestroyTask(taskId);
   } else if (gMain.newKeys & DPAD_DOWN && sHeatStartMenu->loadState == 0) {
