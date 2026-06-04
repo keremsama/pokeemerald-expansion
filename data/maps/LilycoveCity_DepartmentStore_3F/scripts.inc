@@ -150,6 +150,10 @@ LilycoveCity_DepartmentStore_3F_Pokemart_HoldItems:
     .2byte ITEM_BLUNDER_POLICY
     .2byte ITEM_ROOM_SERVICE
     .2byte ITEM_UTILITY_UMBRELLA
+	.2byte ITEM_LOADED_DICE
+	.2byte ITEM_CHOICE_BAND
+	.2byte ITEM_CHOICE_SPECS
+	.2byte ITEM_CHOICE_SCARF
     pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_EventScript_TriathleteM::
