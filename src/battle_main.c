@@ -69,6 +69,7 @@
 #include "constants/hold_effects.h"
 #include "constants/items.h"
 #include "constants/moves.h"
+#include "constants/opponents.h"
 #include "constants/party_menu.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -80,6 +81,20 @@
 
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
+
+struct DynamicTrainerLevelConfig
+{
+    u16 trainerId;
+    u16 levelRatio;
+};
+
+#define DYNAMIC_TRAINER_LEVEL(trainerId, levelRatio) { trainerId, levelRatio },
+static const struct DynamicTrainerLevelConfig sDynamicTrainerLevelConfigs[] =
+{
+#include "data/dynamic_trainer_levels.h"
+    { TRAINER_NONE, 0 },
+};
+#undef DYNAMIC_TRAINER_LEVEL
 
 static void CB2_InitBattleInternal(void);
 static void CB2_PreInitMultiBattle(void);
@@ -127,6 +142,7 @@ static void HandleEndTurn_MonFled(void);
 static void HandleEndTurn_FinishBattle(void);
 static u32 Crc32B (const u8 *data, u32 size);
 static u32 GeneratePartyHash(const struct Trainer *trainer, u32 i);
+static u32 GetDynamicTrainerLevelIncrease(const struct Trainer *trainer, u16 trainerId);
 static s32 Factorial(s32);
 
 EWRAM_DATA u16 gBattle_BG0_X = 0;
@@ -1902,6 +1918,46 @@ static u32 GeneratePartyHash(const struct Trainer *trainer, u32 i)
     return Crc32B(buffer, n);
 }
 
+static u32 GetDynamicTrainerLevelIncrease(const struct Trainer *trainer, u16 trainerId)
+{
+    const struct TrainerMon *partyData = trainer->party;
+    u32 partyDataCount = trainer->poolSize > 0 ? trainer->poolSize : trainer->partySize;
+    u32 playerAceLevel = 0;
+    u32 trainerAceLevel = 0;
+    u32 targetAceLevel;
+    u32 levelRatio = 0;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sDynamicTrainerLevelConfigs); i++)
+    {
+        if (sDynamicTrainerLevelConfigs[i].trainerId == trainerId)
+        {
+            levelRatio = sDynamicTrainerLevelConfigs[i].levelRatio;
+            break;
+        }
+    }
+
+    if (levelRatio == 0 || partyData == NULL || partyDataCount == 0)
+        return 0;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
+
+        if (species != SPECIES_NONE && species != SPECIES_EGG)
+            playerAceLevel = max(playerAceLevel, GetMonData(&gPlayerParty[i], MON_DATA_LEVEL));
+    }
+
+    targetAceLevel = min(playerAceLevel * levelRatio / 100, MAX_LEVEL);
+    for (i = 0; i < partyDataCount; i++)
+        trainerAceLevel = max(trainerAceLevel, partyData[i].lvl);
+
+    if (targetAceLevel <= trainerAceLevel)
+        return 0;
+
+    return targetAceLevel - trainerAceLevel;
+}
+
 void ModifyPersonalityForNature(u32 *personality, u32 newNature)
 {
     u32 nature = GetNatureFromPersonality(*personality);
@@ -1956,10 +2012,14 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
     s32 i;
     u8 monsCount;
     u8 isTrainerBossTrainer = trainer->isBossTrainer;
+    u32 dynamicLevelIncrease = 0;
     if (battleTypeFlags & BATTLE_TYPE_TRAINER && !(battleTypeFlags & (BATTLE_TYPE_FRONTIER
                                                                         | BATTLE_TYPE_EREADER_TRAINER
                                                                         | BATTLE_TYPE_TRAINER_HILL)))
     {
+        if (party != gPlayerParty)
+            dynamicLevelIncrease = GetDynamicTrainerLevelIncrease(trainer, seed);
+
         if (firstTrainer == TRUE)
             ZeroEnemyPartyMons();
 
@@ -1987,6 +2047,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             u32 otIdType = OT_ID_RANDOM_NO_SHINY;
             u32 fixedOtId = 0;
             u32 ability = 0;
+            u32 level = min(partyData[monIndex].lvl + dynamicLevelIncrease, MAX_LEVEL);
             u16 originalSpecies = partyData[monIndex].species;
             u16 species = originalSpecies;
             u16 heldItem = partyData[monIndex].heldItem;
@@ -2022,7 +2083,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 fixedOtId = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
 
-            CreateMon(&party[i], species, partyData[monIndex].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
+            CreateMon(&party[i], species, level, 0, TRUE, personalityValue, otIdType, fixedOtId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &heldItem);
 
             if (useCustomMoves)
