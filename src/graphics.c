@@ -1400,6 +1400,7 @@ const u32 gEnemyMonShadowsSized_Gfx[] = INCBIN_U32("graphics/battle_interface/en
 
 const u32 gBattleInterface_BallStatusBarGfx[] = INCBIN_U32("graphics/battle_interface/ball_status_bar.4bpp.lz");
 const u32 gNuzlockeFirstEncounterIndicatorGfx[] = INCBIN_U32("graphics/battle_interface/nuzlocke_indicator.4bpp");
+const u32 gNuzlockeFirstEncounterDupesIndicatorGfx[] = INCBIN_U32("graphics/battle_interface/nuzlocke_indicator_dupes.4bpp");
 
 const u32 gBattleAnimBgImage_Ghost[] = INCBIN_U32("graphics/battle_anims/backgrounds/ghost.4bpp.lz");
 const u32 gBattleAnimBgPalette_Ghost[] = INCBIN_U32("graphics/battle_anims/backgrounds/ghost.gbapal.lz");

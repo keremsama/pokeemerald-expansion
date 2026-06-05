@@ -4574,10 +4574,6 @@ static void HandleTurnActionSelectionState(void)
                     {
                         if (NuzlockeIsCaptureBlocked)
                             gSelectionBattleScripts[battler] = BattleScript_NuzlockeCaptureBlocked;
-                        else if (NuzlockeIsSpeciesClauseActive == 2)
-                            gSelectionBattleScripts[battler] = BattleScript_NuzlockeSameSpeciesBlocked;
-                        else if (NuzlockeIsSpeciesClauseActive)
-                            gSelectionBattleScripts[battler] = BattleScript_NuzlockeSpeciesClauseBlocked;
                         else
                             break;
 
@@ -5841,7 +5837,8 @@ static void HandleEndTurn_FinishBattle(void)
                     if (gBattleOutcome == B_OUTCOME_CAUGHT)
                         NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());
                 }
-                else if (!NuzlockeIsSpeciesClauseActive && !NuzlockeShouldSkipEncounterFlag)
+                else if (!NuzlockeShouldSkipEncounterFlag
+                         && (!NuzlockeIsSpeciesClauseActive || gBattleOutcome == B_OUTCOME_CAUGHT))
                 {
                     NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());
                 }

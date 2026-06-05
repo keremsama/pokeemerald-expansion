@@ -286,14 +286,10 @@ u8 NuzlockeIsCaptureBlockedBySpeciesClause(u16 species)
 
 u8 IsNuzlockeCaptureBlocked(u16 species)
 {
-    u8 speciesClause;
+    (void)species;
 
     if (!IsNuzlockeActive())
         return FALSE;
-
-    speciesClause = NuzlockeIsCaptureBlockedBySpeciesClause(species);
-    if (speciesClause)
-        return speciesClause == 2 ? 3 : 2;
 
     if (NuzlockeFlagGet(NuzlockeGetCurrentRegionMapSectionId()))
         return 1;

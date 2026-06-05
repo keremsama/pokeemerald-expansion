@@ -1138,10 +1138,6 @@ static u32 GetNuzlockeBallThrowableState(void)
 {
     if (NuzlockeIsCaptureBlocked)
         return BALL_THROW_UNABLE_NUZLOCKE_AREA;
-    if (NuzlockeIsSpeciesClauseActive == 2)
-        return BALL_THROW_UNABLE_NUZLOCKE_SAME_SPECIES;
-    if (NuzlockeIsSpeciesClauseActive)
-        return BALL_THROW_UNABLE_NUZLOCKE_SPECIES;
 
     return BALL_THROW_ABLE;
 }

@@ -1774,6 +1774,7 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
 {
     u8 battler, healthBarSpriteId;
+    bool8 showFirstEncounter;
     u16 species;
     u16 tileNum;
 
@@ -1787,34 +1788,33 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
         return;
 
     species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
-    if (!IsHealthboxSpeciesCaught(species))
-    {
-        if (!IsNuzlockeActive())
-            return;
-        if (NuzlockeIsCaptureBlocked || NuzlockeIsSpeciesClauseActive || NuzlockeShouldSkipEncounterFlag)
-            return;
-
-        healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
-        if (healthBarSpriteId >= MAX_SPRITES)
-            return;
-
-        tileNum = gSprites[healthBarSpriteId].oam.tileNum + 8;
-        if (tileNum >= 1024)
-            return;
-
-        if (noStatus)
-            CpuCopy32(gNuzlockeFirstEncounterIndicatorGfx, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
-        else
-            CpuFill32(0, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
+    showFirstEncounter = IsNuzlockeActive() && !NuzlockeIsCaptureBlocked && !NuzlockeShouldSkipEncounterFlag;
+    if (!showFirstEncounter && !IsHealthboxSpeciesCaught(species))
         return;
-    }
 
     healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
+    if (healthBarSpriteId >= MAX_SPRITES)
+        return;
+
+    tileNum = gSprites[healthBarSpriteId].oam.tileNum + 8;
+    if (tileNum >= 1024)
+        return;
 
     if (noStatus)
-        CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_BALL_CAUGHT), (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+    {
+        if (showFirstEncounter)
+        {
+            const u32 *indicatorGfx = NuzlockeIsSpeciesClauseActive
+                                   ? gNuzlockeFirstEncounterDupesIndicatorGfx
+                                   : gNuzlockeFirstEncounterIndicatorGfx;
+
+            CpuCopy32(indicatorGfx, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
+        }
+        else
+            CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_BALL_CAUGHT), (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
+    }
     else
-        CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
+        CpuFill32(0, (void *)(OBJ_VRAM0 + tileNum * TILE_SIZE_4BPP), 32);
 }
 
 static bool8 IsHealthboxSpeciesCaught(u16 species)
