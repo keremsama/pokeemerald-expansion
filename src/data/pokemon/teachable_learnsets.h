@@ -10709,6 +10709,7 @@ static const u16 sMeganiumTeachableLearnset[] = {
     MOVE_BULLDOZE,
     MOVE_BULLET_SEED,
     MOVE_CUT,
+    MOVE_DAZZLING_GLEAM,
     MOVE_DOUBLE_TEAM,
     MOVE_EARTHQUAKE,
     MOVE_ENERGY_BALL,
