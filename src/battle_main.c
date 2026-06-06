@@ -5846,6 +5846,7 @@ static void HandleEndTurn_FinishBattle(void)
             NuzlockeIsCaptureBlocked = FALSE;
             NuzlockeIsSpeciesClauseActive = FALSE;
             NuzlockeShouldSkipEncounterFlag = FALSE;
+            NuzlockeIsStaticEncounterFirstAttempt = FALSE;
         }
 
         RecordedBattle_SetPlaybackFinished();

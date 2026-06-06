@@ -552,7 +552,7 @@ static const u16 sRandomizerOverworldTMPool[] =
     ITEM_TM_ICE_BEAM,
     ITEM_TM_TOXIC,
     ITEM_TM_ROCK_POLISH,
-    ITEM_TM_FOCUS_BLAST,
+    ITEM_TM_FLAMETHROWER,
     ITEM_TM_IRON_TAIL,
     ITEM_TM_DRAGON_CLAW,
     ITEM_TM_SCORCHING_SANDS,
@@ -576,6 +576,36 @@ static const u16 sRandomizerOverworldTMPool[] =
     ITEM_TM_PSYCHIC,
     ITEM_TM_TRIPLE_AXEL,
 };
+
+static u16 RandomizeOverworldTM(u16 itemId)
+{
+    struct Sfc32State state;
+    u16 shuffledPool[ARRAY_COUNT(sRandomizerOverworldTMPool)];
+    u16 originalIndex = ARRAY_COUNT(sRandomizerOverworldTMPool);
+    u16 i;
+
+    for (i = 0; i < ARRAY_COUNT(sRandomizerOverworldTMPool); i++)
+    {
+        shuffledPool[i] = sRandomizerOverworldTMPool[i];
+        if (itemId == sRandomizerOverworldTMPool[i])
+            originalIndex = i;
+    }
+
+    if (originalIndex == ARRAY_COUNT(sRandomizerOverworldTMPool))
+        return itemId;
+
+    state = RandomizerRandSeed(RANDOMIZER_REASON_FIELD_ITEM, 0x544D504F, ARRAY_COUNT(sRandomizerOverworldTMPool));
+    for (i = ARRAY_COUNT(sRandomizerOverworldTMPool) - 1; i > 0; i--)
+    {
+        u16 targetIndex = RandomizerNextRange(&state, i + 1);
+        u16 temp = shuffledPool[i];
+
+        shuffledPool[i] = shuffledPool[targetIndex];
+        shuffledPool[targetIndex] = temp;
+    }
+
+    return shuffledPool[originalIndex];
+}
 
 // Don't randomize HMs or key items, that can make the game unwinnable.
 // ITEM_NONE also should not be randomized as it is invalid.
@@ -607,7 +637,7 @@ u16 RandomizeFoundItem(u16 itemId, u8 mapGroup, u8 mapNum, u16 localId)
     // Randomize TMs to TMs. Because HMs shouldn't be randomized, we can assume
     // this is a TM.
     if (IsItemTMHM(itemId))
-        return sRandomizerOverworldTMPool[RandomizerNextRange(&state, ARRAY_COUNT(sRandomizerOverworldTMPool))];
+        return RandomizeOverworldTM(itemId);
     
     // Randomize Mega Stones to Mega Stones.
     if (IsMegaStone(itemId))

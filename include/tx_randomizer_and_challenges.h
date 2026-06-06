@@ -4,6 +4,7 @@
 extern u8 NuzlockeIsCaptureBlocked;
 extern u8 NuzlockeIsSpeciesClauseActive;
 extern u8 NuzlockeShouldSkipEncounterFlag;
+extern u8 NuzlockeIsStaticEncounterFirstAttempt;
 
 bool8 IsNuzlockeActive(void);
 bool8 IsNuzlockeDeathRulesActive(void);
@@ -15,6 +16,8 @@ u8 NuzlockeFlagSet(u16 mapsec);
 u8 NuzlockeFlagClear(u16 mapsec);
 u8 NuzlockeIsCaptureBlockedBySpeciesClause(u16 species);
 void SetNuzlockeChecks(void);
+void SetNuzlockeStaticEncounterIdentity(u16 species, u8 mapGroup, u8 mapNum, u8 localId);
+void SetNuzlockeStaticEncounterChecks(void);
 void NuzlockeDeletePartyMon(u8 position);
 void NuzlockeDeleteFaintedPartyPokemon(void);
 

@@ -100,6 +100,8 @@ bool8 IsTrainerReadyForRematch(void);
 void ShouldTryGetTrainerScript(void);
 u16 CountBattledRematchTeams(u16 trainerId);
 void SetNuzlockeChecks(void);
+void SetNuzlockeStaticEncounterIdentity(u16 species, u8 mapGroup, u8 mapNum, u8 localId);
+void SetNuzlockeStaticEncounterChecks(void);
 void TrainerBattleLoadArgs(const u8 *data);
 void TrainerBattleLoadArgsTrainerA(const u8 *data);
 void TrainerBattleLoadArgsTrainerB(const u8 *data);

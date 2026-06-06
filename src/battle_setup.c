@@ -454,7 +454,7 @@ void StartWallyTutorialBattle(void)
 
 void BattleSetup_StartScriptedWildBattle(void)
 {
-    SetNuzlockeChecks();
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = 0;
@@ -467,6 +467,7 @@ void BattleSetup_StartScriptedWildBattle(void)
 
 void BattleSetup_StartScriptedDoubleWildBattle(void)
 {
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_DOUBLE;
@@ -479,6 +480,7 @@ void BattleSetup_StartScriptedDoubleWildBattle(void)
 
 void BattleSetup_StartLatiBattle(void)
 {
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
@@ -491,6 +493,7 @@ void BattleSetup_StartLatiBattle(void)
 
 void BattleSetup_StartLegendaryBattle(void)
 {
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
@@ -534,6 +537,7 @@ void BattleSetup_StartLegendaryBattle(void)
 
 void StartGroudonKyogreBattle(void)
 {
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
@@ -554,6 +558,7 @@ void StartRegiBattle(void)
     u8 transitionId;
     u16 species;
 
+    SetNuzlockeStaticEncounterChecks();
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;

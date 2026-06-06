@@ -66,6 +66,7 @@
 #include "constants/weather.h"
 #include "wild_encounter.h"
 #include "randomizer.h"
+#include "tx_randomizer_and_challenges.h"
 
 #define FRIENDSHIP_EVO_THRESHOLD ((P_FRIENDSHIP_EVO_THRESHOLD >= GEN_8) ? 160 : 220)
 
@@ -2106,6 +2107,8 @@ void CreateEnemyEventMon(void)
         heldItem[1] = itemId >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
+
+    SetNuzlockeStaticEncounterIdentity(species, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, gSpecialVar_LastTalked);
 }
 
 static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)

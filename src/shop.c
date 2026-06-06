@@ -590,7 +590,12 @@ static void BuyMenuBuildListMenuTemplate(void)
 static void BuyMenuSetListEntry(struct ListMenuItem *menuItem, u16 item, u8 *name)
 {
     if (sMartInfo.martType == MART_TYPE_NORMAL)
-        CopyItemName(item, name);
+    {
+        if (GetItemPocket(item) == POCKET_TM_HM)
+            StringCopy(name, GetMoveName(ItemIdToBattleMoveId(item)));
+        else
+            CopyItemName(item, name);
+    }
     else
         StringCopy(name, gDecorations[item].name);
 

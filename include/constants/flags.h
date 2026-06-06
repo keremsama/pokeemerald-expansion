@@ -250,7 +250,7 @@
 #define FLAG_RECEIVED_STARTER_DOLL           0xE2
 #define FLAG_RECEIVED_GOOD_ROD               0xE3
 #define FLAG_REGI_DOORS_OPENED               0xE4
-#define FLAG_RECEIVED_TM_U_TURN              0xE5
+#define FLAG_RECEIVED_TM_EARTH_POWER              0xE5
 #define FLAG_RECEIVED_TM_SLUDGE_BOMB         0xE6
 #define FLAG_RECEIVED_TM_ROAR                0xE7
 #define FLAG_RECEIVED_TM_GIGA_DRAIN          0xE8
@@ -1165,7 +1165,7 @@
 #define FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_TM_HAIL                       0x458
 #define FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_NEVER_MELT_ICE                0x459
 #define FLAG_ITEM_ROUTE_103_EXP_CANDY_M                             0x45A
-#define FLAG_ITEM_MAGMA_HIDEOUT_3F_2R_TM_FOCUS_BLAST                0x45B
+#define FLAG_ITEM_MAGMA_HIDEOUT_3F_2R_TM_FLAMETHROWER                0x45B
 #define FLAG_ITEM_MAUVILLE_CITY_X_SPEED                             0x45C
 #define FLAG_ITEM_PETALBURG_WOODS_PARALYZE_HEAL                     0x45D
 #define FLAG_ITEM_ROUTE_115_GREAT_BALL                              0x45E

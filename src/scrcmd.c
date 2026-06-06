@@ -56,6 +56,7 @@
 #include "malloc.h"
 #include "constants/event_objects.h"
 #include "randomizer.h"
+#include "tx_randomizer_and_challenges.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -2469,8 +2470,12 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
     u16 species2 = ScriptReadHalfword(ctx);
     u8 level2 = ScriptReadByte(ctx);
     u16 item2 = ScriptReadHalfword(ctx);
+    u8 identityLocalId = gSpecialVar_LastTalked;
 
     Script_RequestEffects(SCREFF_V1);
+    if (identityLocalId == LOCALID_NONE && gObjectEvents[gSelectedObjectEvent].active)
+        identityLocalId = gObjectEvents[gSelectedObjectEvent].localId;
+
     #if RANDOMIZER_AVAILABLE == TRUE
         u8 mapNum = gSaveBlock1Ptr->location.mapNum;
         u8 mapGroup = gSaveBlock1Ptr->location.mapGroup;
@@ -2494,6 +2499,7 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
         sIsScriptedWildDouble = TRUE;
     }
 
+    SetNuzlockeStaticEncounterIdentity(species, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, identityLocalId);
     return FALSE;
 }
 

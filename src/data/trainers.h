@@ -3595,7 +3595,7 @@ F_TRAINER_FEMALE |
 #line 1506
             .iv = TRAINER_PARTY_IVS(12, 12, 12, 12, 12, 12),
 #line 1505
-            .lvl = 42,
+            .lvl = 68,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },
@@ -3606,18 +3606,18 @@ F_TRAINER_FEMALE |
 #line 1510
             .iv = TRAINER_PARTY_IVS(12, 12, 12, 12, 12, 12),
 #line 1509
-            .lvl = 42,
+            .lvl = 67,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },
             {
 #line 1512
-            .species = SPECIES_KADABRA,
+            .species = SPECIES_ALAKAZAM,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 1514
             .iv = TRAINER_PARTY_IVS(12, 12, 12, 12, 12, 12),
 #line 1513
-            .lvl = 42,
+            .lvl = 68,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },

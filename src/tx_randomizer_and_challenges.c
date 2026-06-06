@@ -16,6 +16,11 @@
 EWRAM_DATA u8 NuzlockeIsCaptureBlocked = FALSE;
 EWRAM_DATA u8 NuzlockeIsSpeciesClauseActive = FALSE;
 EWRAM_DATA u8 NuzlockeShouldSkipEncounterFlag = FALSE;
+EWRAM_DATA u8 NuzlockeIsStaticEncounterFirstAttempt = FALSE;
+static EWRAM_DATA u64 sNuzlockeStaticEncounterKey = 0;
+static EWRAM_DATA bool8 sNuzlockeStaticEncounterKeyValid = FALSE;
+
+#define NUZLOCKE_STATIC_ENCOUNTER_MAGIC 0x4E535441
 
 static bool8 TryGetNuzlockeEncounterId(u16 mapsec, u16 *id);
 static u16 GetNuzlockeEncounterId(u16 mapsec);
@@ -24,6 +29,8 @@ static bool8 IsSpeciesCaughtForNuzlocke(u16 species);
 static u16 GetSpeciesFamilyBase(u16 species);
 static bool8 IsEvolutionLineCaughtForNuzlocke(u16 species, u8 depth);
 static void ClearNuzlockeChecks(void);
+static bool8 IsNuzlockeStaticEncounterUsed(u64 key);
+static void SetNuzlockeStaticEncounterUsed(u64 key);
 
 bool8 IsNuzlockeActive(void)
 {
@@ -302,6 +309,7 @@ static void ClearNuzlockeChecks(void)
     NuzlockeIsCaptureBlocked = FALSE;
     NuzlockeIsSpeciesClauseActive = FALSE;
     NuzlockeShouldSkipEncounterFlag = FALSE;
+    NuzlockeIsStaticEncounterFirstAttempt = FALSE;
 }
 
 void SetNuzlockeChecks(void)
@@ -333,6 +341,79 @@ void SetNuzlockeChecks(void)
     else
     {
         ClearNuzlockeChecks();
+    }
+}
+
+void SetNuzlockeStaticEncounterChecks(void)
+{
+    bool8 shinyClauseApplies;
+    bool8 encounterUsed;
+
+    SetNuzlockeChecks();
+    NuzlockeIsStaticEncounterFirstAttempt = FALSE;
+
+    if (IsNuzlockeActive())
+    {
+        NuzlockeIsCaptureBlocked = FALSE;
+        NuzlockeShouldSkipEncounterFlag = TRUE;
+
+        if (sNuzlockeStaticEncounterKeyValid)
+        {
+            shinyClauseApplies = IsMonShiny(&gEnemyParty[0]) && gSaveBlock1Ptr->tx_Nuzlocke_ShinyClause;
+            encounterUsed = IsNuzlockeStaticEncounterUsed(sNuzlockeStaticEncounterKey);
+            if (!shinyClauseApplies)
+            {
+                NuzlockeIsCaptureBlocked = encounterUsed;
+                NuzlockeIsStaticEncounterFirstAttempt = !encounterUsed;
+            }
+
+            SetNuzlockeStaticEncounterUsed(sNuzlockeStaticEncounterKey);
+        }
+    }
+
+    sNuzlockeStaticEncounterKeyValid = FALSE;
+}
+
+void SetNuzlockeStaticEncounterIdentity(u16 species, u8 mapGroup, u8 mapNum, u8 localId)
+{
+    sNuzlockeStaticEncounterKey = species;
+    sNuzlockeStaticEncounterKey |= (u64)mapNum << 16;
+    sNuzlockeStaticEncounterKey |= (u64)mapGroup << 24;
+    sNuzlockeStaticEncounterKey |= (u64)localId << 32;
+    sNuzlockeStaticEncounterKeyValid = TRUE;
+}
+
+static bool8 IsNuzlockeStaticEncounterUsed(u64 key)
+{
+    u8 i;
+
+    if (gSaveBlock1Ptr->NuzlockeStaticEncounterMagic != NUZLOCKE_STATIC_ENCOUNTER_MAGIC)
+        return FALSE;
+
+    for (i = 0; i < gSaveBlock1Ptr->NuzlockeStaticEncounterCount; i++)
+    {
+        if (gSaveBlock1Ptr->NuzlockeStaticEncounterKeys[i] == key)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static void SetNuzlockeStaticEncounterUsed(u64 key)
+{
+    if (gSaveBlock1Ptr->NuzlockeStaticEncounterMagic != NUZLOCKE_STATIC_ENCOUNTER_MAGIC)
+    {
+        gSaveBlock1Ptr->NuzlockeStaticEncounterMagic = NUZLOCKE_STATIC_ENCOUNTER_MAGIC;
+        gSaveBlock1Ptr->NuzlockeStaticEncounterCount = 0;
+    }
+
+    if (IsNuzlockeStaticEncounterUsed(key))
+        return;
+
+    if (gSaveBlock1Ptr->NuzlockeStaticEncounterCount < ARRAY_COUNT(gSaveBlock1Ptr->NuzlockeStaticEncounterKeys))
+    {
+        gSaveBlock1Ptr->NuzlockeStaticEncounterKeys[gSaveBlock1Ptr->NuzlockeStaticEncounterCount] = key;
+        gSaveBlock1Ptr->NuzlockeStaticEncounterCount++;
     }
 }
 

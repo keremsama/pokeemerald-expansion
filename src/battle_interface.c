@@ -1788,7 +1788,9 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
         return;
 
     species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
-    showFirstEncounter = IsNuzlockeActive() && !NuzlockeIsCaptureBlocked && !NuzlockeShouldSkipEncounterFlag;
+    showFirstEncounter = IsNuzlockeActive()
+                      && !NuzlockeIsCaptureBlocked
+                      && (!NuzlockeShouldSkipEncounterFlag || NuzlockeIsStaticEncounterFirstAttempt);
     if (!showFirstEncounter && !IsHealthboxSpeciesCaught(species))
         return;
 

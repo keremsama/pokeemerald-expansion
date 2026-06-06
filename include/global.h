@@ -1142,6 +1142,9 @@ struct SaveBlock1
                u8 tx_Nuzlocke_EasyMode:1;
                u8 tx_Nuzlocke_Unused:1;
                u8 NuzlockeEncounterFlags[32];
+               u32 NuzlockeStaticEncounterMagic;
+               u8 NuzlockeStaticEncounterCount;
+               u64 NuzlockeStaticEncounterKeys[64];
     // sizeof: 0x3???
 };
 

@@ -2174,63 +2174,63 @@
             "encounter_rate": 10,
             "mons": [
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_GOLBAT"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_HARIYAMA"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_LAIRON"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_LOUDRED"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_LAIRON"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_ONIX"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_ONIX"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_RHYDON"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_GIGALITH"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_TURTONATOR"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURALUDON"
               },
               {
-                "min_level": 60,
-                "max_level": 63,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURALUDON"
               }
             ]
@@ -7399,63 +7399,63 @@
             "encounter_rate": 10,
             "mons": [
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_GOLBAT"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_HARIYAMA"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_LAIRON"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_MAWILE"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_ONIX"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_RHYHORN"
               },
               {
-                "min_level": 38,
-                "max_level": 38,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_HEATMOR"
               },
               {
-                "min_level": 38,
-                "max_level": 38,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURANT"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_TURTONATOR"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURALUDON"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DRUDDIGON"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DRUDDIGON"
               }
             ]
@@ -7498,63 +7498,63 @@
             "encounter_rate": 10,
             "mons": [
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_GOLBAT"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_HARIYAMA"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_LAIRON"
               },
               {
-                "min_level": 40,
-                "max_level": 40,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_MAWILE"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_ONIX"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_RHYHORN"
               },
               {
-                "min_level": 38,
-                "max_level": 38,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_HEATMOR"
               },
               {
-                "min_level": 38,
-                "max_level": 38,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURANT"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_TURTONATOR"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DURALUDON"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DRUDDIGON"
               },
               {
-                "min_level": 36,
-                "max_level": 36,
+                "min_level": 62,
+                "max_level": 66,
                 "species": "SPECIES_DRUDDIGON"
               }
             ]

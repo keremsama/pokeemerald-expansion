@@ -29,6 +29,9 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_THUNDER
 	.2byte ITEM_TM_BLIZZARD
 	.2byte ITEM_TM_HYPER_BEAM
+	.2byte ITEM_TM_FOCUS_BLAST
+	.2byte ITEM_TM_DAZZLING_GLEAM
+	.2byte ITEM_TM_FLASH_CANNON
 	.2byte ITEM_TM_GIGA_IMPACT
 	.2byte ITEM_TM_STONE_EDGE
 	.2byte ITEM_TM_CLOSE_COMBAT
@@ -40,6 +43,7 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_AVALANCHE
 	.2byte ITEM_TM_DARK_PULSE
 	.2byte ITEM_TM_POISON_JAB
+	.2byte ITEM_TM_U_TURN
 	.2byte ITEM_TM_DREAM_EATER
 	.2byte ITEM_TM_FOUL_PLAY
 	.2byte ITEM_TM_GYRO_BALL

@@ -22,6 +22,9 @@ LilycoveCity_DepartmentStore_3F_EventScript_ClerkLeft::
 @	pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_Pokemart_Balls:
+	.2byte ITEM_POKE_BALL
+	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_ULTRA_BALL
 	.2byte ITEM_NET_BALL
 	.2byte ITEM_DIVE_BALL
 	.2byte ITEM_NEST_BALL
