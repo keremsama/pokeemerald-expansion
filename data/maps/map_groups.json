@@ -432,7 +432,8 @@
     "AlteringCave",
     "MeteorFalls_StevensCave",
     "ShoalCave_LaprasCave",
-    "MojaveCave"
+    "MojaveCave",
+    "RusturfTunnel_Room2"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

@@ -2312,28 +2312,28 @@
             "encounter_rate": 4,
             "mons": [
               {
-                "min_level": 20,
-                "max_level": 30,
+                "min_level": 58,
+                "max_level": 62,
                 "species": "SPECIES_CLAMPERL"
               },
               {
-                "min_level": 20,
-                "max_level": 30,
+                "min_level": 58,
+                "max_level": 62,
                 "species": "SPECIES_CHINCHOU"
               },
               {
-                "min_level": 30,
-                "max_level": 35,
+                "min_level": 58,
+                "max_level": 62,
                 "species": "SPECIES_SHELLDER"
               },
               {
-                "min_level": 30,
-                "max_level": 35,
+                "min_level": 58,
+                "max_level": 62,
                 "species": "SPECIES_RELICANTH"
               },
               {
-                "min_level": 30,
-                "max_level": 35,
+                "min_level": 58,
+                "max_level": 62,
                 "species": "SPECIES_RELICANTH"
               }
             ]

@@ -4440,6 +4440,16 @@
       "secondary_tileset": "gTileset_Slateport",
       "border_filepath": "data/layouts/SlateportCity_House_GenderChange/border.bin",
       "blockdata_filepath": "data/layouts/SlateportCity_House_GenderChange/map.bin"
+    },
+    {
+      "id": "LAYOUT_RUSTURF_TUNNEL_ROOM2",
+      "name": "RusturfTunnel_Room2_Layout",
+      "width": 9,
+      "height": 12,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_RusturfTunnel",
+      "border_filepath": "data/layouts/RusturfTunnel_Room2/border.bin",
+      "blockdata_filepath": "data/layouts/RusturfTunnel_Room2/map.bin"
     }
   ]
 }

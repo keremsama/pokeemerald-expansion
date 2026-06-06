@@ -12030,19 +12030,19 @@ const struct Item gItemsInfo[] =
         .secondaryId = MOVE_CHARGE_BEAM,
     },
 
-    [ITEM_TM_ENDURE] =
+    [ITEM_TM_TRIPLE_AXEL] =
     {
         .name = _("TM58"),
-        .price = 5000,
+        .price = 20000,
         .description = COMPOUND_STRING(
-            "Endures any attack\n"
-            "for 1 turn, leaving\n"
-            "at least 1HP."),
+            "A 3-kick attack\n"
+            "that gets stronger\n"
+            "with each hit."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_ENDURE,
+        .secondaryId = MOVE_TRIPLE_AXEL,
     },
 
     [ITEM_TM_DRAGON_PULSE] =

@@ -59,7 +59,7 @@
     F(BRINE) \
     F(FLING) \
     F(CHARGE_BEAM) \
-    F(ENDURE) \
+    F(TRIPLE_AXEL) \
     F(DRAGON_PULSE) \
     F(DRAIN_PUNCH) \
     F(WILL_O_WISP) \

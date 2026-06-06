@@ -1175,3 +1175,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/MojaveCave/scripts.inc"
 
 	.include "data/maps/SlateportCity_House_GenderChange/scripts.inc"
+
+	.include "data/maps/RusturfTunnel_Room2/scripts.inc"

@@ -152,9 +152,11 @@ static const u16 sMossdeepGymTrainers[] = {
     TRAINER_KATHLEEN,
     TRAINER_NICHOLAS,
     TRAINER_VIRGIL,
+    TRAINER_BLAKE,
     TRAINER_NATE,
     TRAINER_SYLVIA,
     TRAINER_HANNAH,
+    TRAINER_SAMANTHA,
     TRAINER_TATE_AND_LIZA_1,
     TRAINER_TATE_AND_LIZA_2,
     TRAINER_TATE_AND_LIZA_3,
@@ -572,6 +574,7 @@ static const u16 sRandomizerOverworldTMPool[] =
     ITEM_TM_EARTHQUAKE,
     ITEM_TM_HAIL,
     ITEM_TM_PSYCHIC,
+    ITEM_TM_TRIPLE_AXEL,
 };
 
 // Don't randomize HMs or key items, that can make the game unwinnable.
