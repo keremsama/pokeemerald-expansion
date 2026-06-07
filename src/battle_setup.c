@@ -639,7 +639,16 @@ static void CB2_EndScriptedWildBattle(void)
 u8 BattleSetup_GetEnvironmentId(void)
 {
     u16 tileBehavior;
+    u16 environment;
     s16 x, y;
+
+    if (FlagGet(FLAG_SET_BATTLE_BACKGROUND))
+    {
+        FlagClear(FLAG_SET_BATTLE_BACKGROUND);
+        environment = VarGet(VAR_TEMP_BATTLE_BACKGROUND);
+        if (environment <= BATTLE_ENVIRONMENT_PLAIN)
+            return environment;
+    }
 
     if (I_FISHING_ENVIRONMENT >= GEN_4 && gIsFishingEncounter)
         GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
@@ -698,6 +707,25 @@ u8 BattleSetup_GetEnvironmentId(void)
         return BATTLE_ENVIRONMENT_SAND;
 
     return BATTLE_ENVIRONMENT_PLAIN;
+}
+
+u8 BattleSetup_GetBattleScene(void)
+{
+    u16 scene;
+
+    gBattleSceneIsOverride = FALSE;
+    if (FlagGet(FLAG_SET_BATTLE_SCENE))
+    {
+        FlagClear(FLAG_SET_BATTLE_SCENE);
+        scene = VarGet(VAR_TEMP_BATTLE_SCENE);
+        if (scene < MAP_BATTLE_SCENE_COUNT)
+        {
+            gBattleSceneIsOverride = TRUE;
+            return scene;
+        }
+    }
+
+    return GetCurrentMapBattleScene();
 }
 
 static u8 GetBattleTransitionTypeByMap(void)

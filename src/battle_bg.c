@@ -786,7 +786,7 @@ void DrawMainBattleBackground(void)
     }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !gBattleSceneIsOverride)
         {
             u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (trainerClass == TRAINER_CLASS_LEADER)
@@ -805,7 +805,7 @@ void DrawMainBattleBackground(void)
             }
         }
 
-        switch (GetCurrentMapBattleScene())
+        switch (gBattleScene)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
@@ -1187,7 +1187,7 @@ void DrawBattleEntryBackground(void)
     }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !gBattleSceneIsOverride)
         {
             u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (trainerClass == TRAINER_CLASS_LEADER)
@@ -1204,7 +1204,7 @@ void DrawBattleEntryBackground(void)
             }
         }
 
-        if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
+        if (gBattleScene == MAP_BATTLE_SCENE_NORMAL)
         {
             LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].entryTileset, (void *)(BG_CHAR_ADDR(1)));
             LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
@@ -1252,7 +1252,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !gBattleSceneIsOverride)
             {
                 u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
                 if (trainerClass == TRAINER_CLASS_LEADER)
@@ -1267,7 +1267,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                 }
             }
 
-            switch (GetCurrentMapBattleScene())
+            switch (gBattleScene)
             {
             default:
             case MAP_BATTLE_SCENE_NORMAL:
@@ -1314,7 +1314,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !gBattleSceneIsOverride)
             {
                 u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
                 if (trainerClass == TRAINER_CLASS_LEADER)
@@ -1329,7 +1329,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                 }
             }
 
-            switch (GetCurrentMapBattleScene())
+            switch (gBattleScene)
             {
             default:
             case MAP_BATTLE_SCENE_NORMAL:
@@ -1376,7 +1376,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !gBattleSceneIsOverride)
             {
                 u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
                 if (trainerClass == TRAINER_CLASS_LEADER)
@@ -1391,7 +1391,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                 }
             }
 
-            switch (GetCurrentMapBattleScene())
+            switch (gBattleScene)
             {
             default:
             case MAP_BATTLE_SCENE_NORMAL:

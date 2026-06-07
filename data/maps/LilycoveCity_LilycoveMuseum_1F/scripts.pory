@@ -328,6 +328,8 @@ script LilycoveCity_LilycoveMuseum_1F_Cynthia {
 script LilycoveCity_LilycoveMuseum_1F_CynthiaBattle {
     setflag (FLAG_SET_BGM)
     setvar (VAR_TEMP_F, MUS_BW_VS_CYNTHIA)
+    setflag (FLAG_SET_BATTLE_SCENE)
+    setvar (VAR_TEMP_BATTLE_SCENE, MAP_BATTLE_SCENE_PHOEBE)
     trainerbattle_no_intro (TRAINER_CYNTHIA, CynthiaBattleLilycove_Outro)
     setflag (FLAG_HIDE_CYNTHIA_LILYCOVE)
 	msgbox (CynthiaBattleLilycove_Postbattle)

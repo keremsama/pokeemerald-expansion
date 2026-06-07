@@ -641,28 +641,32 @@ LilycoveCity_LilycoveMuseum_1F_CynthiaBattle::
 # 330 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	setvar VAR_TEMP_F, MUS_BW_VS_CYNTHIA
 # 331 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	trainerbattle_no_intro TRAINER_CYNTHIA, CynthiaBattleLilycove_Outro
+	setflag FLAG_SET_BATTLE_SCENE
 # 332 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	setflag FLAG_HIDE_CYNTHIA_LILYCOVE
+	setvar VAR_TEMP_BATTLE_SCENE, MAP_BATTLE_SCENE_PHOEBE
 # 333 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	msgbox CynthiaBattleLilycove_Postbattle
+	trainerbattle_no_intro TRAINER_CYNTHIA, CynthiaBattleLilycove_Outro
 # 334 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	waitmessage
+	setflag FLAG_HIDE_CYNTHIA_LILYCOVE
 # 335 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	closemessage
+	msgbox CynthiaBattleLilycove_Postbattle
 # 336 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	fadescreen FADE_TO_BLACK
+	waitmessage
 # 337 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	delay 60
+	closemessage
 # 338 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	removeobject 11
+	fadescreen FADE_TO_BLACK
 # 339 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	delay 30
+	delay 60
 # 340 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	fadescreen FADE_FROM_BLACK
+	removeobject 11
 # 341 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
-	fadedefaultbgm
+	delay 30
 # 342 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+	fadescreen FADE_FROM_BLACK
+# 343 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+	fadedefaultbgm
+# 344 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	releaseall
 	end
 
@@ -687,12 +691,12 @@ LilycoveCity_LilycoveMuseum_1F_Cynthia_Text_0:
 	.string "back.$"
 
 CynthiaBattleLilycove_Outro::
-# 347 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 349 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "…Impressive. Your Pokémon trust you\n"
 	.string "deeply.$"
 
 CynthiaBattleLilycove_Postbattle::
-# 351 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 353 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "That kind of bond… it's not something\n"
 	.string "that can be taught so easily.\p"
 	.string "Steven would have enjoyed this as well…\p"
@@ -708,11 +712,11 @@ CynthiaBattleLilycove_Postbattle::
 	.string "{PLAYER}.$"
 
 LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_1::
-# 363 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 365 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "…This inscription… it's remarkable.$"
 
 LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_2::
-# 369 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 371 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "Oh, I didn't notice you. My apologies.\p"
 	.string "This writing here… it appears to be\n"
 	.string "incredibly old. Older than most records\l"
@@ -723,7 +727,7 @@ LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_2::
 	.string "knowledge here.$"
 
 LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_3::
-# 377 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 379 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "This symbol… I believe it represents a\n"
 	.string "connection. In many ancient legends,\l"
 	.string "there are stories about the bond\l"
@@ -740,7 +744,7 @@ LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_3::
 	.string "for history.$"
 
 LilycoveCity_LilycoveMuseum_1F_Text_Cynthia_4::
-# 386 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
+# 388 "data/maps/LilycoveCity_LilycoveMuseum_1F/scripts.pory"
 	.string "…You're a Trainer, aren't you? I can\n"
 	.string "tell. …And recently, the Champion of\l"
 	.string "Hoenn as well? Impressive.\p"
