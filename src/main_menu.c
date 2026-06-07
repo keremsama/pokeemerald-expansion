@@ -172,7 +172,7 @@
 
 static EWRAM_DATA bool8 sStartedPokeBallTask = 0;
 static EWRAM_DATA u16 sCurrItemAndOptionMenuCheck = 0;
-static EWRAM_DATA bool8 sReturnFromRandomizerNuzlockeMenuToName = FALSE;
+static EWRAM_DATA bool8 sContinueIntroAfterRandomizerNuzlockeMenu = FALSE;
 
 static u8 sBirchSpeechMainTaskId;
 
@@ -221,7 +221,9 @@ static void NewGameBirchSpeech_ShowGenderMenu(void);
 static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void);
 static void NewGameBirchSpeech_ClearGenderWindow(u8, u8);
 static void Task_NewGameBirchSpeech_UniqueRun(u8);
-static void Task_NewGameBirchSpeech_WaitForUniqueRunText(u8);
+static void Task_NewGameBirchSpeech_CreateUniqueRunYesNo(u8);
+static void Task_NewGameBirchSpeech_ProcessUniqueRunYesNo(u8);
+static void Task_NewGameBirchSpeech_ContinueAfterUniqueRun(u8);
 static void StartRandomizerNuzlockeMenuFromBirch(u8);
 static void Task_NewGameBirchSpeech_WhatsYourName(u8);
 static void Task_NewGameBirchSpeech_SlideOutOldGenderSprite(u8);
@@ -1538,13 +1540,13 @@ static void Task_NewGameBirchSpeech_ChooseGender(u8 taskId)
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
-            gTasks[taskId].func = Task_NewGameBirchSpeech_UniqueRun;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
             break;
         case FEMALE:
             PlaySE(SE_SELECT);
             gSaveBlock2Ptr->playerGender = gender;
             NewGameBirchSpeech_ClearGenderWindow(1, 1);
-            gTasks[taskId].func = Task_NewGameBirchSpeech_UniqueRun;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
             break;
     }
     gender2 = Menu_GetCursorPos();
@@ -1605,21 +1607,48 @@ static void Task_NewGameBirchSpeech_UniqueRun(u8 taskId)
     NewGameBirchSpeech_ClearWindow(0);
     StringExpandPlaceholders(gStringVar4, sText_Birch_UniqueRun);
     AddTextPrinterForMessage(TRUE);
-    gTasks[taskId].func = Task_NewGameBirchSpeech_WaitForUniqueRunText;
+    gTasks[taskId].func = Task_NewGameBirchSpeech_CreateUniqueRunYesNo;
 }
 
-static void Task_NewGameBirchSpeech_WaitForUniqueRunText(u8 taskId)
+static void Task_NewGameBirchSpeech_CreateUniqueRunYesNo(u8 taskId)
 {
     if (!RunTextPrintersAndIsPrinter0Active())
     {
-        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+        CreateYesNoMenuParameterized(2, 1, 0xF3, 0xDF, 2, 15);
+        gTasks[taskId].func = Task_NewGameBirchSpeech_ProcessUniqueRunYesNo;
+    }
+}
+
+static void Task_NewGameBirchSpeech_ProcessUniqueRunYesNo(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+        case 0:
+            PlaySE(SE_SELECT);
             StartRandomizerNuzlockeMenuFromBirch(taskId);
+            break;
+        case MENU_B_PRESSED:
+        case 1:
+            PlaySE(SE_SELECT);
+            gTasks[taskId].func = Task_NewGameBirchSpeech_ContinueAfterUniqueRun;
+            break;
+    }
+}
+
+static void Task_NewGameBirchSpeech_ContinueAfterUniqueRun(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        gSprites[gTasks[taskId].tPlayerSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
+        NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
+        NewGameBirchSpeech_StartFadePlatformIn(taskId, 1);
+        gTasks[taskId].func = Task_NewGameBirchSpeech_SlidePlatformAway2;
     }
 }
 
 static void StartRandomizerNuzlockeMenuFromBirch(u8 taskId)
 {
-    sReturnFromRandomizerNuzlockeMenuToName = TRUE;
+    sContinueIntroAfterRandomizerNuzlockeMenu = TRUE;
     gMain.savedCallback = CB2_NewGameBirchSpeech_ReturnFromNamingScreen;
     FreeAllWindowBuffers();
     FreeAndDestroyMonPicSprite(gTasks[taskId].tLotadSpriteId);
@@ -1686,10 +1715,7 @@ static void Task_NewGameBirchSpeech_ProcessNameYesNoMenu(u8 taskId)
     {
         case 0:
             PlaySE(SE_SELECT);
-            gSprites[gTasks[taskId].tPlayerSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
-            NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
-            NewGameBirchSpeech_StartFadePlatformIn(taskId, 1);
-            gTasks[taskId].func = Task_NewGameBirchSpeech_SlidePlatformAway2;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_UniqueRun;
             break;
         case MENU_B_PRESSED:
         case 1:
@@ -2356,10 +2382,10 @@ static void Task_NewGameBirchSpeech_ReturnFromNamingScreenShowTextbox(u8 taskId)
     if (gTasks[taskId].tTimer-- <= 0)
     {
         NewGameBirchSpeech_ShowDialogueWindow(0, 1);
-        if (sReturnFromRandomizerNuzlockeMenuToName)
+        if (sContinueIntroAfterRandomizerNuzlockeMenu)
         {
-            sReturnFromRandomizerNuzlockeMenuToName = FALSE;
-            gTasks[taskId].func = Task_NewGameBirchSpeech_WhatsYourName;
+            sContinueIntroAfterRandomizerNuzlockeMenu = FALSE;
+            gTasks[taskId].func = Task_NewGameBirchSpeech_ContinueAfterUniqueRun;
         }
         else
         {
