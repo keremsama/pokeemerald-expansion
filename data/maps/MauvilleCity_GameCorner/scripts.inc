@@ -499,6 +499,8 @@ MauvilleCity_GameCorner_EventScript_Gacha_Basic::
 	lockall
 	checkitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
 	setvar VAR_0x8004, 1
 	playbgm MUS_RG_CINNABAR, FALSE
 	special StartGacha
@@ -513,6 +515,8 @@ MauvilleCity_GameCorner_EventScript_Gacha_Great::
 	lockall
 	checkitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
 	setvar VAR_0x8004, 2
 	playbgm MUS_RG_CINNABAR, FALSE
 	special StartGacha
@@ -526,6 +530,8 @@ MauvilleCity_GameCorner_EventScript_Gacha_Ultra::
 	lockall
 	checkitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
 	setvar VAR_0x8004, 3
 	playbgm MUS_RG_CINNABAR, FALSE
 	special StartGacha
@@ -539,6 +545,8 @@ MauvilleCity_GameCorner_EventScript_Gacha_Master::
 	lockall
 	checkitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoCoinCase
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
 	setvar VAR_0x8004, 4
 	playbgm MUS_RG_CINNABAR, FALSE
 	special StartGacha
@@ -784,6 +792,8 @@ MauvilleCity_GameCorner_EventScript_PrizeCornerNew::
 MauvilleCity_GameCorner_EventScript_PrizeCornerPokemon::
 	lock
 	faceplayer
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
 	msgbox MauvilleCity_GameCorner_Text_ExchangeCoinsForPrizes, MSGBOX_DEFAULT
 	checkitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_ChoosePokemonPrizeMessage
@@ -918,6 +928,8 @@ MauvilleCity_GameCorner_EventScript_ChooseNewPrize::
 	end
 
 MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize::
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemonHideCoins
 	callnative BuildGameCornerPokemonPrizeMenu
 	dynmultistack 13, 0, FALSE, 6, FALSE, SPECIES_ABRA, DYN_MULTICHOICE_CB_SHOW_GAME_CORNER_PRIZE_MON_LEFT
 	switch VAR_RESULT
@@ -1256,157 +1268,145 @@ MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize::
 MauvilleCity_GameCorner_EventScript_BuyAbra::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, ABRA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins ABRA_COINS
 	setvar VAR_0x8004, SPECIES_ABRA
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyCubone::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, CUBONE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins CUBONE_COINS
 	setvar VAR_0x8004, SPECIES_CUBONE
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyRalts::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins RALTS_COINS
 	setvar VAR_0x8004, SPECIES_RALTS
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyDratini::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, DRATINI_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins DRATINI_COINS
 	setvar VAR_0x8004, SPECIES_DRATINI
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyBagon::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, BAGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins BAGON_COINS
 	setvar VAR_0x8004, SPECIES_BAGON
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyLarvitar::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, LARVITAR_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins LARVITAR_COINS
 	setvar VAR_0x8004, SPECIES_LARVITAR
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyLarvesta::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, LARVESTA_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins LARVESTA_COINS
 	setvar VAR_0x8004, SPECIES_LARVESTA
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyDreepy::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, DREEPY_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins DREEPY_COINS
 	setvar VAR_0x8004, SPECIES_DREEPY
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyScyther::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, SCYTHER_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins SCYTHER_COINS
 	setvar VAR_0x8004, SPECIES_SCYTHER
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyFrigibax::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, FRIGIBAX_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins FRIGIBAX_COINS
 	setvar VAR_0x8004, SPECIES_FRIGIBAX
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyBeldum::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, BELDUM_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins BELDUM_COINS
 	setvar VAR_0x8004, SPECIES_BELDUM
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyPorygon::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, PORYGON_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins PORYGON_COINS
 	setvar VAR_0x8004, SPECIES_PORYGON
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
-	updatecoinsbox 1, 1
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
-	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyLeftovers::
@@ -2014,6 +2014,72 @@ MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew::
 MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon::
 	msgbox MauvilleCity_GameCorner_Text_NotEnoughCoins, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize::
+	msgbox gText_NoMoreRoomForPokemon, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize::
+	copyvar VAR_TEMP_3, VAR_RESULT
+	goto_if_eq VAR_TEMP_3, MON_CANT_GIVE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
+	updatecoinsbox 1, 1
+	call MauvilleCity_GameCorner_EventScript_ReceivedPokemonPrizeFanfare
+	goto_if_eq VAR_TEMP_3, MON_GIVEN_TO_PARTY, MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizeParty
+	goto_if_eq VAR_TEMP_3, MON_GIVEN_TO_PC, MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizePC
+	goto MauvilleCity_GameCorner_EventScript_AfterBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_ReceivedPokemonPrizeFanfare::
+	bufferspeciesname STR_VAR_1, VAR_TEMP_TRANSFERRED_SPECIES
+	playfanfare MUS_EVOLVED
+	message MauvilleCity_GameCorner_Text_YouGotPrizePokemon
+	waitmessage
+	waitfanfare
+	return
+
+MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizeParty::
+	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizeParty_Nuzlocke
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_AfterBuyPokemonPrize
+MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizeParty_Nuzlocke::
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto MauvilleCity_GameCorner_EventScript_AfterBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizePC::
+	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizePC_Nuzlocke
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_PokemonPrizeTransferredToPC
+MauvilleCity_GameCorner_EventScript_NicknamePokemonPrizePC_Nuzlocke::
+	call Common_EventScript_NameReceivedBoxMon
+MauvilleCity_GameCorner_EventScript_PokemonPrizeTransferredToPC::
+	call Common_EventScript_TransferredToPC
+	goto MauvilleCity_GameCorner_EventScript_AfterBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_AfterBuyPokemonPrize::
+	specialvar VAR_RESULT, IsNuzlockeGameCornerPokemonBlocked
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_EndPokemonPrizeAfterNuzlockePurchase
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChoosePokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_EndPokemonPrizeAfterNuzlockePurchase::
+	hidecoinsbox 0, 0
+	release
+	end
+
+MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemonHideCoins::
+	hidecoinsbox 0, 0
+	goto MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon
+
+MauvilleCity_GameCorner_EventScript_AlreadyGotNuzlockePokemon::
+	msgbox MauvilleCity_GameCorner_Text_AlreadyGotNuzlockePokemon, MSGBOX_DEFAULT
+	releaseall
 	end
 
 MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForNew2::
@@ -3018,6 +3084,10 @@ MauvilleCity_GameCorner_Text_SendToYourHomePC:
 MauvilleCity_GameCorner_Text_NotEnoughCoins:
 	.string "You don't have enough COINS.$"
 
+MauvilleCity_GameCorner_Text_AlreadyGotNuzlockePokemon:
+	.string "You already got one POKéMON\n"
+	.string "from the GAME CORNER.$"
+
 PB_YOU_WON_TEXT:
 	.string "You won\n"
 	.string "{STR_VAR_1} COINS!$"
@@ -3064,6 +3134,9 @@ MauvilleCity_GameCorner_Text_SoYourChoiceIsX:
 
 MauvilleCity_GameCorner_Text_HereYouGo:
 	.string "Here you go!$"
+
+MauvilleCity_GameCorner_Text_YouGotPrizePokemon:
+	.string "You got {STR_VAR_1}!$"
 
 @ Unused
 MauvilleCity_GameCorner_Text_CantCarryAnyMore:

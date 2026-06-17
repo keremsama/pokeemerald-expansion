@@ -45,6 +45,7 @@
 #include "randomizer.h"
 #include "string_util.h"
 #include "field_specials.h"
+#include "tx_randomizer_and_challenges.h"
 
 enum
 {
@@ -160,9 +161,12 @@ struct Gacha {
     u8 monSpriteId;
     u32 waitTimer;
     u8 Input;
+    u8 giftResult;
+    u8 giftPartySlot;
 };    
 
 static const u8 sText_FromGacha[] = _("You got {STR_VAR_1}!");
+static const u8 sText_NicknameThisGachaPokemon[] = _("Give a nickname to\nthis {STR_VAR_1}?");
 
 static const s8 sTradeBallVerticalVelocityTable[] =
 {
@@ -186,6 +190,11 @@ static EWRAM_DATA u8 sTextWindowId = 0;
 static void FadeToGachaScreen(u8 taskId);
 static void InitGachaScreen(void);
 static void GachaVBlankCallback(void);
+static void PrintGachaNicknamePrompt(void);
+static void StartGachaNicknameScreen(void);
+static void GachaSetPartyMonNickname(void);
+static void GachaSetBoxMonNickname(void);
+static void ReturnToFieldAfterGachaNickname(void);
 static void SpriteCB_BouncingPokeball(struct Sprite *);
 static void SpriteCB_BouncingPokeballArrive(struct Sprite *);
 
@@ -361,13 +370,13 @@ static const struct WindowTemplate sWinTemplates_EggHatch[] =
 
 static const struct WindowTemplate sYesNoWinTemplate =
 {
-    .bg = 0,
-    .tilemapLeft = 21,
+    .bg = GACHA_BG_BASE,
+    .tilemapLeft = 23,
     .tilemapTop = 9,
     .width = 5,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 424
+    .baseBlock = 0x100
 };
 
 #define BG_MIDDLE_GFX 1
@@ -2715,6 +2724,62 @@ void ShowFinalMessage(void)
     CopyWindowToVram(sTextWindowId, 3);
 }
 
+static void PrintGachaNicknamePrompt(void)
+{
+    FillWindowPixelBuffer(sTextWindowId, PIXEL_FILL(0));
+    DrawStdWindowFrame(sTextWindowId, FALSE);
+    StringCopy(gStringVar1, GetSpeciesName(sGacha->CalculatedSpecies));
+    StringExpandPlaceholders(gStringVar4, sText_NicknameThisGachaPokemon);
+    AddTextPrinterParameterized(sTextWindowId, FONT_NORMAL, gStringVar4, 0, 1, 0, 0);
+    CopyWindowToVram(sTextWindowId, 3);
+}
+
+static void StartGachaNicknameScreen(void)
+{
+    u16 species;
+    u8 gender;
+    u32 personality;
+
+    if (sGacha->giftResult == MON_GIVEN_TO_PC)
+    {
+        struct BoxPokemon *boxMon = GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos);
+
+        GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar2);
+        species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+        gender = GetBoxMonGender(boxMon);
+        personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
+        DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, GachaSetBoxMonNickname);
+    }
+    else
+    {
+        struct Pokemon *mon = &gPlayerParty[sGacha->giftPartySlot];
+
+        GetMonData(mon, MON_DATA_NICKNAME, gStringVar2);
+        species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        gender = GetMonGender(mon);
+        personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+        DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, GachaSetPartyMonNickname);
+    }
+}
+
+static void GachaSetPartyMonNickname(void)
+{
+    SetMonData(&gPlayerParty[sGacha->giftPartySlot], MON_DATA_NICKNAME, gStringVar2);
+    ReturnToFieldAfterGachaNickname();
+}
+
+static void GachaSetBoxMonNickname(void)
+{
+    SetBoxMonNickAt(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos, gStringVar2);
+    ReturnToFieldAfterGachaNickname();
+}
+
+static void ReturnToFieldAfterGachaNickname(void)
+{
+    FREE_AND_SET_NULL(sGacha);
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
 static void SetGachaMonIVsInRange(struct Pokemon *mon, u8 minIV)
 {
     u32 i;
@@ -2875,12 +2940,18 @@ static void GachaMain(u8 taskId)
     case STATE_POKEBALL_ARRIVE_WAIT:        
         if (gSprites[sGacha->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
+            u8 giftResult;
+
             CreateMon(&gEnemyParty[0], sGacha->CalculatedSpecies, level, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
             if (sGacha->Rarity == RARITY_RARE)
                 SetGachaMonIVsInRange(&gEnemyParty[0], 15);
             else if (sGacha->Rarity == RARITY_ULTRA_RARE)
                 SetGachaMonIVsInRange(&gEnemyParty[0], 23);
-            GiveMonToPlayer(&gEnemyParty[0]);
+            sGacha->giftPartySlot = CalculatePlayerPartyCount();
+            giftResult = GiveMonToPlayer(&gEnemyParty[0]);
+            sGacha->giftResult = giftResult;
+            if (giftResult != MON_CANT_GIVE && IsNuzlockeActive())
+                FlagSet(FLAG_NUZLOCKE_GAME_CORNER_MON);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(sGacha->CalculatedSpecies), FLAG_SET_SEEN);
             HandleSetPokedexFlag(SpeciesToNationalPokedexNum(sGacha->CalculatedSpecies), FLAG_SET_CAUGHT, GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY));
             LoadCompressedPalette(GetMonFrontSpritePal(&gEnemyParty[0]), OBJ_PLTT_ID(2), PLTT_SIZE_4BPP);
@@ -2929,12 +3000,40 @@ static void GachaMain(u8 taskId)
             sGacha->state++;
         break;
     case NEW_4:
-        // Ready the nickname prompt
         if (FlagGet(FLAG_SYS_POKEMON_GET) == FALSE)
-        {
             FlagSet(FLAG_SYS_POKEMON_GET);
+        if (sGacha->giftResult == MON_CANT_GIVE)
+        {
+            sGacha->state = GACHA_STATE_START_EXIT;
         }
-        sGacha->state = GACHA_STATE_START_EXIT;
+        else if (IsNuzlockeNicknamingActive())
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            sGacha->state = NEW_6;
+        }
+        else
+        {
+            PrintGachaNicknamePrompt();
+            CreateYesNoMenu(&sYesNoWinTemplate, 0x214, 0xE, 0);
+            sGacha->state = NEW_5;
+        }
+        break;
+    case NEW_5:
+        switch (Menu_ProcessInputNoWrapClearOnChoose())
+        {
+        case 0:
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            sGacha->state = NEW_6;
+            break;
+        case 1:
+        case MENU_B_PRESSED:
+            sGacha->state = GACHA_STATE_START_EXIT;
+            break;
+        }
+        break;
+    case NEW_6:
+        if (!gPaletteFade.active)
+            StartGachaNicknameScreen();
         break;
     }
 }

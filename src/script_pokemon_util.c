@@ -27,6 +27,7 @@
 #include "wild_encounter.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
+#include "constants/flags.h"
 #include "constants/battle_frontier.h"
 #include "randomizer.h"
 #include "constants/abilities.h"
@@ -540,7 +541,15 @@ void GiveGameCornerPrizeMonWithRandomIVs(void)
         break;
     }
 
+    VarSet(VAR_TEMP_TRANSFERRED_SPECIES, species);
     gSpecialVar_Result = ScriptGiveMonParameterized(0, PARTY_SIZE, species, 25, ITEM_NONE, ITEM_CHERISH_BALL, NATURE_HARDY, abilityNum, MON_MALE, evs, ivs, moves, FALSE, FALSE, NUMBER_OF_MON_TYPES, 0);
+    if (gSpecialVar_Result != MON_CANT_GIVE && IsNuzlockeActive())
+        FlagSet(FLAG_NUZLOCKE_GAME_CORNER_MON);
+}
+
+u16 IsNuzlockeGameCornerPokemonBlocked(void)
+{
+    return IsNuzlockeActive() && FlagGet(FLAG_NUZLOCKE_GAME_CORNER_MON);
 }
 
 #define PARSE_FLAG(n, default_) (flags & (1 << (n))) ? VarGet(ScriptReadHalfword(ctx)) : (default_)
