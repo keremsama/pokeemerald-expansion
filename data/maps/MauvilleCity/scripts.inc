@@ -1433,4 +1433,4 @@ MauvilleCity_EventScript_CantGoNorth_Movement2:
 MauvilleCity_EventScript_CantGoNorth_Text_0:
 # 701 "data/maps/MauvilleCity/scripts.pory"
 	.string "They're filming an interview\n"
-	.string "over there...\p$"
+	.string "over there...$"

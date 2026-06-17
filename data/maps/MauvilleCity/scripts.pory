@@ -699,7 +699,7 @@ script MauvilleCity_EventScript_CantGoNorth{
         applymovement(OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement1)
         waitmovement(OBJ_EVENT_ID_PLAYER)
         msgbox ("They're filming an interview\n"
-                "over there...\p")
+                "over there...")
         closemessage
         applymovement(OBJ_EVENT_ID_PLAYER, MauvilleCity_EventScript_CantGoNorth_Movement2)
         waitmovement(OBJ_EVENT_ID_PLAYER)

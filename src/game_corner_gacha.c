@@ -1703,10 +1703,9 @@ static const SpeciesGacha sSpeciesGachaBasicRare[] = {
     {4, SPECIES_TOGEPI},
     {5, SPECIES_SPIRITOMB},
     {6, SPECIES_GLIMMET},
-    {7, SPECIES_MURKROW},
-    {8, SPECIES_DARUMAKA},
-    {9, SPECIES_QWILFISH_HISUI},
-    {10, SPECIES_LAPRAS},
+    {7, SPECIES_DARUMAKA},
+    {8, SPECIES_QWILFISH_HISUI},
+    {9, SPECIES_LAPRAS},
 };
 
 static const SpeciesGacha sSpeciesGachaBasicUltraRare[] = {
