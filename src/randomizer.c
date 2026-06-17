@@ -1602,7 +1602,11 @@ struct GameCornerPrizeMon
 
 static const u8 sText_GameCornerPrizePriceAbra[] = _("1,500 C.");
 static const u8 sText_GameCornerPrizePriceCubone[] = _("1,800 C.");
+static const u8 sText_GameCornerPrizePriceElekid[] = _("2,000 C.");
+static const u8 sText_GameCornerPrizePriceMagby[] = _("2,000 C.");
+static const u8 sText_GameCornerPrizePriceEevee[] = _("2,600 C.");
 static const u8 sText_GameCornerPrizePriceRalts[] = _("3,200 C.");
+static const u8 sText_GameCornerPrizePriceSnorunt[] = _("3,700 C.");
 static const u8 sText_GameCornerPrizePriceScyther[] = _("4,800 C.");
 static const u8 sText_GameCornerPrizePriceLarvitar[] = _("5,000 C.");
 static const u8 sText_GameCornerPrizePriceLarvesta[] = _("5,200 C.");
@@ -1617,7 +1621,11 @@ static const struct GameCornerPrizeMon sGameCornerPrizeMons[] =
 {
     {SPECIES_ABRA,     sText_GameCornerPrizePriceAbra},
     {SPECIES_CUBONE,   sText_GameCornerPrizePriceCubone},
+    {SPECIES_ELEKID,   sText_GameCornerPrizePriceElekid},
+    {SPECIES_MAGBY,    sText_GameCornerPrizePriceMagby},
+    {SPECIES_EEVEE,    sText_GameCornerPrizePriceEevee},
     {SPECIES_RALTS,    sText_GameCornerPrizePriceRalts},
+    {SPECIES_SNORUNT,  sText_GameCornerPrizePriceSnorunt},
     {SPECIES_SCYTHER,  sText_GameCornerPrizePriceScyther},
     {SPECIES_LARVITAR, sText_GameCornerPrizePriceLarvitar},
     {SPECIES_LARVESTA, sText_GameCornerPrizePriceLarvesta},

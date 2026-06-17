@@ -49,13 +49,17 @@ MauvilleCity_GameCorner_MapScripts::
 
 	.set ABRA_COINS, 1500
 	.set CUBONE_COINS, 1800
+	.set ELEKID_COINS, 2000
+	.set MAGBY_COINS, 2000
+	.set EEVEE_COINS, 2600
 	.set RALTS_COINS, 3200
+	.set SNORUNT_COINS, 3700
+	.set SCYTHER_COINS, 4800
+	.set LARVITAR_COINS, 5000
+	.set LARVESTA_COINS, 5200
 	.set DRATINI_COINS, 5500
 	.set BAGON_COINS, 5500
-	.set LARVESTA_COINS, 5200
-	.set LARVITAR_COINS, 5000
 	.set DREEPY_COINS, 6000
-	.set SCYTHER_COINS, 4800
 	.set FRIGIBAX_COINS, 6300
 	.set BELDUM_COINS, 8000
 	.set PORYGON_COINS, 9999
@@ -935,7 +939,11 @@ MauvilleCity_GameCorner_EventScript_ChoosePokemonPrize::
 	switch VAR_RESULT
 	case SPECIES_ABRA, MauvilleCity_GameCorner_EventScript_Abra
 	case SPECIES_CUBONE, MauvilleCity_GameCorner_EventScript_Cubone
+	case SPECIES_ELEKID, MauvilleCity_GameCorner_EventScript_Elekid
+	case SPECIES_MAGBY, MauvilleCity_GameCorner_EventScript_Magby
+	case SPECIES_EEVEE, MauvilleCity_GameCorner_EventScript_Eevee
 	case SPECIES_RALTS, MauvilleCity_GameCorner_EventScript_Ralts
+	case SPECIES_SNORUNT, MauvilleCity_GameCorner_EventScript_Snorunt
 	case SPECIES_SCYTHER, MauvilleCity_GameCorner_EventScript_Scyther
 	case SPECIES_LARVITAR, MauvilleCity_GameCorner_EventScript_Larvitar
 	case SPECIES_LARVESTA, MauvilleCity_GameCorner_EventScript_Larvesta
@@ -1143,64 +1151,92 @@ MauvilleCity_GameCorner_EventScript_Cubone::
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
-MauvilleCity_GameCorner_EventScript_Ralts::
+MauvilleCity_GameCorner_EventScript_Elekid::
 	setvar VAR_TEMP_1, 3
+	setvar VAR_0x8004, SPECIES_ELEKID
+	callnative RandomizeGameCornerPrizeMon
+	bufferspeciesname STR_VAR_1, VAR_0x8004
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Magby::
+	setvar VAR_TEMP_1, 4
+	setvar VAR_0x8004, SPECIES_MAGBY
+	callnative RandomizeGameCornerPrizeMon
+	bufferspeciesname STR_VAR_1, VAR_0x8004
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Eevee::
+	setvar VAR_TEMP_1, 5
+	setvar VAR_0x8004, SPECIES_EEVEE
+	callnative RandomizeGameCornerPrizeMon
+	bufferspeciesname STR_VAR_1, VAR_0x8004
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
+MauvilleCity_GameCorner_EventScript_Ralts::
+	setvar VAR_TEMP_1, 6
 	setvar VAR_0x8004, SPECIES_RALTS
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
+MauvilleCity_GameCorner_EventScript_Snorunt::
+	setvar VAR_TEMP_1, 7
+	setvar VAR_0x8004, SPECIES_SNORUNT
+	callnative RandomizeGameCornerPrizeMon
+	bufferspeciesname STR_VAR_1, VAR_0x8004
+	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
+
 MauvilleCity_GameCorner_EventScript_Dratini::
-	setvar VAR_TEMP_1, 4
+	setvar VAR_TEMP_1, 11
 	setvar VAR_0x8004, SPECIES_DRATINI
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Bagon::
-	setvar VAR_TEMP_1, 5
+	setvar VAR_TEMP_1, 12
 	setvar VAR_0x8004, SPECIES_BAGON
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Frigibax::
-	setvar VAR_TEMP_1, 9
+	setvar VAR_TEMP_1, 14
 	setvar VAR_0x8004, SPECIES_FRIGIBAX
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Beldum::
-	setvar VAR_TEMP_1, 10
+	setvar VAR_TEMP_1, 15
 	setvar VAR_0x8004, SPECIES_BELDUM
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Porygon::
-	setvar VAR_TEMP_1, 11
+	setvar VAR_TEMP_1, 16
 	setvar VAR_0x8004, SPECIES_PORYGON
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Larvitar::
-	setvar VAR_TEMP_1, 6
+	setvar VAR_TEMP_1, 9
 	setvar VAR_0x8004, SPECIES_LARVITAR
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Larvesta::
-	setvar VAR_TEMP_1, 12
+	setvar VAR_TEMP_1, 10
 	setvar VAR_0x8004, SPECIES_LARVESTA
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
 	goto MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize
 
 MauvilleCity_GameCorner_EventScript_Dreepy::
-	setvar VAR_TEMP_1, 7
+	setvar VAR_TEMP_1, 13
 	setvar VAR_0x8004, SPECIES_DREEPY
 	callnative RandomizeGameCornerPrizeMon
 	bufferspeciesname STR_VAR_1, VAR_0x8004
@@ -1253,16 +1289,20 @@ MauvilleCity_GameCorner_EventScript_ConfirmPokemonPrize::
 	switch VAR_TEMP_1
 	case 1, MauvilleCity_GameCorner_EventScript_BuyAbra
 	case 2, MauvilleCity_GameCorner_EventScript_BuyCubone
-	case 3, MauvilleCity_GameCorner_EventScript_BuyRalts
-	case 4, MauvilleCity_GameCorner_EventScript_BuyDratini
-	case 5, MauvilleCity_GameCorner_EventScript_BuyBagon
-	case 6, MauvilleCity_GameCorner_EventScript_BuyLarvitar
-	case 7, MauvilleCity_GameCorner_EventScript_BuyDreepy
+	case 3, MauvilleCity_GameCorner_EventScript_BuyElekid
+	case 4, MauvilleCity_GameCorner_EventScript_BuyMagby
+	case 5, MauvilleCity_GameCorner_EventScript_BuyEevee
+	case 6, MauvilleCity_GameCorner_EventScript_BuyRalts
+	case 7, MauvilleCity_GameCorner_EventScript_BuySnorunt
 	case 8, MauvilleCity_GameCorner_EventScript_BuyScyther
-	case 9, MauvilleCity_GameCorner_EventScript_BuyFrigibax
-	case 10, MauvilleCity_GameCorner_EventScript_BuyBeldum
-	case 11, MauvilleCity_GameCorner_EventScript_BuyPorygon
-	case 12, MauvilleCity_GameCorner_EventScript_BuyLarvesta
+	case 9, MauvilleCity_GameCorner_EventScript_BuyLarvitar
+	case 10, MauvilleCity_GameCorner_EventScript_BuyLarvesta
+	case 11, MauvilleCity_GameCorner_EventScript_BuyDratini
+	case 12, MauvilleCity_GameCorner_EventScript_BuyBagon
+	case 13, MauvilleCity_GameCorner_EventScript_BuyDreepy
+	case 14, MauvilleCity_GameCorner_EventScript_BuyFrigibax
+	case 15, MauvilleCity_GameCorner_EventScript_BuyBeldum
+	case 16, MauvilleCity_GameCorner_EventScript_BuyPorygon
 	end
 
 MauvilleCity_GameCorner_EventScript_BuyAbra::
@@ -1289,6 +1329,42 @@ MauvilleCity_GameCorner_EventScript_BuyCubone::
 	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
 	end
 
+MauvilleCity_GameCorner_EventScript_BuyElekid::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, ELEKID_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
+	removecoins ELEKID_COINS
+	setvar VAR_0x8004, SPECIES_ELEKID
+	callnative RandomizeGameCornerPrizeMon
+	special GiveGameCornerPrizeMonWithRandomIVs
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyMagby::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, MAGBY_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
+	removecoins MAGBY_COINS
+	setvar VAR_0x8004, SPECIES_MAGBY
+	callnative RandomizeGameCornerPrizeMon
+	special GiveGameCornerPrizeMonWithRandomIVs
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuyEevee::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, EEVEE_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
+	removecoins EEVEE_COINS
+	setvar VAR_0x8004, SPECIES_EEVEE
+	callnative RandomizeGameCornerPrizeMon
+	special GiveGameCornerPrizeMonWithRandomIVs
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
+	end
+
 MauvilleCity_GameCorner_EventScript_BuyRalts::
 	checkcoins VAR_TEMP_2
 	goto_if_lt VAR_TEMP_2, RALTS_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
@@ -1296,6 +1372,18 @@ MauvilleCity_GameCorner_EventScript_BuyRalts::
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
 	removecoins RALTS_COINS
 	setvar VAR_0x8004, SPECIES_RALTS
+	callnative RandomizeGameCornerPrizeMon
+	special GiveGameCornerPrizeMonWithRandomIVs
+	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_BuySnorunt::
+	checkcoins VAR_TEMP_2
+	goto_if_lt VAR_TEMP_2, SNORUNT_COINS, MauvilleCity_GameCorner_EventScript_NotEnoughCoinsForPokemon
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NoRoomForPokemonPrize
+	removecoins SNORUNT_COINS
+	setvar VAR_0x8004, SPECIES_SNORUNT
 	callnative RandomizeGameCornerPrizeMon
 	special GiveGameCornerPrizeMonWithRandomIVs
 	goto MauvilleCity_GameCorner_EventScript_FinishBuyPokemonPrize
@@ -2949,8 +3037,20 @@ MauvilleCity_GameCorner_Text_PrizeAbra:
 MauvilleCity_GameCorner_Text_PrizeCubone:
 	.string "Cubone{CLEAR_TO 0x54}1,800 C.$"
 
+MauvilleCity_GameCorner_Text_PrizeElekid:
+	.string "Elekid{CLEAR_TO 0x54}2,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeMagby:
+	.string "Magby{CLEAR_TO 0x54}2,000 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeEevee:
+	.string "Eevee{CLEAR_TO 0x54}2,600 C.$"
+
 MauvilleCity_GameCorner_Text_PrizeRalts:
 	.string "Ralts{CLEAR_TO 0x54}3,200 C.$"
+
+MauvilleCity_GameCorner_Text_PrizeSnorunt:
+	.string "Snorunt{CLEAR_TO 0x54}3,700 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeDratini:
 	.string "Dratini{CLEAR_TO 0x54}5,500 C.$"
