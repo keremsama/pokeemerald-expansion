@@ -15,7 +15,15 @@ RustboroCity_Mart_EventScript_Clerk2::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
+	goto_if_unset FLAG_RANDOM_SHOP_ITEMS, RustboroCity_Mart_EventScript_Clerk2_NormalShop
+	callnative BuildRandomizerShopItems
+	pokemart gRandomizerShopItems
+	goto RustboroCity_Mart_EventScript_Clerk2_Done
+
+RustboroCity_Mart_EventScript_Clerk2_NormalShop:
 	pokemart RustboroCity_Mart_Pokemart_TM
+
+RustboroCity_Mart_EventScript_Clerk2_Done:
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
@@ -99,4 +107,3 @@ RustboroCity_Mart_Text_GettingEscapeRopeJustInCase:
 	.string "case I get lost in a cave.\p"
 	.string "I just need to use it to get back to\n"
 	.string "the entrance.$"
-

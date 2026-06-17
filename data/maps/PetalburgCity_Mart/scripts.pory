@@ -110,7 +110,12 @@ script LavaridgeTown_Mart_EventScript_Clerk2 {
     }
     message (gText_HowMayIServeYou)
     waitmessage
-    pokemart (PetalburgCity_Mart_Pokemart_Balls)
+    if (flag(FLAG_RANDOM_SHOP_ITEMS)) {
+        callnative (BuildRandomizerShopItems)
+        pokemart (gRandomizerShopItems)
+    } else {
+        pokemart (PetalburgCity_Mart_Pokemart_Balls)
+    }
     msgbox (gText_PleaseComeAgain)
     waitmessage
     release

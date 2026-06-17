@@ -53,6 +53,7 @@ enum
     RANDOMIZER_EGG,
     RANDOMIZER_ABILITIES,
     RANDOMIZER_FIELD_ITEMS,
+    RANDOMIZER_SHOP_ITEMS,
     RANDOMIZER_SPECIES_MODE,
     RANDOMIZER_SAVE,
     RANDOMIZER_COUNT,
@@ -224,6 +225,7 @@ static const u8 sTextStatic[] = _("STATIC POKEMON");
 static const u8 sTextEgg[] = _("EGG POKEMON");
 static const u8 sTextAbilities[] = _("ABILITIES");
 static const u8 sTextFieldItems[] = _("FIELD ITEMS");
+static const u8 sTextShopItems[] = _("SHOP ITEMS");
 static const u8 sTextSpeciesMode[] = _("SPECIES MODE");
 
 static const u8 sTextNuzlocke[] = _("NUZLOCKE");
@@ -248,6 +250,7 @@ static const u8 *const sRandomizerNames[RANDOMIZER_COUNT] =
     [RANDOMIZER_EGG] = sTextEgg,
     [RANDOMIZER_ABILITIES] = sTextAbilities,
     [RANDOMIZER_FIELD_ITEMS] = sTextFieldItems,
+    [RANDOMIZER_SHOP_ITEMS] = sTextShopItems,
     [RANDOMIZER_SPECIES_MODE] = sTextSpeciesMode,
     [RANDOMIZER_SAVE] = sTextSave,
 };
@@ -293,6 +296,8 @@ static const u8 sTextDescAbilitiesOff[] = _("POKEMON abilities stay the same.");
 static const u8 sTextDescAbilitiesOn[] = _("Randomize POKEMON abilities.");
 static const u8 sTextDescItemsOff[] = _("Field items stay the same.");
 static const u8 sTextDescItemsOn[] = _("Randomize field items.");
+static const u8 sTextDescShopItemsOff[] = _("Second clerks keep their\nnormal stock.");
+static const u8 sTextDescShopItemsOn[] = _("Second clerks sell random\nitems and TMs.");
 static const u8 sTextDescSpeciesRandom[] = _("Random replacements can be any\nvalid POKEMON.");
 static const u8 sTextDescSpeciesLegend[] = _("Legendary status is respected\nwhen replacing species.");
 static const u8 sTextDescSpeciesBst[] = _("Replacements are picked near the\nsame base stat total.");
@@ -321,6 +326,7 @@ static const u8 *const sRandomizerDescriptions[RANDOMIZER_COUNT][4] =
     [RANDOMIZER_EGG] = {sTextDescEggOff, sTextDescEggOn},
     [RANDOMIZER_ABILITIES] = {sTextDescAbilitiesOff, sTextDescAbilitiesOn},
     [RANDOMIZER_FIELD_ITEMS] = {sTextDescItemsOff, sTextDescItemsOn},
+    [RANDOMIZER_SHOP_ITEMS] = {sTextDescShopItemsOff, sTextDescShopItemsOn},
     [RANDOMIZER_SPECIES_MODE] = {sTextDescSpeciesRandom, sTextDescSpeciesLegend, sTextDescSpeciesBst, sTextDescSpeciesEvolution},
     [RANDOMIZER_SAVE] = {sTextDescSave},
 };
@@ -848,6 +854,11 @@ void ApplyNewGameRandomizerNuzlockeSettings(void)
         FlagSet(FLAG_RANDOM_FIELD_ITEMS);
     else
         FlagClear(FLAG_RANDOM_FIELD_ITEMS);
+
+    if (randomizerEnabled && sPendingRandomizer[RANDOMIZER_SHOP_ITEMS])
+        FlagSet(FLAG_RANDOM_SHOP_ITEMS);
+    else
+        FlagClear(FLAG_RANDOM_SHOP_ITEMS);
 
     VarSet(VAR_RANDOM_SPECIES_MODE, sPendingRandomizer[RANDOMIZER_SPECIES_MODE]);
 

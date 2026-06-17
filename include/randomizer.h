@@ -16,9 +16,11 @@
 #define RANDOMIZER_STREAM 17
 #define STARTER_AND_GIFT_MON_COUNT 13 // Raise this number accordingly to [gStarterAndGiftMonTable]
 #define EGG_MON_COUNT 1 // Raise this number accordingly to [gEggMonTable]
+#define RANDOMIZER_SHOP_ITEM_COUNT 12
 
 extern const u16 gStarterAndGiftMonTable[];
 extern const u16 gEggMonTable[];
+extern EWRAM_DATA u16 gRandomizerShopItems[RANDOMIZER_SHOP_ITEM_COUNT + 1];
 
 enum RandomizerFeature
 {
@@ -28,6 +30,8 @@ enum RandomizerFeature
     RANDOMIZE_TRAINER_MON,
     // Item ball and hidden item randomization.
     RANDOMIZE_FIELD_ITEMS,
+    // Randomization of second-clerk shop inventories.
+    RANDOMIZE_SHOP_ITEMS,
     // Randomization of species base stats. Not yet implemented.
     RANDOMIZE_BASE_STATS,
     // Randomization of species types. Not yet implemented.
@@ -56,6 +60,7 @@ enum RandomizerReason
     RANDOMIZER_REASON_STARTER_AND_GIFT_MON,
     RANDOMIZER_REASON_EGG,
     RANDOMIZER_REASON_ABILITIES,
+    RANDOMIZER_REASON_SHOP_ITEM,
 };
 
 enum RandomizerOption {
@@ -107,6 +112,7 @@ static inline u8 RandomizeMonType(u16 species, u8 typeNum)
 u16 RandomizeFoundItem(u16 itemId, u8 mapGroup, u8 mapNum, u16 localId);
 void FindItemRandomize_NativeCall(struct ScriptContext *ctx);
 void FindHiddenItemRandomize_NativeCall(struct ScriptContext *ctx);
+void BuildRandomizerShopItems(struct ScriptContext *ctx);
 
 u16 RandomizeMon(enum RandomizerReason reason, enum RandomizerSpeciesMode mode, u32 seed, u16 species);
 u16 RandomizeMonBaseForm(enum RandomizerReason reason, enum RandomizerSpeciesMode mode, u32 seed, u16 species);

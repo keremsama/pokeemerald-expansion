@@ -22,6 +22,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "constants/characters.h"
+#include "constants/items.h"
 
 // Add the mons you wish to be randomized when given as starter/gift mon to this list
 const u16 gStarterAndGiftMonTable[STARTER_AND_GIFT_MON_COUNT] =
@@ -46,6 +47,8 @@ const u16 gEggMonTable[EGG_MON_COUNT] =
 {
     SPECIES_WYNAUT, 
 };
+
+EWRAM_DATA u16 gRandomizerShopItems[RANDOMIZER_SHOP_ITEM_COUNT + 1] = {ITEM_NONE};
 
 // This is a list of baby Pokémon that should not cause their evolution
 // to count as an evolved pokemon.
@@ -250,6 +253,12 @@ bool32 RandomizerFeatureEnabled(enum RandomizerFeature feature)
                 return FORCE_RANDOMIZE_FIELD_ITEMS;
             #else
                 return FlagGet(RANDOMIZER_FLAG_FIELD_ITEMS);
+            #endif
+        case RANDOMIZE_SHOP_ITEMS:
+            #ifdef FORCE_RANDOMIZE_SHOP_ITEMS
+                return FORCE_RANDOMIZE_SHOP_ITEMS;
+            #else
+                return FlagGet(RANDOMIZER_FLAG_SHOP_ITEMS);
             #endif
         case RANDOMIZE_TRAINER_MON:
             #ifdef FORCE_RANDOMIZE_TRAINER_MON
@@ -615,6 +624,77 @@ static inline bool32 ShouldRandomizeItem(u16 itemId)
 }
 
 #include "data/randomizer/item_whitelist.h"
+
+#define RANDOMIZER_SHOP_TM_COUNT (RANDOMIZER_MAX_TM - ITEM_TM01 + 1)
+#define RANDOMIZER_SHOP_POOL_SIZE (ITEM_WHITELIST_SIZE + RANDOMIZER_SHOP_TM_COUNT)
+
+static bool32 ShouldRandomizeShopItem(u16 itemId)
+{
+    return ShouldRandomizeItem(itemId) && GetItemPrice(itemId) != 0;
+}
+
+static bool32 RandomizerShopAlreadyHasItem(u16 itemId, u8 count)
+{
+    u8 i;
+
+    for (i = 0; i < count; i++)
+    {
+        if (gRandomizerShopItems[i] == itemId)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static u16 GetRandomizerShopPoolItem(u32 poolIndex)
+{
+    if (poolIndex < ITEM_WHITELIST_SIZE)
+        return sRandomizerItemWhitelist[poolIndex];
+
+    return ITEM_TM01 + (poolIndex - ITEM_WHITELIST_SIZE);
+}
+
+static bool32 TryAddRandomizerShopItem(u16 itemId, u8 *count)
+{
+    if (!ShouldRandomizeShopItem(itemId) || RandomizerShopAlreadyHasItem(itemId, *count))
+        return FALSE;
+
+    gRandomizerShopItems[(*count)++] = itemId;
+    return TRUE;
+}
+
+void BuildRandomizerShopItems(struct ScriptContext *ctx)
+{
+    struct Sfc32State state;
+    u8 objEvent = gSelectedObjectEvent;
+    u32 mapSeed;
+    u32 attempts;
+    u32 i;
+    u8 count = 0;
+
+    (void)ctx;
+    memset(gRandomizerShopItems, ITEM_NONE, sizeof(gRandomizerShopItems));
+
+    if (!RandomizerFeatureEnabled(RANDOMIZE_SHOP_ITEMS))
+        return;
+
+    mapSeed = ((u32)gObjectEvents[objEvent].mapGroup) << 24;
+    mapSeed |= ((u32)gObjectEvents[objEvent].mapNum) << 16;
+    mapSeed |= gObjectEvents[objEvent].localId;
+
+    state = RandomizerRandSeed(RANDOMIZER_REASON_SHOP_ITEM, mapSeed, RANDOMIZER_SHOP_POOL_SIZE);
+
+    for (attempts = 0; count < RANDOMIZER_SHOP_ITEM_COUNT && attempts < RANDOMIZER_SHOP_POOL_SIZE * 4; attempts++)
+    {
+        u16 itemId = GetRandomizerShopPoolItem(RandomizerNextRange(&state, RANDOMIZER_SHOP_POOL_SIZE));
+        TryAddRandomizerShopItem(itemId, &count);
+    }
+
+    for (i = 0; count < RANDOMIZER_SHOP_ITEM_COUNT && i < RANDOMIZER_SHOP_POOL_SIZE; i++)
+        TryAddRandomizerShopItem(GetRandomizerShopPoolItem(i), &count);
+
+    gRandomizerShopItems[count] = ITEM_NONE;
+}
 
 // Given a found item and its location in the game, returns a replacement for that item.
 u16 RandomizeFoundItem(u16 itemId, u8 mapGroup, u8 mapNum, u16 localId)

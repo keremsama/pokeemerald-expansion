@@ -42,6 +42,7 @@
 //#define FORCE_RANDOMIZE_STARTER_AND_GIFT_MON      TRUE
 //#define FORCE_RANDOMIZE_EGG_MON                   TRUE
 //#define FORCE_RANDOMIZE_ABILITIES                 TRUE
+//#define FORCE_RANDOMIZE_SHOP_ITEMS                TRUE
 
 // These flags control whether a particular randomization feature is active.
 // They are ignored and disabled if the flags above are set.
@@ -51,6 +52,10 @@
 
 #ifndef FORCE_RANDOMIZE_FIELD_ITEMS
 #define RANDOMIZER_FLAG_FIELD_ITEMS                   FLAG_RANDOM_FIELD_ITEMS
+#endif
+
+#ifndef FORCE_RANDOMIZE_SHOP_ITEMS
+#define RANDOMIZER_FLAG_SHOP_ITEMS                    FLAG_RANDOM_SHOP_ITEMS
 #endif
 
 #ifndef FORCE_RANDOMIZE_TRAINER_MON

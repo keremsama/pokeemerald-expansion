@@ -195,12 +195,15 @@ LavaridgeTown_Mart_EventScript_Clerk2::
 # 112 "data/maps/PetalburgCity_Mart/scripts.pory"
 	waitmessage
 # 113 "data/maps/PetalburgCity_Mart/scripts.pory"
+	goto_if_set FLAG_RANDOM_SHOP_ITEMS, LavaridgeTown_Mart_EventScript_Clerk2_5
+# 117 "data/maps/PetalburgCity_Mart/scripts.pory"
 	pokemart PetalburgCity_Mart_Pokemart_Balls
-# 114 "data/maps/PetalburgCity_Mart/scripts.pory"
+LavaridgeTown_Mart_EventScript_Clerk2_4:
+# 119 "data/maps/PetalburgCity_Mart/scripts.pory"
 	msgbox gText_PleaseComeAgain
-# 115 "data/maps/PetalburgCity_Mart/scripts.pory"
+# 120 "data/maps/PetalburgCity_Mart/scripts.pory"
 	waitmessage
-# 116 "data/maps/PetalburgCity_Mart/scripts.pory"
+# 121 "data/maps/PetalburgCity_Mart/scripts.pory"
 	release
 	end
 
@@ -212,6 +215,13 @@ LavaridgeTown_Mart_EventScript_Clerk2_2:
 # 108 "data/maps/PetalburgCity_Mart/scripts.pory"
 	release
 	end
+
+LavaridgeTown_Mart_EventScript_Clerk2_5:
+# 114 "data/maps/PetalburgCity_Mart/scripts.pory"
+	callnative BuildRandomizerShopItems
+# 115 "data/maps/PetalburgCity_Mart/scripts.pory"
+	pokemart gRandomizerShopItems
+	goto LavaridgeTown_Mart_EventScript_Clerk2_4
 
 
 LavaridgeTown_Mart_EventScript_Clerk2_Text_0:

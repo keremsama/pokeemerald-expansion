@@ -199,6 +199,7 @@ script Randomizer_Option_Setup {
         msgbox ("Randomizer is OFF!")
         clearflag (FLAG_RANDOM_WILD_MON)
         clearflag (FLAG_RANDOM_FIELD_ITEMS)
+        clearflag (FLAG_RANDOM_SHOP_ITEMS)
         clearflag (FLAG_RANDOM_TRAINER_MON)
         clearflag (FLAG_RANDOM_FIXED_MON)
         clearflag (FLAG_RANDOM_STARTERS)

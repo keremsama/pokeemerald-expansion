@@ -31,7 +31,15 @@ FortreeCity_Mart_EventScript_Clerk2::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
+	goto_if_unset FLAG_RANDOM_SHOP_ITEMS, FortreeCity_Mart_EventScript_Clerk2_NormalShop
+	callnative BuildRandomizerShopItems
+	pokemart gRandomizerShopItems
+	goto FortreeCity_Mart_EventScript_Clerk2_Done
+
+FortreeCity_Mart_EventScript_Clerk2_NormalShop:
 	pokemart FortreeCity_Mart_Balls
+
+FortreeCity_Mart_EventScript_Clerk2_Done:
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
@@ -71,4 +79,3 @@ FortreeCity_Mart_Text_StockUpOnItems:
 FortreeCity_Mart_Text_RareCandyMakesMonGrow:
 	.string "A RARE CANDY makes a POKéMON grow\n"
 	.string "immediately by one level.$"
-
