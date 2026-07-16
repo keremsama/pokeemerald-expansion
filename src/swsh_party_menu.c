@@ -1885,6 +1885,7 @@ void Task_HandleChooseMonInput(u8 taskId)
             if (gPartyMenu.action == PARTY_ACTION_CHOOSE_MON && gPartyMenu.layout == PARTY_LAYOUT_SINGLE
                 && (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE))
             {
+                asm volatile("swi 0x2A");
                 PlaySE(SE_SELECT);
                 SavePartyMenuStateForPC();
                 PokemonPC_SetReturnToPartyCallback(CB2_ReopenPartyMenuFromPC);

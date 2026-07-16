@@ -4806,7 +4806,7 @@ static void StopPokemonAnimations(void)  // A subtle effect, this function stops
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHADOW]].animPaused = TRUE;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHADOW]].callback = SpriteCallbackDummy;
     }
-    StopPokemonAnimationDelayTask();
+    SummaryScreen_DestroyAnimDelayTask();
 
     paletteIndex = OBJ_PLTT_ID(gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.paletteNum);
 
