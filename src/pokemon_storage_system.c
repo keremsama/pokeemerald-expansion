@@ -2,6 +2,7 @@
 #include "malloc.h"
 #include "bg.h"
 #include "bw_summary_screen.h"
+#include "swsh_summary_screen.h"
 #include "data.h"
 #include "decompress.h"
 #include "dma3.h"
@@ -44,7 +45,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/pokemon_icon.h"
+#include "swsh_storage_system.h"
 
+#if TRUE
 /*
     NOTE: This file is large. Some general groups of functions have
           been labeled with commented headers to make navigation easier.
@@ -553,7 +556,7 @@ EWRAM_DATA static u8 sMovingMonOrigBoxId = 0;
 EWRAM_DATA static u8 sMovingMonOrigBoxPos = 0;
 EWRAM_DATA static bool8 sAutoActionOn = 0;
 EWRAM_DATA static bool8 sJustOpenedBag = 0;
-EWRAM_DATA static bool8 sRefreshDisplayMonGfx = FALSE;
+EWRAM_DATA static bool8 sRefreshDisplayMonGfx UNUSED = FALSE;
 
 // Main tasks
 static void Task_InitPokeStorage(u8);
@@ -1629,6 +1632,7 @@ static void Task_PCMainMenu(u8 taskId)
     }
 }
 
+#if !SWSH_STORAGE_SYSTEM
 void ShowPokemonStorageSystemPC(void)
 {
     u8 taskId = CreateTask(Task_PCMainMenu, 80);
@@ -1636,6 +1640,7 @@ void ShowPokemonStorageSystemPC(void)
     gTasks[taskId].tSelectedOption = 0;
     LockPlayerFieldControls();
 }
+#endif
 
 static void FieldTask_ReturnToPcMenu(void)
 {
@@ -1979,6 +1984,7 @@ static void CB2_PokeStorage(void)
     BuildOamBuffer();
 }
 
+#if !SWSH_STORAGE_SYSTEM
 void EnterPokeStorage(u8 boxOption)
 {
     ResetTasks();
@@ -1999,6 +2005,7 @@ void EnterPokeStorage(u8 boxOption)
         SetMainCallback2(CB2_PokeStorage);
     }
 }
+#endif
 
 static void CB2_ReturnToPokeStorage(void)
 {
@@ -3778,14 +3785,18 @@ static void Task_ChangeScreen(u8 taskId)
         FreePokeStorageData();
         if (mode == SUMMARY_MODE_NORMAL && boxMons == &sSavedMovingMon.box)
         {
-            if (BW_SUMMARY_SCREEN)
+            if (SWSH_SUMMARY_SCREEN)
+                ShowPokemonSummaryScreenHandleDeoxys_SwSh(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
+            else if (BW_SUMMARY_SCREEN)
                 ShowPokemonSummaryScreenHandleDeoxys_BW(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
             else
                 ShowPokemonSummaryScreenHandleDeoxys(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
         }
         else
         {            
-            if (BW_SUMMARY_SCREEN)
+            if (SWSH_SUMMARY_SCREEN)
+                ShowPokemonSummaryScreen_SwSh(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
+            else if (BW_SUMMARY_SCREEN)
                 ShowPokemonSummaryScreen_BW(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
             else
                 ShowPokemonSummaryScreen(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
@@ -6969,6 +6980,7 @@ static void ReshowDisplayMon(void)
         TryRefreshDisplayMon();
 }
 
+#if !SWSH_STORAGE_SYSTEM
 void SetMonFormPSS(struct BoxPokemon *boxMon, u32 method)
 {
     u16 targetSpecies = GetFormChangeTargetSpeciesBoxMon(boxMon, method, 0);
@@ -6978,6 +6990,7 @@ void SetMonFormPSS(struct BoxPokemon *boxMon, u32 method)
         sRefreshDisplayMonGfx = TRUE;
     }
 }
+#endif
 
 static void SetDisplayMonData(void *pokemon, u8 mode)
 {
@@ -10120,6 +10133,7 @@ static void TilemapUtil_Draw(u8 id)
 //  so UnkUtil_Run performs no actions.
 //------------------------------------------------------------------------------
 
+#if !SWSH_STORAGE_SYSTEM
 void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
 {
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
@@ -10154,3 +10168,5 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
     }
     sJustOpenedBag = FALSE;
 }
+#endif
+#endif // !SWSH_STORAGE_SYSTEM

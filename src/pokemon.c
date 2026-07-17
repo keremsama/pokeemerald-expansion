@@ -12,6 +12,7 @@
 #include "battle_tower.h"
 #include "battle_z_move.h"
 #include "bw_summary_screen.h"
+#include "swsh_summary_screen.h"
 #include "data.h"
 #include "dexnav.h"
 #include "event_data.h"
@@ -6660,7 +6661,11 @@ static void Task_PokemonSummaryAnimateAfterDelay(u8 taskId)
     if (--gTasks[taskId].sAnimDelay == 0)
     {
         StartMonSummaryAnimation(READ_PTR_FROM_TASK(taskId, 0), gTasks[taskId].sAnimId);
-        #if BW_SUMMARY_SCREEN == TRUE
+        #if SWSH_SUMMARY_SCREEN == TRUE
+        if (gTasks[taskId].tIsShadow)
+            SummaryScreen_SetShadowAnimDelayTaskId_SwSh(TASK_NONE); // needed to track anim delay task for mon shadow in SwSh summary screen
+        else
+        #elif BW_SUMMARY_SCREEN == TRUE
         if (gTasks[taskId].tIsShadow)
             SummaryScreen_SetShadowAnimDelayTaskId_BW(TASK_NONE); // needed to track anim delay task for mon shadow in BW summary screen
         else
@@ -6739,7 +6744,11 @@ void PokemonSummaryDoMonAnimation(struct Sprite *sprite, u16 species, bool8 oneF
         gTasks[taskId].sAnimDelay = gSpeciesInfo[species].frontAnimDelay;
         gTasks[taskId].tIsShadow = isShadow;  // needed to track anim delay task for mon shadow in BW summary screen
 
-        #if BW_SUMMARY_SCREEN == TRUE
+        #if SWSH_SUMMARY_SCREEN == TRUE
+        if (isShadow)
+            SummaryScreen_SetShadowAnimDelayTaskId_SwSh(taskId);
+        else
+        #elif BW_SUMMARY_SCREEN == TRUE
         if (isShadow)
             SummaryScreen_SetShadowAnimDelayTaskId_BW(taskId);
         else
@@ -6759,8 +6768,11 @@ void PokemonSummaryDoMonAnimation(struct Sprite *sprite, u16 species, bool8 oneF
 
 void StopPokemonAnimationDelayTask(void)
 {
-    u8 delayTaskId = FindTaskIdByFunc(Task_PokemonSummaryAnimateAfterDelay);
-    if (delayTaskId != TASK_NONE)
+    u8 delayTaskId;
+
+    // The SwSh screens animate both the mon and its shadow, so there may be
+    // two delay tasks referencing sprites that are about to be destroyed.
+    while ((delayTaskId = FindTaskIdByFunc(Task_PokemonSummaryAnimateAfterDelay)) != TASK_NONE)
         DestroyTask(delayTaskId);
 }
 
@@ -6919,6 +6931,13 @@ struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode)
 
     failureFlags = 0;
     managerId %= MON_SPR_GFX_MANAGERS_COUNT;
+
+    // The SwSh party and summary screens share this manager while transitioning.
+    // Reuse an active instance instead of leaking it when the next screen opens.
+    if (sMonSpritesGfxManagers[managerId] != NULL
+        && sMonSpritesGfxManagers[managerId]->active == GFX_MANAGER_ACTIVE)
+        return sMonSpritesGfxManagers[managerId];
+
     gfx = AllocZeroed(sizeof(*gfx));
     if (gfx == NULL)
         return NULL;
@@ -7014,6 +7033,7 @@ void DestroyMonSpritesGfxManager(u8 managerId)
 
     managerId %= MON_SPR_GFX_MANAGERS_COUNT;
     gfx = sMonSpritesGfxManagers[managerId];
+    sMonSpritesGfxManagers[managerId] = NULL;
     if (gfx == NULL)
         return;
 

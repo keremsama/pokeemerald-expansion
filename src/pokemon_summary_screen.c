@@ -8,6 +8,7 @@
 #include "battle_factory.h"
 #include "bg.h"
 #include "bw_summary_screen.h"
+#include "swsh_summary_screen.h"
 #include "contest.h"
 #include "contest_effect.h"
 #include "data.h"
@@ -2696,7 +2697,9 @@ static void Task_HandleInputCantForgetHMsMoves(u8 taskId)
 
 u8 GetMoveSlotToReplace(void)
 {
-    if (BW_SUMMARY_SCREEN)
+    if (SWSH_SUMMARY_SCREEN)
+        return GetMoveSlotToReplace_SwSh();
+    else if (BW_SUMMARY_SCREEN)
         return GetMoveSlotToReplace_BW();
     else
         return sMoveSlotToReplace;
@@ -4474,7 +4477,9 @@ static void SpriteCB_Pokemon(struct Sprite *sprite)
 // Normally destroys itself but it can be interrupted before the animation starts
 void SummaryScreen_SetAnimDelayTaskId(u8 taskId)
 {
-    if (BW_SUMMARY_SCREEN)
+    if (SWSH_SUMMARY_SCREEN)
+        SummaryScreen_SetAnimDelayTaskId_SwSh(taskId);
+    else if (BW_SUMMARY_SCREEN)
         SummaryScreen_SetAnimDelayTaskId_BW(taskId);
     else
         sAnimDelayTaskId = taskId;

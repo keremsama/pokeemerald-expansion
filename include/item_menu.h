@@ -2,7 +2,9 @@
 #define GUARD_ITEM_MENU_H
 
 #include "item.h"
+#include "main.h"
 #include "menu_helpers.h"
+#include "swsh_item_menu.h"
 
 enum {
     ITEMMENULOCATION_FIELD,
@@ -33,10 +35,31 @@ enum {
     ITEMWIN_QUANTITY,
     ITEMWIN_QUANTITY_WIDE,
     ITEMWIN_MONEY,
+#if SWSH_ITEM_MENU
+    ITEMWIN_SELL_PRICE,
+#endif
+#if SWSH_ITEM_MENU_IN_BAG_USE
+    ITEMWIN_PP_MOVE_SELECT,
+    ITEMWIN_LEVEL_UP_STATS,
+    ITEMWIN_ROTOM_CATALOG,
+    ITEMWIN_ZYGARDE_CUBE,
+#endif
     ITEMWIN_COUNT
 };
 
+enum BagSortOptions
+{
+    SORT_ALPHABETICALLY,
+    SORT_BY_TYPE,
+    SORT_BY_AMOUNT,
+    SORT_BY_INDEX,
+};
+
 #define ITEMMENU_SWAP_LINE_LENGTH 8  // Swap line is 8 sprites long
+#if SWSH_ITEM_MENU
+#define HOVER_SLOT_SPRITES_COUNT     5
+#define FRAME_QUANTITY_SPRITES_COUNT 2
+#endif
 enum {
     ITEMMENUSPRITE_BAG,
     ITEMMENUSPRITE_BALL,
@@ -48,9 +71,12 @@ enum {
 
 struct BagPosition
 {
-    void (*exitCallback)(void);
+    MainCallback exitCallback;
     u8 location;
     u8 pocket;
+#if SWSH_ITEM_MENU_PYRAMID
+    bool8 isPyramid;
+#endif
     u16 pocketSwitchArrowPos;
     u16 cursorPosition[POCKETS_COUNT];
     u16 scrollPosition[POCKETS_COUNT];
@@ -60,8 +86,14 @@ extern struct BagPosition gBagPosition;
 
 struct BagMenu
 {
-    void (*newScreenCallback)(void);
+    MainCallback newScreenCallback;
+#if SWSH_ITEM_MENU
+    u8 bg0TilemapBuffer[BG_SCREEN_SIZE];
+    u8 mainTilemapBuffer[BG_SCREEN_SIZE];
+    u8 scrollingBgTilemapBuffer[BG_SCREEN_SIZE];
+#else
     u8 tilemapBuffer[BG_SCREEN_SIZE];
+#endif
     u8 spriteIds[ITEMMENUSPRITE_COUNT];
     u8 windowIds[ITEMWIN_COUNT];
     u8 toSwapPos;
@@ -81,6 +113,48 @@ struct BagMenu
     u8 unused2[14];
     u8 ALIGNED(4) pocketNameBuffer[32][32];
     u8 unused3[4];
+#if SWSH_ITEM_MENU
+    u8 partyMonIconSpriteIds[PARTY_SIZE];
+    u8 cursorSpriteId;
+    u8 swapCursorSpriteId;
+    u8 hoverSlotSpriteIds[HOVER_SLOT_SPRITES_COUNT];
+    u8 pocketScrollArrowSpriteIds[2];
+    u8 frameQuantityIds[FRAME_QUANTITY_SPRITES_COUNT];
+    u8 moveInfoMode;
+    u8 moveTypeIconSpriteId;
+    u8 categoryIconSpriteId;
+    u16 showItemIconId;
+    u32 cursorAnimId;
+    u32 scrollThumbAnimId;
+    u32 pocketScrollArrowAnimIds[2];
+    u32 partyItemIconAnimId;
+    s32 hoveredItemIndex;
+    u16 *moveTypeIconTilesPtr;
+#if SWSH_ITEM_MENU_BERRY_STAT
+    u8 berryInfoMode;
+#endif
+#if SWSH_ITEM_MENU_IN_BAG_USE
+    const struct YesNoFuncTable *partyYesNoFuncs;
+    bool8 partyGiveMode;
+    bool8 partyBlendActive;
+    u16 partyGiveSwapItem;
+    u8 heldItemIconSpriteId;
+    u16 heldItemPalIndex;
+    s8 heldItemShownSlot;
+    u16 heldItemShownItem;
+    u8 statusIconSpriteIds[PARTY_SIZE];
+    s8 prevHPBarSlot;
+    bool8 hpBarWindowMapped;
+    u8 multiFullPage;
+#if SWSH_ITEM_MENU_IN_BATTLE_USE
+    u8 multiSwapPromptSpriteIds[2];
+#endif
+#endif
+#if SWSH_ITEM_MENU_PYRAMID
+    struct ItemSlot pyramidScratch[PYRAMID_BAG_ITEMS_COUNT];
+    struct BagPocket pyramidScratchPocket;
+#endif
+#endif
 };
 
 extern struct BagMenu *gBagMenu;
@@ -97,10 +171,11 @@ void CB2_BagMenuFromStartMenu(void);
 u8 GetItemListPosition(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(u8 button);
 void CB2_GoToSellMenu(void);
-void GoToBagMenu(u8 location, u8 pocket, void ( *exitCallback)());
+void GoToBagMenu(u8 location, u8 pocket, MainCallback exitCallback);
 void DoWallyTutorialBagMenu(void);
+void InitOldManBag(void);
 void ResetBagScrollPositions(void);
-void ChooseBerryForMachine(void (*exitCallback)(void));
+void ChooseBerryForMachine(MainCallback exitCallback);
 void CB2_ChooseBerry(void);
 void CB2_ChooseMulch(void);
 void Task_FadeAndCloseBagMenu(u8 taskId);
@@ -111,5 +186,6 @@ void DisplayItemMessageOnField(u8 taskId, const u8 *string, TaskFunc callback);
 void CloseItemMessage(u8 taskId);
 void ItemMenu_RotomCatalog(u8 taskId);
 void ShowRegisteredItemsMenu(void);
+void SortItemsInBag(struct BagPocket *pocket, enum BagSortOptions type);
 
 #endif //GUARD_ITEM_MENU_H
