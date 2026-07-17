@@ -676,6 +676,8 @@ static void SetMovingMonPriority(u8);
 static void SpriteCB_HeldMon(struct Sprite *);
 static void SpriteCB_HeldMonInChooseBox(struct Sprite *);
 static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority, bool32 isEgg);
+static u8 CreateStorageSpriteId(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority);
+static struct Sprite *CreateStorageSprite(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority);
 static void DestroyBoxMonIcon(struct Sprite *);
 
 // Pokémon data
@@ -1285,7 +1287,7 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
 
     col = curBox % 5;
     row = curBox / 5;
-    spriteId = CreateSprite(&sSpriteTemplate_ChooseBoxMenu, 88 + col * 32, 64 + row * 32, 3);
+    spriteId = CreateStorageSpriteId(&sSpriteTemplate_ChooseBoxMenu, 88 + col * 32, 64 + row * 32, 3);
     if (spriteId != MAX_SPRITES)
     {
         sChooseBoxMenu->hoverSprite = &gSprites[spriteId];
@@ -1489,7 +1491,7 @@ static void ChooseBoxMenu_PrintInfo(void)
     x = 90 + col * 32;
     if (numInBox < 10)
         x -= 3;
-    spriteId = CreateSprite(&sSpriteTemplate_ChooseBoxMenu_MonCount, x, 66 + row * 32, 2);
+    spriteId = CreateStorageSpriteId(&sSpriteTemplate_ChooseBoxMenu_MonCount, x, 66 + row * 32, 2);
     if (spriteId != MAX_SPRITES)
     {
         sChooseBoxMenu->monCountSprite = &gSprites[spriteId];
@@ -2705,7 +2707,7 @@ static void OpenMonMarkingsMenu_SwSh(u8 markings, s16 x, s16 y)
 
     for (i = 0; i < 3; i++)
     {
-        spriteId = CreateSprite(&sSpriteTemplate_MarkingsMenu_Window, x + i * 32, y, 3);
+        spriteId = CreateStorageSpriteId(&sSpriteTemplate_MarkingsMenu_Window, x + i * 32, y, 3);
         if (spriteId != MAX_SPRITES)
         {
             sMarkMenu->windowSprites[i] = &gSprites[spriteId];
@@ -2719,7 +2721,7 @@ static void OpenMonMarkingsMenu_SwSh(u8 markings, s16 x, s16 y)
 
     for (i = 0; i < NUM_MON_MARKINGS; i++)
     {
-        spriteId = CreateSprite(&sSpriteTemplate_MarkingsMenu_Marks, 108 + i * 24, 80, 2);
+        spriteId = CreateStorageSpriteId(&sSpriteTemplate_MarkingsMenu_Marks, 108 + i * 24, 80, 2);
         if (spriteId != MAX_SPRITES)
         {
             sMarkMenu->markingSprites[i] = &gSprites[spriteId];
@@ -2731,7 +2733,7 @@ static void OpenMonMarkingsMenu_SwSh(u8 markings, s16 x, s16 y)
         }
     }
 
-    spriteId = CreateSprite(&sSpriteTemplate_MarkingsMenu_Cursor, 96, 80, 1);
+    spriteId = CreateStorageSpriteId(&sSpriteTemplate_MarkingsMenu_Cursor, 96, 80, 1);
     if (spriteId != MAX_SPRITES)
     {
         sMarkMenu->cursorSprite = &gSprites[spriteId];
@@ -3600,6 +3602,12 @@ static bool8 InitPalettesAndSprites(void)
 static void CreateMarkingComboSprite(void)
 {
     sStorage->markingComboSprite = CreateMonMarkingComboSprite(GFXTAG_MARKING_COMBO, PALTAG_MARKING_COMBO, sMarkings_Pal);
+    if (sStorage->markingComboSprite == NULL)
+    {
+        sStorage->markingComboTilesPtr = NULL;
+        return;
+    }
+
     sStorage->markingComboSprite->oam.priority = 0;
     sStorage->markingComboSprite->subpriority = 1;
     sStorage->markingComboSprite->x = 52 + (136 * sStorage->monInfoTilemapId);
@@ -3650,7 +3658,7 @@ static void UpdateMarkingComboSprite(void)
         sStorage->markingComboSprite->invisible = FALSE;
     }
 
-    if (sStorage->markingComboSprite != NULL)
+    if (sStorage->markingComboSprite != NULL && sStorage->markingComboTilesPtr != NULL)
         UpdateMonMarkingTiles(sStorage->displayMon.markings, sStorage->markingComboTilesPtr);
 }
 
@@ -3680,7 +3688,9 @@ static void UpdateGenderIconSprite(u8 fontId)
 
         if (sStorage->genderIconSprite == NULL)
         {
-            sStorage->genderIconSprite = &gSprites[CreateSprite(&sSpriteTemplate_GenderIcons, spriteX, spriteY, 0)];
+            sStorage->genderIconSprite = CreateStorageSprite(&sSpriteTemplate_GenderIcons, spriteX, spriteY, 0);
+            if (sStorage->genderIconSprite == NULL)
+                return;
         }
         else
         {
@@ -3714,7 +3724,9 @@ static void UpdateShinyIconSprite(void)
 
         if (sStorage->shinyIconSprite == NULL)
         {
-            sStorage->shinyIconSprite = &gSprites[CreateSprite(&sSpriteTemplate_ShinyIcon, spriteX, spriteY, 0)];
+            sStorage->shinyIconSprite = CreateStorageSprite(&sSpriteTemplate_ShinyIcon, spriteX, spriteY, 0);
+            if (sStorage->shinyIconSprite == NULL)
+                return;
         }
         else
         {
@@ -3780,7 +3792,9 @@ static void UpdateTypeIconsSprite(void)
 
     if (sStorage->typeIconSprites[0] == NULL)
     {
-        sStorage->typeIconSprites[0] = &gSprites[CreateSprite(&sSpriteTemplate_TypeIcons, spriteX1, spriteY, 0)];
+        sStorage->typeIconSprites[0] = CreateStorageSprite(&sSpriteTemplate_TypeIcons, spriteX1, spriteY, 0);
+        if (sStorage->typeIconSprites[0] == NULL)
+            return;
         sStorage->typeIconTilesPtr[0] = (void *) OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(GFXTAG_TYPE_ICON);
         sStorage->typeIconSprites[0]->callback = SpriteCB_TypeIcon;
         sStorage->typeIconSprites[0]->data[1] = 0;
@@ -3800,7 +3814,9 @@ static void UpdateTypeIconsSprite(void)
     {
         if (sStorage->typeIconSprites[1] == NULL)
         {
-            sStorage->typeIconSprites[1] = &gSprites[CreateSprite(&sSpriteTemplate_TypeIcons, spriteX2, spriteY, 0)];
+            sStorage->typeIconSprites[1] = CreateStorageSprite(&sSpriteTemplate_TypeIcons, spriteX2, spriteY, 0);
+            if (sStorage->typeIconSprites[1] == NULL)
+                return;
             sStorage->typeIconTilesPtr[1] = (void *) OBJ_VRAM0 + 32 * (GetSpriteTileStartByTag(GFXTAG_TYPE_ICON) + 8);
             sStorage->typeIconSprites[1]->oam.tileNum += 8;
             sStorage->typeIconSprites[1]->callback = SpriteCB_TypeIcon;
@@ -3927,7 +3943,9 @@ static void UpdateStatLabelsSprites(void)
     {
         struct SpriteTemplate template = sSpriteTemplate_StatLabels;
         template.paletteTag = upStatPalTag;
-        sStorage->statLabelSprites[0] = &gSprites[CreateSprite(&template, upStatX, upStatY, 0)];
+        sStorage->statLabelSprites[0] = CreateStorageSprite(&template, upStatX, upStatY, 0);
+        if (sStorage->statLabelSprites[0] == NULL)
+            return;
     }
     else
     {
@@ -3943,7 +3961,9 @@ static void UpdateStatLabelsSprites(void)
     {
         struct SpriteTemplate template = sSpriteTemplate_StatLabels;
         template.paletteTag = downStatPalTag;
-        sStorage->statLabelSprites[1] = &gSprites[CreateSprite(&template, downStatX, downStatY, 0)];
+        sStorage->statLabelSprites[1] = CreateStorageSprite(&template, downStatX, downStatY, 0);
+        if (sStorage->statLabelSprites[1] == NULL)
+            return;
     }
     else
     {
@@ -4381,7 +4401,7 @@ static void CreateMessageWindowSprite(void)
     LoadCompressedSpriteSheet(&sSpriteSheet_MessageWindow);
     for (i = 0; i < ARRAY_COUNT(sMessageWindowSpriteIds); i++)
     {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_MessageWindow, 72 + i * 32, 144, 0);
+        u8 spriteId = CreateStorageSpriteId(&sSpriteTemplate_MessageWindow, 72 + i * 32, 144, 0);
         if (spriteId != MAX_SPRITES)
         {
             StartSpriteAnim(&gSprites[spriteId], sMessageWindowAnims[i]);
@@ -5234,8 +5254,35 @@ static struct Sprite *CreateMonIconSprite(u16 species, u32 personality, s16 x, s
 
     gSprites[spriteId].oam.tileNum = tileNum;
     gSprites[spriteId].oam.priority = oamPriority;
+    gSprites[spriteId].animPaused = TRUE;
+    gSprites[spriteId].animBeginning = FALSE;
+    gSprites[spriteId].affineAnimBeginning = FALSE;
     gSprites[spriteId].data[0] = species;
     return &gSprites[spriteId];
+}
+
+static struct Sprite *CreateStorageSprite(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
+{
+    u8 spriteId = CreateStorageSpriteId(template, x, y, subpriority);
+
+    if (spriteId == MAX_SPRITES)
+        return NULL;
+
+    return &gSprites[spriteId];
+}
+
+static u8 CreateStorageSpriteId(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
+{
+    struct SpriteTemplate safeTemplate = *template;
+
+    if (safeTemplate.anims == NULL)
+        safeTemplate.anims = gDummySpriteAnimTable;
+    if (safeTemplate.affineAnims == NULL)
+        safeTemplate.affineAnims = gDummySpriteAffineAnimTable;
+    if (safeTemplate.callback == NULL)
+        safeTemplate.callback = SpriteCallbackDummy;
+
+    return CreateSprite(&safeTemplate, x, y, subpriority);
 }
 
 static void DestroyBoxMonIcon(struct Sprite *sprite)
@@ -5361,8 +5408,9 @@ static void UpdateBoxTitle(u8 boxId)
 
     for (i = 0; i < 2; i++)
     {
-        u8 spriteId = CreateSprite(&template, BOX_TITLE_SPRITE_X + i * 32, 20, 24);
-        sStorage->curBoxTitleSprites[i] = &gSprites[spriteId];
+        sStorage->curBoxTitleSprites[i] = CreateStorageSprite(&template, BOX_TITLE_SPRITE_X + i * 32, 20, 24);
+        if (sStorage->curBoxTitleSprites[i] == NULL)
+            continue;
         StartSpriteAnim(sStorage->curBoxTitleSprites[i], i);
     }
 }
@@ -5545,8 +5593,9 @@ static void CreateBoxTitleFrame(u8 boxId)
 
     for (i = 0; i < ARRAY_COUNT(sStorage->boxTitleFrameSprites); i++)
     {
-        u8 spriteId = CreateSprite(&template, 100 + i * 32, 21, 25);
-        sStorage->boxTitleFrameSprites[i] = &gSprites[spriteId];
+        sStorage->boxTitleFrameSprites[i] = CreateStorageSprite(&template, 100 + i * 32, 21, 25);
+        if (sStorage->boxTitleFrameSprites[i] == NULL)
+            continue;
         StartSpriteAnim(sStorage->boxTitleFrameSprites[i], sBoxTitleFrameAnims[i]);
     }
 }
@@ -5587,8 +5636,9 @@ static void InitBoxTitle(u8 boxId)
 
     for (i = 0; i < 2; i++)
     {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_BoxTitle, BOX_TITLE_SPRITE_X + i * 32, 20, 23);
-        sStorage->curBoxTitleSprites[i] = &gSprites[spriteId];
+        sStorage->curBoxTitleSprites[i] = CreateStorageSprite(&sSpriteTemplate_BoxTitle, BOX_TITLE_SPRITE_X + i * 32, 20, 23);
+        if (sStorage->curBoxTitleSprites[i] == NULL)
+            continue;
         StartSpriteAnim(sStorage->curBoxTitleSprites[i], i);
     }
     sStorage->boxTitleCycleId = 0;
@@ -5664,7 +5714,7 @@ static void CreateBoxScrollArrows(void)
 
     for (i = 0; i < 2; i++)
     {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_BoxTitleArrow, 98 + i * 100, 21, 24);
+        u8 spriteId = CreateStorageSpriteId(&sSpriteTemplate_BoxTitleArrow, 98 + i * 100, 21, 24);
         if (spriteId != MAX_SPRITES)
         {
             struct Sprite *sprite = &gSprites[spriteId];
@@ -7723,7 +7773,7 @@ static void CreateCursorSprites(void)
     sStorage->cursorPalNums[CURSOR_MODE_MULTI_MOVE]  = IndexOfSpritePaletteTag(PALTAG_MISC_3); // Green cursor
 
     GetCursorCoordsByPos(sCursorArea, sCursorPosition, &x, &y);
-    spriteId = CreateSprite(&sSpriteTemplate_Cursor, x, y, 2);
+    spriteId = CreateStorageSpriteId(&sSpriteTemplate_Cursor, x, y, 2);
     if (spriteId != MAX_SPRITES)
     {
         sStorage->cursorSprite = &gSprites[spriteId];
@@ -8555,7 +8605,6 @@ static bool8 MultiMove_CanPlaceSelection(void)
 static void CreateItemIconSprites(void)
 {
     s32 i;
-    u8 spriteId;
     struct CompressedSpriteSheet spriteSheet;
     struct SpriteTemplate spriteTemplate;
 
@@ -8574,9 +8623,9 @@ static void CreateItemIconSprites(void)
             sStorage->itemIcons[i].palIndex = OBJ_PLTT_ID(sStorage->itemIcons[i].palIndex);
             spriteTemplate.tileTag = GFXTAG_ITEM_ICON_0 + i;
             spriteTemplate.paletteTag = PALTAG_ITEM_ICON_0 + i;
-            spriteId = CreateSprite(&spriteTemplate, 0, 0, 11);
-            sStorage->itemIcons[i].sprite = &gSprites[spriteId];
-            sStorage->itemIcons[i].sprite->invisible = TRUE;
+            sStorage->itemIcons[i].sprite = CreateStorageSprite(&spriteTemplate, 0, 0, 11);
+            if (sStorage->itemIcons[i].sprite != NULL)
+                sStorage->itemIcons[i].sprite->invisible = TRUE;
             sStorage->itemIcons[i].active = FALSE;
         }
     }

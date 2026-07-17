@@ -745,6 +745,9 @@ static void RefreshPartyMenu(void) //Refreshes the party menu without restarting
 static void CB2_UpdatePartyMenu(void)
 {
     RunTasks();
+    if (gMain.callback2 != CB2_UpdatePartyMenu)
+        return;
+
     u8 cursorSpriteId = MAX_SPRITES;
     if (sHoverCursorSpriteId != MAX_SPRITES)
         cursorSpriteId = sHoverCursorSpriteId;
@@ -1219,6 +1222,7 @@ static void PartyPaletteBufferCopy(u8 palNum)
 static void FreePartyPointers(void)
 {
     DestroyMonSprite();
+    DestroyMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A);
     // Clear alpha blending from party mon shadows
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -1799,8 +1803,8 @@ static void Task_ClosePartyMenuAndSetCB2(u8 taskId)
         else
             SetMainCallback2(gPartyMenu.exitCallback);
 
-        ResetSpriteData();
         FreePartyPointers();
+        ResetSpriteData();
         DestroyTask(taskId);
     }
 }
@@ -1885,7 +1889,6 @@ void Task_HandleChooseMonInput(u8 taskId)
             if (gPartyMenu.action == PARTY_ACTION_CHOOSE_MON && gPartyMenu.layout == PARTY_LAYOUT_SINGLE
                 && (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE))
             {
-                asm volatile("swi 0x2A");
                 PlaySE(SE_SELECT);
                 SavePartyMenuStateForPC();
                 PokemonPC_SetReturnToPartyCallback(CB2_ReopenPartyMenuFromPC);
