@@ -36,6 +36,8 @@
 #include "player_pc.h"
 #include "pokemon.h"
 #include "pokemon_summary_screen.h"
+#include "bw_summary_screen.h"
+#include "swsh_summary_screen.h"
 #if SWSH_ITEM_MENU_PARTY_PANEL
 #include "battle_interface.h"
 #include "pokemon_icon.h"
@@ -57,6 +59,7 @@
 #include "comfy_anim.h"
 #include "dma3.h"
 #include "constants/items.h"
+#include "constants/item_effects.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #if SWSH_ITEM_MENU_CONTEST_INFO
@@ -93,6 +96,70 @@
 
 #define FRAME_MONEY_SPRITES_COUNT    3
 #define FRAME_PRICE_SPRITES_COUNT    3
+
+#if SWSH_ITEM_MENU_IN_BAG_USE
+#define B_TRAINER_PLAYER  0
+#define B_TRAINER_PARTNER 1
+
+static struct Pokemon *const gParties[] =
+{
+    [B_TRAINER_PLAYER] = gPlayerParty,
+    [B_TRAINER_PARTNER] = gEnemyParty,
+};
+
+static u8 CreateMonIconIsEgg(u16 species, SpriteCallback callback, s16 x, s16 y, u8 subpriority, u32 personality, bool32 isEgg)
+{
+    return CreateMonIcon(isEgg ? SPECIES_EGG : species, callback, x, y, subpriority, personality);
+}
+
+static bool8 AreMultiPartiesFullTeams(void)
+{
+    return FALSE;
+}
+
+static u8 CalculatePartnerPartyCount(void)
+{
+    return CalculateEnemyPartyCount();
+}
+
+static bool32 HasShedinjaHPHandling(u16 species)
+{
+    return species == SPECIES_SHEDINJA;
+}
+
+static inline u16 GetSpeciesAbility(u16 species, u8 abilityNum)
+{
+    return GetAbilityBySpecies(species, abilityNum, FALSE);
+}
+
+static bool32 BagMenu_TryFormChangeWithArg(struct Pokemon *mon, u16 method, u32 arg)
+{
+    u32 currentSpecies = GetMonData(mon, MON_DATA_SPECIES);
+    u32 targetSpecies = GetFormChangeTargetSpecies(mon, method, arg);
+
+    if (targetSpecies == currentSpecies || targetSpecies == SPECIES_NONE)
+        return FALSE;
+
+    SetMonData(mon, MON_DATA_SPECIES, &targetSpecies);
+    CalculateMonStats(mon);
+    return TRUE;
+}
+
+#if !SWSH_ITEM_MENU_IN_BATTLE_USE
+static bool8 BagMenu_IsMultiFull(void)
+{
+    return FALSE;
+}
+
+static void ShowMultiBattleSwapPrompt(bool8 show)
+{
+}
+#endif
+
+#ifndef FORGET_EXTRA_MOVES
+#define FORGET_EXTRA_MOVES 0xFF
+#endif
+#endif
 
 // The buffer for the bag item list needs to be large enough to hold the maximum
 // number of item slots that could fit in a single pocket, + 1 for Cancel.
@@ -319,6 +386,7 @@ static void ItemMenu_Register(u8);
 static void ItemMenu_Give(u8);
 static void ItemMenu_Cancel(u8);
 static void ItemMenu_UseInBattle(u8);
+static bool8 BagMenu_TryUseItemInline(u8 taskId, ItemUseFunc fieldFunc);
 #if SWSH_ITEM_MENU_BERRY_TAG
 static void ItemMenu_CheckTag(u8);
 #endif
@@ -3671,9 +3739,92 @@ static void ItemMenu_UseTMHM(u8 taskId)
 #endif
 }
 
+#if SWSH_ITEM_MENU_IN_BAG_USE
+static bool8 BagMenu_TryUseItemInline(u8 taskId, ItemUseFunc fieldFunc)
+{
+    if (fieldFunc == ItemUseOutOfBattle_Medicine)
+        gItemUseCB = ItemUseCB_Medicine;
+    else if (fieldFunc == ItemUseOutOfBattle_AbilityCapsule)
+        gItemUseCB = ItemUseCB_AbilityCapsule;
+    else if (fieldFunc == ItemUseOutOfBattle_AbilityPatch)
+        gItemUseCB = ItemUseCB_AbilityPatch;
+    else if (fieldFunc == ItemUseOutOfBattle_Mint)
+        gItemUseCB = ItemUseCB_Mint;
+    else if (fieldFunc == ItemUseOutOfBattle_ResetEVs)
+        gItemUseCB = ItemUseCB_ResetEVs;
+    else if (fieldFunc == ItemUseOutOfBattle_ReduceEV)
+        gItemUseCB = ItemUseCB_ReduceEV;
+    else if (fieldFunc == ItemUseOutOfBattle_SacredAsh)
+        gItemUseCB = ItemUseCB_SacredAsh;
+    else if (fieldFunc == ItemUseOutOfBattle_PPRecovery)
+        gItemUseCB = ItemUseCB_PPRecovery;
+    else if (fieldFunc == ItemUseOutOfBattle_PPUp)
+        gItemUseCB = ItemUseCB_PPUp;
+    else if (fieldFunc == ItemUseOutOfBattle_RareCandy)
+        gItemUseCB = ItemUseCB_RareCandy;
+    else if (fieldFunc == ItemUseOutOfBattle_DynamaxCandy)
+        gItemUseCB = ItemUseCB_DynamaxCandy;
+    else if (fieldFunc == ItemUseOutOfBattle_EvolutionStone)
+        gItemUseCB = ItemUseCB_EvolutionStone;
+    else if (fieldFunc == ItemUseOutOfBattle_FormChange)
+        gItemUseCB = ItemUseCB_FormChange;
+    else if (fieldFunc == ItemUseOutOfBattle_FormChange_ConsumedOnUse)
+        gItemUseCB = ItemUseCB_FormChange_ConsumedOnUse;
+    else if (fieldFunc == ItemUseOutOfBattle_RotomCatalog)
+        gItemUseCB = ItemUseCB_RotomCatalog;
+    else if (fieldFunc == ItemUseOutOfBattle_ZygardeCube)
+        gItemUseCB = ItemUseCB_ZygardeCube;
+    else if (fieldFunc == ItemUseOutOfBattle_Fusion)
+        gItemUseCB = ItemUseCB_Fusion;
+    else if (fieldFunc == ItemUseOutOfBattle_EnigmaBerry)
+    {
+        switch (GetItemEffectType(gSpecialVar_ItemId))
+        {
+        case ITEM_EFFECT_HEAL_HP:
+        case ITEM_EFFECT_CURE_POISON:
+        case ITEM_EFFECT_CURE_SLEEP:
+        case ITEM_EFFECT_CURE_BURN:
+        case ITEM_EFFECT_CURE_FREEZE_FROSTBITE:
+        case ITEM_EFFECT_CURE_PARALYSIS:
+        case ITEM_EFFECT_CURE_ALL_STATUS:
+        case ITEM_EFFECT_ATK_EV:
+        case ITEM_EFFECT_HP_EV:
+        case ITEM_EFFECT_SPATK_EV:
+        case ITEM_EFFECT_SPDEF_EV:
+        case ITEM_EFFECT_SPEED_EV:
+        case ITEM_EFFECT_DEF_EV:
+            gItemUseCB = ItemUseCB_Medicine;
+            break;
+        case ITEM_EFFECT_SACRED_ASH:
+            gItemUseCB = ItemUseCB_SacredAsh;
+            break;
+        case ITEM_EFFECT_RAISE_LEVEL:
+            gItemUseCB = ItemUseCB_RareCandy;
+            break;
+        case ITEM_EFFECT_PP_UP:
+        case ITEM_EFFECT_PP_MAX:
+            gItemUseCB = ItemUseCB_PPUp;
+            break;
+        case ITEM_EFFECT_HEAL_PP:
+            gItemUseCB = ItemUseCB_PPRecovery;
+            break;
+        default:
+            return FALSE;
+        }
+    }
+    else
+        return FALSE;
+
+    BagMenu_OpenPartySelect(taskId);
+    return TRUE;
+}
+#endif
+
 static void ItemMenu_UseOutOfBattle(u8 taskId)
 {
-    if (GetItemFieldFunc(gSpecialVar_ItemId))
+    ItemUseFunc fieldFunc = GetItemFieldFunc(gSpecialVar_ItemId);
+
+    if (fieldFunc)
     {
         RemoveContextWindow();
         if (CalculatePlayerPartyCount() == 0 && GetItemType(gSpecialVar_ItemId) == ITEM_USE_PARTY_MENU)
@@ -3684,10 +3835,14 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
         {
             FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
             ScheduleBgCopyTilemapToVram(1);
-            if (GetItemFieldFunc(gSpecialVar_ItemId) == ItemUseOutOfBattle_TMHM)
+            if (fieldFunc == ItemUseOutOfBattle_TMHM)
                 ItemMenu_UseTMHM(taskId);
+#if SWSH_ITEM_MENU_IN_BAG_USE
+            else if (BagMenu_TryUseItemInline(taskId, fieldFunc))
+                return;
+#endif
             else if (gBagPosition.pocket != BERRIES_POCKET)
-                GetItemFieldFunc(gSpecialVar_ItemId)(taskId);
+                fieldFunc(taskId);
             else
                 ItemUseOutOfBattle_Berry(taskId);
         }
@@ -5912,13 +6067,18 @@ static void SpriteCB_HeldItemIcon_WaitDisappear(struct Sprite *sprite)
 static void BagMenu_LoadHeldItemIconGfx(u16 itemId)
 {
     void *vramTiles = (u8 *)OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(TAG_PARTY_HELD_ITEM);
+    u8 palSlot = IndexOfSpritePaletteTag(TAG_PARTY_HELD_ITEM);
+
     if (!AllocItemIconTemporaryBuffers())
         return;
     LZDecompressWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
     CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
     CpuFastCopy(gItemIcon4x4Buffer, vramTiles, 0x200);
     FreeItemIconTemporaryBuffers();
-    LoadPalette(GetItemIconPalette(itemId), gBagMenu->heldItemPalIndex, PLTT_SIZE_4BPP);
+    LoadCompressedPalette(GetItemIconPalette(itemId), gBagMenu->heldItemPalIndex, PLTT_SIZE_4BPP);
+
+    if (gBagMenu->heldItemIconSpriteId != SPRITE_NONE && palSlot != 0xFF)
+        gSprites[gBagMenu->heldItemIconSpriteId].oam.paletteNum = palSlot;
 }
 
 static void BagMenu_UpdateHeldItemIcon(u8 slot)
@@ -6033,19 +6193,10 @@ static bool8 BagMenu_IsMonEligibleForItem(u8 partySlot)
 
     if (gItemUseCB == ItemUseCB_EvolutionStone)
     {
-        bool32 canStopEvo = TRUE;
-        return GetEvolutionTargetSpecies(mon, EVO_MODE_ITEM_USE, gSpecialVar_ItemId, NULL, &canStopEvo, CHECK_EVO) != SPECIES_NONE;
+        return GetEvolutionTargetSpecies(mon, EVO_MODE_ITEM_USE, gSpecialVar_ItemId, NULL) != SPECIES_NONE;
     }
     if (gItemUseCB == ItemUseCB_FormChange || gItemUseCB == ItemUseCB_FormChange_ConsumedOnUse)
-    {
-        struct FormChangeContext ctx = {
-            .method = FORM_CHANGE_ITEM_USE,
-            .currentSpecies = species,
-            .partyItemUsed = gSpecialVar_ItemId,
-            .status = GetMonData(mon, MON_DATA_STATUS),
-        };
-        return GetFormChangeTargetSpecies_Internal(ctx) != species;
-    }
+        return GetFormChangeTargetSpecies(mon, FORM_CHANGE_ITEM_USE, gSpecialVar_ItemId) != species;
     if (gItemUseCB == ItemUseCB_RotomCatalog || gItemUseCB == ItemUseCB_ZygardeCube)
     {
         const struct FormChange *changes = GetSpeciesFormChanges(species);
@@ -6805,7 +6956,7 @@ static void BagMenu_AbilityChangeYes(u8 taskId)
     RemoveBagItem(item, 1);
     GetMonNickname(mon, gStringVar1);
     u32 species = GetMonData(mon, MON_DATA_SPECIES);
-    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum)].name);
+    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum, FALSE)].name);
     StringExpandPlaceholders(gStringVar4, sText_PartyAbilityDone);
     DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_PartyAfterItemUse);
 }
@@ -6834,7 +6985,7 @@ static void BagMenu_UseAbilityCapsule(u8 taskId)
     }
 
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum)].name);
+    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum, FALSE)].name);
     StringExpandPlaceholders(gStringVar4, sText_PartyAbilityAsk);
     tPartyTemp = 0;
     gBagMenu->partyYesNoFuncs = &sPartyAbilityChangeYesNo;
@@ -6857,7 +7008,7 @@ static void BagMenu_UseAbilityPatch(u8 taskId)
     }
 
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum)].name);
+    StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(species, abilityNum, FALSE)].name);
     StringExpandPlaceholders(gStringVar4, sText_PartyAbilityAsk);
     tPartyTemp = 0;
     gBagMenu->partyYesNoFuncs = &sPartyAbilityChangeYesNo;
@@ -7045,10 +7196,9 @@ static void BagMenu_UseRareCandy(u8 taskId)
         if (holdEffectParam == 0)
         {
             bool32 canStopEvo = TRUE;
-            u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, CHECK_EVO);
+            u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL);
             if (target != SPECIES_NONE)
             {
-                GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, DO_EVO);
                 RemoveBagItem(item, 1);
                 sBagItemUseState->evolutionTarget = target;
                 sBagItemUseState->canStopEvolution = canStopEvo;
@@ -7229,10 +7379,25 @@ static void Task_BagMenu_MoveLearnGoToSummary(u8 taskId)
 
 static void BagMenu_CB2_SummaryForMoveForget(void)
 {
-    ShowSelectMovePokemonSummaryScreen(gParties[B_TRAINER_PLAYER],
+#if SWSH_SUMMARY_SCREEN
+    ShowSelectMovePokemonSummaryScreen_SwSh(gParties[B_TRAINER_PLAYER],
                                       sBagItemUseState->slot,
+                                      CalculatePlayerPartyCount() - 1,
                                       BagMenu_CB2_ReturnFromMoveForget,
                                       sBagItemUseState->moveToLearn);
+#elif BW_SUMMARY_SCREEN
+    ShowSelectMovePokemonSummaryScreen_BW(gParties[B_TRAINER_PLAYER],
+                                      sBagItemUseState->slot,
+                                      CalculatePlayerPartyCount() - 1,
+                                      BagMenu_CB2_ReturnFromMoveForget,
+                                      sBagItemUseState->moveToLearn);
+#else
+    ShowSelectMovePokemonSummaryScreen(gParties[B_TRAINER_PLAYER],
+                                      sBagItemUseState->slot,
+                                      CalculatePlayerPartyCount() - 1,
+                                      BagMenu_CB2_ReturnFromMoveForget,
+                                      sBagItemUseState->moveToLearn);
+#endif
 }
 
 static void BagMenu_CB2_ReturnFromMoveForget(void)
@@ -7324,11 +7489,10 @@ static void BagMenu_RareCandyTryEvolution(u8 taskId)
 {
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][sBagItemUseState->slot];
     bool32 canStopEvo = TRUE;
-    u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, CHECK_EVO);
+    u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL);
 
     if (target != SPECIES_NONE)
     {
-        GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, DO_EVO);
         sBagItemUseState->evolutionTarget = target;
         sBagItemUseState->canStopEvolution = canStopEvo;
         gCB2_AfterEvolution = BagMenu_CB2_AfterRareCandyEvolution;
@@ -7377,7 +7541,7 @@ static void BagMenu_UseEvolutionStone(u8 taskId)
     u16 item = gSpecialVar_ItemId;
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][tPartySlot];
     bool32 canStopEvo = TRUE;
-    u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_ITEM_USE, item, NULL, &canStopEvo, CHECK_EVO);
+    u16 target = GetEvolutionTargetSpecies(mon, EVO_MODE_ITEM_USE, item, NULL);
 
     PlaySE(SE_SELECT);
 
@@ -7387,7 +7551,6 @@ static void BagMenu_UseEvolutionStone(u8 taskId)
         return;
     }
 
-    GetEvolutionTargetSpecies(mon, EVO_MODE_ITEM_USE, item, NULL, &canStopEvo, DO_EVO);
     RemoveBagItem(item, 1);
 
     if (sBagItemUseState == NULL)
@@ -7468,7 +7631,7 @@ static void BagMenu_GiveItem(u8 taskId)
         itemBytes[0] = item;
         itemBytes[1] = item >> 8;
         SetMonData(mon, MON_DATA_HELD_ITEM, itemBytes);
-        TryFormChange(mon, FORM_CHANGE_ITEM_HOLD, B_TRAINER_PLAYER);
+        TryFormChange(tPartySlot, B_SIDE_PLAYER, FORM_CHANGE_ITEM_HOLD);
         BagMenu_UpdateHeldItemIcon(tPartySlot);
         BagMenu_ApplyPartyBlend(BagMenu_MonHoldsItem);
         RemoveBagItem(item, 1);
@@ -7514,7 +7677,7 @@ static void BagMenu_GiveSwapYes(u8 taskId)
     {
         u16 speciesBefore = GetMonData(mon, MON_DATA_SPECIES);
         SetMonData(mon, MON_DATA_HELD_ITEM, itemBytes);
-        TryFormChange(mon, FORM_CHANGE_ITEM_HOLD, B_TRAINER_PLAYER);
+        TryFormChange(tPartySlot, B_SIDE_PLAYER, FORM_CHANGE_ITEM_HOLD);
         BagMenu_UpdateHeldItemIcon(tPartySlot);
         CopyItemName(item, gStringVar1);
         CopyItemName(gBagMenu->partyGiveSwapItem, gStringVar2);
@@ -7673,7 +7836,7 @@ static void BagMenu_UseFormChange(u8 taskId)
 
     PlaySE(SE_SELECT);
 
-    if (!TryFormChange(mon, FORM_CHANGE_ITEM_USE, B_TRAINER_PLAYER))
+    if (!BagMenu_TryFormChangeWithArg(mon, FORM_CHANGE_ITEM_USE, gSpecialVar_ItemId))
     {
         BagMenu_DisplayCannotUseMessage(taskId);
         return;
@@ -7712,7 +7875,7 @@ static void BagMenu_UseMultichoiceFormChange(u8 taskId)
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][slot];
     u16 moveToTeach = MOVE_NONE;
 
-    if (!TryFormChange(mon, FORM_CHANGE_ITEM_USE_MULTICHOICE, B_TRAINER_PLAYER))
+    if (!BagMenu_TryFormChangeWithArg(mon, FORM_CHANGE_ITEM_USE_MULTICHOICE, gSpecialVar_ItemId))
     {
         BagMenu_DisplayCannotUseMessage(taskId);
         return;
@@ -7725,7 +7888,7 @@ static void BagMenu_UseMultichoiceFormChange(u8 taskId)
 
         PlaySE(SE_USE_ITEM);
         GetMonNickname(mon, gStringVar1);
-        StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(newSpecies, abilityNum)].name);
+        StringCopy(gStringVar2, gAbilitiesInfo[GetAbilityBySpecies(newSpecies, abilityNum, FALSE)].name);
         StringExpandPlaceholders(gStringVar4, sText_PartyAbilityDone);
         DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_PartyAfterItemUse);
         return;
@@ -7793,7 +7956,7 @@ static void BagMenu_UseRotomCatalog(u8 taskId)
         return;
     }
 
-    static const u8 *const sCatalogOptionText[] = {
+    const u8 *const sCatalogOptionText[] = {
         COMPOUND_STRING("Light bulb"),
         COMPOUND_STRING("Microwave oven"),
         COMPOUND_STRING("Washing machine"),
@@ -7838,7 +8001,7 @@ static void BagMenu_UseZygardeCube(u8 taskId)
     u8 windowId;
     u8 cursorDim;
     u32 i;
-    static const u8 *const sZygardeOptionText[] = {
+    const u8 *const sZygardeOptionText[] = {
         COMPOUND_STRING("Change form"),
         COMPOUND_STRING("Change Ability"),
     };
@@ -7932,7 +8095,7 @@ static void BagMenu_RestoreFusionMon(struct Pokemon *mon)
     else
     {
         CopyMon(&gParties[B_TRAINER_PLAYER][i], mon, sizeof(*mon));
-        gPartiesCount[B_TRAINER_PLAYER] = i + 1;
+        gPlayerPartyCount = i + 1;
     }
 }
 
@@ -7984,7 +8147,7 @@ static void BagMenu_DeleteInvalidFusionMoves(struct Pokemon *mon, u16 species)
     }
 }
 
-#if P_FUSION_FORMS
+#if P_FUSION_FORMS && 0
 static void BagMenu_SwapFusionMonMoves(struct Pokemon *mon, const u16 moveTable[][2], u32 mode)
 {
     u32 i;
@@ -8113,19 +8276,6 @@ static void Task_BagMenu_FusionAfterAnim(u8 taskId)
 
     RemoveItemMessageWindow(ITEMWIN_MESSAGE);
 
-#if P_FUSION_FORMS
-#if P_FAMILY_KYUREM
-#if P_FAMILY_RESHIRAM
-    if (extraMoveHandling == SWAP_EXTRA_MOVES_KYUREM_WHITE)
-        BagMenu_SwapFusionMonMoves(mon, gKyuremWhiteSwapMoveTable, fusionType);
-#endif
-#if P_FAMILY_ZEKROM
-    if (extraMoveHandling == SWAP_EXTRA_MOVES_KYUREM_BLACK)
-        BagMenu_SwapFusionMonMoves(mon, gKyuremBlackSwapMoveTable, fusionType);
-#endif
-#endif
-#endif
-
     if (fusionType == BAG_UNFUSE_MON && extraMoveHandling == FORGET_EXTRA_MOVES)
     {
         BagMenu_DeleteInvalidFusionMoves(mon, fusionResult);
@@ -8198,7 +8348,7 @@ static void BagMenu_UseFusion(u8 taskId)
         }
         break;
     case BAG_UNFUSE_MON:
-        if (gPartiesCount[B_TRAINER_PLAYER] >= PARTY_SIZE)
+        if (gPlayerPartyCount >= PARTY_SIZE)
         {
             DisplayItemMessage(taskId, FONT_NORMAL, gText_YourPartysFull, Task_BagMenu_PartyStayAfterMessage);
             return;
@@ -8216,7 +8366,7 @@ static void BagMenu_UseFusion(u8 taskId)
             sBagFusionState->storageIndex = itemFusion[i].fusionStorageIndex;
             sBagFusionState->fusionType = BAG_UNFUSE_MON;
             sBagFusionState->fusionResult = itemFusion[i].targetSpecies1;
-            sBagFusionState->extraMoveHandling = itemFusion[i].extraMoveHandling;
+            sBagFusionState->extraMoveHandling = 0;
             sBagFusionState->moveToLearn = MOVE_NONE;
             tAnimState = 0;
             tAnimFrame = 0;
@@ -8313,7 +8463,7 @@ static void BagMenu_UseFusionSecond(u8 taskId)
         sBagFusionState->storageIndex = itemFusion[i].fusionStorageIndex;
         sBagFusionState->fusionResult = itemFusion[i].fusingIntoMon;
         sBagFusionState->moveToLearn = itemFusion[i].fusionMove;
-        sBagFusionState->extraMoveHandling = itemFusion[i].extraMoveHandling;
+        sBagFusionState->extraMoveHandling = 0;
         tAnimState = 0;
         tAnimFrame = 0;
         gTasks[taskId].func = Task_BagMenu_FusionAnim;
@@ -8614,7 +8764,7 @@ static u8 BagMenu_PanelSlotLimit(void)
     if (BagMenu_InBattleSelect() && IsMultiBattle())
     {
         if (AreMultiPartiesFullTeams())
-            return (gBagMenu->multiFullPage != 0) ? CalculatePartnerPartyCount() : CalculatePartyCount(B_TRAINER_PLAYER);
+            return (gBagMenu->multiFullPage != 0) ? CalculatePartnerPartyCount() : CalculatePlayerPartyCount();
         return PARTY_SIZE;
     }
     return CalculatePlayerPartyCount();
