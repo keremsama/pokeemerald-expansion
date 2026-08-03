@@ -312,6 +312,8 @@ static void PrintEggState(void);
 static void PrintEggMemo(void);
 static void Task_PrintSkillsPage(u8);
 static void PrintHeldItemInfo(void);
+static bool8 ShouldShowHeldItemInfo(void);
+static void SetInfoPageHeldItemAreaVisibility(bool8);
 static void PrintSkillsPageText(void);
 static void PrintRibbonCount(void);
 static void PrintStatLabels(void);
@@ -761,6 +763,13 @@ static void (*const sTextPrinterTasks[])(u8 taskId) =
 #define TAG_HELD_ITEM_ICON 30015
 
 #define DEFAULT_SKILLS_STATE SKILL_STATE_STATS
+#define INFO_ITEM_TILEMAP_LEFT 0
+#define INFO_ITEM_TILEMAP_TOP 12
+#define INFO_ITEM_TILEMAP_WIDTH 20
+#define INFO_ITEM_TILEMAP_HEIGHT 7
+#define INFO_ITEM_NO_ITEM_SOURCE_TOP 12
+#define INFO_ITEM_TOP_ROW_TILEMAP_WIDTH 9
+#define TILEMAP_WIDTH 32
 
 enum SwShStatGrades
 {
@@ -3659,6 +3668,7 @@ static void PutPageWindowTilemaps(u8 page)
     case PSS_PAGE_INFO:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
+        SetInfoPageHeldItemAreaVisibility(ShouldShowHeldItemInfo());
         break;
     case PSS_PAGE_SKILLS:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE);
@@ -3683,7 +3693,14 @@ static void PutPageWindowTilemaps(u8 page)
     }
 
     for (i = 0; i < ARRAY_COUNT(sMonSummaryScreen->windowIds); i++)
+    {
+        if (sMonSummaryScreen->windowIds[i] == WINDOW_NONE)
+            continue;
+        if (page == PSS_PAGE_INFO && i == PSS_DATA_WINDOW_INFO_ITEM && !ShouldShowHeldItemInfo())
+            continue;
+
         PutWindowTilemap(sMonSummaryScreen->windowIds[i]);
+    }
 
     ScheduleBgCopyTilemapToVram(0);
 }
@@ -4155,7 +4172,16 @@ static void PrintHeldItemInfo(void)
     const u8 *description;
     u8 desc[200];
     u32 fontId;
-    u8 windowId = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ITEM);
+    u8 windowId;
+
+    if (!ShouldShowHeldItemInfo())
+    {
+        SetInfoPageHeldItemAreaVisibility(FALSE);
+        return;
+    }
+
+    SetInfoPageHeldItemAreaVisibility(TRUE);
+    windowId = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ITEM);
 
     if (sMonSummaryScreen->summary.item == ITEM_ENIGMA_BERRY_E_READER
         && IsMultiBattle() == TRUE
@@ -4163,11 +4189,6 @@ static void PrintHeldItemInfo(void)
     {
         text = GetItemName(ITEM_ENIGMA_BERRY_E_READER);
         description = GetItemDescription(ITEM_ENIGMA_BERRY_E_READER);
-    }
-    else if (sMonSummaryScreen->summary.item == ITEM_NONE)
-    {
-        text = sText_Empty;
-        description = sText_Empty;
     }
     else
     {
@@ -4182,6 +4203,57 @@ static void PrintHeldItemInfo(void)
     
     FormatTextByWidth(desc, 144, FONT_NARROW, description, GetFontAttribute(FONT_NARROW, FONTATTR_LETTER_SPACING));
     PrintTextOnWindow(windowId, desc, 0, 23, 0, 0);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
+static bool8 ShouldShowHeldItemInfo(void)
+{
+    return !sMonSummaryScreen->summary.isEgg && sMonSummaryScreen->summary.item != ITEM_NONE;
+}
+
+static void SetInfoPageHeldItemAreaVisibility(bool8 visible)
+{
+    static const u16 sNoItemTopRowTilemap[INFO_ITEM_TOP_ROW_TILEMAP_WIDTH] =
+    {
+        0x0001, 0x0001, 0x0001, 0x0001, 0x0001, 0x00BF, 0x0003, 0x0003, 0x00C0,
+    };
+    u32 x;
+    u32 y;
+    u16 *tilemap = sMonSummaryScreen->bg2TilemapBuffers[PSS_PAGE_INFO];
+    const u16 *noItemTilemap = sMonSummaryScreen->bg2TilemapBuffers[PSS_PAGE_BATTLE_MOVES];
+
+    LZDecompressWram(sSummaryPage_Info_Tilemap, tilemap);
+
+    if (visible)
+    {
+        // Keep the original item area decoration.
+    }
+    else
+    {
+        RemoveWindowByIndex(PSS_DATA_WINDOW_INFO_ITEM);
+        DestroyHeldItemIconSprite();
+        ScheduleBgCopyTilemapToVram(0);
+
+        for (y = 0; y < INFO_ITEM_TILEMAP_HEIGHT; y++)
+        {
+            for (x = 0; x < INFO_ITEM_TILEMAP_WIDTH; x++)
+            {
+                u32 offset = (INFO_ITEM_TILEMAP_TOP + y) * TILEMAP_WIDTH + INFO_ITEM_TILEMAP_LEFT + x;
+                u32 srcOffset = (INFO_ITEM_NO_ITEM_SOURCE_TOP + y) * TILEMAP_WIDTH + INFO_ITEM_TILEMAP_LEFT + x;
+
+                if (y == 0 && x < INFO_ITEM_TOP_ROW_TILEMAP_WIDTH)
+                    tilemap[offset] = sNoItemTopRowTilemap[x];
+                else if (y == 0)
+                    tilemap[offset] = 0;
+                else
+                    tilemap[offset] = noItemTilemap[srcOffset];
+            }
+        }
+    }
+
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+        ScheduleBgCopyTilemapToVram(2);
 }
 
 static void UNUSED PrintRibbonCount(void)
