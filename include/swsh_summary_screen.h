@@ -8,6 +8,9 @@
 
 // constants
 #define SWSH_MAX_MOVE_DESCRIPTION_LENGTH              60        // this only needs to be updated if you use auto-formatting
+#define SWSH_IV_EV_HIDDEN                             0         // don't show IVs and EVs
+#define SWSH_IV_EV_GRADED                             1         // show graded values for IVs and EVs
+#define SWSH_IV_EV_PRECISE                            2         // show precise values for IVs and EVs
 #define SWSH_SUMMARY_MON_IDLE_ANIMS_FRAMES            300       // number of frames between each idle anim IF SWSH_SUMMARY_MON_IDLE_ANIMS is true.
                                                                 // for reference, Emerald runs at 60FPS by default
 
@@ -15,7 +18,8 @@
 #define SWSH_SUMMARY_AUTO_FORMAT_MOVE_DESCRIPTIONS    TRUE      // automatically formats move descriptions to fit the new box size. disable if you want to format them manually
 #define SWSH_SUMMARY_NATURE_COLORS                    TRUE      // color stats increased or reduced by nature, red = boosted, blue = reduced
 #define SWSH_SUMMARY_CATEGORY_ICONS                   TRUE      // determines whether category (split) icons are shown or not
-#define SWSH_SUMMARY_SHOW_IV_EV                       TRUE      // determines how to show IVs and EVs
+#define SWSH_SUMMARY_IV_EV_DISPLAY                    SWSH_IV_EV_GRADED  // determines how to show IVs and EVs
+#define SWSH_SUMMARY_SHOW_IV_EV                       (SWSH_SUMMARY_IV_EV_DISPLAY != SWSH_IV_EV_HIDDEN)
 #define SWSH_SUMMARY_SHOW_FRIENDSHIP                  TRUE      // show a heart that fills up to indicate friendship value
 #define SWSH_SUMMARY_SWSH_STATUS_ICONS                TRUE      // use Gen 8 style status icons instead of default ones.
 #define SWSH_SUMMARY_SWSH_TYPE_ICONS                  TRUE      // use Gen 8 style type icons instead of the default ones

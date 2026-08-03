@@ -448,6 +448,8 @@ static void DestroyPartyMonHoverSprite(void);
 static void CreatePartyMonItemIconSprite(struct PartyMenuBox *, u8, u16);
 static void CreatePartyMonItemMoveSprite(u8 fromSlot, u8 toSlot, u16 itemId);
 static void DestroyPartyMonItemIconSprite(void);
+static bool8 IsBattleSwitchPartyMenu(void);
+static void SnapPartyMenuCursorToSlot(u8);
 static void LoadSelectFrame(void);
 static void CreateSelectFrame(struct PartyMenuBox *, u8);
 static void DestroySelectFrame(void);
@@ -928,6 +930,8 @@ static bool8 ShowPartyMenu(void)
     case 20:
         AnimatePartySlot(gPartyMenu.slotId, 1);
         CreatePartyMonHoverSprite(&sPartyMenuBoxes[gPartyMenu.slotId], gPartyMenu.slotId);
+        if (IsBattleSwitchPartyMenu())
+            SnapPartyMenuCursorToSlot(gPartyMenu.slotId);
         gMain.state++;
         break;
     case 21:
@@ -2207,6 +2211,8 @@ static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir)
         CreatePartyMonHoverSprite(&sPartyMenuBoxes[*slotPtr], *slotPtr);
         if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE && SWSH_PARTY_MENU)
             UpdatePartyMoveWindows(*slotPtr);
+        if (IsBattleSwitchPartyMenu())
+            SnapPartyMenuCursorToSlot(*slotPtr);
         
         // Add animated front sprite of selected mon (unless opened in battle or multi-showcase)
         if (gPartyMenu.menuType != PARTY_MENU_TYPE_IN_BATTLE && gPartyMenu.menuType != PARTY_MENU_TYPE_MULTI_SHOWCASE && *slotPtr < gPlayerPartyCount && GetMonData(&gPlayerParty[*slotPtr], MON_DATA_SPECIES) != SPECIES_NONE)
@@ -5536,16 +5542,76 @@ static void LoadPartyMonHoverCursor(void)
 
 static void DestroyPartyMonHoverSprite(void)
 {
-    if (sHoverCursorSpriteId != MAX_SPRITES && sHoverCursorSpriteId != 0)
+    if (sHoverCursorSpriteId != MAX_SPRITES)
     {
-        DestroySprite(&gSprites[sHoverCursorSpriteId]);
+        if (gSprites[sHoverCursorSpriteId].inUse)
+            DestroySprite(&gSprites[sHoverCursorSpriteId]);
         sHoverCursorSpriteId = MAX_SPRITES;
+    }
+}
+
+static bool8 IsBattleSwitchPartyMenu(void)
+{
+    if (gPartyMenu.menuType != PARTY_MENU_TYPE_IN_BATTLE)
+        return FALSE;
+
+    switch (gPartyMenu.action)
+    {
+    case PARTY_ACTION_CHOOSE_MON:
+    case PARTY_ACTION_SEND_OUT:
+    case PARTY_ACTION_CANT_SWITCH:
+    case PARTY_ACTION_ABILITY_PREVENTS:
+    case PARTY_ACTION_CHOOSE_FAINTED_MON:
+    case PARTY_ACTION_SEND_MON_TO_BOX:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+static void SnapPartyMenuCursorToSlot(u8 slot)
+{
+    if (slot >= PARTY_SIZE || sPartyMenuBoxes == NULL)
+        return;
+
+    sPartyMenuInternal->cursorMoveSteps = 0;
+    sPartyMenuInternal->cursorTargetX = sPartyMenuBoxes[slot].spriteCoords[0] - 18;
+    sPartyMenuInternal->cursorTargetY = sPartyMenuBoxes[slot].spriteCoords[1] + 3;
+    sPartyMenuInternal->cursorNewX = sPartyMenuInternal->cursorTargetX << 8;
+    sPartyMenuInternal->cursorNewY = sPartyMenuInternal->cursorTargetY << 8;
+
+    if (sHoverCursorSpriteId != MAX_SPRITES && gSprites[sHoverCursorSpriteId].inUse)
+    {
+        gSprites[sHoverCursorSpriteId].x = sPartyMenuInternal->cursorTargetX;
+        gSprites[sHoverCursorSpriteId].y = sPartyMenuInternal->cursorTargetY;
+        gSprites[sHoverCursorSpriteId].x2 = 0;
+        gSprites[sHoverCursorSpriteId].y2 = 0;
+    }
+
+    if (sItemIconSpriteId != MAX_SPRITES && gSprites[sItemIconSpriteId].inUse)
+    {
+        gSprites[sItemIconSpriteId].x = sPartyMenuBoxes[slot].spriteCoords[0] - 8;
+        gSprites[sItemIconSpriteId].y = sPartyMenuBoxes[slot].spriteCoords[1];
+        gSprites[sItemIconSpriteId].x2 = 0;
+        gSprites[sItemIconSpriteId].y2 = 0;
     }
 }
 
 static void InitPartyMenuCursorMove(u8 spriteId, s16 targetX, s16 targetY)
 {
     int yDistance, xDistance;
+
+    if (IsBattleSwitchPartyMenu())
+    {
+        sPartyMenuInternal->cursorMoveSteps = 0;
+        sPartyMenuInternal->cursorTargetX = targetX;
+        sPartyMenuInternal->cursorTargetY = targetY;
+        sPartyMenuInternal->cursorNewX = targetX << 8;
+        sPartyMenuInternal->cursorNewY = targetY << 8;
+        gSprites[spriteId].x = targetX;
+        gSprites[spriteId].y = targetY;
+        return;
+    }
 
     sPartyMenuInternal->cursorMoveSteps = 6;
     sPartyMenuInternal->cursorTargetX = targetX;
@@ -5589,11 +5655,14 @@ static void CreatePartyMonItemIconSprite(struct PartyMenuBox *menuBox, u8 slot, 
 
 static void DestroyPartyMonItemIconSprite(void)
 {
-    if (sItemIconSpriteId != MAX_SPRITES && sItemIconSpriteId != 0)
+    if (sItemIconSpriteId != MAX_SPRITES)
     {
-        FreeSpriteTilesByTag(TAG_HOVER_ITEM);
-        FreeSpritePaletteByTag(TAG_HOVER_ITEM);
-        DestroySprite(&gSprites[sItemIconSpriteId]);
+        if (gSprites[sItemIconSpriteId].inUse)
+        {
+            FreeSpriteTilesByTag(TAG_HOVER_ITEM);
+            FreeSpritePaletteByTag(TAG_HOVER_ITEM);
+            DestroySprite(&gSprites[sItemIconSpriteId]);
+        }
         sItemIconSpriteId = MAX_SPRITES;
     }
 }
@@ -5624,7 +5693,22 @@ static void CreatePartyMonHoverSprite(struct PartyMenuBox *menuBox, u8 slot)
         
         if (sHoverCursorSpriteId != MAX_SPRITES && gSprites[sHoverCursorSpriteId].inUse)
         {
-            InitPartyMenuCursorMove(sHoverCursorSpriteId, x, y);
+            if (IsBattleSwitchPartyMenu())
+            {
+                sPartyMenuInternal->cursorMoveSteps = 0;
+                sPartyMenuInternal->cursorTargetX = x;
+                sPartyMenuInternal->cursorTargetY = y;
+                sPartyMenuInternal->cursorNewX = x << 8;
+                sPartyMenuInternal->cursorNewY = y << 8;
+                gSprites[sHoverCursorSpriteId].x = x;
+                gSprites[sHoverCursorSpriteId].y = y;
+                gSprites[sHoverCursorSpriteId].x2 = 0;
+                gSprites[sHoverCursorSpriteId].y2 = 0;
+            }
+            else
+            {
+                InitPartyMenuCursorMove(sHoverCursorSpriteId, x, y);
+            }
         }
         else
         {

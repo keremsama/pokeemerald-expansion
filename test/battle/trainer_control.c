@@ -113,11 +113,7 @@ TEST("CreateNPCTrainerPartyForTrainer generates different personalities for diff
 {
     enum DifficultyLevel difficulty = GetTrainerDifficultyLevelTest(0);
     struct Pokemon *testParty = Alloc(6 * sizeof(struct Pokemon));
-<<<<<<< HEAD
-    CreateNPCTrainerPartyFromTrainer(testParty, &sTestTrainers[difficulty][0], TRUE, BATTLE_TYPE_TRAINER);
-=======
-    CreateNPCTrainerPartyFromTrainer(testParty, &sTestTrainers[0], TRUE, BATTLE_TYPE_TRAINER, 0);
->>>>>>> 3d54198f6a9bb04ea759c09d3a4d49637a1ccc5d
+    CreateNPCTrainerPartyFromTrainer(testParty, &sTestTrainers[difficulty][0], TRUE, BATTLE_TYPE_TRAINER, 0);
     EXPECT(testParty[0].box.personality != testParty[1].box.personality);
     Free(testParty);
 }

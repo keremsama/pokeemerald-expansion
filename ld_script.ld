@@ -341,13 +341,9 @@ SECTIONS {
         src/gym_leader_rematch.o(.text);
         src/battle_transition_frontier.o(.text);
         src/international_string_util.o(.text);
-<<<<<<< HEAD:ld_script.ld
         src/ui_birch_case.o(.text);
+        src/ui_stat_editor.o(.text);
     } > ROM =0
-=======
-		src/ui_stat_editor.o(.text);
-    } =0
->>>>>>> d22eb4179161f76723deae1cd703b8b03e7d37d2:ld_script.txt
 
     script_data :
     ALIGN(4)

@@ -38,6 +38,7 @@
 #include "text.h"
 #include "text_window.h"
 #include "trig.h"
+#include "tx_randomizer_and_challenges.h"
 #include "walda_phrase.h"
 #include "window.h"
 #include "constants/form_change_types.h"
@@ -125,6 +126,7 @@ enum {
     MSG_BAG_FULL,
     MSG_PUT_IN_BAG,
     MSG_CANT_STORE_MAIL,
+    MSG_NUZLOCKE_CEMETERY,
 };
 
 // IDs for how to resolve variables in the above messages
@@ -703,6 +705,8 @@ static bool8 IsRemovingLastPartyMon(void);
 static bool8 CanPlaceMon(void);
 static bool8 CanShiftMon(void);
 static bool8 IsMonBeingMoved(void);
+static bool32 IsBoxMonNuzlockeCemetery(u32 boxId, u32 boxPosition);
+static bool32 IsMovingMonNuzlockeCemetery(void);
 static void TryRefreshDisplayMon(void);
 static void ReshowDisplayMon(void);
 static void SetDisplayMonData(void *, u8);
@@ -741,7 +745,7 @@ static void MultiMove_DeselectColumn(u8, u8, u8);
 static bool32 IsItemIconAtPosition(u8, u8);
 static u8 GetNewItemIconIdx(void);
 static void SetItemIconPosition(u8, u8, u8);
-static void LoadItemIconGfx(u8 id, const u32 *itemTiles, const u16 *itemPal);
+static void LoadItemIconGfx(u8 id, const void *itemTiles, const void *itemPal);
 static void SetItemIconAffineAnim(u8, u8);
 static void SetItemIconActive(u8, bool8);
 static u8 GetItemIconIdxByPosition(u8, u8);
@@ -1608,14 +1612,11 @@ static void InitStartingPosData(void)
 
 static void SetMonIconTransparency(void)
 {
-    if (sStorage->boxOption == OPTION_MOVE_ITEMS || sStorage->boxOption == OPTION_SELECT_MON)
-    {
-        // BG2 (TGT1) blends with BG1+BG2+BG3 (TGT2)
-        // Sprites with objMode=BLEND (mons w/o items or ineligible mons, auto TGT1) blend with BG1+BG2+BG3 (TGT2)
-        // BG1 is needed for party area on left side of screen
-        SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG2 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_BG2 | BLDCNT_TGT2_BG3);
-        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(8, 8));
-    }
+    // Sprites with objMode=BLEND (Move Items icons, excluded mons, Nuzlocke cemetery mons)
+    // need every background as a possible second target. Otherwise the OBJ blend flag can be
+    // set correctly but look normal in the regular SwSh box view.
+    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG2 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
+    SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(10, 7));
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_BG_ALL_ON | DISPCNT_OBJ_1D_MAP);
 }
 
@@ -1788,6 +1789,7 @@ enum {
     MSTATE_WAIT_MSG,
     MSTATE_ERROR_LAST_PARTY_MON,
     MSTATE_ERROR_HAS_MAIL,
+    MSTATE_ERROR_NUZLOCKE_CEMETERY,
     MSTATE_WAIT_ERROR_MSG,
     MSTATE_MULTIMOVE_RUN,
     MSTATE_MULTIMOVE_RUN_CANCEL,
@@ -1898,7 +1900,11 @@ static void Task_PokeStorageMain(u8 taskId)
             }
             break;
         case INPUT_SHIFT_MON:
-            if (!CanShiftMon())
+            if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = MSTATE_ERROR_NUZLOCKE_CEMETERY;
+            }
+            else if (!CanShiftMon())
             {
                 sStorage->state = MSTATE_ERROR_LAST_PARTY_MON;
             }
@@ -1909,12 +1915,27 @@ static void Task_PokeStorageMain(u8 taskId)
             }
             break;
         case INPUT_WITHDRAW:
-            PlaySE(SE_SELECT);
-            SetPokeStorageTask(Task_WithdrawMon);
+            if ((sCursorArea == CURSOR_AREA_IN_BOX && IsBoxMonNuzlockeCemetery(StorageGetCurrentBox(), sCursorPosition))
+                || IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = MSTATE_ERROR_NUZLOCKE_CEMETERY;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                SetPokeStorageTask(Task_WithdrawMon);
+            }
             break;
         case INPUT_PLACE_MON:
-            PlaySE(SE_SELECT);
-            SetPokeStorageTask(Task_PlaceMon);
+            if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = MSTATE_ERROR_NUZLOCKE_CEMETERY;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                SetPokeStorageTask(Task_PlaceMon);
+            }
             break;
         case INPUT_TAKE_ITEM:
             PlaySE(SE_SELECT);
@@ -2026,6 +2047,11 @@ static void Task_PokeStorageMain(u8 taskId)
         PrintMessage(MSG_PLEASE_REMOVE_MAIL);
         sStorage->state = MSTATE_WAIT_ERROR_MSG;
         break;
+    case MSTATE_ERROR_NUZLOCKE_CEMETERY:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_NUZLOCKE_CEMETERY);
+        sStorage->state = MSTATE_WAIT_ERROR_MSG;
+        break;
     case MSTATE_WAIT_ERROR_MSG:
         if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
         {
@@ -2127,12 +2153,23 @@ static void Task_OnSelectedMon(u8 taskId)
             }
             break;
         case MENU_PLACE:
-            PlaySE(SE_SELECT);
-            ClearBottomWindow();
-            SetPokeStorageTask(Task_PlaceMon);
+            if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = 7;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                ClearBottomWindow();
+                SetPokeStorageTask(Task_PlaceMon);
+            }
             break;
         case MENU_SHIFT:
-            if (!CanShiftMon())
+            if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = 7;
+            }
+            else if (!CanShiftMon())
             {
                 sStorage->state = 3;
             }
@@ -2144,8 +2181,16 @@ static void Task_OnSelectedMon(u8 taskId)
             }
             break;
         case MENU_WITHDRAW:
-            PlaySE(SE_SELECT);
-            SetPokeStorageTask(Task_WithdrawMon);
+            if ((sCursorArea == CURSOR_AREA_IN_BOX && IsBoxMonNuzlockeCemetery(StorageGetCurrentBox(), sCursorPosition))
+                || IsMovingMonNuzlockeCemetery())
+            {
+                sStorage->state = 7;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                SetPokeStorageTask(Task_WithdrawMon);
+            }
             break;
         case MENU_STORE:
             if (IsRemovingLastPartyMon())
@@ -2253,6 +2298,11 @@ static void Task_OnSelectedMon(u8 taskId)
             SetPokeStorageTask(Task_PokeStorageMain);
         }
         break;
+    case 7:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_NUZLOCKE_CEMETERY);
+        sStorage->state = 6;
+        break;
     }
 }
 
@@ -2288,8 +2338,16 @@ static void Task_PlaceMon(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        InitMonPlaceChange(CHANGE_PLACE);
-        sStorage->state++;
+        if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+        {
+            PrintMessage(MSG_NUZLOCKE_CEMETERY);
+            sStorage->state = 2;
+        }
+        else
+        {
+            InitMonPlaceChange(CHANGE_PLACE);
+            sStorage->state++;
+        }
         break;
     case 1:
         if (!DoMonPlaceChange())
@@ -2300,6 +2358,13 @@ static void Task_PlaceMon(u8 taskId)
                 SetPokeStorageTask(Task_PokeStorageMain);
         }
         break;
+    case 2:
+        if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
+        {
+            ClearBottomWindow();
+            SetPokeStorageTask(Task_PokeStorageMain);
+        }
+        break;
     }
 }
 
@@ -2308,8 +2373,16 @@ static void Task_ShiftMon(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        InitMonPlaceChange(CHANGE_SHIFT);
-        sStorage->state++;
+        if (sCursorArea == CURSOR_AREA_IN_PARTY && IsMovingMonNuzlockeCemetery())
+        {
+            PrintMessage(MSG_NUZLOCKE_CEMETERY);
+            sStorage->state = 2;
+        }
+        else
+        {
+            InitMonPlaceChange(CHANGE_SHIFT);
+            sStorage->state++;
+        }
         break;
     case 1:
         if (!DoMonPlaceChange())
@@ -2321,6 +2394,13 @@ static void Task_ShiftMon(u8 taskId)
                 SetPokeStorageTask(Task_PokeStorageMain);
         }
         break;
+    case 2:
+        if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
+        {
+            ClearBottomWindow();
+            SetPokeStorageTask(Task_PokeStorageMain);
+        }
+        break;
     }
 }
 
@@ -2329,7 +2409,13 @@ static void Task_WithdrawMon(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        if (CalculatePlayerPartyCount() == PARTY_SIZE)
+        if ((sCursorArea == CURSOR_AREA_IN_BOX && IsBoxMonNuzlockeCemetery(StorageGetCurrentBox(), sCursorPosition))
+            || IsMovingMonNuzlockeCemetery())
+        {
+            PrintMessage(MSG_NUZLOCKE_CEMETERY);
+            sStorage->state = 1;
+        }
+        else if (CalculatePlayerPartyCount() == PARTY_SIZE)
         {
             PrintMessage(MSG_PARTY_FULL);
             sStorage->state = 1;
@@ -4556,6 +4642,8 @@ static void CreateMovingMonIcon(void)
 
 static bool32 ShouldBoxmonSpriteBeTransparent(u32 boxId, u32 boxPosition)
 {
+    if (IsBoxMonNuzlockeCemetery(boxId, boxPosition))
+        return TRUE;
     if (sStorage->boxOption == OPTION_MOVE_ITEMS
         && GetBoxMonDataAt(boxId, boxPosition, MON_DATA_HELD_ITEM) == ITEM_NONE)
         return TRUE;
@@ -4563,6 +4651,40 @@ static bool32 ShouldBoxmonSpriteBeTransparent(u32 boxId, u32 boxPosition)
         && IsBoxMonExcluded(GetBoxedMonPtr(boxId, boxPosition)))
         return TRUE;
     return FALSE;
+}
+
+static bool32 IsBoxMonNuzlockeCemetery(u32 boxId, u32 boxPosition)
+{
+    u16 species = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_SPECIES_OR_EGG);
+
+    if (species == SPECIES_NONE)
+        return FALSE;
+    if (GetBoxMonDataAt(boxId, boxPosition, MON_DATA_NUZLOCKE_RIBBON))
+        return TRUE;
+    if (GetBoxMonDataAt(boxId, boxPosition, MON_DATA_IS_EGG))
+        return FALSE;
+    if (IsNuzlockeDeathRulesActive())
+    {
+        struct Pokemon mon;
+
+        BoxMonToMon(GetBoxedMonPtr(boxId, boxPosition), &mon);
+        if (GetMonData(&mon, MON_DATA_HP) == 0)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool32 IsMovingMonNuzlockeCemetery(void)
+{
+    if (!sIsMonBeingMoved)
+        return FALSE;
+    if (GetMonData(&sStorage->movingMon, MON_DATA_SPECIES) == SPECIES_NONE)
+        return FALSE;
+    if (GetMonData(&sStorage->movingMon, MON_DATA_NUZLOCKE_RIBBON))
+        return TRUE;
+    if (GetMonData(&sStorage->movingMon, MON_DATA_IS_EGG))
+        return FALSE;
+    return IsNuzlockeDeathRulesActive() && GetMonData(&sStorage->movingMon, MON_DATA_HP) == 0;
 }
 
 static void InitBoxMonSprites(u8 boxId)
@@ -8661,8 +8783,8 @@ static void TryLoadItemIconAtPos(u8 cursorArea, u8 cursorPos)
 
     if (heldItem != ITEM_NONE)
     {
-        const u32 *tiles = GetItemIconPic(heldItem);
-        const u16 *pal = GetItemIconPalette(heldItem);
+        const void *tiles = GetItemIconPic(heldItem);
+        const void *pal = GetItemIconPalette(heldItem);
         u8 id = GetNewItemIconIdx();
 
         SetItemIconPosition(id, cursorArea, cursorPos);
@@ -8716,8 +8838,8 @@ static void TakeItemFromMon(u8 cursorArea, u8 cursorPos)
 
 static void InitItemIconInCursor(u16 itemId)
 {
-    const u32 *tiles = GetItemIconPic(itemId);
-    const u16 *pal = GetItemIconPalette(itemId);
+    const void *tiles = GetItemIconPic(itemId);
+    const void *pal = GetItemIconPalette(itemId);
     u8 id = GetNewItemIconIdx();
     LoadItemIconGfx(id, tiles, pal);
     SetItemIconAffineAnim(id, ITEM_ANIM_LARGE);
@@ -8743,6 +8865,7 @@ static void SwapItemsWithMon(u8 cursorArea, u8 cursorPos)
         itemId = GetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM);
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &sStorage->movingItemId);
         sStorage->movingItemId = itemId;
+        SetBoxMonIconObjMode(cursorPos, ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), cursorPos) ? ST_OAM_OBJ_BLEND : ST_OAM_OBJ_NORMAL);
         SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
     }
     else
@@ -8772,7 +8895,7 @@ static void GiveItemToMon(u8 cursorArea, u8 cursorPos)
     if (cursorArea == CURSOR_AREA_IN_BOX)
     {
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &sStorage->movingItemId);
-        SetBoxMonIconObjMode(cursorPos, ST_OAM_OBJ_NORMAL);
+        SetBoxMonIconObjMode(cursorPos, ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), cursorPos) ? ST_OAM_OBJ_BLEND : ST_OAM_OBJ_NORMAL);
         SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
     }
     else
@@ -8969,7 +9092,7 @@ static void SetItemIconPosition(u8 id, u8 cursorArea, u8 cursorPos)
     sStorage->itemIcons[id].pos = cursorPos;
 }
 
-static void LoadItemIconGfx(u8 id, const u32 *itemTiles, const u16 *itemPal)
+static void LoadItemIconGfx(u8 id, const void *itemTiles, const void *itemPal)
 {
     s32 i;
 
@@ -8982,7 +9105,7 @@ static void LoadItemIconGfx(u8 id, const u32 *itemTiles, const u16 *itemPal)
         CpuFastCopy(&sStorage->tileBuffer[i * 0x60], &sStorage->itemIconBuffer[i * 0x80], 0x60);
 
     CpuFastCopy(sStorage->itemIconBuffer, sStorage->itemIcons[id].tiles, 0x200);
-    LoadPalette(itemPal, sStorage->itemIcons[id].palIndex, PLTT_SIZE_4BPP);
+    LoadCompressedPalette(itemPal, sStorage->itemIcons[id].palIndex, PLTT_SIZE_4BPP);
 }
 
 static void SetItemIconAffineAnim(u8 id, u8 animNum)
@@ -9531,7 +9654,7 @@ void UpdateSpeciesSpritePSS_SwSh(struct BoxPokemon *boxMon)
             DestroyBoxMonIconAtPosition(sCursorPosition);
             CreateBoxMonIconAtPos(sCursorPosition);
             if (sStorage->boxOption == OPTION_MOVE_ITEMS)
-                SetBoxMonIconObjMode(sCursorPosition, (GetBoxMonData(boxMon, MON_DATA_HELD_ITEM) == ITEM_NONE ? ST_OAM_OBJ_BLEND : ST_OAM_OBJ_NORMAL));
+                SetBoxMonIconObjMode(sCursorPosition, (ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), sCursorPosition) ? ST_OAM_OBJ_BLEND : ST_OAM_OBJ_NORMAL));
         }
     }
     sJustOpenedBag = FALSE;

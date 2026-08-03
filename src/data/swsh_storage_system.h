@@ -269,6 +269,7 @@ static const struct StorageMessage sMessages[] =
     [MSG_BAG_FULL]             = {COMPOUND_STRING("The bag is full."),           MSG_VAR_NONE},
     [MSG_PUT_IN_BAG]           = {COMPOUND_STRING("Put this item in the bag?"),  MSG_VAR_NONE},
     [MSG_CANT_STORE_MAIL]      = {COMPOUND_STRING("Mail can't be stored!"),      MSG_VAR_NONE},
+    [MSG_NUZLOCKE_CEMETERY]    = {COMPOUND_STRING("This POKéMON can't be used."), MSG_VAR_NONE},
 };
 
 // ============================================================================
