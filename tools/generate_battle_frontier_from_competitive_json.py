@@ -235,7 +235,7 @@ def _store_species_meta(meta_by_species: dict[str, SpeciesMeta], species: str, b
 
 
 def is_mega_stone_item(item_const: str) -> bool:
-    return item_const.endswith("ITE") and item_const not in NON_MEGA_ITE_ITEMS
+    return bool(re.fullmatch(r"ITEM_[A-Z0-9_]+ITE(?:_[XY])?", item_const)) and item_const not in NON_MEGA_ITE_ITEMS
 
 
 def tera_specific_hits(species_const: str, ability_const: str, move_consts: tuple[str, str, str, str]) -> list[str]:
@@ -323,7 +323,54 @@ def source_priority(build: dict | Entry) -> int:
     return SOURCE_PRIORITY.get(source, 99)
 
 
-def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, SpeciesMeta]) -> tuple[list[Entry], list[str]]:
+def dedupe_movepool_key(raw: dict) -> tuple[str, str, str, tuple[str, ...]]:
+    form_key = raw["item_const"] if raw["is_mega_set"] else "regular"
+    moves = tuple(sorted(move for move in raw["move_consts"] if move != "MOVE_NONE"))
+    return raw["species_const"], raw["pool"], form_key, moves
+
+
+def duplicate_preference_key(raw: dict) -> tuple:
+    return (
+        source_priority(raw),
+        -raw["rank"],
+        0 if raw["item_const"] != "ITEM_NONE" else 1,
+        raw["set_name"],
+        raw["item_const"],
+        raw["ability_const"],
+        raw["nature_const"],
+        raw["evs"],
+    )
+
+
+def describe_deduped_entry(dropped: dict, kept: dict, moves: tuple[str, ...]) -> str:
+    return (
+        f"{dropped['species_name']} / {dropped['set_name']} ({dropped['source']}, {dropped['format_name']}) "
+        f"duplicates {kept['species_name']} / {kept['set_name']} "
+        f"with {', '.join(moves)}"
+    )
+
+
+def deduplicate_raw_entries(raw_entries: list[dict]) -> tuple[list[dict], list[str]]:
+    kept_by_key: dict[tuple[str, str, str, tuple[str, ...]], dict] = {}
+    deduped: list[str] = []
+
+    for raw in raw_entries:
+        key = dedupe_movepool_key(raw)
+        kept = kept_by_key.get(key)
+        if kept is None:
+            kept_by_key[key] = raw
+            continue
+
+        if duplicate_preference_key(raw) < duplicate_preference_key(kept):
+            kept_by_key[key] = raw
+            deduped.append(describe_deduped_entry(kept, raw, key[3]))
+        else:
+            deduped.append(describe_deduped_entry(raw, kept, key[3]))
+
+    return list(kept_by_key.values()), deduped
+
+
+def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, SpeciesMeta]) -> tuple[list[Entry], list[str], list[str]]:
     data = json.loads(input_path.read_text())
     raw_entries: list[dict] = []
     skipped: list[str] = []
@@ -378,6 +425,8 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
                 }
             )
 
+    raw_entries, deduped = deduplicate_raw_entries(raw_entries)
+
     raw_entries.sort(
         key=lambda e: (
             e["rank"],
@@ -397,7 +446,7 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
         const_name = f"{base_name}_{per_species_count[raw['species_const']]}"
         entries.append(Entry(mon_id=mon_id, const_name=const_name, **raw))
 
-    return entries, skipped
+    return entries, skipped, deduped
 
 
 def write_constants(entries: list[Entry], path: Path) -> None:
@@ -789,6 +838,7 @@ def ensure_factory_ranges_use_generated_ranks(root: Path) -> bool:
 def write_report(
     entries: list[Entry],
     skipped: list[str],
+    deduped: list[str],
     macro_sizes: dict[str, int],
     brain_report: list[str],
     frontier_util_patched: bool,
@@ -810,6 +860,7 @@ def write_report(
         f"Main-pool builds: {sum(1 for entry in entries if entry.pool == 'main')}",
         f"Boss-pool builds: {sum(1 for entry in entries if entry.pool == 'boss')}",
         f"Skipped invalid/filtered builds: {len(skipped)}",
+        f"Deduplicated duplicate movepools: {len(deduped)}",
         "",
         "Rank counts:",
     ]
@@ -843,6 +894,12 @@ def write_report(
         if len(skipped) > 200:
             lines.append(f"- ... {len(skipped) - 200} more")
 
+    if deduped:
+        lines.extend(["", "Deduplicated duplicate movepools:"])
+        lines.extend(f"- {line}" for line in deduped[:200])
+        if len(deduped) > 200:
+            lines.append(f"- ... {len(deduped) - 200} more")
+
     lines.append("")
     path.write_text("\n".join(lines))
 
@@ -856,7 +913,7 @@ def main() -> None:
     species_meta = parse_species_meta(ROOT)
     macro_names = parse_macro_names(TRAINER_MONS_OUT)
     macro_arities = parse_parameterized_macro_arities(TRAINERS_FILE)
-    entries, skipped = load_entries(args.input, constants, species_meta)
+    entries, skipped, deduped = load_entries(args.input, constants, species_meta)
 
     if not entries:
         raise SystemExit("No valid Frontier entries generated")
@@ -869,10 +926,11 @@ def main() -> None:
     brain_report = write_brain_mons(entries, BRAIN_MONS_OUT)
     frontier_util_patched = ensure_frontier_util_uses_generated_brains(ROOT)
     factory_patched = ensure_factory_ranges_use_generated_ranks(ROOT)
-    write_report(entries, skipped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
+    write_report(entries, skipped, deduped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
 
     print(f"Generated {len(entries)} Frontier mons")
     print(f"Skipped/filtered {len(skipped)} builds")
+    print(f"Deduplicated {len(deduped)} duplicate movepools")
     print(f"Wrote {CONSTANTS_OUT.relative_to(ROOT)}")
     print(f"Wrote {MONS_OUT.relative_to(ROOT)}")
     print(f"Wrote {TRAINER_MONS_OUT.relative_to(ROOT)}")

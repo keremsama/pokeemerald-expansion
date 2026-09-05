@@ -2,28 +2,29 @@ Battle Frontier generation report
 =================================
 
 Source JSON: competitive_builds_frontier_plus_missingmons_champions.json
-Generated Frontier mons: 3785
-Main-pool builds: 3145
-Boss-pool builds: 640
+Generated Frontier mons: 2286
+Main-pool builds: 1899
+Boss-pool builds: 387
 Skipped invalid/filtered builds: 6
+Deduplicated duplicate movepools: 1499
 
 Rank counts:
-- Rank 0: 142 builds / 63 species
-- Rank 1: 94 builds / 63 species
-- Rank 2: 735 builds / 300 species
-- Rank 3: 631 builds / 217 species
-- Rank 4: 255 builds / 96 species
-- Rank 5: 1149 builds / 217 species
-- Rank 6: 139 builds / 85 species
-- Boss pool: 640 builds / 138 species
+- Rank 0: 68 builds / 62 species
+- Rank 1: 87 builds / 62 species
+- Rank 2: 451 builds / 293 species
+- Rank 3: 377 builds / 213 species
+- Rank 4: 131 builds / 84 species
+- Rank 5: 663 builds / 217 species
+- Rank 6: 122 builds / 85 species
+- Boss pool: 387 builds / 138 species
 
 Source counts:
-- smogon: 2018
-- showdown: 1212
+- smogon: 1723
 - pokemon_champions: 273
-- showdown_randbats_gen7: 244
+- showdown_randbats_gen7: 243
 - showdown_randbats_gen8: 23
 - showdown_randbats_gen9: 12
+- showdown: 9
 - custom_missingmon: 3
 
 Generated trainer macro sizes:
@@ -31,40 +32,40 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_SCHOOL_KID_1: 128
 - FRONTIER_MONS_RICH_BOY_LADY_1: 96
 - FRONTIER_MONS_CAMPER_PICNICKER_1: 96
-- FRONTIER_MONS_TUBER_1: 96
-- FRONTIER_MONS_SWIMMER_M_1: 96
-- FRONTIER_MONS_SWIMMER_F_1: 96
+- FRONTIER_MONS_TUBER_1: 74
+- FRONTIER_MONS_SWIMMER_M_1: 74
+- FRONTIER_MONS_SWIMMER_F_1: 74
 - FRONTIER_MONS_POKEFAN_M_1: 96
 - FRONTIER_MONS_POKEFAN_F_1: 96
-- FRONTIER_MONS_BUG_CATCHER_1: 51
-- FRONTIER_MONS_BUG_CATCHER_1_EXTRA: 51
+- FRONTIER_MONS_BUG_CATCHER_1: 35
+- FRONTIER_MONS_BUG_CATCHER_1_EXTRA: 35
 - FRONTIER_MONS_NINJA_BOY_1: 96
-- FRONTIER_MONS_BUG_MANIAC_1: 51
-- FRONTIER_MONS_FISHERMAN_1: 96
+- FRONTIER_MONS_BUG_MANIAC_1: 35
+- FRONTIER_MONS_FISHERMAN_1: 74
 - FRONTIER_MONS_RUIN_MANIAC_1: 96
 - FRONTIER_MONS_PARASOL_LADY_1: 96
 - FRONTIER_MONS_AROMA_LADY_1: 96
-- FRONTIER_MONS_GUITARIST_1: 96
-- FRONTIER_MONS_BIRD_KEEPER_1: 71
+- FRONTIER_MONS_GUITARIST_1: 74
+- FRONTIER_MONS_BIRD_KEEPER_1: 50
 - FRONTIER_MONS_SAILOR_1: 96
 - FRONTIER_MONS_HIKER_1: 96
-- FRONTIER_MONS_KINDLER_1: 82
+- FRONTIER_MONS_KINDLER_1: 45
 - FRONTIER_MONS_RUNNING_TRIATHLETE_1: 96
-- FRONTIER_MONS_SWIMMING_TRIATHLETE_1: 96
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_1: 74
 - FRONTIER_MONS_CYCLING_TRIATHLETE_1: 96
 - FRONTIER_MONS_RUNNING_TRIATHLETE_2: 96
 - FRONTIER_MONS_SWIMMING_TRIATHLETE_2: 96
 - FRONTIER_MONS_CYCLING_TRIATHLETE_2: 96
-- FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_1: 96
+- FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_1: 57
 - FRONTIER_MONS_EXPERT_1A: 160
 - FRONTIER_MONS_EXPERT_1B: 160
 - FRONTIER_MONS_EXPERT_1C: 160
-- FRONTIER_MONS_PSYCHIC_1: 86
+- FRONTIER_MONS_PSYCHIC_1: 59
 - FRONTIER_MONS_HEX_MANIAC_1: 96
 - FRONTIER_MONS_POKEMANIAC_1: 96
 - FRONTIER_MONS_GENTLEMAN_1A: 96
 - FRONTIER_MONS_GENTLEMAN_1B: 96
-- FRONTIER_MONS_BUG_MANIAC_2: 90
+- FRONTIER_MONS_BUG_MANIAC_2: 54
 - FRONTIER_MONS_RUIN_MANIAC_2: 96
 - FRONTIER_MONS_COLLECTOR_1: 96
 - FRONTIER_MONS_PARASOL_LADY_2: 96
@@ -74,7 +75,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_COOLTRAINER_1B: 160
 - FRONTIER_MONS_COOLTRAINER_1C: 160
 - FRONTIER_MONS_PKMN_RANGER_1: 160
-- FRONTIER_MONS_DRAGON_TAMER_1: 46
+- FRONTIER_MONS_DRAGON_TAMER_1: 32
 - FRONTIER_MONS_POKEFAN_2: 96
 - FRONTIER_MONS_PKMN_BREEDER_M_1: 128
 - FRONTIER_MONS_PKMN_BREEDER_F_1: 128
@@ -82,18 +83,18 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_YOUNGSTER_LASS_2: 128
 - FRONTIER_MONS_SCHOOL_KID_2: 128
 - FRONTIER_MONS_RICH_BOY_LADY_2: 96
-- FRONTIER_MONS_BUG_CATCHER_2: 90
+- FRONTIER_MONS_BUG_CATCHER_2: 54
 - FRONTIER_MONS_NINJA_BOY_2: 96
 - FRONTIER_MONS_TUBER_2: 96
-- FRONTIER_MONS_BUG_MANIAC_3: 92
+- FRONTIER_MONS_BUG_MANIAC_3: 50
 - FRONTIER_MONS_FISHERMAN_2: 96
 - FRONTIER_MONS_RUIN_MANIAC_3: 96
 - FRONTIER_MONS_COLLECTOR_2: 96
 - FRONTIER_MONS_GUITARIST_2: 96
-- FRONTIER_MONS_BIRD_KEEPER_2: 96
+- FRONTIER_MONS_BIRD_KEEPER_2: 88
 - FRONTIER_MONS_SAILOR_2: 96
 - FRONTIER_MONS_HIKER_2: 96
-- FRONTIER_MONS_KINDLER_2: 96
+- FRONTIER_MONS_KINDLER_2: 80
 - FRONTIER_MONS_GENTLEMAN_2: 96
 - FRONTIER_MONS_YOUNGSTER_LASS_3: 128
 - FRONTIER_MONS_CAMPER_PICNICKER_2: 96
@@ -111,7 +112,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_GENERAL_B: 160
 - FRONTIER_MONS_GENERAL_C: 160
 - FRONTIER_MONS_GENERAL_D: 160
-- FRONTIER_MONS_DRAGON_TAMER_2: 92
+- FRONTIER_MONS_DRAGON_TAMER_2: 52
 - FRONTIER_MONS_BLACK_BELT_2A: 96
 - FRONTIER_MONS_BATTLE_GIRL_2A: 96
 - FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_2B: 96
@@ -130,7 +131,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_GENTLEMAN_3B: 96
 - FRONTIER_MONS_SWIMMING_TRIATHLETE_M_3: 96
 - FRONTIER_MONS_SWIMMING_TRIATHLETE_F_3: 96
-- FRONTIER_MONS_BUG_MANIAC_4: 77
+- FRONTIER_MONS_BUG_MANIAC_4: 44
 - FRONTIER_MONS_FISHERMAN_3: 96
 - FRONTIER_MONS_RUIN_MANIAC_4: 96
 - FRONTIER_MONS_COLLECTOR_3: 96
@@ -141,7 +142,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_HIKER_3: 96
 - FRONTIER_MONS_KINDLER_3: 96
 - FRONTIER_MONS_PARASOL_LADY_3: 96
-- FRONTIER_MONS_EEVEELUTIONS: 41
+- FRONTIER_MONS_EEVEELUTIONS: 26
 - FRONTIER_MONS_BEAUTY_2: 96
 - FRONTIER_MONS_AROMA_LADY_3: 96
 
@@ -200,3 +201,206 @@ Skipped invalid/filtered builds:
 - Terapagos / Offensive Utility: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
 - Terapagos / Choice Specs: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
 - Terapagos / Double Dance: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
+
+Deduplicated duplicate movepools:
+- Abomasnow / Aurora Veil (showdown, gen9pu) duplicates Abomasnow / Aurora Veil with MOVE_AURORA_VEIL, MOVE_BLIZZARD, MOVE_EARTH_POWER, MOVE_LEAF_STORM
+- Abomasnow / Aurora Veil (showdown, gen9zu) duplicates Abomasnow / Aurora Veil with MOVE_AURORA_VEIL, MOVE_BLIZZARD, MOVE_EARTH_POWER, MOVE_GIGA_DRAIN
+- Alcremie / Double Dance (showdown, gen9pu) duplicates Alcremie / Double Dance with MOVE_ACID_ARMOR, MOVE_CALM_MIND, MOVE_DRAINING_KISS, MOVE_STORED_POWER
+- Alomomola / Assault Vest (showdown, gen9ou) duplicates Alomomola / Assault Vest with MOVE_BODY_SLAM, MOVE_FLIP_TURN, MOVE_MIRROR_COAT, MOVE_SCALD
+- Alomomola / WishFish (Wish Passer) (showdown, gen9ou) duplicates Alomomola / WishFish (Wish Passer) with MOVE_FLIP_TURN, MOVE_PROTECT, MOVE_SCALD, MOVE_WISH
+- Alomomola / Physically Defensive (showdown, gen9ubers) duplicates Alomomola / Physically Defensive with MOVE_PLAY_ROUGH, MOVE_PROTECT, MOVE_WHIRLPOOL, MOVE_WISH
+- Alomomola / Assault Vest (showdown, gen9nationaldex) duplicates Alomomola / Assault Vest with MOVE_FLIP_TURN, MOVE_KNOCK_OFF, MOVE_MIRROR_COAT, MOVE_SCALD
+- Alomomola / Defensive (showdown, gen9nationaldex) duplicates Alomomola / Defensive with MOVE_FLIP_TURN, MOVE_PROTECT, MOVE_TOXIC, MOVE_WISH
+- Alomomola / WishPass (showdown, gen9anythinggoes) duplicates Alomomola / WishPass with MOVE_FLIP_TURN, MOVE_PLAY_ROUGH, MOVE_PROTECT, MOVE_WISH
+- Altaria / Perish Trap (showdown, gen9nu) duplicates Altaria / Perish Trap with MOVE_DEFOG, MOVE_FIRE_SPIN, MOVE_PERISH_SONG, MOVE_ROOST
+- Altaria / Utility (showdown, gen9nu) duplicates Altaria / Utility with MOVE_BRAVE_BIRD, MOVE_DEFOG, MOVE_ROOST, MOVE_WILL_O_WISP
+- Ambipom / Pivot (showdown, gen9nu) duplicates Ambipom / Pivot with MOVE_DOUBLE_EDGE, MOVE_FAKE_OUT, MOVE_KNOCK_OFF, MOVE_U_TURN
+- Ambipom / Offensive Pivot (showdown, gen9pu) duplicates Ambipom / Offensive Pivot with MOVE_FAKE_OUT, MOVE_KNOCK_OFF, MOVE_TRIPLE_AXEL, MOVE_U_TURN
+- Amoonguss / Defensive (showdown, gen9ou) duplicates Amoonguss / Defensive with MOVE_CLEAR_SMOG, MOVE_FOUL_PLAY, MOVE_SYNTHESIS, MOVE_TOXIC
+- Amoonguss / Defensive (showdown, gen9ru) duplicates Amoonguss / Defensive with MOVE_FOUL_PLAY, MOVE_GIGA_DRAIN, MOVE_SLUDGE_BOMB, MOVE_STUN_SPORE
+- Amoonguss / The Impostor (Defensive) (showdown, gen9nu) duplicates Amoonguss / The Impostor (Defensive) with MOVE_FOUL_PLAY, MOVE_GIGA_DRAIN, MOVE_SLUDGE_BOMB, MOVE_TOXIC
+- Amoonguss / Physically Defensive Pivot (showdown, gen9pu) duplicates Amoonguss / Physically Defensive Pivot with MOVE_FOUL_PLAY, MOVE_GIGA_DRAIN, MOVE_SYNTHESIS, MOVE_TOXIC
+- Amoonguss / Defensive (showdown, gen9nationaldex) duplicates Amoonguss / Defensive with MOVE_GIGA_DRAIN, MOVE_SLUDGE_BOMB, MOVE_SPORE, MOVE_SYNTHESIS
+- Annihilape / Bulk Up (showdown, gen9ubers) duplicates Annihilape / Bulk Up with MOVE_BULK_UP, MOVE_DRAIN_PUNCH, MOVE_RAGE_FIST, MOVE_TAUNT
+- Annihilape / Bulk Up (smogon, ubersuu) duplicates Annihilape / Bulk Up with MOVE_BULK_UP, MOVE_DRAIN_PUNCH, MOVE_RAGE_FIST, MOVE_TAUNT
+- Araquanid / Sticky Web (showdown, gen9ou) duplicates Araquanid / Sticky Web with MOVE_ENDEAVOR, MOVE_ENDURE, MOVE_STICKY_WEB, MOVE_SURF
+- Araquanid / Sticky Web (showdown, gen9nu) duplicates Araquanid / Sticky Web with MOVE_ENDEAVOR, MOVE_LIQUIDATION, MOVE_LUNGE, MOVE_STICKY_WEB
+- Araquanid / Sticky Web (showdown, gen9nationaldex) duplicates Araquanid / Sticky Web with MOVE_ENDURE, MOVE_MAGIC_COAT, MOVE_STICKY_WEB, MOVE_SURF
+- Arboliva / Bulky Attacker (showdown, gen9zu) duplicates Arboliva / Bulky Attacker with MOVE_HYPER_VOICE, MOVE_LEAF_STORM, MOVE_LEECH_SEED, MOVE_STRENGTH_SAP
+- Arboliva / Choice Specs (showdown, gen9zu) duplicates Arboliva / Choice Specs with MOVE_ALLURING_VOICE, MOVE_EARTH_POWER, MOVE_HYPER_VOICE, MOVE_LEAF_STORM
+- Arboliva / Physically Defensive (showdown, gen9zu) duplicates Arboliva / Physically Defensive with MOVE_GIGA_DRAIN, MOVE_HYPER_VOICE, MOVE_STRENGTH_SAP, MOVE_SUBSTITUTE
+- Arcanine / Choice Band (showdown, gen9pu) duplicates Arcanine / Choice Band with MOVE_CLOSE_COMBAT, MOVE_EXTREME_SPEED, MOVE_FLARE_BLITZ, MOVE_RAGING_FURY
+- Arcanine / Curse (showdown, gen9pu) duplicates Arcanine / Curse with MOVE_CURSE, MOVE_EXTREME_SPEED, MOVE_FLARE_BLITZ, MOVE_MORNING_SUN
+- Arcanine-Hisui / Choice Band (showdown, gen9ou) duplicates Arcanine-Hisui / Choice Band with MOVE_CLOSE_COMBAT, MOVE_EXTREME_SPEED, MOVE_FLARE_BLITZ, MOVE_HEAD_SMASH
+- Arcanine-Hisui / Offensive (showdown, gen9uu) duplicates Arcanine-Hisui / Offensive with MOVE_EXTREME_SPEED, MOVE_FLARE_BLITZ, MOVE_HEAD_SMASH, MOVE_STEALTH_ROCK
+- Arceus / Bulk Up (showdown, gen9ubers) duplicates Arceus / Bulk Up with MOVE_BULK_UP, MOVE_EXTREME_SPEED, MOVE_SHADOW_CLAW, MOVE_TAUNT
+- Arceus / Double-Edge (showdown, gen9ubers) duplicates Arceus / Double-Edge with MOVE_DOUBLE_EDGE, MOVE_EXTREME_SPEED, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
+- Arceus / Stall (showdown, gen9ubers) duplicates Arceus / Stall with MOVE_FOUL_PLAY, MOVE_IRON_DEFENSE, MOVE_RECOVER, MOVE_WILL_O_WISP
+- Arceus / Swords Dance Extreme Killer (showdown, gen9ubers) duplicates Arceus / Swords Dance Extreme Killer with MOVE_EXTREME_SPEED, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE, MOVE_TAUNT
+- Arceus / Extreme Killer (smogon, nationaldexubers) duplicates Arceus / Double-Edge with MOVE_DOUBLE_EDGE, MOVE_EXTREME_SPEED, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
+- Arceus / Bulk Up (showdown, gen9anythinggoes) duplicates Arceus / Bulk Up with MOVE_BULK_UP, MOVE_EXTREME_SPEED, MOVE_RECOVER, MOVE_SHADOW_CLAW
+- Arceus / Bulky Swords Dance (showdown, gen9anythinggoes) duplicates Arceus / Bulky Swords Dance with MOVE_EXTREME_SPEED, MOVE_RECOVER, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
+- Arceus-Bug / Calm Mind (showdown, gen9ubers) duplicates Arceus-Bug / Calm Mind with MOVE_CALM_MIND, MOVE_EARTH_POWER, MOVE_ICE_BEAM, MOVE_RECOVER
+- Arceus-Dark / Calm Mind + Taunt (showdown, gen9ubers) duplicates Arceus-Dark / Calm Mind + Taunt with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_TAUNT
+- Arceus-Dark / Defensive (showdown, gen9ubers) duplicates Arceus-Dark / Defensive with MOVE_FOUL_PLAY, MOVE_RECOVER, MOVE_TAUNT, MOVE_WILL_O_WISP
+- Arceus-Dark / Calm Mind + Taunt (smogon, ubers) duplicates Arceus-Dark / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_TAUNT
+- Arceus-Dragon / Dragon Dance (showdown, gen9ubers) duplicates Arceus-Dragon / Dragon Dance with MOVE_DRAGON_CLAW, MOVE_DRAGON_DANCE, MOVE_EXTREME_SPEED, MOVE_FLARE_BLITZ
+- Arceus-Electric / Calm Mind (showdown, gen9ubers) duplicates Arceus-Electric / Calm Mind with MOVE_CALM_MIND, MOVE_ICE_BEAM, MOVE_JUDGMENT, MOVE_RECOVER
+- Arceus-Electric / Utility (showdown, gen9ubers) duplicates Arceus-Electric / Utility with MOVE_ICE_BEAM, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_WILL_O_WISP
+- Arceus-Fairy / Defensive Wall (showdown, gen9ubers) duplicates Arceus-Fairy / Defensive Wall with MOVE_JUDGMENT, MOVE_RECOVER, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Arceus-Fairy / Iron Defense + Calm Mind (showdown, gen9ubers) duplicates Arceus-Fairy / Iron Defense + Calm Mind with MOVE_CALM_MIND, MOVE_IRON_DEFENSE, MOVE_JUDGMENT, MOVE_RECOVER
+- Arceus-Fairy / Defensive (showdown, gen9anythinggoes) duplicates Arceus-Fairy / Defensive with MOVE_JUDGMENT, MOVE_POWER_GEM, MOVE_RECOVER, MOVE_WILL_O_WISP
+- Arceus-Fairy / Offensive Calm Mind (showdown, gen9anythinggoes) duplicates Arceus-Fairy / Offensive Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_POWER_GEM, MOVE_RECOVER
+- Arceus-Fighting / Cosmic Power (showdown, gen9ubers) duplicates Arceus-Fighting / Cosmic Power with MOVE_BODY_PRESS, MOVE_COSMIC_POWER, MOVE_RECOVER, MOVE_STORED_POWER
+- Arceus-Fighting / Cosmic Power (smogon, ubersuu) duplicates Arceus-Fighting / Cosmic Power with MOVE_BODY_PRESS, MOVE_COSMIC_POWER, MOVE_RECOVER, MOVE_STORED_POWER
+- Arceus-Fire / Dragon Dance (showdown, gen9ubers) duplicates Arceus-Fire / Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_FLARE_BLITZ, MOVE_TAUNT
+- Arceus-Flying / Calm Mind + Taunt (showdown, gen9ubers) duplicates Arceus-Flying / Calm Mind + Taunt with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_TAUNT
+- Arceus-Flying / Calm Mind + Taunt (smogon, ubers) duplicates Arceus-Flying / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_TAUNT
+- Arceus-Ghost / Calm Mind + 3 Attacks (showdown, gen9ubers) duplicates Arceus-Ghost / Calm Mind + 3 Attacks with MOVE_CALM_MIND, MOVE_FOCUS_BLAST, MOVE_JUDGMENT, MOVE_POWER_GEM
+- Arceus-Ghost / Support (showdown, gen9ubers) duplicates Arceus-Ghost / Support with MOVE_CALM_MIND, MOVE_DRAGON_TAIL, MOVE_JUDGMENT, MOVE_RECOVER
+- Arceus-Grass / 3 Attacks (showdown, gen9ubers) duplicates Arceus-Grass / 3 Attacks with MOVE_EARTH_POWER, MOVE_GRASS_KNOT, MOVE_ICE_BEAM, MOVE_RECOVER
+- Arceus-Grass / Calm Mind (showdown, gen9ubers) duplicates Arceus-Grass / Calm Mind with MOVE_CALM_MIND, MOVE_EARTH_POWER, MOVE_JUDGMENT, MOVE_RECOVER
+- Arceus-Ground / Dragon Dance (showdown, gen9ubers) duplicates Arceus-Ground / Bulky Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_STONE_EDGE
+- Arceus-Ground / Calm Mind (showdown, gen9anythinggoes) duplicates Arceus-Ground / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_POWER_GEM, MOVE_RECOVER
+- Arceus-Ground / Calm Mind (showdown, gen9ubers) duplicates Arceus-Ground / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_POWER_GEM, MOVE_RECOVER
+- Arceus-Ground / Bulky Dragon Dance (showdown, gen9anythinggoes) duplicates Arceus-Ground / Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_STONE_EDGE
+- Arceus-Ground / Lead (showdown, gen9ubers) duplicates Arceus-Ground / Lead with MOVE_ICE_BEAM, MOVE_JUDGMENT, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Arceus-Ground / Dragon Dance (smogon, ubers) duplicates Arceus-Ground / Bulky Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_STONE_EDGE
+- Arceus-Ground / Calm Mind (smogon, anythinggoes) duplicates Arceus-Ground / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_POWER_GEM, MOVE_RECOVER
+- Arceus-Ground / Defensive (showdown, gen9anythinggoes) duplicates Arceus-Ground / Defensive with MOVE_JUDGMENT, MOVE_RECOVER, MOVE_STEALTH_ROCK, MOVE_WILL_O_WISP
+- Arceus-Ground / Offensive Dragon Dance (showdown, gen9anythinggoes) duplicates Arceus-Ground / Offensive Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_STONE_EDGE, MOVE_TAUNT
+- Arceus-Ice / Calm Mind (showdown, gen9ubers) duplicates Arceus-Ice / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_THUNDERBOLT
+- Arceus-Ice / Calm Mind + 2 Attacks (smogon, ubersuu) duplicates Arceus-Ice / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_THUNDERBOLT
+- Arceus-Poison / Iron Defense (showdown, gen9ubers) duplicates Arceus-Poison / Iron Defense with MOVE_BODY_PRESS, MOVE_IRON_DEFENSE, MOVE_RECOVER, MOVE_SLUDGE_BOMB
+- Arceus-Poison / Support (showdown, gen9ubers) duplicates Arceus-Poison / Support with MOVE_POISON_JAB, MOVE_RECOVER, MOVE_TAUNT, MOVE_WILL_O_WISP
+- Arceus-Psychic / Stored Power (showdown, gen9ubers) duplicates Arceus-Psychic / Stored Power with MOVE_COSMIC_POWER, MOVE_RECOVER, MOVE_STORED_POWER, MOVE_TAUNT
+- Arceus-Rock / Calm Mind (showdown, gen9ubers) duplicates Arceus-Rock / Calm Mind with MOVE_CALM_MIND, MOVE_GRASS_KNOT, MOVE_JUDGMENT, MOVE_RECOVER
+- Arceus-Steel / Calm Mind (showdown, gen9ubers) duplicates Arceus-Steel / Calm Mind with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_THUNDER
+- Arceus-Water / Defensive (showdown, gen9ubers) duplicates Arceus-Water / Defensive with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_THUNDER_WAVE
+- Arceus-Water / Defensive (showdown, gen9anythinggoes) duplicates Arceus-Water / Defensive with MOVE_DRAGON_TAIL, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_WILL_O_WISP
+- Archaludon / Rain Wallbreaker (showdown, gen9nationaldex) duplicates Archaludon / Rain Wallbreaker with MOVE_AURA_SPHERE, MOVE_DRACO_METEOR, MOVE_ELECTRO_SHOT, MOVE_FLASH_CANNON
+- Articuno / Wall (showdown, gen9pu) duplicates Articuno / Special Wall with MOVE_FREEZE_DRY, MOVE_HAZE, MOVE_ROOST, MOVE_U_TURN
+- Articuno / Special Wall (showdown, gen9zu) duplicates Articuno / Wall with MOVE_FREEZE_DRY, MOVE_HAZE, MOVE_ROOST, MOVE_U_TURN
+- Articuno / Wall (smogon, pu) duplicates Articuno / Special Wall with MOVE_FREEZE_DRY, MOVE_HAZE, MOVE_ROOST, MOVE_U_TURN
+- Avalugg / Rapid Spin (showdown, gen9uu) duplicates Avalugg / Rapid Spin with MOVE_BODY_PRESS, MOVE_IRON_DEFENSE, MOVE_RAPID_SPIN, MOVE_RECOVER
+- Avalugg / Physical Wall (showdown, gen9nu) duplicates Avalugg / Physical Wall with MOVE_AVALANCHE, MOVE_BODY_PRESS, MOVE_RAPID_SPIN, MOVE_RECOVER
+- Avalugg-Hisui / Defensive (showdown, gen9pu) duplicates Avalugg-Hisui / Defensive with MOVE_BODY_PRESS, MOVE_MOUNTAIN_GALE, MOVE_RAPID_SPIN, MOVE_RECOVER
+- Avalugg-Hisui / Offensive (showdown, gen9pu) duplicates Avalugg-Hisui / Offensive with MOVE_BODY_PRESS, MOVE_MOUNTAIN_GALE, MOVE_RAPID_SPIN, MOVE_STEALTH_ROCK
+- Axew / Dragon Dance (showdown, gen9lc) duplicates Axew / Dragon Dance with MOVE_DRAGON_DANCE, MOVE_FIRST_IMPRESSION, MOVE_OUTRAGE, MOVE_STOMPING_TANTRUM
+- Azelf / Lead (showdown, gen9ru) duplicates Azelf / Lead with MOVE_EXPLOSION, MOVE_FLAMETHROWER, MOVE_STEALTH_ROCK, MOVE_TAUNT
+- Azelf / Offensive (showdown, gen9ru) duplicates Azelf / Offensive with MOVE_DRAINING_KISS, MOVE_FLAMETHROWER, MOVE_NASTY_PLOT, MOVE_PSYCHIC
+- Azumarill / Belly Drum (showdown, gen9uu) duplicates Azumarill / Belly Drum with MOVE_AQUA_JET, MOVE_BELLY_DRUM, MOVE_LIQUIDATION, MOVE_PLAY_ROUGH
+- Azumarill / Belly Drum (smogon, uu) duplicates Azumarill / Belly Drum with MOVE_AQUA_JET, MOVE_BELLY_DRUM, MOVE_LIQUIDATION, MOVE_PLAY_ROUGH
+- Azurill / Belly Drum (showdown, gen9lc) duplicates Azurill / Belly Drum with MOVE_AQUA_JET, MOVE_BELLY_DRUM, MOVE_FACADE, MOVE_PROTECT
+- Barraskewda / Rain Menace (showdown, gen9uu) duplicates Barraskewda / Rain Sweeper with MOVE_AQUA_JET, MOVE_CLOSE_COMBAT, MOVE_FLIP_TURN, MOVE_LIQUIDATION
+- Barraskewda / Offensive Pivot (showdown, gen9ru) duplicates Barraskewda / Rain Sweeper with MOVE_AQUA_JET, MOVE_CLOSE_COMBAT, MOVE_FLIP_TURN, MOVE_LIQUIDATION
+- Barraskewda / Rain Sweeper (showdown, gen9ou) duplicates Barraskewda / Rain Sweeper with MOVE_AQUA_JET, MOVE_CLOSE_COMBAT, MOVE_FLIP_TURN, MOVE_LIQUIDATION
+- Barraskewda / Rain Menace (smogon, uu) duplicates Barraskewda / Rain Sweeper with MOVE_AQUA_JET, MOVE_CLOSE_COMBAT, MOVE_FLIP_TURN, MOVE_LIQUIDATION
+- Barraskewda / Offensive Pivot (smogon, ru) duplicates Barraskewda / Rain Sweeper with MOVE_AQUA_JET, MOVE_CLOSE_COMBAT, MOVE_FLIP_TURN, MOVE_LIQUIDATION
+- Basculegion / Choice Band (showdown, gen9ru) duplicates Basculegion / Choice Band with MOVE_AQUA_JET, MOVE_FLIP_TURN, MOVE_SHADOW_BALL, MOVE_WAVE_CRASH
+- Basculegion / All-out Attacker (showdown, gen9nu) duplicates Basculegion / All-out Attacker with MOVE_AQUA_JET, MOVE_FLIP_TURN, MOVE_PSYCHIC_FANGS, MOVE_WAVE_CRASH
+- Basculegion / Substitute (showdown, gen9nu) duplicates Basculegion / Substitute with MOVE_AQUA_JET, MOVE_LIQUIDATION, MOVE_PHANTOM_FORCE, MOVE_SUBSTITUTE
+- Basculegion / Rain Sweeper (showdown, gen9nu) duplicates Basculegion / Rain Sweeper with MOVE_FLIP_TURN, MOVE_LIQUIDATION, MOVE_PSYCHIC_FANGS, MOVE_WAVE_CRASH
+- Basculegion-F / Choice Scarf (showdown, gen9ru) duplicates Basculegion-F / Choice Scarf with MOVE_FLIP_TURN, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Choice Specs (showdown, gen9ru) duplicates Basculegion-F / Choice Scarf with MOVE_FLIP_TURN, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Choice Scarf (showdown, gen9uu) duplicates Basculegion-F / Choice Scarf with MOVE_FLIP_TURN, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Agility (showdown, gen9ru) duplicates Basculegion-F / Agility with MOVE_AGILITY, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Choice Scarf (smogon, ru) duplicates Basculegion-F / Choice Scarf with MOVE_FLIP_TURN, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Choice Specs (smogon, ru) duplicates Basculegion-F / Choice Scarf with MOVE_FLIP_TURN, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Agility (smogon, ru) duplicates Basculegion-F / Agility with MOVE_AGILITY, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Basculegion-F / Choice Specs (smogon, nationaldexru) duplicates Basculegion-F / Choice Scarf with MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_SHADOW_BALL, MOVE_SURF
+- Bastiodon / Special Wall (showdown, gen9nu) duplicates Bastiodon / Special Wall with MOVE_BODY_PRESS, MOVE_FOUL_PLAY, MOVE_HEAVY_SLAM, MOVE_STEALTH_ROCK
+- Baxcalibur / Dragon Dance (showdown, gen9ubers) duplicates Baxcalibur / Dragon Dance with MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_GLAIVE_RUSH, MOVE_ICICLE_SPEAR
+- Beartic / Snow Sweeper (showdown, gen9zu) duplicates Beartic / Snow Sweeper with MOVE_CLOSE_COMBAT, MOVE_EARTHQUAKE, MOVE_ICICLE_SPEAR, MOVE_SWORDS_DANCE
+- Bellibolt / Mr. Belli (showdown, gen9ru) duplicates Bellibolt / Physically Defensive with MOVE_MUDDY_WATER, MOVE_SLACK_OFF, MOVE_TOXIC, MOVE_VOLT_SWITCH
+- Bellibolt / Defensive (showdown, gen9nu) duplicates Bellibolt / Physically Defensive with MOVE_MUDDY_WATER, MOVE_SLACK_OFF, MOVE_TOXIC, MOVE_VOLT_SWITCH
+- Bellibolt / Physically Defensive (showdown, gen9uu) duplicates Bellibolt / Physically Defensive with MOVE_MUDDY_WATER, MOVE_SLACK_OFF, MOVE_TOXIC, MOVE_VOLT_SWITCH
+- Bellibolt / Mr. Belli (smogon, ru) duplicates Bellibolt / Physically Defensive with MOVE_MUDDY_WATER, MOVE_SLACK_OFF, MOVE_TOXIC, MOVE_VOLT_SWITCH
+- Bellibolt / Defensive (smogon, nu) duplicates Bellibolt / Physically Defensive with MOVE_MUDDY_WATER, MOVE_SLACK_OFF, MOVE_TOXIC, MOVE_VOLT_SWITCH
+- Bisharp / Swords Dance (showdown, gen9ru) duplicates Bisharp / Swords Dance with MOVE_IRON_HEAD, MOVE_SUCKER_PUNCH, MOVE_SWORDS_DANCE, MOVE_THROAT_CHOP
+- Blaziken / Swords Dance (showdown, gen9ou) duplicates Blaziken / Swords Dance with MOVE_CLOSE_COMBAT, MOVE_FLARE_BLITZ, MOVE_STONE_EDGE, MOVE_SWORDS_DANCE
+- Blissey / Defensive Tank (showdown, gen9uu) duplicates Blissey / Defensive with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Blissey / Defensive (showdown, gen9ou) duplicates Blissey / Defensive with MOVE_CALM_MIND, MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK
+- Blissey / Pink Blob (Specially Defensive) (showdown, gen9ubers) duplicates Blissey / Pink Blob (Specially Defensive) with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Blissey / Defensive (showdown, gen9ru) duplicates Blissey / Defensive Tank with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Blissey / Defensive Tank (smogon, uu) duplicates Blissey / Defensive with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Blissey / Pink Blob (showdown, gen9nationaldex) duplicates Blissey / Pink Blob with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_TOXIC
+- Blissey / Special Wall (showdown, gen9anythinggoes) duplicates Blissey / Calm Mind with MOVE_CALM_MIND, MOVE_SEISMIC_TOSS, MOVE_SHADOW_BALL, MOVE_SOFT_BOILED
+- Blissey / Special Wall (smogon, anythinggoes) duplicates Blissey / Calm Mind with MOVE_CALM_MIND, MOVE_SEISMIC_TOSS, MOVE_SHADOW_BALL, MOVE_SOFT_BOILED
+- Bombirdier / Offensive Support (showdown, gen9nu) duplicates Bombirdier / Offensive Support with MOVE_BRAVE_BIRD, MOVE_KNOCK_OFF, MOVE_ROOST, MOVE_SUCKER_PUNCH
+- Bombirdier / Choice Scarf (showdown, gen9pu) duplicates Bombirdier / Choice Scarf with MOVE_BRAVE_BIRD, MOVE_KNOCK_OFF, MOVE_ROCK_BLAST, MOVE_U_TURN
+- Bombirdier / Bulky Utility (showdown, gen9pu) duplicates Bombirdier / Bulky Utility with MOVE_KNOCK_OFF, MOVE_PARTING_SHOT, MOVE_ROOST, MOVE_STEALTH_ROCK
+- Bombirdier / Offensive (showdown, gen9pu) duplicates Bombirdier / Offensive with MOVE_BRAVE_BIRD, MOVE_KNOCK_OFF, MOVE_SUCKER_PUNCH, MOVE_TAUNT
+- Brambleghast / Choice Band (showdown, gen9nu) duplicates Brambleghast / Choice Band with MOVE_POLTERGEIST, MOVE_POWER_WHIP, MOVE_RAPID_SPIN, MOVE_SHADOW_SNEAK
+- Brambleghast / Defensive Spinner (showdown, gen9nu) duplicates Brambleghast / Defensive Spinner with MOVE_RAPID_SPIN, MOVE_SHADOW_BALL, MOVE_SPIKES, MOVE_STRENGTH_SAP
+- Brambleghast / Offensive Utility (showdown, gen9nu) duplicates Brambleghast / Offensive Utility with MOVE_POLTERGEIST, MOVE_POWER_WHIP, MOVE_RAPID_SPIN, MOVE_STRENGTH_SAP
+- Bramblin / Spinner (showdown, gen9lc) duplicates Bramblin / Spinner with MOVE_POWER_WHIP, MOVE_RAPID_SPIN, MOVE_SHADOW_SNEAK, MOVE_STRENGTH_SAP
+- Braviary / Bulk Up (showdown, gen9nu) duplicates Braviary / Bulk Up with MOVE_BULK_UP, MOVE_FACADE, MOVE_ROOST, MOVE_SHADOW_CLAW
+- Braviary-Hisui / Choice Specs (showdown, gen9pu) duplicates Braviary-Hisui / Choice Specs with MOVE_AIR_SLASH, MOVE_ESPER_WING, MOVE_HEAT_WAVE, MOVE_HURRICANE
+- Braviary-Hisui / Sheer Force (showdown, gen9pu) duplicates Braviary-Hisui / Sheer Force with MOVE_AGILITY, MOVE_HEAT_WAVE, MOVE_HURRICANE, MOVE_PSYCHIC
+- Breloom / Poison Heal (showdown, gen9ru) duplicates Breloom / Poison Heal with MOVE_CLOSE_COMBAT, MOVE_FACADE, MOVE_PROTECT, MOVE_SEED_BOMB
+- Bronzong / Stealth Rock (showdown, gen9ru) duplicates Bronzong / Stealth Rock with MOVE_BODY_PRESS, MOVE_NIGHT_SHADE, MOVE_PSYCHIC_NOISE, MOVE_STEALTH_ROCK
+- Bronzong / Bulky Setup Sweeper (showdown, gen9nu) duplicates Bronzong / Bulky Setup Sweeper with MOVE_BODY_PRESS, MOVE_CALM_MIND, MOVE_IRON_DEFENSE, MOVE_STORED_POWER
+- Bronzong / Utility (showdown, gen9nu) duplicates Bronzong / Utility with MOVE_BODY_PRESS, MOVE_HEAVY_SLAM, MOVE_PSYCHIC_NOISE, MOVE_STEALTH_ROCK
+- Brute Bonnet / Wallbreaker (showdown, gen9nu) duplicates Brute Bonnet / Offensive with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SEED_BOMB, MOVE_SUCKER_PUNCH
+- Brute Bonnet / Offensive (showdown, gen9pu) duplicates Brute Bonnet / Choice Band with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SEED_BOMB, MOVE_SUCKER_PUNCH
+- Brute Bonnet / Choice Band (showdown, gen9zu) duplicates Brute Bonnet / Wallbreaker with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SEED_BOMB, MOVE_SUCKER_PUNCH
+- Brute Bonnet / Wallbreaker (smogon, nu) duplicates Brute Bonnet / Offensive with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SEED_BOMB, MOVE_SUCKER_PUNCH
+- Brute Bonnet / Offensive (smogon, pu) duplicates Brute Bonnet / Choice Band with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SEED_BOMB, MOVE_SUCKER_PUNCH
+- Brute Bonnet / Offensive (showdown, gen9zu) duplicates Brute Bonnet / Offensive with MOVE_CLOSE_COMBAT, MOVE_CRUNCH, MOVE_SUCKER_PUNCH, MOVE_SYNTHESIS
+- Bruxish / Choice Band (showdown, gen9pu) duplicates Bruxish / Choice Band with MOVE_AQUA_JET, MOVE_FLIP_TURN, MOVE_PSYCHIC_FANGS, MOVE_WAVE_CRASH
+- Bruxish / Choice Scarf (showdown, gen9pu) duplicates Bruxish / Choice Scarf with MOVE_CRUNCH, MOVE_FLIP_TURN, MOVE_PSYCHIC_FANGS, MOVE_WAVE_CRASH
+- Bruxish / Swords Dance (showdown, gen9pu) duplicates Bruxish / Swords Dance with MOVE_AQUA_JET, MOVE_LIQUIDATION, MOVE_PSYCHIC_FANGS, MOVE_SWORDS_DANCE
+- Buizel / Rain Wallbreaker (showdown, gen9lc) duplicates Buizel / Rain Wallbreaker with MOVE_BRICK_BREAK, MOVE_BULK_UP, MOVE_ICE_SPINNER, MOVE_WAVE_CRASH
+- Calyrex-Ice / Swords Dance Trick Room Sweeper (smogon, anythinggoes) duplicates Calyrex-Ice / Offensive Trick Room with MOVE_GLACIAL_LANCE, MOVE_HIGH_HORSEPOWER, MOVE_SWORDS_DANCE, MOVE_TRICK_ROOM
+- Calyrex-Shadow / Choice Specs (smogon, anythinggoes) duplicates Calyrex-Shadow / Choice Scarf with MOVE_ASTRAL_BARRAGE, MOVE_GRASS_KNOT, MOVE_PSYCHIC, MOVE_TRICK
+- Camerupt / Specially Defensive (showdown, gen9zu) duplicates Camerupt / Specially Defensive with MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_ROAR, MOVE_STEALTH_ROCK
+- Celesteela / Defensive (smogon, nationaldexuu) duplicates Celesteela / Defensive with MOVE_FLAMETHROWER, MOVE_HEAVY_SLAM, MOVE_LEECH_SEED, MOVE_PROTECT
+- Ceruledge / Swords Dance (showdown, gen9ou) duplicates Ceruledge / Swords Dance with MOVE_BITTER_BLADE, MOVE_POLTERGEIST, MOVE_SHADOW_SNEAK, MOVE_SWORDS_DANCE
+- Cetitan / Belly Drum (showdown, gen9ru) duplicates Cetitan / Belly Drum with MOVE_BELLY_DRUM, MOVE_EARTHQUAKE, MOVE_ICE_SHARD, MOVE_ICE_SPINNER
+- Chandelure / Choice Specs (showdown, gen9nu) duplicates Chandelure / Choice Scarf with MOVE_ENERGY_BALL, MOVE_FIRE_BLAST, MOVE_SHADOW_BALL, MOVE_TRICK
+- Chandelure / Calm Mind (showdown, gen9nu) duplicates Chandelure / Calm Mind with MOVE_CALM_MIND, MOVE_ENERGY_BALL, MOVE_FIRE_BLAST, MOVE_SHADOW_BALL
+- Chandelure / Choice Scarf (showdown, gen9nu) duplicates Chandelure / Choice Scarf with MOVE_ENERGY_BALL, MOVE_FIRE_BLAST, MOVE_SHADOW_BALL, MOVE_TRICK
+- Chandelure / Choice Specs (smogon, nu) duplicates Chandelure / Choice Scarf with MOVE_ENERGY_BALL, MOVE_FIRE_BLAST, MOVE_SHADOW_BALL, MOVE_TRICK
+- Chansey / Defensive (showdown, gen9nu) duplicates Chansey / Defensive with MOVE_HEAL_BELL, MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK
+- Chansey / Little Pink Blob (showdown, gen9nationaldex) duplicates Chansey / Little Pink Blob with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_TOXIC
+- Chansey / Pink Blob:2 (smogon, nationaldexuu) duplicates Chansey / Little Pink Blob with MOVE_SEISMIC_TOSS, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK, MOVE_TOXIC
+- Charizard / Sun Wallbreaker (showdown, gen9pu) duplicates Charizard / Sun Wallbreaker with MOVE_FLAMETHROWER, MOVE_FOCUS_BLAST, MOVE_SOLAR_BEAM, MOVE_WEATHER_BALL
+- Charizard / Drought Wallbreaker (showdown, gen9nationaldex) duplicates Charizard / Drought Wallbreaker with MOVE_ROOST, MOVE_SCORCHING_SANDS, MOVE_SOLAR_BEAM, MOVE_WEATHER_BALL
+- Charizard / Setup Sweeper (showdown, gen9nationaldex) duplicates Charizard / Setup Sweeper with MOVE_DRAGON_CLAW, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_FLARE_BLITZ
+- Charmander / Sun Wallbreaker (showdown, gen9lc) duplicates Charmander / Sun Wallbreaker with MOVE_FIRE_BLAST, MOVE_OVERHEAT, MOVE_SLEEP_TALK, MOVE_WEATHER_BALL
+- Chesnaught / Physically Defensive (showdown, gen9uu) duplicates Chesnaught / Defensive with MOVE_BODY_PRESS, MOVE_KNOCK_OFF, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chesnaught / Spikes (showdown, gen9ru) duplicates Chesnaught / Defensive with MOVE_BODY_PRESS, MOVE_KNOCK_OFF, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chesnaught / Defensive (showdown, gen9ou) duplicates Chesnaught / Defensive with MOVE_BODY_PRESS, MOVE_KNOCK_OFF, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chesnaught / Physically Defensive (smogon, uu) duplicates Chesnaught / Defensive with MOVE_BODY_PRESS, MOVE_KNOCK_OFF, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chesnaught / Spikes (smogon, ru) duplicates Chesnaught / Defensive with MOVE_BODY_PRESS, MOVE_KNOCK_OFF, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chespin / Defensive Spikes (showdown, gen9lc) duplicates Chespin / Defensive Spikes with MOVE_BULLET_SEED, MOVE_ROCK_SLIDE, MOVE_SPIKES, MOVE_SYNTHESIS
+- Chewtle / Shell Smash (showdown, gen9lc) duplicates Chewtle / Shell Smash with MOVE_CRUNCH, MOVE_ICE_FANG, MOVE_LIQUIDATION, MOVE_SHELL_SMASH
+- Chi-Yu / Choice Scarf (showdown, gen9ubers) duplicates Chi-Yu / Choice Scarf with MOVE_DARK_PULSE, MOVE_FIRE_BLAST, MOVE_FLAMETHROWER, MOVE_PSYCHIC
+- Chi-Yu / Feesh (Offensive Wallbreaker) (showdown, gen9ubers) duplicates Chi-Yu / Feesh (Offensive Wallbreaker) with MOVE_DARK_PULSE, MOVE_FIRE_BLAST, MOVE_FLAMETHROWER, MOVE_OVERHEAT
+- Chi-Yu / Nasty Plot (showdown, gen9ubers) duplicates Chi-Yu / Nasty Plot with MOVE_DARK_PULSE, MOVE_FLAMETHROWER, MOVE_NASTY_PLOT, MOVE_OVERHEAT
+- Chi-Yu / Fried Fish (smogon, ubersuu) duplicates Chi-Yu / Feesh (Offensive Wallbreaker) with MOVE_DARK_PULSE, MOVE_FIRE_BLAST, MOVE_FLAMETHROWER, MOVE_OVERHEAT
+- Chi-Yu / Offensive (smogon, battlestadiumsingles) duplicates Chi-Yu / Choice-Yu with MOVE_DARK_PULSE, MOVE_FLAMETHROWER, MOVE_OVERHEAT, MOVE_PSYCHIC
+- Chien-Pao / Choice Band (showdown, gen9ubers) duplicates Chien-Pao / Choice Band with MOVE_CRUNCH, MOVE_ICE_SHARD, MOVE_ICICLE_CRASH, MOVE_SUCKER_PUNCH
+- Chien-Pao / Swords Dance (showdown, gen9ubers) duplicates Chien-Pao / Swords Dance with MOVE_CRUNCH, MOVE_ICICLE_CRASH, MOVE_SUCKER_PUNCH, MOVE_SWORDS_DANCE
+- Chien-Pao / Swords Dance (smogon, ubers) duplicates Chien-Pao / SD TBless with MOVE_CRUNCH, MOVE_ICICLE_CRASH, MOVE_SUCKER_PUNCH, MOVE_SWORDS_DANCE
+- Chinchou / Pivot (showdown, gen9lc) duplicates Chinchou / Pivot with MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_THUNDERBOLT, MOVE_VOLT_SWITCH
+- Cinccino / Tidy Up (showdown, gen9nu) duplicates Cinccino / Tidy Up with MOVE_ENCORE, MOVE_KNOCK_OFF, MOVE_TAIL_SLAP, MOVE_TIDY_UP
+- Cinderace / Pivot (showdown, gen9nationaldex) duplicates Cinderace / Bulky Pivot with MOVE_COURT_CHANGE, MOVE_PYRO_BALL, MOVE_U_TURN, MOVE_WILL_O_WISP
+- Cinderace / Offensive Pivot (showdown, gen9ou) duplicates Cinderace / Offensive Pivot with MOVE_COURT_CHANGE, MOVE_PYRO_BALL, MOVE_SUCKER_PUNCH, MOVE_U_TURN
+- Cinderace / Bulky Pivot (showdown, gen9ou) duplicates Cinderace / Bulky Pivot with MOVE_COURT_CHANGE, MOVE_PYRO_BALL, MOVE_U_TURN, MOVE_WILL_O_WISP
+- Cinderace / Pivot (smogon, nationaldex) duplicates Cinderace / Bulky Pivot with MOVE_COURT_CHANGE, MOVE_PYRO_BALL, MOVE_U_TURN, MOVE_WILL_O_WISP
+- Clawitzer / Wallbreaker (showdown, gen9zu) duplicates Clawitzer / Wallbreaker with MOVE_AURA_SPHERE, MOVE_DARK_PULSE, MOVE_DRAGON_PULSE, MOVE_WATER_PULSE
+- Clefable / Calm Mind (showdown, gen9ou) duplicates Clefable / Calm Mind with MOVE_CALM_MIND, MOVE_KNOCK_OFF, MOVE_MOONBLAST, MOVE_MOONLIGHT
+- Clefable / Unaware (showdown, gen9ou) duplicates Clefable / Unaware with MOVE_CALM_MIND, MOVE_MOONBLAST, MOVE_MOONLIGHT, MOVE_THUNDER_WAVE
+- Clefable / Utility (showdown, gen9ou) duplicates Clefable / Utility with MOVE_MOONBLAST, MOVE_MOONLIGHT, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Clefable / Calm Mind (showdown, gen9nationaldex) duplicates Clefable / Calm Mind with MOVE_CALM_MIND, MOVE_KNOCK_OFF, MOVE_MOONBLAST, MOVE_SOFT_BOILED
+- Clefable / Utility (showdown, gen9nationaldex) duplicates Clefable / Utility with MOVE_KNOCK_OFF, MOVE_MOONBLAST, MOVE_SOFT_BOILED, MOVE_STEALTH_ROCK
+- Clefairy / Physical Wall (showdown, gen9zu) duplicates Clefairy / Physical Wall with MOVE_MOONBLAST, MOVE_MOONLIGHT, MOVE_STEALTH_ROCK, MOVE_THUNDER_WAVE
+- Clodsire / Water Absorb (showdown, gen9uu) duplicates Clodsire / Unaware with MOVE_EARTHQUAKE, MOVE_POISON_JAB, MOVE_RECOVER, MOVE_STEALTH_ROCK
+- Clodsire / Specially Defensive (showdown, gen9anythinggoes) duplicates Clodsire / Special Wall with MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_SPIKES, MOVE_TOXIC
+- Clodsire / Defensive (showdown, gen9ou) duplicates Clodsire / Defensive with MOVE_AMNESIA, MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_TOXIC
+- Clodsire / Special Wall (showdown, gen9ubers) duplicates Clodsire / Special Wall with MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_SPIKES, MOVE_TOXIC
+- Clodsire / Defensive (showdown, gen9nationaldex) duplicates Clodsire / Unaware with MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_STEALTH_ROCK, MOVE_TOXIC
+- Clodsire / Unaware (showdown, gen9uu) duplicates Clodsire / Water Absorb with MOVE_EARTHQUAKE, MOVE_POISON_JAB, MOVE_RECOVER, MOVE_STEALTH_ROCK
+- ... 1299 more
