@@ -1964,14 +1964,32 @@ static u32 GetDynamicTrainerLevelIncrease(const struct Trainer *trainer, u16 tra
 void ModifyPersonalityForNature(u32 *personality, u32 newNature)
 {
     u32 nature = GetNatureFromPersonality(*personality);
-    s32 diff = abs((s32)nature - (s32)newNature);
-    s32 sign = (nature > newNature) ? 1 : -1;
-    if (diff > NUM_NATURES / 2)
+    s32 adjustment = (s32)newNature - (s32)nature;
+
+    if (adjustment > NUM_NATURES / 2)
+        adjustment -= NUM_NATURES;
+    else if (adjustment < -(NUM_NATURES / 2))
+        adjustment += NUM_NATURES;
+
+    // Avoid u32 wrap; overflowing by 1 does not preserve modulo NUM_NATURES.
+    if (adjustment < 0)
     {
-        diff = NUM_NATURES - diff;
-        sign *= -1;
+        u32 amount = (u32)-adjustment;
+
+        if (*personality >= amount)
+            *personality -= amount;
+        else
+            *personality += NUM_NATURES - amount;
     }
-    *personality -= (diff * sign);
+    else
+    {
+        u32 amount = (u32)adjustment;
+
+        if (*personality <= (u32)-1 - amount)
+            *personality += amount;
+        else
+            *personality -= NUM_NATURES - amount;
+    }
 }
 
 u32 GeneratePersonalityForGender(u32 gender, u32 species)
