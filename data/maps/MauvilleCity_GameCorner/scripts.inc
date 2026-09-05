@@ -20,17 +20,17 @@ MauvilleCity_GameCorner_MapScripts::
 	.set TM_EARTH_POWER_COINS, 4000
 	.set DOLL_COINS, 1000
 	.set SOOTHEBELL_COINS, 1200
-	.set EXPERTBELT_COINS, 1600
-	.set PUNCHINGGLOVE_COINS, 1700
+	.set EXPERTBELT_COINS, 2000
+	.set PUNCHINGGLOVE_COINS, 3200
 	.set WIDELENS_COINS, 1700
 	.set THICKCLUB_COINS, 1800
-	.set MUSCLEBAND_COINS, 1800
-	.set WISEGLASSES_COINS, 1800
-	.set FOCUSSASH_COINS, 2400
-	.set ASSAULTVEST_COINS, 2800
-	.set LIFEORB_COINS, 3800
-	.set ROCKYHELMET_COINS, 3000
-	.set LOADEDDICE_COINS, 3600
+	.set MUSCLEBAND_COINS, 1900
+	.set WISEGLASSES_COINS, 1900
+	.set FOCUSSASH_COINS, 4400
+	.set ASSAULTVEST_COINS, 4800
+	.set LIFEORB_COINS, 5800
+	.set ROCKYHELMET_COINS, 4900
+	.set LOADEDDICE_COINS, 5400
 	.set FIRESTONE_COINS, 1400
 	.set THUNDERSTONE_COINS, 1400
 	.set WATERSTONE_COINS, 1400
@@ -42,8 +42,8 @@ MauvilleCity_GameCorner_MapScripts::
 	.set DUSKSTONE_COINS, 1400
 	.set DAWNSTONE_COINS, 1400
 	.set LINKINGCORD_COINS, 1500
-	.set EVIOLITE_COINS, 2700
-	.set LEFTOVERS_COINS, 3500
+	.set EVIOLITE_COINS, 5100
+	.set LEFTOVERS_COINS, 5500
 	.set BOTTLECAP_COINS, 2300
 	.set GOLDBOTTLECAP_COINS, 7000
 
@@ -897,35 +897,35 @@ MauvilleCity_GameCorner_EventScript_ChooseTMPrize::
 	
 MauvilleCity_GameCorner_EventScript_ChooseNewPrize::
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeSootheBell, ITEM_SOOTHE_BELL
-	dynmultipush MauvilleCity_GameCorner_Text_PrizeExpertBelt, ITEM_EXPERT_BELT
-	dynmultipush MauvilleCity_GameCorner_Text_PrizePunchingGlove, ITEM_PUNCHING_GLOVE
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeWideLens, ITEM_WIDE_LENS
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeThickClub, ITEM_THICK_CLUB
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeMuscleBand, ITEM_MUSCLE_BAND
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeWiseGlasses, ITEM_WISE_GLASSES
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeExpertBelt, ITEM_EXPERT_BELT
+	dynmultipush MauvilleCity_GameCorner_Text_PrizePunchingGlove, ITEM_PUNCHING_GLOVE
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeFocusSash, ITEM_FOCUS_SASH
-	dynmultipush MauvilleCity_GameCorner_Text_PrizeEviolite, ITEM_EVIOLITE
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeAssaultVest, ITEM_ASSAULT_VEST
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeRockyHelmet, ITEM_ROCKY_HELMET
-	dynmultipush MauvilleCity_GameCorner_Text_PrizeLeftovers, ITEM_LEFTOVERS
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeEviolite, ITEM_EVIOLITE
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeLoadedDice, ITEM_LOADED_DICE
+	dynmultipush MauvilleCity_GameCorner_Text_PrizeLeftovers, ITEM_LEFTOVERS
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeLifeOrb, ITEM_LIFE_ORB
 	dynmultipush MauvilleCity_GameCorner_Text_PrizeExit, ITEM_NONE
 	dynmultistack 12, 0, FALSE, 6, FALSE, ITEM_SOOTHE_BELL, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
 	switch VAR_RESULT
 	case ITEM_SOOTHE_BELL, MauvilleCity_GameCorner_EventScript_SootheBell
-	case ITEM_EXPERT_BELT, MauvilleCity_GameCorner_EventScript_ExpertBelt
-	case ITEM_PUNCHING_GLOVE, MauvilleCity_GameCorner_EventScript_PunchingGlove
 	case ITEM_WIDE_LENS, MauvilleCity_GameCorner_EventScript_WideLens
 	case ITEM_THICK_CLUB, MauvilleCity_GameCorner_EventScript_ThickClub
 	case ITEM_MUSCLE_BAND, MauvilleCity_GameCorner_EventScript_MuscleBand
 	case ITEM_WISE_GLASSES, MauvilleCity_GameCorner_EventScript_WiseGlasses
+	case ITEM_EXPERT_BELT, MauvilleCity_GameCorner_EventScript_ExpertBelt
+	case ITEM_PUNCHING_GLOVE, MauvilleCity_GameCorner_EventScript_PunchingGlove
 	case ITEM_FOCUS_SASH, MauvilleCity_GameCorner_EventScript_FocusSash
-	case ITEM_EVIOLITE, MauvilleCity_GameCorner_EventScript_Eviolite
 	case ITEM_ASSAULT_VEST, MauvilleCity_GameCorner_EventScript_AssaultVest
 	case ITEM_ROCKY_HELMET, MauvilleCity_GameCorner_EventScript_RockyHelmet
-	case ITEM_LEFTOVERS, MauvilleCity_GameCorner_EventScript_Leftovers
+	case ITEM_EVIOLITE, MauvilleCity_GameCorner_EventScript_Eviolite
 	case ITEM_LOADED_DICE, MauvilleCity_GameCorner_EventScript_LoadedDice
+	case ITEM_LEFTOVERS, MauvilleCity_GameCorner_EventScript_Leftovers
 	case ITEM_LIFE_ORB, MauvilleCity_GameCorner_EventScript_LifeOrb
 	case ITEM_NONE, MauvilleCity_GameCorner_EventScript_CancelTMSelect
 	goto MauvilleCity_GameCorner_EventScript_CancelTMSelect
@@ -2987,10 +2987,10 @@ MauvilleCity_GameCorner_Text_PrizeSootheBell:
 	.string "Soothe Bell{CLEAR_TO 0x54}1,200 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeExpertBelt:
-	.string "Expert Belt{CLEAR_TO 0x54}1,600 C.$"
+	.string "Expert Belt{CLEAR_TO 0x54}2,000 C.$"
 
 MauvilleCity_GameCorner_Text_PrizePunchingGlove:
-	.string "Punching Glove{CLEAR_TO 0x54}1,700 C.$"
+	.string "Punching Glove{CLEAR_TO 0x54}3,200 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeWideLens:
 	.string "Wide Lens{CLEAR_TO 0x54}1,700 C.$"
@@ -2999,31 +2999,31 @@ MauvilleCity_GameCorner_Text_PrizeThickClub:
 	.string "Thick Club{CLEAR_TO 0x54}1,800 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeMuscleBand:
-	.string "Muscle Band{CLEAR_TO 0x54}1,800 C.$"
+	.string "Muscle Band{CLEAR_TO 0x54}1,900 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeWiseGlasses:
-	.string "Wise Glasses{CLEAR_TO 0x54}1,800 C.$"
+	.string "Wise Glasses{CLEAR_TO 0x54}1,900 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeFocusSash:
-	.string "Focus Sash{CLEAR_TO 0x54}2,400 C.$"
+	.string "Focus Sash{CLEAR_TO 0x54}4,400 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeEviolite:
-	.string "Eviolite{CLEAR_TO 0x54}2,700 C.$"
+	.string "Eviolite{CLEAR_TO 0x54}5,100 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeAssaultVest:
-	.string "Assault Vest{CLEAR_TO 0x54}2,800 C.$"
+	.string "Assault Vest{CLEAR_TO 0x54}4,800 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeRockyHelmet:
-	.string "Rocky Helmet{CLEAR_TO 0x54}3,000 C.$"
+	.string "Rocky Helmet{CLEAR_TO 0x54}4,900 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLeftovers:
-	.string "Leftovers{CLEAR_TO 0x54}3,500 C.$"
+	.string "Leftovers{CLEAR_TO 0x54}5,500 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLoadedDice:
-	.string "Loaded Dice{CLEAR_TO 0x54}3,600 C.$"
+	.string "Loaded Dice{CLEAR_TO 0x54}5,400 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeLifeOrb:
-	.string "Life Orb{CLEAR_TO 0x54}3,800 C.$"
+	.string "Life Orb{CLEAR_TO 0x54}5,800 C.$"
 
 MauvilleCity_GameCorner_Text_PrizeBottleCap:
 	.string "Bottle Cap{CLEAR_TO 0x54}2,300 C.$"

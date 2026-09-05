@@ -321,22 +321,60 @@ BattleFrontier_ExchangeServiceCorner_EventScript_HoldItemClerk::
 	end
 
 BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem::
-	setvar VAR_0x8004, SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR
-	special ShowFrontierExchangeCornerItemIconWindow
-	special ShowScrollableMultichoice
-	waitstate
-	special CloseFrontierExchangeCornerItemIconWindow
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeLeftovers, ITEM_LEFTOVERS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeLifeOrb, ITEM_LIFE_ORB
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeFocusSash, ITEM_FOCUS_SASH
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeAssaultVest, ITEM_ASSAULT_VEST
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeEviolite, ITEM_EVIOLITE
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceBand, ITEM_CHOICE_BAND
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceSpecs, ITEM_CHOICE_SPECS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceScarf, ITEM_CHOICE_SCARF
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeWeaknessPolicy, ITEM_WEAKNESS_POLICY
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeHeavyDutyBoots, ITEM_HEAVY_DUTY_BOOTS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeLoadedDice, ITEM_LOADED_DICE
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeRockyHelmet, ITEM_ROCKY_HELMET
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeAirBalloon, ITEM_AIR_BALLOON
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeSafetyGoggles, ITEM_SAFETY_GOGGLES
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeWhiteHerb, ITEM_WHITE_HERB
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeMentalHerb, ITEM_MENTAL_HERB
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeScopeLens, ITEM_SCOPE_LENS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeWideLens, ITEM_WIDE_LENS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeLightClay, ITEM_LIGHT_CLAY
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizePowerHerb, ITEM_POWER_HERB
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeBigRoot, ITEM_BIG_ROOT
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeRoomService, ITEM_ROOM_SERVICE
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeUtilityUmbrella, ITEM_UTILITY_UMBRELLA
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeBlunderPolicy, ITEM_BLUNDER_POLICY
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeProtectivePads, ITEM_PROTECTIVE_PADS
+	dynmultipush BattleFrontier_ExchangeServiceCorner_Text_PrizeExit, ITEM_NONE
+	dynmultistack 12, 0, FALSE, 6, FALSE, ITEM_LEFTOVERS, DYN_MULTICHOICE_CB_SHOW_ITEM_LEFT
 	switch VAR_RESULT
-	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_Leftovers
-	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_WhiteHerb
-	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_QuickClaw
-	case 3, BattleFrontier_ExchangeServiceCorner_EventScript_MentalHerb
-	case 4, BattleFrontier_ExchangeServiceCorner_EventScript_Brightpowder
-	case 5, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceBand
-	case 6, BattleFrontier_ExchangeServiceCorner_EventScript_KingsRock
-	case 7, BattleFrontier_ExchangeServiceCorner_EventScript_FocusBand
-	case 8, BattleFrontier_ExchangeServiceCorner_EventScript_ScopeLens
-	case 9, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
+	case ITEM_LEFTOVERS, BattleFrontier_ExchangeServiceCorner_EventScript_Leftovers
+	case ITEM_LIFE_ORB, BattleFrontier_ExchangeServiceCorner_EventScript_LifeOrb
+	case ITEM_FOCUS_SASH, BattleFrontier_ExchangeServiceCorner_EventScript_FocusSash
+	case ITEM_ASSAULT_VEST, BattleFrontier_ExchangeServiceCorner_EventScript_AssaultVest
+	case ITEM_EVIOLITE, BattleFrontier_ExchangeServiceCorner_EventScript_Eviolite
+	case ITEM_CHOICE_BAND, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceBand
+	case ITEM_CHOICE_SPECS, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceSpecs
+	case ITEM_CHOICE_SCARF, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceScarf
+	case ITEM_WEAKNESS_POLICY, BattleFrontier_ExchangeServiceCorner_EventScript_WeaknessPolicy
+	case ITEM_HEAVY_DUTY_BOOTS, BattleFrontier_ExchangeServiceCorner_EventScript_HeavyDutyBoots
+	case ITEM_LOADED_DICE, BattleFrontier_ExchangeServiceCorner_EventScript_LoadedDice
+	case ITEM_ROCKY_HELMET, BattleFrontier_ExchangeServiceCorner_EventScript_RockyHelmet
+	case ITEM_AIR_BALLOON, BattleFrontier_ExchangeServiceCorner_EventScript_AirBalloon
+	case ITEM_SAFETY_GOGGLES, BattleFrontier_ExchangeServiceCorner_EventScript_SafetyGoggles
+	case ITEM_WHITE_HERB, BattleFrontier_ExchangeServiceCorner_EventScript_WhiteHerb
+	case ITEM_MENTAL_HERB, BattleFrontier_ExchangeServiceCorner_EventScript_MentalHerb
+	case ITEM_SCOPE_LENS, BattleFrontier_ExchangeServiceCorner_EventScript_ScopeLens
+	case ITEM_WIDE_LENS, BattleFrontier_ExchangeServiceCorner_EventScript_WideLens
+	case ITEM_LIGHT_CLAY, BattleFrontier_ExchangeServiceCorner_EventScript_LightClay
+	case ITEM_POWER_HERB, BattleFrontier_ExchangeServiceCorner_EventScript_PowerHerb
+	case ITEM_BIG_ROOT, BattleFrontier_ExchangeServiceCorner_EventScript_BigRoot
+	case ITEM_ROOM_SERVICE, BattleFrontier_ExchangeServiceCorner_EventScript_RoomService
+	case ITEM_UTILITY_UMBRELLA, BattleFrontier_ExchangeServiceCorner_EventScript_UtilityUmbrella
+	case ITEM_BLUNDER_POLICY, BattleFrontier_ExchangeServiceCorner_EventScript_BlunderPolicy
+	case ITEM_PROTECTIVE_PADS, BattleFrontier_ExchangeServiceCorner_EventScript_ProtectivePads
+	case ITEM_NONE, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
 	case MULTI_B_PRESSED, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
 	end
 
@@ -385,6 +423,166 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceBand::
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
 	setvar VAR_0x8008, 64
 	setvar VAR_0x8009, ITEM_CHOICE_BAND
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_LifeOrb::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmLifeOrb, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 64
+	setvar VAR_0x8009, ITEM_LIFE_ORB
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_FocusSash::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmFocusSash, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 64
+	setvar VAR_0x8009, ITEM_FOCUS_SASH
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_AssaultVest::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmAssaultVest, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 64
+	setvar VAR_0x8009, ITEM_ASSAULT_VEST
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_Eviolite::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmEviolite, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 48
+	setvar VAR_0x8009, ITEM_EVIOLITE
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceSpecs::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmChoiceSpecs, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 64
+	setvar VAR_0x8009, ITEM_CHOICE_SPECS
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceScarf::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmChoiceScarf, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 64
+	setvar VAR_0x8009, ITEM_CHOICE_SCARF
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_WeaknessPolicy::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmWeaknessPolicy, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 48
+	setvar VAR_0x8009, ITEM_WEAKNESS_POLICY
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_HeavyDutyBoots::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmHeavyDutyBoots, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 48
+	setvar VAR_0x8009, ITEM_HEAVY_DUTY_BOOTS
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_LoadedDice::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmLoadedDice, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 48
+	setvar VAR_0x8009, ITEM_LOADED_DICE
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_RockyHelmet::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmRockyHelmet, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_ROCKY_HELMET
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_AirBalloon::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmAirBalloon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_AIR_BALLOON
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_SafetyGoggles::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmSafetyGoggles, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 24
+	setvar VAR_0x8009, ITEM_SAFETY_GOGGLES
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_WideLens::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmWideLens, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_WIDE_LENS
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_LightClay::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmLightClay, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_LIGHT_CLAY
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_PowerHerb::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPowerHerb, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_POWER_HERB
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_BigRoot::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmBigRoot, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_BIG_ROOT
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_RoomService::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmRoomService, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 24
+	setvar VAR_0x8009, ITEM_ROOM_SERVICE
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_UtilityUmbrella::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmUtilityUmbrella, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 24
+	setvar VAR_0x8009, ITEM_UTILITY_UMBRELLA
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_BlunderPolicy::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmBlunderPolicy, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 24
+	setvar VAR_0x8009, ITEM_BLUNDER_POLICY
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_ProtectivePads::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmProtectivePads, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 32
+	setvar VAR_0x8009, ITEM_PROTECTIVE_PADS
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
@@ -444,6 +642,84 @@ BattleFrontier_ExchangeServiceCorner_Text_WelcomePleaseChoosePrize:
 @ Unused
 BattleFrontier_ExchangeServiceCorner_Text_PleaseChoosePrize:
 	.string "Please choose a prize from this list.$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeLeftovers:
+	.string "LEFTOVERS{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeLifeOrb:
+	.string "LIFE ORB{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeFocusSash:
+	.string "FOCUS SASH{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeAssaultVest:
+	.string "ASSAULT VEST{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeEviolite:
+	.string "EVIOLITE{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceBand:
+	.string "CHOICE BAND{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceSpecs:
+	.string "CHOICE SPECS{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeChoiceScarf:
+	.string "CHOICE SCARF{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeWeaknessPolicy:
+	.string "WEAKNESS POLICY{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeHeavyDutyBoots:
+	.string "HEAVY-DUTY BOOTS{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeLoadedDice:
+	.string "LOADED DICE{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeRockyHelmet:
+	.string "ROCKY HELMET{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeAirBalloon:
+	.string "AIR BALLOON{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeSafetyGoggles:
+	.string "SAFETY GOGGLES{CLEAR_TO 0x5E}24BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeWhiteHerb:
+	.string "WHITE HERB{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeMentalHerb:
+	.string "MENTAL HERB{CLEAR_TO 0x5E}48BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeScopeLens:
+	.string "SCOPE LENS{CLEAR_TO 0x5E}64BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeWideLens:
+	.string "WIDE LENS{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeLightClay:
+	.string "LIGHT CLAY{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizePowerHerb:
+	.string "POWER HERB{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeBigRoot:
+	.string "BIG ROOT{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeRoomService:
+	.string "ROOM SERVICE{CLEAR_TO 0x5E}24BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeUtilityUmbrella:
+	.string "UTILITY UMBRELLA{CLEAR_TO 0x5E}24BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeBlunderPolicy:
+	.string "BLUNDER POLICY{CLEAR_TO 0x5E}24BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeProtectivePads:
+	.string "PROTECTIVE PADS{CLEAR_TO 0x5E}32BP$"
+
+BattleFrontier_ExchangeServiceCorner_Text_PrizeExit:
+	.string "EXIT$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmKissPoster:
 	.string "You've chosen the KISS POSTER.\n"
@@ -547,6 +823,86 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmMentalHerb:
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmChoiceBand:
 	.string "You've chosen the CHOICE BAND.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmLifeOrb:
+	.string "You've chosen the LIFE ORB.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmFocusSash:
+	.string "You've chosen the FOCUS SASH.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmAssaultVest:
+	.string "You've chosen the ASSAULT VEST.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmEviolite:
+	.string "You've chosen the EVIOLITE.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmChoiceSpecs:
+	.string "You've chosen the CHOICE SPECS.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmChoiceScarf:
+	.string "You've chosen the CHOICE SCARF.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmWeaknessPolicy:
+	.string "You've chosen the WEAKNESS POLICY.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmHeavyDutyBoots:
+	.string "You've chosen the HEAVY-DUTY BOOTS.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmLoadedDice:
+	.string "You've chosen the LOADED DICE.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmRockyHelmet:
+	.string "You've chosen the ROCKY HELMET.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmAirBalloon:
+	.string "You've chosen the AIR BALLOON.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmSafetyGoggles:
+	.string "You've chosen the SAFETY GOGGLES.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmWideLens:
+	.string "You've chosen the WIDE LENS.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmLightClay:
+	.string "You've chosen the LIGHT CLAY.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmPowerHerb:
+	.string "You've chosen the POWER HERB.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmBigRoot:
+	.string "You've chosen the BIG ROOT.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmRoomService:
+	.string "You've chosen the ROOM SERVICE.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmUtilityUmbrella:
+	.string "You've chosen the UTILITY UMBRELLA.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmBlunderPolicy:
+	.string "You've chosen the BLUNDER POLICY.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmProtectivePads:
+	.string "You've chosen the PROTECTIVE PADS.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmKingsRock:
