@@ -1,6 +1,10 @@
 #include "global.h"
+#include "battle.h"
+#include "battle_pike.h"
+#include "battle_pyramid.h"
 #include "event_data.h"
 #include "item.h"
+#include "main.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "pokedex.h"
@@ -29,8 +33,19 @@ static bool8 IsSpeciesCaughtForNuzlocke(u16 species);
 static u16 GetSpeciesFamilyBase(u16 species);
 static bool8 IsEvolutionLineCaughtForNuzlocke(u16 species, u8 depth);
 static void ClearNuzlockeChecks(void);
+static bool8 ShouldSuppressNuzlockeRules(void);
 static bool8 IsNuzlockeStaticEncounterUsed(u64 key);
 static void SetNuzlockeStaticEncounterUsed(u64 key);
+
+static bool8 ShouldSuppressNuzlockeRules(void)
+{
+    if (gMain.inBattle && (gBattleTypeFlags & BATTLE_TYPE_FRONTIER))
+        return TRUE;
+    if (InBattlePyramid() || InBattlePike())
+        return TRUE;
+
+    return FALSE;
+}
 
 bool8 IsNuzlockeActive(void)
 {
@@ -39,6 +54,8 @@ bool8 IsNuzlockeActive(void)
     if (!FlagGet(FLAG_ADVENTURE_STARTED))
         return FALSE;
     if (FlagGet(FLAG_IS_CHAMPION))
+        return FALSE;
+    if (ShouldSuppressNuzlockeRules())
         return FALSE;
 
     return gSaveBlock1Ptr->tx_Challenges_Nuzlocke;
@@ -54,6 +71,8 @@ bool8 IsNuzlockeNicknamingActive(void)
     if (!gSaveBlock1Ptr->tx_Challenges_Nuzlocke)
         return FALSE;
     if (FlagGet(FLAG_IS_CHAMPION))
+        return FALSE;
+    if (ShouldSuppressNuzlockeRules())
         return FALSE;
 
     return gSaveBlock1Ptr->tx_Nuzlocke_Nicknaming;

@@ -511,11 +511,14 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum 
 
     species = wildMonInfo->wildPokemon[wildMonIndex].species;
     #if RANDOMIZER_AVAILABLE == TRUE
-        species = RandomizeWildEncounter(
-            species,
-            gSaveBlock1Ptr->location.mapNum,
-            gSaveBlock1Ptr->location.mapGroup,
-            area, wildMonIndex);
+        if (!InBattlePyramid() && !InBattlePike())
+        {
+            species = RandomizeWildEncounter(
+                species,
+                gSaveBlock1Ptr->location.mapNum,
+                gSaveBlock1Ptr->location.mapGroup,
+                area, wildMonIndex);
+        }
     #endif
 
     CreateWildMon(species, level);
