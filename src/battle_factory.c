@@ -190,6 +190,8 @@ static const u16 sInitialRentalMonRanges[][2] =
 };
 
 
+
+
 // code
 void CallBattleFactoryFunction(void)
 {

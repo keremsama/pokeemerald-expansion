@@ -139,6 +139,7 @@ class SpeciesMeta:
     is_mythical: bool
     is_ultra_beast: bool
     is_paradox: bool
+    is_frontier_banned: bool
 
 
 @dataclass(frozen=True)
@@ -188,23 +189,30 @@ def resolve_species_alias(species: str, aliases: dict[str, str]) -> str:
 
 def parse_species_meta(root: Path) -> dict[str, SpeciesMeta]:
     meta_by_species: dict[str, SpeciesMeta] = {}
-    current_species: str | None = None
-    pending_lines: list[str] = []
 
     for path in sorted((root / "src/data/pokemon/species_info").glob("gen_*_families.h")):
-        for line in path.read_text().splitlines():
+        text = path.read_text()
+        species_info_macros = parse_species_info_macros(text)
+        current_species: str | None = None
+        pending_lines: list[str] = []
+
+        for line in text.splitlines():
             match = re.match(r"\s*\[(SPECIES_[A-Z0-9_]+)\]\s*=", line)
             if match:
                 if current_species and pending_lines:
                     _store_species_meta(meta_by_species, current_species, "\n".join(pending_lines))
                 current_species = match.group(1)
                 pending_lines = []
+                macro_match = re.search(r"=\s*([A-Z][A-Z0-9_]+)\s*\(", line)
+                if macro_match and macro_match.group(1) in species_info_macros:
+                    _store_species_meta(meta_by_species, current_species, species_info_macros[macro_match.group(1)])
+                    current_species = None
                 continue
             if current_species:
                 pending_lines.append(line)
 
-    if current_species and pending_lines:
-        _store_species_meta(meta_by_species, current_species, "\n".join(pending_lines))
+        if current_species and pending_lines:
+            _store_species_meta(meta_by_species, current_species, "\n".join(pending_lines))
 
     aliases = parse_species_aliases(root)
     for alias, target in aliases.items():
@@ -213,6 +221,26 @@ def parse_species_meta(root: Path) -> dict[str, SpeciesMeta]:
             meta_by_species[alias] = meta_by_species[resolved]
 
     return meta_by_species
+
+
+def parse_species_info_macros(text: str) -> dict[str, str]:
+    macros: dict[str, str] = {}
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        match = re.match(r"\s*#define\s+([A-Z][A-Z0-9_]+)\s*\([^)]*\)\s*(.*)", lines[i])
+        if not match:
+            i += 1
+            continue
+
+        name = match.group(1)
+        body_lines = [match.group(2).rstrip("\\").strip()]
+        while lines[i].rstrip().endswith("\\") and i + 1 < len(lines):
+            i += 1
+            body_lines.append(lines[i].rstrip("\\").strip())
+        macros[name] = "\n".join(body_lines)
+        i += 1
+    return macros
 
 
 def _store_species_meta(meta_by_species: dict[str, SpeciesMeta], species: str, body: str) -> None:
@@ -231,6 +259,7 @@ def _store_species_meta(meta_by_species: dict[str, SpeciesMeta], species: str, b
         is_mythical=".isMythical = TRUE" in body,
         is_ultra_beast=".isUltraBeast = TRUE" in body,
         is_paradox=".isParadox = TRUE" in body,
+        is_frontier_banned=".isFrontierBanned = TRUE" in body,
     )
 
 
@@ -254,6 +283,8 @@ def adjusted_rank_and_pool(build: dict, species_meta: SpeciesMeta | None, item_c
 
     if pool != "boss" and species_meta and species_meta.bst is not None:
         is_special = species_meta.is_legendary or species_meta.is_mythical or species_meta.is_ultra_beast
+        if species_meta.is_frontier_banned:
+            return 8, "boss"
         if (species_meta.is_legendary or species_meta.is_mythical) and species_meta.bst >= 660:
             return 8, "boss"
         if is_special and species_meta.bst >= 570:

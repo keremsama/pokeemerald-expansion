@@ -2,29 +2,29 @@ Battle Frontier generation report
 =================================
 
 Source JSON: competitive_builds_frontier_plus_missingmons_champions.json
-Generated Frontier mons: 2286
-Main-pool builds: 1899
-Boss-pool builds: 387
+Generated Frontier mons: 2282
+Main-pool builds: 1815
+Boss-pool builds: 467
 Skipped invalid/filtered builds: 6
-Deduplicated duplicate movepools: 1499
+Deduplicated duplicate movepools: 1503
 
 Rank counts:
 - Rank 0: 68 builds / 62 species
 - Rank 1: 87 builds / 62 species
-- Rank 2: 451 builds / 293 species
-- Rank 3: 377 builds / 213 species
-- Rank 4: 131 builds / 84 species
-- Rank 5: 663 builds / 217 species
-- Rank 6: 122 builds / 85 species
-- Boss pool: 387 builds / 138 species
+- Rank 2: 445 builds / 289 species
+- Rank 3: 375 builds / 212 species
+- Rank 4: 130 builds / 83 species
+- Rank 5: 590 builds / 194 species
+- Rank 6: 120 builds / 84 species
+- Boss pool: 467 builds / 156 species
 
 Source counts:
-- smogon: 1723
+- smogon: 1720
 - pokemon_champions: 273
 - showdown_randbats_gen7: 243
 - showdown_randbats_gen8: 23
 - showdown_randbats_gen9: 12
-- showdown: 9
+- showdown: 8
 - custom_missingmon: 3
 
 Generated trainer macro sizes:
@@ -32,16 +32,16 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_SCHOOL_KID_1: 128
 - FRONTIER_MONS_RICH_BOY_LADY_1: 96
 - FRONTIER_MONS_CAMPER_PICNICKER_1: 96
-- FRONTIER_MONS_TUBER_1: 74
-- FRONTIER_MONS_SWIMMER_M_1: 74
-- FRONTIER_MONS_SWIMMER_F_1: 74
+- FRONTIER_MONS_TUBER_1: 73
+- FRONTIER_MONS_SWIMMER_M_1: 73
+- FRONTIER_MONS_SWIMMER_F_1: 73
 - FRONTIER_MONS_POKEFAN_M_1: 96
 - FRONTIER_MONS_POKEFAN_F_1: 96
 - FRONTIER_MONS_BUG_CATCHER_1: 35
 - FRONTIER_MONS_BUG_CATCHER_1_EXTRA: 35
 - FRONTIER_MONS_NINJA_BOY_1: 96
 - FRONTIER_MONS_BUG_MANIAC_1: 35
-- FRONTIER_MONS_FISHERMAN_1: 74
+- FRONTIER_MONS_FISHERMAN_1: 73
 - FRONTIER_MONS_RUIN_MANIAC_1: 96
 - FRONTIER_MONS_PARASOL_LADY_1: 96
 - FRONTIER_MONS_AROMA_LADY_1: 96
@@ -51,7 +51,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_HIKER_1: 96
 - FRONTIER_MONS_KINDLER_1: 45
 - FRONTIER_MONS_RUNNING_TRIATHLETE_1: 96
-- FRONTIER_MONS_SWIMMING_TRIATHLETE_1: 74
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_1: 73
 - FRONTIER_MONS_CYCLING_TRIATHLETE_1: 96
 - FRONTIER_MONS_RUNNING_TRIATHLETE_2: 96
 - FRONTIER_MONS_SWIMMING_TRIATHLETE_2: 96
@@ -60,7 +60,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_EXPERT_1A: 160
 - FRONTIER_MONS_EXPERT_1B: 160
 - FRONTIER_MONS_EXPERT_1C: 160
-- FRONTIER_MONS_PSYCHIC_1: 59
+- FRONTIER_MONS_PSYCHIC_1: 58
 - FRONTIER_MONS_HEX_MANIAC_1: 96
 - FRONTIER_MONS_POKEMANIAC_1: 96
 - FRONTIER_MONS_GENTLEMAN_1A: 96
@@ -112,7 +112,7 @@ Generated trainer macro sizes:
 - FRONTIER_MONS_GENERAL_B: 160
 - FRONTIER_MONS_GENERAL_C: 160
 - FRONTIER_MONS_GENERAL_D: 160
-- FRONTIER_MONS_DRAGON_TAMER_2: 52
+- FRONTIER_MONS_DRAGON_TAMER_2: 49
 - FRONTIER_MONS_BLACK_BELT_2A: 96
 - FRONTIER_MONS_BATTLE_GIRL_2A: 96
 - FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_2B: 96
@@ -240,6 +240,7 @@ Deduplicated duplicate movepools:
 - Arceus / Extreme Killer (smogon, nationaldexubers) duplicates Arceus / Double-Edge with MOVE_DOUBLE_EDGE, MOVE_EXTREME_SPEED, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
 - Arceus / Bulk Up (showdown, gen9anythinggoes) duplicates Arceus / Bulk Up with MOVE_BULK_UP, MOVE_EXTREME_SPEED, MOVE_RECOVER, MOVE_SHADOW_CLAW
 - Arceus / Bulky Swords Dance (showdown, gen9anythinggoes) duplicates Arceus / Bulky Swords Dance with MOVE_EXTREME_SPEED, MOVE_RECOVER, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
+- Arceus / Divine Retribution (Extreme Killer) (smogon, battlestadiumsingles) duplicates Arceus / Bulky Swords Dance with MOVE_EXTREME_SPEED, MOVE_RECOVER, MOVE_SHADOW_CLAW, MOVE_SWORDS_DANCE
 - Arceus-Bug / Calm Mind (showdown, gen9ubers) duplicates Arceus-Bug / Calm Mind with MOVE_CALM_MIND, MOVE_EARTH_POWER, MOVE_ICE_BEAM, MOVE_RECOVER
 - Arceus-Dark / Calm Mind + Taunt (showdown, gen9ubers) duplicates Arceus-Dark / Calm Mind + Taunt with MOVE_CALM_MIND, MOVE_JUDGMENT, MOVE_RECOVER, MOVE_TAUNT
 - Arceus-Dark / Defensive (showdown, gen9ubers) duplicates Arceus-Dark / Defensive with MOVE_FOUL_PLAY, MOVE_RECOVER, MOVE_TAUNT, MOVE_WILL_O_WISP
@@ -402,5 +403,4 @@ Deduplicated duplicate movepools:
 - Clodsire / Defensive (showdown, gen9ou) duplicates Clodsire / Defensive with MOVE_AMNESIA, MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_TOXIC
 - Clodsire / Special Wall (showdown, gen9ubers) duplicates Clodsire / Special Wall with MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_SPIKES, MOVE_TOXIC
 - Clodsire / Defensive (showdown, gen9nationaldex) duplicates Clodsire / Unaware with MOVE_EARTHQUAKE, MOVE_RECOVER, MOVE_STEALTH_ROCK, MOVE_TOXIC
-- Clodsire / Unaware (showdown, gen9uu) duplicates Clodsire / Water Absorb with MOVE_EARTHQUAKE, MOVE_POISON_JAB, MOVE_RECOVER, MOVE_STEALTH_ROCK
-- ... 1299 more
+- ... 1303 more
