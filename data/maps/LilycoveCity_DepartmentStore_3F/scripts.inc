@@ -126,6 +126,10 @@ LilycoveCity_DepartmentStore_3F_Pokemart_HoldItems:
     .2byte ITEM_BINDING_BAND
     .2byte ITEM_SAFETY_GOGGLES
     .2byte ITEM_ADRENALINE_ORB
+	.2byte ITEM_ABSORB_BULB
+	.2byte ITEM_CELL_BATTERY
+	.2byte ITEM_LUMINOUS_MOSS
+	.2byte ITEM_STICKY_BARB
     pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_EventScript_TriathleteM::

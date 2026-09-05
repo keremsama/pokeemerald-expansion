@@ -35,6 +35,9 @@ BattleFrontier_ReceptionGate_EventScript_ScottScene::
 	waitmessage
 	msgbox BattleFrontier_ReceptionGate_Text_PlacedTrainerCardInFrontierPass, MSGBOX_DEFAULT
 	setflag FLAG_SYS_FRONTIER_PASS
+	msgbox BattleFrontier_ReceptionGate_Text_EVStatEditorEnabled, MSGBOX_DEFAULT
+	setflag FLAG_SYS_ENABLE_EDIT_EV_IV
+	clearflag FLAG_HIDE_EV_INFO
 	msgbox BattleFrontier_ReceptionGate_Text_EnjoyBattleFrontier, MSGBOX_DEFAULT
 	msgbox BattleFrontier_ReceptionGate_Text_IfItIsntPlayerYouCame, MSGBOX_DEFAULT
 	closemessage
@@ -317,6 +320,12 @@ BattleFrontier_ReceptionGate_Text_PlacedTrainerCardInFrontierPass:
 	.string "{PLAYER} placed the TRAINER CARD\n"
 	.string "in the FRONTIER PASS.$"
 
+BattleFrontier_ReceptionGate_Text_EVStatEditorEnabled:
+	.string "You may now use the STAT EDITOR\n"
+	.string "to adjust your POKéMON's EV stats.\p"
+	.string "You can also view EV stats on\n"
+	.string "the SUMMARY screen.$"
+
 BattleFrontier_ReceptionGate_Text_EnjoyBattleFrontier:
 	.string "We hope you enjoy all that the BATTLE\n"
 	.string "FRONTIER has to offer!$"
@@ -503,4 +512,3 @@ BattleFrontier_ReceptionGate_Text_BattlePointsInfo:
 	.string "You may trade in your Battle Points\n"
 	.string "for prizes at the EXCHANGE SERVICE\l"
 	.string "CORNER.$"
-

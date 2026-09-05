@@ -67,6 +67,9 @@ struct StatEditorResources
 #define INPUT_SELECT_STAT 0
 #define INPUT_EDIT_STAT 1
 
+#define EDITING_EVS 0
+#define EDITING_IVS 1
+
 enum WindowIds
 {
     WINDOW_1,
@@ -594,7 +597,7 @@ static const u8 sText_MenuIV[] = _("IV");
 static const u8 sText_MonLevel[]         = _("Lv.{CLEAR 1}{STR_VAR_1}");
 
 static const u8 sText_MenuLRButtonTextMain[]   = _("Cycle Party");
-static const u8 sText_MenuAButtonTextMain[]    = _("Edit Stats");
+static const u8 sText_MenuAButtonTextMain[]    = _("Edit EVs");
 static const u8 sText_MenuBButtonTextMain[]    = _("Back");
 static const u8 sText_MenuDPadButtonTextMain[] = _("Change Stat");
 
@@ -756,6 +759,8 @@ static void SelectorCallback(struct Sprite *sprite)
         {{188, 110 + 20}, {220, 110 + 20}}, // Thanks Jaizu
     };
 
+    sStatEditorDataPtr->selector_x = EDITING_EVS;
+
     if(sStatEditorDataPtr->inputMode == INPUT_EDIT_STAT)
     {
         if(sprite->data[0] == 32)
@@ -816,6 +821,9 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
 {
     if (JOY_NEW(A_BUTTON))
     {
+        if (sStatEditorDataPtr->selector_x == EDITING_IVS)
+            return;
+
         sStatEditorDataPtr->editingStat = GetMonData(ReturnPartyMon(), selectedStatToStatEnum[sStatEditorDataPtr->selectedStat]);
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 3);
         PlaySE(SE_SELECT);
@@ -860,10 +868,7 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
     }
     if (JOY_NEW(DPAD_LEFT) || JOY_NEW(DPAD_RIGHT))
     {
-        if(sStatEditorDataPtr->selector_x == 0)
-            sStatEditorDataPtr->selector_x = 1;
-        else
-            sStatEditorDataPtr->selector_x = 0; 
+        sStatEditorDataPtr->selector_x = EDITING_EVS;
     }
     if (JOY_NEW(DPAD_UP))
     {
@@ -923,9 +928,6 @@ static void ChangeAndUpdateStat()
 #define EV_MAX_SINGLE_STAT    MAX_PER_STAT_EVS
 #define EV_MAX_TOTAL          MAX_TOTAL_EVS
                 
-#define EDITING_EVS     0
-#define EDITING_IVS     1
-
 #define CHECK_IF_STAT_CANT_INCREASE (((sStatEditorDataPtr->editingStat == ((sStatEditorDataPtr->selector_x == EDITING_EVS) ? (EV_MAX_SINGLE_STAT) : (IV_MAX_SINGLE_STAT))) \
                                      || ((sStatEditorDataPtr->selector_x == EDITING_EVS) && (sStatEditorDataPtr->evTotal == EV_MAX_TOTAL))))
 /*
@@ -1031,5 +1033,3 @@ static void Task_MenuEditingStat(u8 taskId) // This function should be refactore
         HandleEditingStatInput(EDIT_INPUT_MAX_DECREASE_STATE);
 
 }
-
-
