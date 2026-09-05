@@ -1,0 +1,16 @@
+Frontier plus Missingmons report
+===============================
+Output: competitive_builds_frontier_plus_missingmons.json
+
+Merged species: 752
+Merged builds: 3536
+Missingmons added: 185
+Missingmons overwritten: 0
+
+Pool species counts:
+- boss: 76
+- main: 676
+
+Pool build counts:
+- boss: 601
+- main: 2935

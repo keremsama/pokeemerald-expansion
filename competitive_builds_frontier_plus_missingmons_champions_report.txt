@@ -1,0 +1,74 @@
+Champions integration report
+============================
+Output: competitive_builds_frontier_plus_missingmons_champions.json
+
+Champions input species/forms: 277
+Champions valid builds added: 273
+Champions skipped entries: 4
+Champions new base species added: 15
+Champions existing base species appended: 204
+Champions Mega builds added as base species + stone: 76
+Normal Champions builds preferred over Mega best_builds: 6
+
+Merged species: 766
+Merged builds: 3791
+
+Pool species counts:
+- boss: 76
+- main: 690
+
+Pool build counts:
+- boss: 602
+- main: 3189
+
+Mega metadata backfill:
+- Mega Stone items used in output: 80 / 92
+- Mega Stone builds without is_mega_set=true after backfill: 0
+- Existing Mega Stone builds backfilled by item_const: 59
+- Illegal Mega form/item mismatches removed: 1
+- Removed: Slowbro-Galar @ ITEM_SLOWBRONITE
+- Still missing Mega Stone items:
+  ITEM_ABSOLITE_Z, ITEM_BAXCALIBRITE, ITEM_DARKRANITE, ITEM_GARCHOMPITE_Z,
+  ITEM_GOLISOPITE, ITEM_HEATRANITE, ITEM_LUCARIONITE_Z, ITEM_MAGEARNITE,
+  ITEM_MEWTWONITE_X, ITEM_TATSUGIRINITE, ITEM_ZERAORITE, ITEM_ZYGARDITE
+
+Top build sources:
+- smogon: 2022
+- showdown: 1214
+- pokemon_champions: 273
+- showdown_randbats_gen7: 244
+- showdown_randbats_gen8: 23
+- showdown_randbats_gen9: 12
+- custom_missingmon: 3
+
+Best-build sources:
+- showdown: 465
+- showdown_randbats_gen7: 123
+- smogon: 101
+- pokemon_champions: 52
+- showdown_randbats_gen8: 14
+- showdown_randbats_gen9: 8
+- custom_missingmon: 3
+
+Best build changed to normal Champions set for:
+- Raichu
+- Ampharos
+- Chimecho
+- Barbaracle
+- Blastoise
+- Dragalge
+
+Mega mapping examples:
+- Malamar-Mega -> SPECIES_MALAMAR @ ITEM_MALAMARITE
+- Raichu-Mega-Y -> SPECIES_RAICHU @ ITEM_RAICHUNITE_Y
+- Charizard-Mega-Y -> SPECIES_CHARIZARD @ ITEM_CHARIZARDITE_Y
+- Meowstic-F-Mega -> SPECIES_MEOWSTIC_F @ ITEM_MEOWSTICITE
+- Meowstic-M-Mega -> SPECIES_MEOWSTIC_M @ ITEM_MEOWSTICITE
+
+Sample Champions builds:
+- Kingambit: Kingambit @ Chople Berry | Defiant | Adamant | Sucker Punch, Kowtow Cleave, Protect, Iron Head | EVs {'hp': 252, 'atk': 252, 'spe': 4}
+- Incineroar: Incineroar @ Sitrus Berry | Intimidate | Impish | Fake Out, Parting Shot, Flare Blitz, Throat Chop | EVs {'hp': 252, 'def': 156, 'spd': 96, 'spe': 4}
+- Garchomp: Garchomp @ Life Orb | Rough Skin | Jolly | Dragon Claw, Earthquake, Rock Slide, Protect | EVs {'hp': 4, 'atk': 252, 'spe': 252}
+- Raichu: Raichu @ Focus Sash | Lightning Rod | Timid | Fake Out, Encore, Volt Switch, Nuzzle | EVs {'hp': 4, 'spa': 252, 'spe': 252}
+- Malamar: Malamar @ Roseli Berry | Contrary | Brave | Superpower, Trick Room, Knock Off, Protect | EVs {'hp': 252, 'atk': 252, 'spd': 4}
+- Kangaskhan: Kangaskhan-Mega @ Kangaskhanite | Parental Bond | Brave | Fake Out, Double-Edge, Sucker Punch, Ice Punch | EVs {'hp': 252, 'atk': 252, 'def': 4}

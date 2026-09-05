@@ -1,0 +1,310 @@
+Battle Frontier filtered builds report
+======================================
+Source: competitive_builds_gen9_combined.json
+Output: competitive_builds_frontier_filtered.json
+
+Species in: 651
+Species kept: 567
+Species removed: 84
+Builds in: 6658
+Builds kept: 3254
+Builds removed: 3404
+
+Category estimate from best_build:
+- early: 62 species
+- mid: 214 species
+- late: 222 species
+- boss/open-level: 69 species
+- review: 0 species
+
+Category estimate from all kept builds:
+- early: 142 builds
+- mid: 1136 builds
+- late: 1507 builds
+- boss/open-level: 469 builds
+- review: 0 builds
+
+Top kept formats:
+- 273: battlestadiumsingles
+- 206: ou
+- 203: gen9ou
+- 144: pu
+- 144: ubers
+- 143: gen9pu
+- 139: gen9ubers
+- 137: nationaldex
+- 136: gen9nu
+- 135: nu
+- 132: ubersuu
+- 130: ru
+- 127: gen9ru
+- 123: zu
+- 122: uu
+- 119: gen9zu
+- 118: gen9nationaldex
+- 117: gen9uu
+- 110: nationaldexru
+- 94: nfe
+- 83: nationaldexubers
+- 74: nationaldexuu
+- 71: gen9lc
+- 71: lc
+- 55: anythinggoes
+
+Policy:
+- Tera removed everywhere: no tera_type, no Tera Blast move, no Tera-named sets.
+- Removed custom/CAP species and CAP formats.
+- Removed obvious nonstandard formats such as Almost Any Ability, Balanced Hackmons, STABmons, Mix and Mega, Godly Gift.
+- Removed Z-Crystal sets and entries whose species/move/item/ability constants did not map to this repo.
+
+Missingmon supplement
+---------------------
+Legacy species added: 234
+Legacy builds added: 407
+Species total after supplement: 801
+Builds total after supplement: 3661
+Main species estimate after supplement: 732
+Boss/open-level species estimate after supplement: 69
+
+Added legacy species:
+- Abra
+- Aipom
+- Ampharos
+- Anorith
+- Arbok
+- Ariados
+- Armaldo
+- Aron
+- Bagon
+- Baltoy
+- Banette
+- Barboach
+- Bayleef
+- Beautifly
+- Beldum
+- Bellossom
+- Bellsprout
+- Blastoise
+- Bulbasaur
+- Butterfree
+- Cacnea
+- Cacturne
+- Carvanha
+- Cascoon
+- Castform
+- Caterpie
+- Chikorita
+- Chimecho
+- Clamperl
+- Claydol
+- Cleffa
+- Combusken
+- Corsola
+- Cradily
+- Cubone
+- Cyndaquil
+- Delcatty
+- Delibird
+- Dewgong
+- Diglett
+- Dratini
+- Drowzee
+- Dugtrio
+- Dusclops
+- Duskull
+- Dustox
+- Eevee
+- Electabuzz
+- Electrike
+- Electrode
+- Exeggcute
+- Exploud
+- Farfetchd
+- Fearow
+- Feebas
+- Flaaffy
+- Flareon
+- Furret
+- Geodude
+- Glalie
+- Gloom
+- Golbat
+- Goldeen
+- Golduck
+- Golem
+- Gorebyss
+- Granbull
+- Graveler
+- Grimer
+- Growlithe
+- Grumpig
+- Gulpin
+- Hoothoot
+- Hoppip
+- Horsea
+- Houndour
+- Huntail
+- Hypno
+- Igglybuff
+- Illumise
+- Jigglypuff
+- Jumpluff
+- Jynx
+- Kabuto
+- Kabutops
+- Kadabra
+- Kakuna
+- Kangaskhan
+- Kecleon
+- Kingler
+- Kirlia
+- Krabby
+- Lairon
+- Larvitar
+- Ledian
+- Ledyba
+- Lickitung
+- Lileep
+- Linoone
+- Lombre
+- Lotad
+- Loudred
+- Lunatone
+- Luvdisc
+- Machamp
+- Machoke
+- Machop
+- Magby
+- Magcargo
+- Magikarp
+- Magmar
+- Magnemite
+- Makuhita
+- Manectric
+- Mantine
+- Mareep
+- Marill
+- Marowak
+- Masquerain
+- Meganium
+- Metang
+- Metapod
+- Mightyena
+- Miltank
+- Minun
+- Misdreavus
+- Mr. Mime
+- Mudkip
+- Natu
+- Nidoran-F
+- Nidoran-M
+- Nidorina
+- Nidorino
+- Nincada
+- Ninjask
+- Noctowl
+- Nosepass
+- Nuzleaf
+- Octillery
+- Oddish
+- Omanyte
+- Omastar
+- Onix
+- Paras
+- Parasect
+- Persian
+- Phanpy
+- Pichu
+- Pidgeotto
+- Pidgey
+- Pineco
+- Pinsir
+- Plusle
+- Poliwag
+- Poliwhirl
+- Ponyta
+- Poochyena
+- Psyduck
+- Pupitar
+- Raichu
+- Ralts
+- Rapidash
+- Raticate
+- Rattata
+- Regice
+- Relicanth
+- Remoraid
+- Roselia
+- Seaking
+- Sealeo
+- Seedot
+- Seel
+- Sentret
+- Seviper
+- Shedinja
+- Shelgon
+- Shellder
+- Shroomish
+- Shuppet
+- Silcoon
+- Skiploom
+- Skitty
+- Slaking
+- Slakoth
+- Slowpoke
+- Slugma
+- Smoochum
+- Snorunt
+- Solrock
+- Spearow
+- Spheal
+- Spinarak
+- Spinda
+- Spoink
+- Squirtle
+- Staryu
+- Sudowoodo
+- Sunflora
+- Sunkern
+- Surskit
+- Swablu
+- Swellow
+- Swinub
+- Taillow
+- Tangela
+- Teddiursa
+- Togepi
+- Togetic
+- Torchic
+- Totodile
+- Treecko
+- Tropius
+- Tyrogue
+- Unown
+- Venonat
+- Vibrava
+- Vigoroth
+- Volbeat
+- Voltorb
+- Vulpix
+- Wailmer
+- Wailord
+- Walrein
+- Weedle
+- Whismur
+- Wigglytuff
+- Wobbuffet
+- Wooper
+- Wurmple
+- Wynaut
+- Xatu
+- Yanma
+- Zigzagoon
+- Zubat
+
+Pool split
+----------
+- species boss: 76
+- species main: 725
+- builds boss: 601
+- builds main: 3060

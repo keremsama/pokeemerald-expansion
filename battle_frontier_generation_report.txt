@@ -1,0 +1,202 @@
+Battle Frontier generation report
+=================================
+
+Source JSON: competitive_builds_frontier_plus_missingmons_champions.json
+Generated Frontier mons: 3785
+Main-pool builds: 3145
+Boss-pool builds: 640
+Skipped invalid/filtered builds: 6
+
+Rank counts:
+- Rank 0: 142 builds / 63 species
+- Rank 1: 94 builds / 63 species
+- Rank 2: 735 builds / 300 species
+- Rank 3: 631 builds / 217 species
+- Rank 4: 255 builds / 96 species
+- Rank 5: 1149 builds / 217 species
+- Rank 6: 139 builds / 85 species
+- Boss pool: 640 builds / 138 species
+
+Source counts:
+- smogon: 2018
+- showdown: 1212
+- pokemon_champions: 273
+- showdown_randbats_gen7: 244
+- showdown_randbats_gen8: 23
+- showdown_randbats_gen9: 12
+- custom_missingmon: 3
+
+Generated trainer macro sizes:
+- FRONTIER_MONS_YOUNGSTER_LASS_1: 128
+- FRONTIER_MONS_SCHOOL_KID_1: 128
+- FRONTIER_MONS_RICH_BOY_LADY_1: 96
+- FRONTIER_MONS_CAMPER_PICNICKER_1: 96
+- FRONTIER_MONS_TUBER_1: 96
+- FRONTIER_MONS_SWIMMER_M_1: 96
+- FRONTIER_MONS_SWIMMER_F_1: 96
+- FRONTIER_MONS_POKEFAN_M_1: 96
+- FRONTIER_MONS_POKEFAN_F_1: 96
+- FRONTIER_MONS_BUG_CATCHER_1: 51
+- FRONTIER_MONS_BUG_CATCHER_1_EXTRA: 51
+- FRONTIER_MONS_NINJA_BOY_1: 96
+- FRONTIER_MONS_BUG_MANIAC_1: 51
+- FRONTIER_MONS_FISHERMAN_1: 96
+- FRONTIER_MONS_RUIN_MANIAC_1: 96
+- FRONTIER_MONS_PARASOL_LADY_1: 96
+- FRONTIER_MONS_AROMA_LADY_1: 96
+- FRONTIER_MONS_GUITARIST_1: 96
+- FRONTIER_MONS_BIRD_KEEPER_1: 71
+- FRONTIER_MONS_SAILOR_1: 96
+- FRONTIER_MONS_HIKER_1: 96
+- FRONTIER_MONS_KINDLER_1: 82
+- FRONTIER_MONS_RUNNING_TRIATHLETE_1: 96
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_1: 96
+- FRONTIER_MONS_CYCLING_TRIATHLETE_1: 96
+- FRONTIER_MONS_RUNNING_TRIATHLETE_2: 96
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_2: 96
+- FRONTIER_MONS_CYCLING_TRIATHLETE_2: 96
+- FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_1: 96
+- FRONTIER_MONS_EXPERT_1A: 160
+- FRONTIER_MONS_EXPERT_1B: 160
+- FRONTIER_MONS_EXPERT_1C: 160
+- FRONTIER_MONS_PSYCHIC_1: 86
+- FRONTIER_MONS_HEX_MANIAC_1: 96
+- FRONTIER_MONS_POKEMANIAC_1: 96
+- FRONTIER_MONS_GENTLEMAN_1A: 96
+- FRONTIER_MONS_GENTLEMAN_1B: 96
+- FRONTIER_MONS_BUG_MANIAC_2: 90
+- FRONTIER_MONS_RUIN_MANIAC_2: 96
+- FRONTIER_MONS_COLLECTOR_1: 96
+- FRONTIER_MONS_PARASOL_LADY_2: 96
+- FRONTIER_MONS_BEAUTY_1: 96
+- FRONTIER_MONS_AROMA_LADY_2: 96
+- FRONTIER_MONS_COOLTRAINER_1A: 160
+- FRONTIER_MONS_COOLTRAINER_1B: 160
+- FRONTIER_MONS_COOLTRAINER_1C: 160
+- FRONTIER_MONS_PKMN_RANGER_1: 160
+- FRONTIER_MONS_DRAGON_TAMER_1: 46
+- FRONTIER_MONS_POKEFAN_2: 96
+- FRONTIER_MONS_PKMN_BREEDER_M_1: 128
+- FRONTIER_MONS_PKMN_BREEDER_F_1: 128
+- FRONTIER_MONS_YOUNGSTER_LASS_2_NO_DUGTRIO: 128
+- FRONTIER_MONS_YOUNGSTER_LASS_2: 128
+- FRONTIER_MONS_SCHOOL_KID_2: 128
+- FRONTIER_MONS_RICH_BOY_LADY_2: 96
+- FRONTIER_MONS_BUG_CATCHER_2: 90
+- FRONTIER_MONS_NINJA_BOY_2: 96
+- FRONTIER_MONS_TUBER_2: 96
+- FRONTIER_MONS_BUG_MANIAC_3: 92
+- FRONTIER_MONS_FISHERMAN_2: 96
+- FRONTIER_MONS_RUIN_MANIAC_3: 96
+- FRONTIER_MONS_COLLECTOR_2: 96
+- FRONTIER_MONS_GUITARIST_2: 96
+- FRONTIER_MONS_BIRD_KEEPER_2: 96
+- FRONTIER_MONS_SAILOR_2: 96
+- FRONTIER_MONS_HIKER_2: 96
+- FRONTIER_MONS_KINDLER_2: 96
+- FRONTIER_MONS_GENTLEMAN_2: 96
+- FRONTIER_MONS_YOUNGSTER_LASS_3: 128
+- FRONTIER_MONS_CAMPER_PICNICKER_2: 96
+- FRONTIER_MONS_SWIMMER_M_2: 96
+- FRONTIER_MONS_SWIMMER_F_2: 96
+- FRONTIER_MONS_POKEFAN_3: 96
+- FRONTIER_MONS_PKMN_BREEDER_2: 128
+- FRONTIER_MONS_COOLTRAINER_M_2A: 160
+- FRONTIER_MONS_COOLTRAINER_M_2B: 160
+- FRONTIER_MONS_COOLTRAINER_2C: 160
+- FRONTIER_MONS_COOLTRAINER_2D: 160
+- FRONTIER_MONS_COOLTRAINER_F_2A: 160
+- FRONTIER_MONS_COOLTRAINER_F_2B: 160
+- FRONTIER_MONS_GENERAL_A: 160
+- FRONTIER_MONS_GENERAL_B: 160
+- FRONTIER_MONS_GENERAL_C: 160
+- FRONTIER_MONS_GENERAL_D: 160
+- FRONTIER_MONS_DRAGON_TAMER_2: 92
+- FRONTIER_MONS_BLACK_BELT_2A: 96
+- FRONTIER_MONS_BATTLE_GIRL_2A: 96
+- FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_2B: 96
+- FRONTIER_MONS_BLACK_BELT_BATTLE_GIRL_2C: 96
+- FRONTIER_MONS_EXPERT_2A: 160
+- FRONTIER_MONS_EXPERT_2B: 160
+- FRONTIER_MONS_EXPERT_2C: 160
+- FRONTIER_MONS_PSYCHIC_2: 96
+- FRONTIER_MONS_HEX_MANIAC_2A: 96
+- FRONTIER_MONS_HEX_MANIAC_2B: 96
+- FRONTIER_MONS_HEX_MANIAC_2C: 96
+- FRONTIER_MONS_POKEMANIAC_2A: 96
+- FRONTIER_MONS_POKEMANIAC_2B: 96
+- FRONTIER_MONS_POKEMANIAC_2C: 96
+- FRONTIER_MONS_GENTLEMAN_3A: 96
+- FRONTIER_MONS_GENTLEMAN_3B: 96
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_M_3: 96
+- FRONTIER_MONS_SWIMMING_TRIATHLETE_F_3: 96
+- FRONTIER_MONS_BUG_MANIAC_4: 77
+- FRONTIER_MONS_FISHERMAN_3: 96
+- FRONTIER_MONS_RUIN_MANIAC_4: 96
+- FRONTIER_MONS_COLLECTOR_3: 96
+- FRONTIER_MONS_GUITARIST_3A: 96
+- FRONTIER_MONS_GUITARIST_3B: 96
+- FRONTIER_MONS_BIRD_KEEPER_3: 96
+- FRONTIER_MONS_SAILOR_3: 96
+- FRONTIER_MONS_HIKER_3: 96
+- FRONTIER_MONS_KINDLER_3: 96
+- FRONTIER_MONS_PARASOL_LADY_3: 96
+- FRONTIER_MONS_EEVEELUTIONS: 41
+- FRONTIER_MONS_BEAUTY_2: 96
+- FRONTIER_MONS_AROMA_LADY_3: 96
+
+Frontier Brain teams:
+- TOWER Silver: Kingambit @ ITEM_CHOPLE_BERRY (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions S-Tier #1)
+- TOWER Silver: Garchomp @ ITEM_LIFE_ORB (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions S-Tier #3)
+- TOWER Silver: Sinistcha @ ITEM_COLBUR_BERRY (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions S-Tier #7)
+- TOWER Gold: Mewtwo @ ITEM_MEWTWONITE_Y (smogon, nationaldexubers, Mega Y Wallbreaker)
+- TOWER Gold: Zacian-Crowned @ ITEM_RUSTED_SWORD (smogon, nationaldexubers, Swords Dance)
+- TOWER Gold: Kyogre @ ITEM_CHOICE_SPECS (smogon, ubers, Bulky Choice Specs)
+- DOME Silver: Charizard @ ITEM_CHARIZARDITE_Y (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions S-Tier #6)
+- DOME Silver: Swampert @ ITEM_SWAMPERTITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions B-Tier #22)
+- DOME Silver: Metagross @ ITEM_METAGROSSITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions C-Tier #37)
+- DOME Gold: Koraidon @ ITEM_HEAVY_DUTY_BOOTS (smogon, ubers, Anti-Webs)
+- DOME Gold: Miraidon @ ITEM_LIFE_ORB (smogon, anythinggoes, Agility)
+- DOME Gold: Rayquaza @ ITEM_CHOICE_BAND (smogon, nationaldexubers, Choice Band)
+- PALACE Silver: Arcanine-Hisui @ ITEM_FOCUS_SASH (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions B-Tier #27)
+- PALACE Silver: Slowking-Galar @ ITEM_ASSAULT_VEST (smogon, battlestadiumsingles, AV Tank)
+- PALACE Silver: Milotic @ ITEM_LEFTOVERS (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions B-Tier #26)
+- PALACE Gold: Ho-Oh @ ITEM_HEAVY_DUTY_BOOTS (smogon, battlestadiumsingles, Bulky Offense)
+- PALACE Gold: Lugia @ ITEM_HEAVY_DUTY_BOOTS (smogon, ubersuu, 2A Calm Mind)
+- PALACE Gold: Giratina @ ITEM_HEAVY_DUTY_BOOTS (smogon, ubers, Defog)
+- ARENA Silver: Heracross @ ITEM_HERACRONITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions D-Tier #183)
+- ARENA Silver: Kommo-o @ ITEM_LIFE_ORB (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions C-Tier #33)
+- ARENA Silver: Breloom @ ITEM_FOCUS_SASH (smogon, battlestadiumsingles, Offensive)
+- ARENA Gold: Marshadow @ ITEM_LIFE_ORB (smogon, nationaldexubers, All-Out Attacker)
+- ARENA Gold: Zamazenta-Crowned @ ITEM_RUSTED_SHIELD (smogon, ubersuu, Iron Defense)
+- ARENA Gold: Urshifu @ ITEM_CHOICE_BAND (smogon, ubers, Choice Band)
+- FACTORY Silver: Metagross @ ITEM_LEFTOVERS (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions D-Tier #126)
+- FACTORY Silver: Skarmory @ ITEM_ROCKY_HELMET (smogon, ou, Defensive)
+- FACTORY Silver: Aggron @ ITEM_AGGRONITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions D-Tier #131)
+- FACTORY Gold: Metagross @ ITEM_METAGROSSITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions C-Tier #37)
+- FACTORY Gold: Skarmory @ ITEM_ROCKY_HELMET (smogon, ubers, Defensive)
+- FACTORY Gold: Aggron @ ITEM_AGGRONITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions D-Tier #131)
+- PIKE Silver: Seviper @ ITEM_LIFE_ORB (showdown_randbats_gen7, gen7randombattle_adapted, Fast Attacker)
+- PIKE Silver: Milotic @ ITEM_LEFTOVERS (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions B-Tier #26)
+- PIKE Silver: Glimmora @ ITEM_GLIMMORANITE (pokemon_champions, pokemon_champions_vgc_2026_reg_m_b_adapted, Champions D-Tier #60)
+- PIKE Gold: Zygarde @ ITEM_LEFTOVERS (smogon, nationaldexubers, Coil)
+- PIKE Gold: Eternatus @ ITEM_CHOICE_SCARF (smogon, ubers, Choice Scarf)
+- PIKE Gold: Yveltal @ ITEM_CHOICE_SCARF (smogon, nationaldexubers, Choice Scarf)
+- PYRAMID Silver: Regirock @ ITEM_LEFTOVERS (smogon, zu, Physical Wall)
+- PYRAMID Silver: Regice @ ITEM_LEFTOVERS (showdown_randbats_gen7, gen7randombattle_adapted, Bulky Attacker)
+- PYRAMID Silver: Registeel @ ITEM_LEFTOVERS (smogon, ru, Stealth Rock)
+- PYRAMID Gold: Groudon @ ITEM_LEFTOVERS (smogon, ubers, Defensive)
+- PYRAMID Gold: Kyogre @ ITEM_CHOICE_SPECS (smogon, ubers, Bulky Choice Specs)
+- PYRAMID Gold: Rayquaza @ ITEM_CHOICE_BAND (smogon, nationaldexubers, Choice Band)
+
+Code integration:
+- src/frontier_util.c brain table include patched: True
+- src/battle_factory.c Factory ranges patched: True
+
+Skipped invalid/filtered builds:
+- Terapagos / Utility: tera-specific ABILITY_TERA_SHELL, SPECIES_TERAPAGOS
+- Terapagos / Offensive Utility: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
+- Terapagos / Utility: tera-specific ABILITY_TERA_SHELL, SPECIES_TERAPAGOS
+- Terapagos / Offensive Utility: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
+- Terapagos / Choice Specs: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS
+- Terapagos / Double Dance: tera-specific ABILITY_TERA_SHELL, MOVE_TERA_STARSTORM, SPECIES_TERAPAGOS

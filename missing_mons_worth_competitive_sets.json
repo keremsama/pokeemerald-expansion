@@ -1,0 +1,1315 @@
+{
+  "_meta": {
+    "purpose": "Missing Pokémon from the uploaded Smogon/curated Showdown datasets that are worth giving trainer builds.",
+    "rule": "Prefer Showdown Random Battles sets for fully evolved/standalone Pokémon. Skip weak basic stages. Useful NFEs can be added selectively.",
+    "main_candidate_count": 185,
+    "showdown_randbats_candidates": 183,
+    "custom_build_candidates": 2
+  },
+  "candidates": [
+    {
+      "generation": 1,
+      "pokemon": "Butterfree",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Raticate",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Fearow",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Arbok",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Raichu",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Wigglytuff",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Golbat",
+      "status": "CUSTOM_BUILD",
+      "recommended_showdown_source": null,
+      "note": "Useful NFE; no exact Gen 7/8 Showdown RandBats entry found."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Dugtrio",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Persian",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Golduck",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Machamp",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Golem",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Rapidash",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Hypno",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Kingler",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Electrode",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Marowak",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Seaking",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Mr. Mime",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Jynx",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Flareon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 1,
+      "pokemon": "Kabutops",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Meganium",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Furret",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Noctowl",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Ariados",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Xatu",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Ampharos",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Bellossom",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Sudowoodo",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Sunflora",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Wobbuffet",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Granbull",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Magcargo",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Octillery",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 2,
+      "pokemon": "Miltank",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Mightyena",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Linoone",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Swellow",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Masquerain",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Vigoroth",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "NFE explicitly present in Showdown Random Battles."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Slaking",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Ninjask",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Exploud",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Plusle",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Minun",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Wailord",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Grumpig",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Cacturne",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Seviper",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Lunatone",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Solrock",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Claydol",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Cradily",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Armaldo",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Castform",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Kecleon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Banette",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Dusclops",
+      "status": "CUSTOM_BUILD",
+      "recommended_showdown_source": null,
+      "note": "Useful NFE; no exact Gen 7/8 Showdown RandBats entry found."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Tropius",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Chimecho",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Glalie",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Walrein",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Huntail",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Gorebyss",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Relicanth",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 3,
+      "pokemon": "Regice",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Bibarel",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Luxray",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Rampardos",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Vespiquen",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Pachirisu",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Cherrim",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Purugly",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Chatot",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Drapion",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Carnivine",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Lumineon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Lickilicky",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Electivire",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Togekiss",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Leafeon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Glaceon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Regigigas",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 4,
+      "pokemon": "Phione",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Stoutland",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Liepard",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Simisage",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Simisear",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Simipour",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Musharna",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Unfezant",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Zebstrika",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Gigalith",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Swoobat",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Audino",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Seismitoad",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Throh",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Sawk",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Leavanny",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Scolipede",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Basculin",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Darmanitan",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Maractus",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Crustle",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Sigilyph",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Cofagrigus",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Carracosta",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Archeops",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Garbodor",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Vanilluxe",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Sawsbuck",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Emolga",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Escavalier",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Jellicent",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Klinklang",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Beheeyem",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Accelgor",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Stunfisk",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Druddigon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Bouffalant",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Heatmor",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Durant",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 5,
+      "pokemon": "Genesect",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Gogoat",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Pangoro",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Furfrou",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Aromatisse",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Slurpuff",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Barbaracle",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Heliolisk",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Tyrantrum",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Aurorus",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Dedenne",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Carbink",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Doublade",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "NFE explicitly present in Showdown Random Battles."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Gourgeist",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 6,
+      "pokemon": "Xerneas",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Toucannon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Gumshoos",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Wishiwashi",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Shiinotic",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Bewear",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Oranguru",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Golisopod",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Pyukumuku",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Silvally",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Komala",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Turtonator",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Togedemaru",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Drampa",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Dhelmise",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Xurkitree",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Guzzlord",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Naganadel",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 7,
+      "pokemon": "Stakataka",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen7",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Greedent",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Orbeetle",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Thievul",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Eldegoss",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Dubwool",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Boltund",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Flapple",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Appletun",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Centiskorch",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Grapploct",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Obstagoon",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Cursola",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Sirfetch'd",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Mr. Rime",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Runerigus",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Falinks",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Stonjourner",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Eiscue",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Arctovish",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Calyrex",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen8",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 8,
+      "pokemon": "Wyrdeer",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Oinkologne",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Spidops",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Dachsbun",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Squawkabilly",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Grafaiai",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Klawf",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Rabsca",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    },
+    {
+      "generation": 9,
+      "pokemon": "Wugtrio",
+      "status": "SHOWDOWN_RANDBATS",
+      "recommended_showdown_source": "gen9",
+      "note": "Use/adapt Showdown Random Battles set; fully evolved/standalone candidate."
+    }
+  ],
+  "optional_custom_nfe": [
+    "Kadabra",
+    "Machoke",
+    "Tangela",
+    "Togetic",
+    "Misdreavus",
+    "Roselia",
+    "Ferroseed"
+  ]
+}

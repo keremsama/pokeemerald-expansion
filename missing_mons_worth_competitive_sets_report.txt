@@ -1,0 +1,211 @@
+Missingmons candidate report
+============================
+Filtered pool legacy cleanup: legacy Battle Frontier fallback sets were removed; the pool is based on curated/current-source sets only.
+Filtered pool now: 567 species, 3254 builds.
+
+Candidates in file: 185
+Already present in filtered pool: 0
+Missing from filtered pool: 185
+Species constants OK: 185
+Species constants missing / mapping needed: 0
+
+Candidate status counts:
+- CUSTOM_BUILD: 2
+- SHOWDOWN_RANDBATS: 183
+
+Recommended source counts:
+- None: 2
+- gen7: 154
+- gen8: 20
+- gen9: 9
+
+Missing from filtered pool:
+- Butterfree: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BUTTERFREE, const_ok=True
+- Raticate: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_RATICATE, const_ok=True
+- Fearow: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_FEAROW, const_ok=True
+- Arbok: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ARBOK, const_ok=True
+- Raichu: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_RAICHU, const_ok=True
+- Wigglytuff: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_WIGGLYTUFF, const_ok=True
+- Golbat: CUSTOM_BUILD, source=None, const=SPECIES_GOLBAT, const_ok=True
+- Dugtrio: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DUGTRIO, const_ok=True
+- Persian: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PERSIAN, const_ok=True
+- Golduck: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOLDUCK, const_ok=True
+- Machamp: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MACHAMP, const_ok=True
+- Golem: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOLEM, const_ok=True
+- Rapidash: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_RAPIDASH, const_ok=True
+- Hypno: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_HYPNO, const_ok=True
+- Kingler: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_KINGLER, const_ok=True
+- Electrode: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ELECTRODE, const_ok=True
+- Marowak: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MAROWAK, const_ok=True
+- Seaking: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SEAKING, const_ok=True
+- Mr. Mime: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MR_MIME, const_ok=True
+- Jynx: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_JYNX, const_ok=True
+- Flareon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_FLAREON, const_ok=True
+- Kabutops: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_KABUTOPS, const_ok=True
+- Meganium: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MEGANIUM, const_ok=True
+- Furret: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_FURRET, const_ok=True
+- Noctowl: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_NOCTOWL, const_ok=True
+- Ariados: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ARIADOS, const_ok=True
+- Xatu: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_XATU, const_ok=True
+- Ampharos: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_AMPHAROS, const_ok=True
+- Bellossom: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BELLOSSOM, const_ok=True
+- Sudowoodo: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SUDOWOODO, const_ok=True
+- Sunflora: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SUNFLORA, const_ok=True
+- Wobbuffet: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_WOBBUFFET, const_ok=True
+- Granbull: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GRANBULL, const_ok=True
+- Magcargo: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MAGCARGO, const_ok=True
+- Octillery: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_OCTILLERY, const_ok=True
+- Miltank: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MILTANK, const_ok=True
+- Mightyena: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MIGHTYENA, const_ok=True
+- Linoone: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LINOONE, const_ok=True
+- Swellow: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SWELLOW, const_ok=True
+- Masquerain: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MASQUERAIN, const_ok=True
+- Vigoroth: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_VIGOROTH, const_ok=True
+- Slaking: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SLAKING, const_ok=True
+- Ninjask: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_NINJASK, const_ok=True
+- Exploud: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_EXPLOUD, const_ok=True
+- Plusle: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PLUSLE, const_ok=True
+- Minun: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MINUN, const_ok=True
+- Wailord: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_WAILORD, const_ok=True
+- Grumpig: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GRUMPIG, const_ok=True
+- Cacturne: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CACTURNE, const_ok=True
+- Seviper: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SEVIPER, const_ok=True
+- Lunatone: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LUNATONE, const_ok=True
+- Solrock: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SOLROCK, const_ok=True
+- Claydol: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CLAYDOL, const_ok=True
+- Cradily: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CRADILY, const_ok=True
+- Armaldo: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ARMALDO, const_ok=True
+- Castform: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CASTFORM, const_ok=True
+- Kecleon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_KECLEON, const_ok=True
+- Banette: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BANETTE, const_ok=True
+- Dusclops: CUSTOM_BUILD, source=None, const=SPECIES_DUSCLOPS, const_ok=True
+- Tropius: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TROPIUS, const_ok=True
+- Chimecho: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CHIMECHO, const_ok=True
+- Glalie: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GLALIE, const_ok=True
+- Walrein: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_WALREIN, const_ok=True
+- Huntail: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_HUNTAIL, const_ok=True
+- Gorebyss: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOREBYSS, const_ok=True
+- Relicanth: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_RELICANTH, const_ok=True
+- Regice: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_REGICE, const_ok=True
+- Bibarel: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BIBAREL, const_ok=True
+- Luxray: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LUXRAY, const_ok=True
+- Rampardos: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_RAMPARDOS, const_ok=True
+- Vespiquen: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_VESPIQUEN, const_ok=True
+- Pachirisu: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PACHIRISU, const_ok=True
+- Cherrim: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CHERRIM, const_ok=True
+- Purugly: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PURUGLY, const_ok=True
+- Chatot: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CHATOT, const_ok=True
+- Drapion: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DRAPION, const_ok=True
+- Carnivine: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CARNIVINE, const_ok=True
+- Lumineon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LUMINEON, const_ok=True
+- Lickilicky: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LICKILICKY, const_ok=True
+- Electivire: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ELECTIVIRE, const_ok=True
+- Togekiss: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TOGEKISS, const_ok=True
+- Leafeon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LEAFEON, const_ok=True
+- Glaceon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GLACEON, const_ok=True
+- Regigigas: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_REGIGIGAS, const_ok=True
+- Phione: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PHIONE, const_ok=True
+- Stoutland: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_STOUTLAND, const_ok=True
+- Liepard: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LIEPARD, const_ok=True
+- Simisage: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SIMISAGE, const_ok=True
+- Simisear: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SIMISEAR, const_ok=True
+- Simipour: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SIMIPOUR, const_ok=True
+- Musharna: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MUSHARNA, const_ok=True
+- Unfezant: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_UNFEZANT, const_ok=True
+- Zebstrika: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ZEBSTRIKA, const_ok=True
+- Gigalith: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GIGALITH, const_ok=True
+- Swoobat: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SWOOBAT, const_ok=True
+- Audino: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_AUDINO, const_ok=True
+- Seismitoad: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SEISMITOAD, const_ok=True
+- Throh: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_THROH, const_ok=True
+- Sawk: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SAWK, const_ok=True
+- Leavanny: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_LEAVANNY, const_ok=True
+- Scolipede: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SCOLIPEDE, const_ok=True
+- Basculin: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BASCULIN, const_ok=True
+- Darmanitan: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DARMANITAN, const_ok=True
+- Maractus: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_MARACTUS, const_ok=True
+- Crustle: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CRUSTLE, const_ok=True
+- Sigilyph: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SIGILYPH, const_ok=True
+- Cofagrigus: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_COFAGRIGUS, const_ok=True
+- Carracosta: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CARRACOSTA, const_ok=True
+- Archeops: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ARCHEOPS, const_ok=True
+- Garbodor: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GARBODOR, const_ok=True
+- Vanilluxe: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_VANILLUXE, const_ok=True
+- Sawsbuck: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SAWSBUCK, const_ok=True
+- Emolga: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_EMOLGA, const_ok=True
+- Escavalier: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ESCAVALIER, const_ok=True
+- Jellicent: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_JELLICENT, const_ok=True
+- Klinklang: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_KLINKLANG, const_ok=True
+- Beheeyem: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BEHEEYEM, const_ok=True
+- Accelgor: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ACCELGOR, const_ok=True
+- Stunfisk: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_STUNFISK, const_ok=True
+- Druddigon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DRUDDIGON, const_ok=True
+- Bouffalant: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BOUFFALANT, const_ok=True
+- Heatmor: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_HEATMOR, const_ok=True
+- Durant: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DURANT, const_ok=True
+- Genesect: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GENESECT, const_ok=True
+- Gogoat: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOGOAT, const_ok=True
+- Pangoro: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PANGORO, const_ok=True
+- Furfrou: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_FURFROU, const_ok=True
+- Aromatisse: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_AROMATISSE, const_ok=True
+- Slurpuff: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SLURPUFF, const_ok=True
+- Barbaracle: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BARBARACLE, const_ok=True
+- Heliolisk: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_HELIOLISK, const_ok=True
+- Tyrantrum: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TYRANTRUM, const_ok=True
+- Aurorus: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_AURORUS, const_ok=True
+- Dedenne: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DEDENNE, const_ok=True
+- Carbink: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_CARBINK, const_ok=True
+- Doublade: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DOUBLADE, const_ok=True
+- Gourgeist: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOURGEIST, const_ok=True
+- Xerneas: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_XERNEAS, const_ok=True
+- Toucannon: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TOUCANNON, const_ok=True
+- Gumshoos: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GUMSHOOS, const_ok=True
+- Wishiwashi: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_WISHIWASHI, const_ok=True
+- Shiinotic: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SHIINOTIC, const_ok=True
+- Bewear: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_BEWEAR, const_ok=True
+- Oranguru: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_ORANGURU, const_ok=True
+- Golisopod: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GOLISOPOD, const_ok=True
+- Pyukumuku: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_PYUKUMUKU, const_ok=True
+- Silvally: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_SILVALLY, const_ok=True
+- Komala: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_KOMALA, const_ok=True
+- Turtonator: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TURTONATOR, const_ok=True
+- Togedemaru: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_TOGEDEMARU, const_ok=True
+- Drampa: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DRAMPA, const_ok=True
+- Dhelmise: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_DHELMISE, const_ok=True
+- Xurkitree: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_XURKITREE, const_ok=True
+- Guzzlord: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_GUZZLORD, const_ok=True
+- Naganadel: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_NAGANADEL, const_ok=True
+- Stakataka: SHOWDOWN_RANDBATS, source=gen7, const=SPECIES_STAKATAKA, const_ok=True
+- Greedent: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_GREEDENT, const_ok=True
+- Orbeetle: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_ORBEETLE, const_ok=True
+- Thievul: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_THIEVUL, const_ok=True
+- Eldegoss: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_ELDEGOSS, const_ok=True
+- Dubwool: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_DUBWOOL, const_ok=True
+- Boltund: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_BOLTUND, const_ok=True
+- Flapple: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_FLAPPLE, const_ok=True
+- Appletun: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_APPLETUN, const_ok=True
+- Centiskorch: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_CENTISKORCH, const_ok=True
+- Grapploct: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_GRAPPLOCT, const_ok=True
+- Obstagoon: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_OBSTAGOON, const_ok=True
+- Cursola: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_CURSOLA, const_ok=True
+- Sirfetch'd: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_SIRFETCHD, const_ok=True
+- Mr. Rime: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_MR_RIME, const_ok=True
+- Runerigus: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_RUNERIGUS, const_ok=True
+- Falinks: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_FALINKS, const_ok=True
+- Stonjourner: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_STONJOURNER, const_ok=True
+- Eiscue: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_EISCUE, const_ok=True
+- Arctovish: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_ARCTOVISH, const_ok=True
+- Calyrex: SHOWDOWN_RANDBATS, source=gen8, const=SPECIES_CALYREX, const_ok=True
+- Wyrdeer: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_WYRDEER, const_ok=True
+- Oinkologne: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_OINKOLOGNE, const_ok=True
+- Spidops: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_SPIDOPS, const_ok=True
+- Dachsbun: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_DACHSBUN, const_ok=True
+- Squawkabilly: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_SQUAWKABILLY, const_ok=True
+- Grafaiai: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_GRAFAIAI, const_ok=True
+- Klawf: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_KLAWF, const_ok=True
+- Rabsca: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_RABSCA, const_ok=True
+- Wugtrio: SHOWDOWN_RANDBATS, source=gen9, const=SPECIES_WUGTRIO, const_ok=True
+
+Custom-build candidates:
+- Golbat: Useful NFE; no exact Gen 7/8 Showdown RandBats entry found.
+- Dusclops: Useful NFE; no exact Gen 7/8 Showdown RandBats entry found.

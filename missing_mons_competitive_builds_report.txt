@@ -1,0 +1,24 @@
+Missingmons concrete builds report
+==================================
+Output: missing_mons_competitive_builds.json
+
+Candidates requested: 185
+Species with concrete builds: 185
+Total concrete builds: 282
+Failed candidates: 0
+
+Best-build source counts:
+- custom: 3
+- gen7: 154
+- gen8: 19
+- gen9: 9
+
+Examples:
+- Raichu @ Leftovers | Lightning Rod | Timid | Knock Off, Thunderbolt, Encore, Nuzzle
+- Wigglytuff @ Leftovers | Competitive | Bold | Dazzling Gleam, Fire Blast, Heal Bell, Protect
+- Golbat @ Eviolite | Infiltrator | Impish | Brave Bird, Roost, Toxic, U-turn
+- Dusclops @ Eviolite | Frisk | Bold | Night Shade, Will-O-Wisp, Pain Split, Haze
+- Sirfetch'd @ Life Orb | Scrappy | Jolly | Brave Bird, Close Combat, Knock Off, Swords Dance
+- Butterfree @ Life Orb | Tinted Lens | Timid | Air Slash, Bug Buzz, Quiver Dance, Sleep Powder
+- Raticate @ Flame Orb | Guts | Jolly | Facade, Crunch, Sucker Punch, Swords Dance
+- Swellow @ Flame Orb | Guts | Jolly | Facade, Brave Bird, Quick Attack, U-turn

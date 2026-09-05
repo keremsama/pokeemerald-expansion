@@ -1,0 +1,33 @@
+Tera removal report
+===================
+Source: competitive_builds_gen9_combined.json
+Output: competitive_builds_gen9_no_tera.json
+
+Species: 651
+Builds total: 6658
+Best builds total: 651
+tera_type fields removed recursively: 5773
+Builds marked unusable due to Tera Blast: 107
+Best builds marked unusable due to Tera Blast: 9
+Species with no usable build after Tera Blast filter: 8
+
+Best-build species containing Tera Blast:
+- Blastoise
+- Magnemite
+- Necrozma-Dawn-Wings
+- Psyduck
+- Salandit
+- Sandile
+- Spectrier
+- Zorua
+- Zorua-Hisui
+
+Species with no usable non-Tera-Blast build:
+- Blastoise
+- Magnemite
+- Necrozma-Dawn-Wings
+- Psyduck
+- Salandit
+- Sandile
+- Zorua
+- Zorua-Hisui
