@@ -1042,8 +1042,9 @@
 #define ITEM_BAXCALIBRITE 871
 #define ITEM_TATSUGIRINITE 872
 #define ITEM_GLIMMORANITE 873
+#define ITEM_DEXNAV 874
 
-#define ITEMS_COUNT 874
+#define ITEMS_COUNT 875
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations

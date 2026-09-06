@@ -1656,6 +1656,8 @@ extern const u32 gItemIcon_WailmerPail[];
 extern const u32 gItemIconPalette_WailmerPail[];
 extern const u32 gItemIcon_PokeRadar[];
 extern const u32 gItemIconPalette_PokeRadar[];
+extern const u32 gItemIcon_DexNav[];
+extern const u32 gItemIconPalette_DexNav[];
 extern const u32 gItemIcon_PokeblockCase[];
 extern const u32 gItemIconPalette_PokeblockCase[];
 extern const u32 gItemIcon_SootSack[];

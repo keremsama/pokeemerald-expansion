@@ -9,6 +9,7 @@
 #include "bike.h"
 #include "coins.h"
 #include "data.h"
+#include "dexnav.h"
 #include "event_data.h"
 #include "event_object_lock.h"
 #include "event_object_movement.h"
@@ -40,6 +41,7 @@
 #include "task.h"
 #include "text.h"
 #include "vs_seeker.h"
+#include "wild_encounter.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
@@ -708,6 +710,19 @@ void ItemUseOutOfBattle_PokemonBoxLink(u8 taskId)
 {
     sItemUseOnFieldCB = Task_AccessPokemonBoxLink;
     SetUpItemUseOnFieldCallback(taskId);
+}
+
+void ItemUseOutOfBattle_DexNav(u8 taskId)
+{
+    if (DEXNAV_ENABLED == FALSE || MapHasNoEncounterData())
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else
+    {
+        sItemUseOnFieldCB = Task_OpenDexNavFromKeyItem;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
 }
 
 static void Task_AccessPokemonBoxLink(u8 taskId)

@@ -13405,6 +13405,22 @@ const struct Item gItemsInfo[] =
         .iconPalette = gItemIconPalette_TeachyTV,
     },
 
+    [ITEM_DEXNAV] =
+    {
+        .name = _("DexNav"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A device that scans\n"
+            "nearby wild Pokémon\n"
+            "in the area."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_DexNav,
+        .iconPic = gItemIcon_DexNav,
+        .iconPalette = gItemIconPalette_DexNav,
+    },
+
 // Story Key Items
 
     [ITEM_SS_TICKET] =

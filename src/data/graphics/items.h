@@ -1991,6 +1991,9 @@ const u32 gItemIconPalette_WailmerPail[] = INCBIN_U32("graphics/items/icon_palet
 const u32 gItemIcon_PokeRadar[] = INCBIN_U32("graphics/items/icons/poke_radar.4bpp.lz");
 const u32 gItemIconPalette_PokeRadar[] = INCBIN_U32("graphics/items/icon_palettes/poke_radar.gbapal.lz");
 
+const u32 gItemIcon_DexNav[] = INCBIN_U32("graphics/items/icons/dexnav_icon.4bpp.lz");
+const u32 gItemIconPalette_DexNav[] = INCBIN_U32("graphics/items/icon_palettes/dexnav_icon.gbapal.lz");
+
 const u32 gItemIcon_PokeblockCase[] = INCBIN_U32("graphics/items/icons/pokeblock_case.4bpp.lz");
 const u32 gItemIconPalette_PokeblockCase[] = INCBIN_U32("graphics/items/icon_palettes/pokeblock_case.gbapal.lz");
 

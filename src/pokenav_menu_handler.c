@@ -1,10 +1,8 @@
 #include "global.h"
-#include "dexnav.h"
 #include "pokenav.h"
 #include "event_data.h"
 #include "main.h"
 #include "sound.h"
-#include "wild_encounter.h"
 #include "constants/songs.h"
 
 struct Pokenav_Menu
@@ -40,9 +38,6 @@ static const u8 sLastCursorPositions[] =
     [POKENAV_MENU_TYPE_DEFAULT]                   = 1,
     [POKENAV_MENU_TYPE_UNLOCK_MC]                 = 2,
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS]         = 3,
-    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV]            = 2,
-    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV]          = 3,
-    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] = 4,
     [POKENAV_MENU_TYPE_CONDITION]                 = 2,
     [POKENAV_MENU_TYPE_CONDITION_SEARCH]          = 5
 };
@@ -62,27 +57,6 @@ static const u8 sMenuItems[][MAX_POKENAV_MENUITEMS] =
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] =
     {
-        POKENAV_MENUITEM_MAP,
-        POKENAV_MENUITEM_CONDITION,
-        POKENAV_MENUITEM_MATCH_CALL,
-        POKENAV_MENUITEM_RIBBONS
-    },
-    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV] =
-    {
-        POKENAV_MENUITEM_DEXNAV,
-        POKENAV_MENUITEM_MAP,
-        POKENAV_MENUITEM_CONDITION
-    },
-    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV] =
-    {
-        POKENAV_MENUITEM_DEXNAV,
-        POKENAV_MENUITEM_MAP,
-        POKENAV_MENUITEM_CONDITION,
-        POKENAV_MENUITEM_MATCH_CALL
-    },
-    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] =
-    {
-        POKENAV_MENUITEM_DEXNAV,
         POKENAV_MENUITEM_MAP,
         POKENAV_MENUITEM_CONDITION,
         POKENAV_MENUITEM_MATCH_CALL,
@@ -117,9 +91,6 @@ static u8 GetPokenavMainMenuType(void)
         if (FlagGet(FLAG_SYS_RIBBON_GET))
             menuType = POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS;
     }
-
-    if (DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET))
-        menuType += POKENAV_MENU_TYPE_DEFAULT_DEXNAV - POKENAV_MENU_TYPE_DEFAULT;
 
     return menuType;
 }
@@ -213,13 +184,10 @@ static void SetMenuInputHandler(struct Pokenav_Menu *menu)
     switch (menu->menuType)
     {
     case POKENAV_MENU_TYPE_DEFAULT:
-    case POKENAV_MENU_TYPE_DEFAULT_DEXNAV:
         SetPokenavMode(POKENAV_MODE_NORMAL);
         // fallthrough
     case POKENAV_MENU_TYPE_UNLOCK_MC:
     case POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS:
-    case POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV:
-    case POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV:
         menu->callback = GetMainMenuInputHandler();
         break;
     case POKENAV_MENU_TYPE_CONDITION:
@@ -291,15 +259,6 @@ static u32 HandleMainMenuInput(struct Pokenav_Menu *menu)
                 menu->callback = HandleCantOpenRibbonsInput;
                 return POKENAV_MENU_FUNC_NO_RIBBON_WINNERS;
             }
-        case POKENAV_MENUITEM_DEXNAV:
-            if (MapHasNoEncounterData())
-            {
-                PlaySE(SE_FAILURE);
-                return POKENAV_MENU_FUNC_NONE;
-            }
-
-            SetMenuIdAndCB(menu, POKENAV_DEXNAV);
-            return POKENAV_MENU_FUNC_OPEN_FEATURE;
         case POKENAV_MENUITEM_SWITCH_OFF:
             return POKENAV_MENU_FUNC_EXIT;
         }

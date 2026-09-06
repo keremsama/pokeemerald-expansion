@@ -67,6 +67,7 @@
 #include "vs_seeker.h"
 #include "frontier_util.h"
 #include "constants/abilities.h"
+#include "constants/items.h"
 #include "constants/layouts.h"
 #include "constants/map_types.h"
 #include "constants/region_map_sections.h"
@@ -456,6 +457,8 @@ static void Overworld_ResetStateAfterWhiteOut(void)
 static void UpdateMiscOverworldStates(void)
 {
     FlagClear(FLAG_SYS_SAFARI_MODE);
+    if (FlagGet(FLAG_DN_GET) && (CheckBagHasItem(ITEM_DEXNAV, 1) || AddBagItem(ITEM_DEXNAV, 1)))
+        FlagClear(FLAG_DN_GET);
     ChooseAmbientCrySpecies();
     ResetCyclingRoadChallengeData();
     UpdateLocationHistoryForRoamer();
@@ -3525,4 +3528,3 @@ void ScriptHideItemDescription(struct ScriptContext *ctx)
 {
 }
 #endif // OW_SHOW_ITEM_DESCRIPTIONS
-

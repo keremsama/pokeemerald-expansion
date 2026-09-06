@@ -34,7 +34,6 @@
 #include "pokemon.h"
 #include "pokemon_icon.h"
 #include "pokemon_summary_screen.h"
-#include "pokenav.h"
 #include "random.h"
 #include "randomizer.h"
 #include "region_map.h"
@@ -2352,20 +2351,7 @@ static void DexNavGuiInit(MainCallback callback)
     SetMainCallback2(DexNav_RunSetup);
 }
 
-void CB2_InitDexNavFromPokenav(void)
-{
-    if (DEXNAV_ENABLED == FALSE)
-    {
-        DebugPrintfLevel(MGBA_LOG_ERROR, "DexNav was opened when DEXNAV_ENABLED config was disabled! Check include/config/dexnav.h");
-        SetMainCallback2(CB2_InitPokeNav);
-    }
-    else
-    {
-        DexNavGuiInit(CB2_InitPokeNav);
-    }
-}
-
-void Task_OpenDexNavFromStartMenu(u8 taskId)
+void Task_OpenDexNavFromKeyItem(u8 taskId)
 {
     if (DEXNAV_ENABLED == FALSE)
     {   // must have it enabled to enter
@@ -2375,7 +2361,7 @@ void Task_OpenDexNavFromStartMenu(u8 taskId)
     else if (!gPaletteFade.active)
     {
         CleanupOverworldWindowsAndTilemaps();
-        DexNavGuiInit(CB2_ReturnToFieldWithOpenMenu);
+        DexNavGuiInit(CB2_ReturnToField);
         DestroyTask(taskId);
     }
 }

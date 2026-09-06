@@ -799,8 +799,8 @@ LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "doing fieldwork, and shows me.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_ExplainDexNav:
-	.string "PROF. BIRCH: I also installed the\n"
-	.string "DEXNAV for you.\p"
+	.string "PROF. BIRCH: I also gave you the\n"
+	.string "DEXNAV.\p"
 	.string "With it, you can search more precisely\n"
 	.string "for certain wild POKéMON.\p"
 	.string "Keep searching, and it can reveal more\n"

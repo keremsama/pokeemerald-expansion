@@ -192,7 +192,6 @@ static const u16 sOptionsLabelGfx_Cute[]      = {0x120, PALTAG_OPTIONS_PINK - PA
 static const u16 sOptionsLabelGfx_Smart[]     = {0x140, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Tough[]     = {0x160, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Cancel[]    = {0x180, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
-static const u16 sOptionsLabelGfx_DexNav[]    = {0x1A0, PALTAG_OPTIONS_RED - PALTAG_OPTIONS_START};
 
 struct
 {
@@ -225,39 +224,6 @@ struct
         .yStart = 42,
         .deltaY = 20,
         .gfx = {
-            sOptionsLabelGfx_RegionMap,
-            sOptionsLabelGfx_Condition,
-            sOptionsLabelGfx_MatchCall,
-            sOptionsLabelGfx_Ribbons
-        }
-    },
-    [POKENAV_MENU_TYPE_DEFAULT_DEXNAV] =
-    {
-        .yStart = 42,
-        .deltaY = 20,
-        .gfx = {
-            sOptionsLabelGfx_DexNav,
-            sOptionsLabelGfx_RegionMap,
-            sOptionsLabelGfx_Condition
-        }
-    },
-    [POKENAV_MENU_TYPE_UNLOCK_MC_DEXNAV] =
-    {
-        .yStart = 42,
-        .deltaY = 20,
-        .gfx = {
-            sOptionsLabelGfx_DexNav,
-            sOptionsLabelGfx_RegionMap,
-            sOptionsLabelGfx_Condition,
-            sOptionsLabelGfx_MatchCall
-        }
-    },
-    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS_DEXNAV] =
-    {
-        .yStart = 42,
-        .deltaY = 20,
-        .gfx = {
-            sOptionsLabelGfx_DexNav,
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
             sOptionsLabelGfx_MatchCall,
@@ -306,7 +272,6 @@ static const u8 *const sPageDescriptions[] =
     [POKENAV_MENUITEM_CONDITION]               = COMPOUND_STRING("Check POKéMON in detail."),
     [POKENAV_MENUITEM_MATCH_CALL]              = COMPOUND_STRING("Call a registered TRAINER."),
     [POKENAV_MENUITEM_RIBBONS]                 = COMPOUND_STRING("Check obtained RIBBONS."),
-    [POKENAV_MENUITEM_DEXNAV]                  = COMPOUND_STRING("Search for POKéMON in this area."),
     [POKENAV_MENUITEM_SWITCH_OFF]              = COMPOUND_STRING("Put away the POKéNAV."),
     [POKENAV_MENUITEM_CONDITION_PARTY]         = COMPOUND_STRING("Check party POKéMON in detail."),
     [POKENAV_MENUITEM_CONDITION_SEARCH]        = COMPOUND_STRING("Check all POKéMON in detail."),
