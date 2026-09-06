@@ -2611,10 +2611,6 @@ static void Task_ChangeSummaryMon(u8 taskId)
             if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
             {
                 ShowInfoPrompt();
-            }
-            else if (P_SUMMARY_SCREEN_MOVE_RELEARNER
-                && (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES))
-            {
                 if (ShouldShowMoveRelearner())
                     ShowMoveRelearner();
                 else
@@ -4636,6 +4632,8 @@ static void PrintMoveDescription(u16 move)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     if (move != MOVE_NONE)
     {
+        HideMoveRelearner();
+
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
         {
             if (SWSH_SUMMARY_CATEGORY_ICONS)
@@ -5476,6 +5474,12 @@ static inline bool32 ShouldShowMoveRelearner(void)
 
 static void ShowMoveRelearner(void)
 {
+    if (!ShouldShowMoveRelearner())
+    {
+        HideMoveRelearner();
+        return;
+    }
+
     if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_RELEARN_PROMPT] == SPRITE_NONE)
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_RELEARN_PROMPT] = CreateSprite(&sSpriteTemplate_RelearnPrompt, 169, 164, 0);
     
