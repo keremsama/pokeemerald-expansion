@@ -449,8 +449,8 @@ static const u32 sGenderGfx_Icons[]                 = INCBIN_U32("graphics/summa
 static const u16 sGenderPal_Icons[]                 = INCBIN_U16("graphics/summary_screen/swsh/gender_icons.gbapal");
 static const u16 sCategoryIcons_Pal[]               = INCBIN_U16("graphics/summary_screen/swsh/category_icons.gbapal");
 static const u32 sCategoryIcons_Gfx[]               = INCBIN_U32("graphics/summary_screen/swsh/category_icons.4bpp.lz");
-static const u16 sStatGrades_Pal[]                  = INCBIN_U16("graphics/summary_screen/bw/stat_grades.gbapal");
-static const u32 sStatGrades_Gfx[]                  = INCBIN_U32("graphics/summary_screen/bw/stat_grades.4bpp.lz");
+static const u16 sStatGrades_Pal[]                  = INCBIN_U16("graphics/summary_screen/swsh/stat_grades.gbapal");
+static const u32 sStatGrades_Gfx[]                  = INCBIN_U32("graphics/summary_screen/swsh/stat_grades.4bpp.lz");
 static const u16 sFriendshipIcon_Pal[]              = INCBIN_U16("graphics/summary_screen/swsh/heart.gbapal");
 static const u32 sFriendshipIcon_Gfx[]              = INCBIN_U32("graphics/summary_screen/swsh/heart.4bpp.lz");
 // rave note: yeah I know doing this with a sprite is mad jank, but I promise I have my reasons
@@ -794,15 +794,15 @@ enum SwShStatGrades
 
 static const struct OamData sOamData_StatGrades =
 {
-    .size = SPRITE_SIZE(16x8),
-    .shape = SPRITE_SHAPE(16x8),
+    .size = SPRITE_SIZE(16x16),
+    .shape = SPRITE_SHAPE(16x16),
     .priority = 0,
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_StatGrades =
 {
     .data = sStatGrades_Gfx,
-    .size = STAT_GRADE_COUNT * (16 * 8),
+    .size = STAT_GRADE_COUNT * (16 * 16 / 2),
     .tag = TAG_STAT_GRADES,
 };
 
@@ -813,67 +813,67 @@ static const struct SpritePalette sSpritePal_StatGrades =
 };
 
 static const union AnimCmd sSpriteAnim_StatGradeEMinus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_EMINUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_EMINUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeE[] = {
-    ANIMCMD_FRAME(STAT_GRADE_E * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_E * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeEPlus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_EPLUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_EPLUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeDMinus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_DMINUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_DMINUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeD[] = {
-    ANIMCMD_FRAME(STAT_GRADE_D * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_D * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeDPlus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_DPLUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_DPLUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeCMinus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_CMINUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_CMINUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeC[] = {
-    ANIMCMD_FRAME(STAT_GRADE_C * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_C * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeCPlus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_CPLUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_CPLUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeBMinus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_BMINUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_BMINUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeB[] = {
-    ANIMCMD_FRAME(STAT_GRADE_B * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_B * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeBPlus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_BPLUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_BPLUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeAMinus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_AMINUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_AMINUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeA[] = {
-    ANIMCMD_FRAME(STAT_GRADE_A * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_A * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeAPlus[] = {
-    ANIMCMD_FRAME(STAT_GRADE_APLUS * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_APLUS * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 static const union AnimCmd sSpriteAnim_StatGradeS[] = {
-    ANIMCMD_FRAME(STAT_GRADE_S * 2, 0, FALSE, FALSE),
+    ANIMCMD_FRAME(STAT_GRADE_S * 4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
 
