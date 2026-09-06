@@ -436,11 +436,10 @@ BattleFrontier_ReceptionGate_Text_LevelModeInfo:
 	.string "two courses--Level 50 and Open Level.$"
 
 BattleFrontier_ReceptionGate_Text_Level50Info:
-	.string "The Level 50 course is open to POKéMON\n"
-	.string "up to and including Level 50.\p"
-	.string "Please keep in mind, however, that\n"
-	.string "no TRAINER you face will have any\l"
-	.string "POKéMON below Level 50.\p"
+	.string "The Level 50 course sets POKéMON\n"
+	.string "above Level 50 to Level 50 in battle.\p"
+	.string "POKéMON below Level 50 keep their\n"
+	.string "own level.\p"
 	.string "This course is the entry level for\n"
 	.string "battles at the BATTLE FRONTIER.\p"
 	.string "To begin, we hope you will challenge\n"
@@ -451,8 +450,8 @@ BattleFrontier_ReceptionGate_Text_OpenLevelInfo:
 	.string "on the levels of POKéMON entering\l"
 	.string "challenges.\p"
 	.string "The levels of your opponents will\n"
-	.string "be adjusted to match the levels of\l"
-	.string "your POKéMON.\p"
+	.string "be adjusted to match the highest\l"
+	.string "selected POKéMON.\p"
 	.string "However, no TRAINER you face will\n"
 	.string "have any POKéMON below Level 60.$"
 

@@ -3300,7 +3300,12 @@ u8 GetFrontierEnemyMonLevel(u8 lvlMode)
         level = FRONTIER_MAX_LEVEL_50;
         break;
     case FRONTIER_LVL_OPEN:
-        level = GetHighestLevelInPlayerParty();
+        if (VarGet(VAR_FRONTIER_FACILITY) == FRONTIER_FACILITY_FACTORY)
+            level = 0;
+        else
+            level = GetHighestLevelInSelectedFrontierParty();
+        if (level == 0)
+            level = GetHighestLevelInPlayerParty();
         if (level < FRONTIER_MIN_LEVEL_OPEN)
             level = FRONTIER_MIN_LEVEL_OPEN;
         break;
@@ -3322,6 +3327,32 @@ s32 GetHighestLevelInPlayerParty(void)
             s32 level = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL, NULL);
             if (level > highestLevel)
                 highestLevel = level;
+        }
+    }
+
+    return highestLevel;
+}
+
+s32 GetHighestLevelInSelectedFrontierParty(void)
+{
+    s32 highestLevel = 0;
+    s32 i;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        u16 partyIndex = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
+
+        if (partyIndex != 0 && partyIndex <= PARTY_SIZE)
+        {
+            struct Pokemon *mon = &gSaveBlock1Ptr->playerParty[partyIndex - 1];
+
+            if (GetMonData(mon, MON_DATA_SPECIES, NULL)
+                && GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL) != SPECIES_EGG)
+            {
+                s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+                if (level > highestLevel)
+                    highestLevel = level;
+            }
         }
     }
 

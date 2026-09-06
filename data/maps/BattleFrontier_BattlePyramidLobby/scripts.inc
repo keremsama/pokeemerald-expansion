@@ -582,7 +582,7 @@ BattleFrontier_BattlePyramidLobby_Text_NotEnoughValidMonsLv50:
 	.string "You seem to not have the three\n"
 	.string "POKéMON qualified for the challenge.\p"
 	.string "The three POKéMON must be different\n"
-	.string "and each no higher than Level 50.\p"
+	.string "to qualify for entry.\p"
 	.string "Please also remember to take all\n"
 	.string "items from your POKéMON.\p"
 	.string "EGGS{STR_VAR_1} ineligible.\p"
@@ -901,4 +901,3 @@ BattleFrontier_BattlePyramidLobby_Text_ExplainBagRules:
 	.string "of ten kinds of items.\p"
 	.string "The contents of the BATTLE BAG are\n"
 	.string "lost if you fail in your quest.$"
-

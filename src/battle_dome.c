@@ -5669,6 +5669,7 @@ static void ResetSketchedMoves(void)
                 SetMonMoveSlot(&gPlayerParty[i], MOVE_SKETCH, moveSlot);
         }
 
+        RestoreFrontierMonLevelFromBackup(&gPlayerParty[i], &gSaveBlock1Ptr->playerParty[playerMonId]);
         gSaveBlock1Ptr->playerParty[playerMonId] = gPlayerParty[i];
     }
 }
@@ -5688,6 +5689,7 @@ static void RestoreDomePlayerPartyHeldItems(void)
 static void ReduceDomePlayerPartyToSelectedMons(void)
 {
     ReducePlayerPartyToSelectedMons();
+    ScaleSelectedFrontierPartyForLevel50();
 }
 
 static void GetPlayerSeededBeforeOpponent(void)

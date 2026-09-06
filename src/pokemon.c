@@ -1977,6 +1977,8 @@ void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerP
         dest->moves[i] = GetMonData(mon, MON_DATA_MOVE1 + i, NULL);
 
     dest->level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50 && dest->level > FRONTIER_MAX_LEVEL_50)
+        dest->level = FRONTIER_MAX_LEVEL_50;
     dest->ppBonuses = GetMonData(mon, MON_DATA_PP_BONUSES, NULL);
     dest->otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
     dest->hpEV = GetMonData(mon, MON_DATA_HP_EV, NULL);

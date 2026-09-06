@@ -14,9 +14,14 @@
 #include "decoration_inventory.h"
 #include "agb_flash.h"
 #include "event_data.h"
+#include "frontier_util.h"
+#include "constants/battle_frontier.h"
 #include "constants/event_objects.h"
+#include "constants/frontier_util.h"
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
+static bool32 IsFrontierLevel50PartyReduced(void);
+static bool32 TrySaveFrontierLevel50PlayerParty(void);
 
 #define SAVEBLOCK_MOVE_RANGE    128
 
@@ -170,10 +175,61 @@ void SavePlayerParty(void)
 {
     int i;
 
+    if (TrySaveFrontierLevel50PlayerParty())
+        return;
+
     gSaveBlock1Ptr->playerPartyCount = gPlayerPartyCount;
 
     for (i = 0; i < PARTY_SIZE; i++)
         gSaveBlock1Ptr->playerParty[i] = gPlayerParty[i];
+}
+
+static bool32 IsFrontierLevel50PartyReduced(void)
+{
+    s32 i;
+
+    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50
+        || gSaveBlock2Ptr->frontier.challengeStatus == 0
+        || gSaveBlock2Ptr->frontier.selectedPartyMons[0] == 0)
+        return FALSE;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        u16 partyIndex = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
+
+        if (partyIndex == 0)
+            break;
+        if (partyIndex > PARTY_SIZE)
+            continue;
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != GetMonData(&gSaveBlock1Ptr->playerParty[partyIndex - 1], MON_DATA_SPECIES, NULL)
+            || GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL) != GetMonData(&gSaveBlock1Ptr->playerParty[partyIndex - 1], MON_DATA_PERSONALITY, NULL))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+static bool32 TrySaveFrontierLevel50PlayerParty(void)
+{
+    s32 i;
+
+    if (!IsFrontierLevel50PartyReduced())
+        return FALSE;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        u16 partyIndex = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
+
+        if (partyIndex != 0 && partyIndex <= PARTY_SIZE)
+        {
+            struct Pokemon mon = gPlayerParty[i];
+
+            RestoreFrontierMonLevelFromBackup(&mon, &gSaveBlock1Ptr->playerParty[partyIndex - 1]);
+            gSaveBlock1Ptr->playerParty[partyIndex - 1] = mon;
+        }
+    }
+
+    return TRUE;
 }
 
 void LoadPlayerParty(void)

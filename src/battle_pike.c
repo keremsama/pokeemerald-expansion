@@ -1117,7 +1117,9 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
     {
-        monLevel = GetHighestLevelInPlayerParty();
+        monLevel = GetHighestLevelInSelectedFrontierParty();
+        if (monLevel == 0)
+            monLevel = GetHighestLevelInPlayerParty();
         if (monLevel < FRONTIER_MIN_LEVEL_OPEN)
         {
             monLevel = FRONTIER_MIN_LEVEL_OPEN;

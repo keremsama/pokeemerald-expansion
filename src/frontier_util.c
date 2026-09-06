@@ -493,6 +493,7 @@ static void SetSelectedPartyOrder(void)
     for (i = 0; i < gSpecialVar_0x8005; i++)
         gSelectedOrderFromParty[i] = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
     ReducePlayerPartyToSelectedMons();
+    ScaleSelectedFrontierPartyForLevel50();
 }
 
 static void DoSoftReset_(void)
@@ -513,8 +514,96 @@ static void SaveSelectedParty(void)
     {
         u16 monId = gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1;
         if (monId < PARTY_SIZE)
-            gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1] = gPlayerParty[i];
+        {
+            struct Pokemon mon = gPlayerParty[i];
+
+            RestoreFrontierMonLevelFromBackup(&mon, &gSaveBlock1Ptr->playerParty[monId]);
+            gSaveBlock1Ptr->playerParty[monId] = mon;
+        }
     }
+}
+
+static u32 ScaleFrontierHpForNewMax(u32 hp, u32 oldMaxHp, u32 newMaxHp)
+{
+    u32 newHp;
+
+    if (hp == 0 || newMaxHp == 0)
+        return 0;
+    if (oldMaxHp == 0 || hp >= oldMaxHp)
+        return newMaxHp;
+
+    newHp = (hp * newMaxHp + oldMaxHp - 1) / oldMaxHp;
+    if (newHp == 0)
+        newHp = 1;
+    if (newHp > newMaxHp)
+        newHp = newMaxHp;
+
+    return newHp;
+}
+
+static void SetFrontierMonTemporaryLevel(struct Pokemon *mon, u8 level)
+{
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u32 hp = GetMonData(mon, MON_DATA_HP, NULL);
+    u32 oldMaxHp = GetMonData(mon, MON_DATA_MAX_HP, NULL);
+    u32 exp;
+    u32 newHp;
+
+    if (species == SPECIES_NONE || species == SPECIES_EGG)
+        return;
+
+    exp = gExperienceTables[gSpeciesInfo[species].growthRate][level];
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
+
+    newHp = ScaleFrontierHpForNewMax(hp, oldMaxHp, GetMonData(mon, MON_DATA_MAX_HP, NULL));
+    SetMonData(mon, MON_DATA_HP, &newHp);
+}
+
+void ScaleSelectedFrontierPartyForLevel50(void)
+{
+    s32 i;
+
+    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
+        return;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL, NULL) > FRONTIER_MAX_LEVEL_50)
+            SetFrontierMonTemporaryLevel(&gPlayerParty[i], FRONTIER_MAX_LEVEL_50);
+    }
+}
+
+void RestoreFrontierMonLevelFromBackup(struct Pokemon *mon, const struct Pokemon *backup)
+{
+    struct Pokemon *backupMon = (struct Pokemon *)backup;
+    u16 species;
+    u16 backupSpecies;
+    u32 hp;
+    u32 oldMaxHp;
+    u32 exp;
+    u32 newHp;
+
+    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
+        return;
+
+    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    backupSpecies = GetMonData(backupMon, MON_DATA_SPECIES, NULL);
+    if (species == SPECIES_NONE
+        || backupSpecies == SPECIES_NONE
+        || species != backupSpecies
+        || GetMonData(mon, MON_DATA_PERSONALITY, NULL) != GetMonData(backupMon, MON_DATA_PERSONALITY, NULL))
+        return;
+
+    hp = GetMonData(mon, MON_DATA_HP, NULL);
+    oldMaxHp = GetMonData(mon, MON_DATA_MAX_HP, NULL);
+    exp = GetMonData(backupMon, MON_DATA_EXP, NULL);
+
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
+
+    newHp = ScaleFrontierHpForNewMax(hp, oldMaxHp, GetMonData(mon, MON_DATA_MAX_HP, NULL));
+    SetMonData(mon, MON_DATA_HP, &newHp);
 }
 
 static void ShowFacilityResultsWindow(void)
@@ -1565,11 +1654,12 @@ static void AppendIfValid(u16 species, u16 heldItem, u16 hp, u8 lvlMode, u8 monL
 {
     s32 i = 0;
 
+    (void)lvlMode;
+    (void)monLevel;
+
     if (species == SPECIES_EGG || species == SPECIES_NONE)
         return;
     if (gSpeciesInfo[species].isFrontierBanned)
-        return;
-    if (lvlMode == FRONTIER_LVL_50 && monLevel > FRONTIER_MAX_LEVEL_50)
         return;
 
     for (i = 0; i < *count && speciesArray[i] != species; i++)
@@ -1810,6 +1900,8 @@ static void ResetSketchedMoves(void)
                 if (k == MAX_MON_MOVES)
                     SetMonMoveSlot(&gPlayerParty[i], MOVE_SKETCH, j);
             }
+            RestoreFrontierMonLevelFromBackup(&gPlayerParty[i],
+                                              &gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1]);
             gSaveBlock1Ptr->playerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1] = gPlayerParty[i];
         }
     }

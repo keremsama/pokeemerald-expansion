@@ -25,5 +25,7 @@ u8 GetFrontierBrainMonNature(u8 monId);
 u8 GetFrontierBrainMonEvs(u8 monId, u8 evStatId);
 s32 GetFronterBrainSymbol(void);
 void ClearEnemyPartyAfterChallenge(void);
+void ScaleSelectedFrontierPartyForLevel50(void);
+void RestoreFrontierMonLevelFromBackup(struct Pokemon *mon, const struct Pokemon *backup);
 
 #endif // GUARD_FRONTIER_UTIL_H

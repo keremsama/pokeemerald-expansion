@@ -423,8 +423,6 @@ BattleFrontier_BattlePalaceLobby_Text_NotEnoughValidMonsLv50:
 	.string "required for the challenge.\p"
 	.string "To enter, you must provide three\n"
 	.string "different kinds of POKéMON.\p"
-	.string "These POKéMON must all be of\n"
-	.string "Level 50 or lower.\p"
 	.string "They also must not be holding\n"
 	.string "the same kinds of items.\p"
 	.string "EGGS{STR_VAR_1} ineligible.\p"
@@ -647,4 +645,3 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger:
 	.string "nature when it is in trouble.\p"
 	.string "If a POKéMON begins behaving oddly\n"
 	.string "in a pinch, watch it carefully.$"
-

@@ -1233,6 +1233,7 @@ static void RestorePyramidPlayerParty(void)
                     if (l == MAX_MON_MOVES)
                         SetMonMoveSlot(&gPlayerParty[j], MOVE_SKETCH, k);
                 }
+                RestoreFrontierMonLevelFromBackup(&gPlayerParty[j], &gSaveBlock1Ptr->playerParty[partyIndex]);
                 gSaveBlock1Ptr->playerParty[partyIndex] = gPlayerParty[j];
                 gSelectedOrderFromParty[j] = partyIndex + 1;
                 break;
