@@ -239,7 +239,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_BlastoiseDoll::
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_VitaminClerk::
+BattleFrontier_ExchangeServiceCorner_EventScript_CandyClerk::
 	lock
 	faceplayer
 	setvar VAR_TEMP_2, EXCHANGE_CORNER_VITAMIN_CLERK
@@ -254,61 +254,61 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin::
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
 	switch VAR_RESULT
-	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_Protein
-	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_Calcium
-	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_Iron
-	case 3, BattleFrontier_ExchangeServiceCorner_EventScript_Zinc
-	case 4, BattleFrontier_ExchangeServiceCorner_EventScript_Carbos
-	case 5, BattleFrontier_ExchangeServiceCorner_EventScript_HPUp
+	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyXS
+	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyS
+	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyM
+	case 3, BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyL
+	case 4, BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyXL
+	case 5, BattleFrontier_ExchangeServiceCorner_EventScript_RareCandy
 	case 6, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
 	case MULTI_B_PRESSED, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_Protein::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmProtein, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyXS::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyXS, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
 	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_PROTEIN
+	setvar VAR_0x8009, ITEM_EXP_CANDY_XS
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_Calcium::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmCalcium, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyS::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyS, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_CALCIUM
+	setvar VAR_0x8008, 2
+	setvar VAR_0x8009, ITEM_EXP_CANDY_S
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_Iron::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmIron, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyM::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyM, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_IRON
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, ITEM_EXP_CANDY_M
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_Zinc::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmZinc, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyL::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyL, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_ZINC
+	setvar VAR_0x8008, 6
+	setvar VAR_0x8009, ITEM_EXP_CANDY_L
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_Carbos::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmCarbos, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_ExpCandyXL::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyXL, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_CARBOS
+	setvar VAR_0x8008, 9
+	setvar VAR_0x8009, ITEM_EXP_CANDY_XL
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
-BattleFrontier_ExchangeServiceCorner_EventScript_HPUp::
-	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmHPUp, MSGBOX_YESNO
+BattleFrontier_ExchangeServiceCorner_EventScript_RareCandy::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmRareCandy, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, ITEM_HP_UP
+	setvar VAR_0x8008, 10
+	setvar VAR_0x8009, ITEM_RARE_CANDY
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
@@ -1015,28 +1015,28 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmBlastoiseDoll:
 	.string "You've chosen the BLASTOISE DOLL.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmProtein:
-	.string "You've chosen the PROTEIN.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyXS:
+	.string "You've chosen the EXP. CANDY XS.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmCalcium:
-	.string "You've chosen the CALCIUM.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyS:
+	.string "You've chosen the EXP. CANDY S.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmIron:
-	.string "You've chosen the IRON.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyM:
+	.string "You've chosen the EXP. CANDY M.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmZinc:
-	.string "You've chosen the ZINC.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyL:
+	.string "You've chosen the EXP. CANDY L.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmCarbos:
-	.string "You've chosen the CARBOS.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmExpCandyXL:
+	.string "You've chosen the EXP. CANDY XL.\n"
 	.string "Is that correct?$"
 
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmHPUp:
-	.string "You've chosen the HP UP.\n"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmRareCandy:
+	.string "You've chosen the RARE CANDY.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmBrightpowder:
@@ -1328,27 +1328,28 @@ BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc::
 	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ProteinDesc::
-	.string "Raises the stat ATTACK of one\n"
+	.string "Gives 100 Exp. Points to one\n"
 	.string "POKéMON.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_CalciumDesc::
-	.string "Raises the stat SP. ATK of one\n"
+	.string "Gives 800 Exp. Points to one\n"
 	.string "POKéMON.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_IronDesc::
-	.string "Raises the stat DEFENSE of one\n"
+	.string "Gives 3,000 Exp. Points to one\n"
 	.string "POKéMON.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ZincDesc::
-	.string "Raises the stat SP. DEF of one\n"
+	.string "Gives 10,000 Exp. Points to one\n"
 	.string "POKéMON.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_CarbosDesc::
-	.string "Raises the stat SPEED of one\n"
+	.string "Gives 30,000 Exp. Points to one\n"
 	.string "POKéMON.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_HPUpDesc::
-	.string "Raises the HP of one POKéMON.$"
+	.string "Raises the level of one POKéMON\n"
+	.string "by one.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_LeftoversDesc::
 	.string "A hold item that gradually restores\n"
