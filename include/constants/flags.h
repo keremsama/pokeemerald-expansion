@@ -695,7 +695,7 @@
 #define FLAG_SET_BATTLE_SCENE       0x288
 #define FLAG_NUZLOCKE_GAME_CORNER_MON  0x289
 #define FLAG_RANDOM_SHOP_ITEMS  0x28A
-#define FLAG_UNUSED_0x28B  0x28B // Unused Flag
+#define FLAG_RANDOM_FRONTIER_BATTLE_MUSIC  0x28B
 #define FLAG_UNUSED_0x28C  0x28C // Unused Flag
 #define FLAG_UNUSED_0x28D  0x28D // Unused Flag
 #define FLAG_UNUSED_0x28E  0x28E // Unused Flag

@@ -6175,6 +6175,168 @@ bool32 IsSpeciesInHoennDex(u16 species)
         return TRUE;
 }
 
+static const u16 sFrontierTrainerBattleMusic[] =
+{
+    MUS_VS_TRAINER,
+    MUS_VS_FRONTIER_BRAIN,
+    MUS_RG_VS_MEWTWO,
+    MUS_VS_WILD,
+    MUS_VS_AQUA_MAGMA,
+    MUS_VS_GYM_LEADER,
+    MUS_VS_CHAMPION,
+    MUS_VS_RIVAL,
+    MUS_VS_ELITE_FOUR,
+    MUS_VS_AQUA_MAGMA_LEADER,
+    MUS_RG_VS_GYM_LEADER,
+    MUS_RG_VS_TRAINER,
+    MUS_RG_VS_WILD,
+    MUS_RG_VS_CHAMPION,
+    MUS_RG_VS_DEOXYS,
+    MUS_DP_VS_WILD,
+    MUS_DP_VS_GYM_LEADER,
+    MUS_DP_VS_UXIE_MESPRIT_AZELF,
+    MUS_DP_VS_TRAINER,
+    MUS_DP_VS_DIALGA_PALKIA,
+    MUS_DP_VS_GALACTIC_BOSS,
+    MUS_DP_VS_CHAMPION,
+    MUS_DP_VS_GALACTIC,
+    MUS_DP_VS_RIVAL,
+    MUS_HG_VS_ARCEUS,
+    MUS_DP_VS_LEGEND,
+    MUS_DP_VS_GALACTIC_COMMANDER,
+    MUS_DP_VS_ELITE_FOUR,
+    MUS_PL_VS_GIRATINA,
+    MUS_PL_VS_REGI,
+    MUS_HG_VS_WILD,
+    MUS_HG_VS_TRAINER,
+    MUS_HG_VS_GYM_LEADER,
+    MUS_HG_VS_RIVAL,
+    MUS_HG_VS_ROCKET,
+    MUS_HG_VS_SUICUNE,
+    MUS_HG_VS_ENTEI,
+    MUS_HG_VS_RAIKOU,
+    MUS_HG_VS_CHAMPION,
+    MUS_HG_VS_WILD_KANTO,
+    MUS_HG_VS_TRAINER_KANTO,
+    MUS_HG_VS_GYM_LEADER_KANTO,
+    MUS_HG_VS_HO_OH,
+    MUS_HG_VS_LUGIA,
+    MUS_HG_VS_KYOGRE_GROUDON,
+    MUS_BW_VS_RIVAL,
+    MUS_BW_VS_WILD,
+    MUS_BW_VS_TRAINER,
+    MUS_BW_VS_PLASMA,
+    MUS_BW_VS_GYM_LEADER,
+    MUS_BW_VS_N_1,
+    MUS_BW_VS_ELITE_FOUR,
+    MUS_BW_VS_RESHIRAM_ZEKROM,
+    MUS_BW_VS_N_2,
+    MUS_BW_VS_GHETSIS,
+    MUS_BW_VS_SUBWAY_TRAINER,
+    MUS_BW_VS_LEGEND,
+    MUS_BW_VS_CYNTHIA,
+    MUS_BW_VS_WILD_STRONG,
+    MUS_BW_VS_KYUREM,
+    MUS_BW_VS_CHAMPION,
+    MUS_BW_VS_WCS_CHAMPION,
+    MUS_COL_VS_EVICE,
+};
+
+static const u16 sFrontierBrainBattleMusic[] =
+{
+    MUS_VS_FRONTIER_BRAIN,
+    MUS_VS_CHAMPION,
+    MUS_VS_ELITE_FOUR,
+    MUS_VS_AQUA_MAGMA_LEADER,
+    MUS_RG_VS_CHAMPION,
+    MUS_RG_VS_DEOXYS,
+    MUS_RG_VS_MEWTWO,
+    MUS_DP_VS_UXIE_MESPRIT_AZELF,
+    MUS_DP_VS_DIALGA_PALKIA,
+    MUS_DP_VS_GALACTIC_BOSS,
+    MUS_DP_VS_CHAMPION,
+    MUS_HG_VS_ARCEUS,
+    MUS_DP_VS_ELITE_FOUR,
+    MUS_PL_VS_GIRATINA,
+    MUS_PL_VS_FRONTIER_BRAIN,
+    MUS_PL_VS_REGI,
+    MUS_HG_VS_SUICUNE,
+    MUS_HG_VS_ENTEI,
+    MUS_HG_VS_RAIKOU,
+    MUS_HG_VS_CHAMPION,
+    MUS_HG_VS_HO_OH,
+    MUS_HG_VS_LUGIA,
+    MUS_HG_VS_FRONTIER_BRAIN,
+    MUS_HG_VS_KYOGRE_GROUDON,
+    MUS_BW_VS_ELITE_FOUR,
+    MUS_BW_VS_RESHIRAM_ZEKROM,
+    MUS_BW_VS_GHETSIS,
+    MUS_BW_VS_LEGEND,
+    MUS_BW_VS_CYNTHIA,
+    MUS_BW_VS_KYUREM,
+    MUS_BW_VS_CHAMPION,
+    MUS_BW_VS_WCS_CHAMPION,
+    MUS_COL_VS_EVICE,
+};
+
+static bool8 IsFrontierBrainTrainerClass(u8 trainerClass)
+{
+    switch (trainerClass)
+    {
+    case TRAINER_CLASS_SALON_MAIDEN:
+    case TRAINER_CLASS_DOME_ACE:
+    case TRAINER_CLASS_PALACE_MAVEN:
+    case TRAINER_CLASS_ARENA_TYCOON:
+    case TRAINER_CLASS_FACTORY_HEAD:
+    case TRAINER_CLASS_PIKE_QUEEN:
+    case TRAINER_CLASS_PYRAMID_KING:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+static u32 GetFrontierBattleMusicIndex(u16 trainerId, u32 count, bool8 isBrain)
+{
+    u32 facility;
+    u32 seed = gSaveBlock2Ptr->playerTrainerId[0]
+             | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+             | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+             | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
+        facility = GetRecordedBattleFrontierFacility();
+    else
+        facility = VarGet(VAR_FRONTIER_FACILITY);
+
+    seed ^= (u32)trainerId << 16;
+    seed ^= facility << 8;
+    seed ^= gSaveBlock2Ptr->frontier.curChallengeBattleNum;
+    seed ^= gSaveBlock2Ptr->frontier.battlesCount << 1;
+    seed ^= isBrain ? 0xB055B16D : 0xF20A71E5;
+    seed ^= seed >> 16;
+    seed *= 0x7FEB352D;
+    seed ^= seed >> 15;
+    seed *= 0x846CA68B;
+    seed ^= seed >> 16;
+
+    return seed % count;
+}
+
+static u16 GetFrontierBattleBGM(u16 trainerId)
+{
+    u8 trainerClass = GetFrontierOpponentClass(trainerId);
+    bool8 isBrain = IsFrontierBrainTrainerClass(trainerClass);
+
+    if (!FlagGet(FLAG_RANDOM_FRONTIER_BATTLE_MUSIC))
+        return isBrain ? MUS_VS_FRONTIER_BRAIN : MUS_VS_TRAINER;
+
+    if (isBrain)
+        return sFrontierBrainBattleMusic[GetFrontierBattleMusicIndex(trainerId, ARRAY_COUNT(sFrontierBrainBattleMusic), TRUE)];
+
+    return sFrontierTrainerBattleMusic[GetFrontierBattleMusicIndex(trainerId, ARRAY_COUNT(sFrontierTrainerBattleMusic), FALSE)];
+}
+
 u16 GetBattleBGM(void)
 {
     if (FlagGet(FLAG_SET_BGM))
@@ -6211,7 +6373,7 @@ u16 GetBattleBGM(void)
         u8 trainerClass;
 
         if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-            trainerClass = GetFrontierOpponentClass(TRAINER_BATTLE_PARAM.opponentA);
+            return GetFrontierBattleBGM(TRAINER_BATTLE_PARAM.opponentA);
         else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
             trainerClass = TRAINER_CLASS_EXPERT;
         else

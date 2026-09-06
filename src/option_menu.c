@@ -1,6 +1,7 @@
 #include "global.h"
 #include "option_menu.h"
 #include "bg.h"
+#include "event_data.h"
 #include "gpu_regs.h"
 #include "heat_start_menu.h"
 #include "international_string_util.h"
@@ -19,6 +20,7 @@
 #include "window.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
+#include "constants/flags.h"
 #include "constants/songs.h"
 
 #define tMenuSelection       data[0]
@@ -33,6 +35,7 @@
 #define tTopOption           data[10]
 #define tArrowTaskId         data[11]
 #define tPokemonFollower     data[12]
+#define tFrontierBattleMusic data[13]
 
 enum
 {
@@ -45,6 +48,7 @@ enum
     MENUITEM_FRAMETYPE,
     MENUITEM_STARTMENUCOLOR,
     MENUITEM_POKEMONFOLLOWER,
+    MENUITEM_FRONTIERBATTLEMUSIC,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -97,6 +101,9 @@ static void DrawCursor(u8 taskId);
 static void DrawBgWindowFrames(void);
 static void RefreshScrollArrows(u8 taskId);
 static const u8 *GetOptionDescription(u8 item);
+static bool8 IsFrontierBattleMusicOptionUnlocked(void);
+static u8 GetOptionMenuItemCount(void);
+static u8 GetOptionMenuItemAt(u8 index);
 static u8 TextSpeed_ProcessInput(u8 selection, s8 delta);
 static u8 SanitizeTextSpeedSelection(u8 selection);
 static u8 GetBattleTextSpeedFromTextSpeed(u8 textSpeed);
@@ -134,6 +141,7 @@ static const u8 sTextType[] = _("TYPE");
 static const u8 sTextColor[] = _("COLOR");
 static const u8 sTextStartMenuColor[] = _("MENU COLOR");
 static const u8 sTextPokemonFollower[] = _("FOLLOWER");
+static const u8 sTextFrontierBattleMusic[] = _("FRONTIER BGM");
 static const u8 sTextOn[] = _("ON");
 static const u8 sTextSave[] = _("SAVE");
 
@@ -146,6 +154,7 @@ static const u8 sTextDescButtonMode[] = _("NORMAL keeps default controls.\nLR le
 static const u8 sTextDescFrameType[] = _("Choose the textbox frame style.");
 static const u8 sTextDescStartMenuColor[] = _("Choose the Start Menu background\ncolor palette.");
 static const u8 sTextDescPokemonFollower[] = _("Show or hide your lead POKéMON\nas an overworld follower.");
+static const u8 sTextDescFrontierBattleMusic[] = _("Randomize battle music in the\nBattle Frontier.");
 static const u8 sTextDescCancel[] = _("Save options and return.");
 
 static const u8 sTextSpeedOrder[] =
@@ -175,6 +184,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]       = gText_Frame,
     [MENUITEM_STARTMENUCOLOR]  = sTextStartMenuColor,
     [MENUITEM_POKEMONFOLLOWER] = sTextPokemonFollower,
+    [MENUITEM_FRONTIERBATTLEMUSIC] = sTextFrontierBattleMusic,
     [MENUITEM_CANCEL]          = sTextSave,
 };
 
@@ -331,6 +341,7 @@ static void InitOptionMenuTaskData(u8 taskId)
     gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
     gTasks[taskId].tStartMenuPalette = SanitizeStartMenuPaletteSelection(gSaveBlock2Ptr->optionsStartMenuPalette);
     gTasks[taskId].tPokemonFollower = SanitizePokemonFollowerSelection(gSaveBlock2Ptr->optionsPokemonFollower);
+    gTasks[taskId].tFrontierBattleMusic = FlagGet(FLAG_RANDOM_FRONTIER_BATTLE_MUSIC);
     gTasks[taskId].tArrowTaskId = TASK_NONE;
 }
 
@@ -344,7 +355,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 {
     if (JOY_NEW(A_BUTTON))
     {
-        if (gTasks[taskId].tMenuSelection == MENUITEM_CANCEL)
+        if (GetOptionMenuItemAt(gTasks[taskId].tMenuSelection) == MENUITEM_CANCEL)
             gTasks[taskId].func = Task_OptionMenuSave;
     }
     else if (JOY_NEW(B_BUTTON))
@@ -395,6 +406,10 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->optionsStartMenuPalette = SanitizeStartMenuPaletteSelection(gTasks[taskId].tStartMenuPalette);
     gSaveBlock2Ptr->optionsPokemonFollower = SanitizePokemonFollowerSelection(gTasks[taskId].tPokemonFollower);
+    if (gTasks[taskId].tFrontierBattleMusic)
+        FlagSet(FLAG_RANDOM_FRONTIER_BATTLE_MUSIC);
+    else
+        FlagClear(FLAG_RANDOM_FRONTIER_BATTLE_MUSIC);
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -415,15 +430,16 @@ static void Task_OptionMenuFadeOut(u8 taskId)
 static void MoveOptionCursor(u8 taskId, s8 delta)
 {
     u8 cursor = gTasks[taskId].tMenuSelection;
+    u8 itemCount = GetOptionMenuItemCount();
 
     if (delta < 0)
-        cursor = cursor == 0 ? MENUITEM_COUNT - 1 : cursor - 1;
+        cursor = cursor == 0 ? itemCount - 1 : cursor - 1;
     else
-        cursor = cursor + 1 >= MENUITEM_COUNT ? 0 : cursor + 1;
+        cursor = cursor + 1 >= itemCount ? 0 : cursor + 1;
 
     gTasks[taskId].tMenuSelection = cursor;
 
-    if (MENUITEM_COUNT > OPTIONS_ON_SCREEN)
+    if (itemCount > OPTIONS_ON_SCREEN)
     {
         if (cursor < gTasks[taskId].tTopOption)
             gTasks[taskId].tTopOption = cursor;
@@ -444,7 +460,7 @@ static bool8 ChangeSelection(u8 taskId, s8 delta)
 {
     u8 previousOption;
 
-    switch (gTasks[taskId].tMenuSelection)
+    switch (GetOptionMenuItemAt(gTasks[taskId].tMenuSelection))
     {
     case MENUITEM_TEXTSPEED:
         previousOption = gTasks[taskId].tTextSpeed;
@@ -485,6 +501,10 @@ static bool8 ChangeSelection(u8 taskId, s8 delta)
         previousOption = gTasks[taskId].tPokemonFollower;
         gTasks[taskId].tPokemonFollower = Toggle_ProcessInput(gTasks[taskId].tPokemonFollower);
         return previousOption != gTasks[taskId].tPokemonFollower;
+    case MENUITEM_FRONTIERBATTLEMUSIC:
+        previousOption = gTasks[taskId].tFrontierBattleMusic;
+        gTasks[taskId].tFrontierBattleMusic = Toggle_ProcessInput(gTasks[taskId].tFrontierBattleMusic);
+        return previousOption != gTasks[taskId].tFrontierBattleMusic;
     default:
         return FALSE;
     }
@@ -592,6 +612,9 @@ static void DrawChoices(u8 taskId, u8 item, int y)
     case MENUITEM_POKEMONFOLLOWER:
         DrawTwoChoices(sTextOn, sTextBattleSceneOffPlain, gTasks[taskId].tPokemonFollower, y);
         break;
+    case MENUITEM_FRONTIERBATTLEMUSIC:
+        DrawTwoChoices(sTextBattleSceneOffPlain, sTextOn, gTasks[taskId].tFrontierBattleMusic, y);
+        break;
     }
 }
 
@@ -599,11 +622,12 @@ static void DrawMenu(u8 taskId)
 {
     u8 i;
     u8 first = gTasks[taskId].tTopOption;
+    u8 itemCount = GetOptionMenuItemCount();
 
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
-    for (i = 0; i < OPTIONS_ON_SCREEN && first + i < MENUITEM_COUNT; i++)
+    for (i = 0; i < OPTIONS_ON_SCREEN && first + i < itemCount; i++)
     {
-        u8 item = first + i;
+        u8 item = GetOptionMenuItemAt(first + i);
         int y = i * Y_DIFF + 1;
         DrawOptionName(item, y);
         DrawChoices(taskId, item, y);
@@ -616,7 +640,7 @@ static void DrawDescription(u8 taskId)
     const u8 colorGray[3] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_OPTIONS_GRAY_FG, TEXT_COLOR_OPTIONS_GRAY_SHADOW};
 
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized4(WIN_DESCRIPTION, FONT_NORMAL, 8, 1, 0, 0, colorGray, TEXT_SKIP_DRAW, GetOptionDescription(gTasks[taskId].tMenuSelection));
+    AddTextPrinterParameterized4(WIN_DESCRIPTION, FONT_NORMAL, 8, 1, 0, 0, colorGray, TEXT_SKIP_DRAW, GetOptionDescription(GetOptionMenuItemAt(gTasks[taskId].tMenuSelection)));
     CopyWindowToVram(WIN_DESCRIPTION, COPYWIN_FULL);
 }
 
@@ -630,14 +654,16 @@ static void DrawCursor(u8 taskId)
 
 static void RefreshScrollArrows(u8 taskId)
 {
+    u8 itemCount = GetOptionMenuItemCount();
+
     if (gTasks[taskId].tArrowTaskId != TASK_NONE)
     {
         RemoveScrollIndicatorArrowPair(gTasks[taskId].tArrowTaskId);
         gTasks[taskId].tArrowTaskId = TASK_NONE;
     }
 
-    if (MENUITEM_COUNT > OPTIONS_ON_SCREEN)
-        gTasks[taskId].tArrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 120, 20, 110, MENUITEM_COUNT - OPTIONS_ON_SCREEN, 110, 110, (u16 *)&gTasks[taskId].tTopOption);
+    if (itemCount > OPTIONS_ON_SCREEN)
+        gTasks[taskId].tArrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 120, 20, 110, itemCount - OPTIONS_ON_SCREEN, 110, 110, (u16 *)&gTasks[taskId].tTopOption);
 }
 
 static const u8 *GetOptionDescription(u8 item)
@@ -662,9 +688,32 @@ static const u8 *GetOptionDescription(u8 item)
         return sTextDescStartMenuColor;
     case MENUITEM_POKEMONFOLLOWER:
         return sTextDescPokemonFollower;
+    case MENUITEM_FRONTIERBATTLEMUSIC:
+        return sTextDescFrontierBattleMusic;
     default:
         return sTextDescCancel;
     }
+}
+
+static bool8 IsFrontierBattleMusicOptionUnlocked(void)
+{
+    return FlagGet(FLAG_SYS_FRONTIER_PASS);
+}
+
+static u8 GetOptionMenuItemCount(void)
+{
+    if (IsFrontierBattleMusicOptionUnlocked())
+        return MENUITEM_COUNT;
+
+    return MENUITEM_COUNT - 1;
+}
+
+static u8 GetOptionMenuItemAt(u8 index)
+{
+    if (!IsFrontierBattleMusicOptionUnlocked() && index >= MENUITEM_FRONTIERBATTLEMUSIC)
+        return index + 1;
+
+    return index;
 }
 
 static u8 TextSpeed_ProcessInput(u8 selection, s8 delta)
