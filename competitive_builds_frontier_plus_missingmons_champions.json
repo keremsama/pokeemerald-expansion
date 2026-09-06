@@ -345,20 +345,20 @@
         "set_name": "Offensive",
         "moves": [
           "Knock Off",
-          "Pursuit",
+          "Play Rough",
           "Close Combat",
           "Sucker Punch"
         ],
         "move_consts": [
           "MOVE_KNOCK_OFF",
-          "MOVE_PURSUIT",
+          "MOVE_PLAY_ROUGH",
           "MOVE_CLOSE_COMBAT",
           "MOVE_SUCKER_PUNCH"
         ],
         "ability": "Magic Bounce",
         "ability_const": "ABILITY_MAGIC_BOUNCE",
-        "item": "Absolite",
-        "item_const": "ITEM_ABSOLITE",
+        "item": "Absolite Z",
+        "item_const": "ITEM_ABSOLITE_Z",
         "nature": "Jolly",
         "nature_const": "NATURE_JOLLY",
         "evs": {
@@ -369,7 +369,9 @@
         "ivs": {},
         "frontier_pool": "main",
         "frontier_stage": "late",
-        "battle_style": "singles_origin"
+        "battle_style": "singles_origin",
+        "source_form": "Absol-Mega-Z",
+        "is_mega_set": true
       },
       "builds": [
         {
@@ -378,20 +380,20 @@
           "set_name": "Offensive",
           "moves": [
             "Knock Off",
-            "Pursuit",
+            "Play Rough",
             "Close Combat",
             "Sucker Punch"
           ],
           "move_consts": [
             "MOVE_KNOCK_OFF",
-            "MOVE_PURSUIT",
+            "MOVE_PLAY_ROUGH",
             "MOVE_CLOSE_COMBAT",
             "MOVE_SUCKER_PUNCH"
           ],
           "ability": "Magic Bounce",
           "ability_const": "ABILITY_MAGIC_BOUNCE",
-          "item": "Absolite",
-          "item_const": "ITEM_ABSOLITE",
+          "item": "Absolite Z",
+          "item_const": "ITEM_ABSOLITE_Z",
           "nature": "Jolly",
           "nature_const": "NATURE_JOLLY",
           "evs": {
@@ -404,20 +406,20 @@
           "frontier_stage": "late",
           "battle_style": "singles_origin",
           "is_mega_set": true,
-          "source_form": "Absol-Mega"
+          "source_form": "Absol-Mega-Z"
         },
         {
           "source": "smogon",
           "format": "nationaldexru",
-          "set_name": "Swords Dance",
+          "set_name": "Play Rough Attacker",
           "moves": [
-            "Swords Dance",
+            "Play Rough",
             "Knock Off",
             "Close Combat",
             "Sucker Punch"
           ],
           "move_consts": [
-            "MOVE_SWORDS_DANCE",
+            "MOVE_PLAY_ROUGH",
             "MOVE_KNOCK_OFF",
             "MOVE_CLOSE_COMBAT",
             "MOVE_SUCKER_PUNCH"
@@ -12501,6 +12503,40 @@
           "frontier_pool": "main",
           "frontier_stage": "late",
           "battle_style": "singles_origin"
+        },
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Dragon Dance",
+          "moves": [
+            "Glaive Rush",
+            "Ice Hammer",
+            "Dragon Dance",
+            "Earthquake"
+          ],
+          "move_consts": [
+            "MOVE_GLAIVE_RUSH",
+            "MOVE_ICE_HAMMER",
+            "MOVE_DRAGON_DANCE",
+            "MOVE_EARTHQUAKE"
+          ],
+          "ability": "Thermal Exchange",
+          "ability_const": "ABILITY_THERMAL_EXCHANGE",
+          "item": "Baxcalibrite",
+          "item_const": "ITEM_BAXCALIBRITE",
+          "nature": "Jolly",
+          "nature_const": "NATURE_JOLLY",
+          "evs": {
+            "hp": 4,
+            "atk": 252,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Baxcalibur-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -26638,10 +26674,10 @@
           ],
           "ability": "",
           "ability_const": "ABILITY_NONE",
-          "item": "Leftovers",
-          "item_const": "ITEM_LEFTOVERS",
-          "nature": "Timid",
-          "nature_const": "NATURE_TIMID",
+          "item": "Darkranite",
+          "item_const": "ITEM_DARKRANITE",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
           "evs": {
             "spa": 252,
             "spd": 4,
@@ -26650,7 +26686,9 @@
           "ivs": {},
           "frontier_pool": "main",
           "frontier_stage": "late",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Darkrai-Mega",
+          "is_mega_set": true
         },
         {
           "source": "smogon",
@@ -43283,6 +43321,40 @@
           },
           "sp_to_ev_method": "round(stat_points / 32 * 252) to nearest multiple of 4, clamp each stat at 252, reduce total to 508",
           "data_quality": "ladder_most_used_set"
+        },
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Z Special Attacker",
+          "moves": [
+            "Draco Meteor",
+            "Earth Power",
+            "Fire Blast",
+            "Protect"
+          ],
+          "move_consts": [
+            "MOVE_DRACO_METEOR",
+            "MOVE_EARTH_POWER",
+            "MOVE_FIRE_BLAST",
+            "MOVE_PROTECT"
+          ],
+          "ability": "Sand Force",
+          "ability_const": "ABILITY_SAND_FORCE",
+          "item": "Garchompite Z",
+          "item_const": "ITEM_GARCHOMPITE_Z",
+          "nature": "Timid",
+          "nature_const": "NATURE_TIMID",
+          "evs": {
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Garchomp-Mega-Z",
+          "is_mega_set": true
         }
       ]
     },
@@ -56013,7 +56085,7 @@
         {
           "source": "smogon",
           "format": "battlestadiumsingles",
-          "set_name": "Specially Defensive",
+          "set_name": "Mega Special Attacker",
           "moves": [
             "Magma Storm",
             "Earth Power",
@@ -56028,21 +56100,23 @@
           ],
           "ability": "",
           "ability_const": "ABILITY_NONE",
-          "item": "Leftovers",
-          "item_const": "ITEM_LEFTOVERS",
-          "nature": "Calm",
-          "nature_const": "NATURE_CALM",
+          "item": "Heatranite",
+          "item_const": "ITEM_HEATRANITE",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
           "evs": {
             "hp": 252,
-            "spd": 252,
-            "spe": 4
+            "spa": 252,
+            "spd": 4
           },
           "ivs": {
             "atk": 0
           },
           "frontier_pool": "main",
           "frontier_stage": "late",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Heatran-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -74782,21 +74856,21 @@
           "format": "battlestadiumsingles",
           "set_name": "Special Attacker",
           "moves": [
-            "Vacuum Wave",
             "Aura Sphere",
             "Steel Beam",
-            "Dark Pulse"
+            "Dark Pulse",
+            "Nasty Plot"
           ],
           "move_consts": [
-            "MOVE_VACUUM_WAVE",
             "MOVE_AURA_SPHERE",
             "MOVE_STEEL_BEAM",
-            "MOVE_DARK_PULSE"
+            "MOVE_DARK_PULSE",
+            "MOVE_NASTY_PLOT"
           ],
           "ability": "Inner Focus",
           "ability_const": "ABILITY_INNER_FOCUS",
-          "item": "Life Orb",
-          "item_const": "ITEM_LIFE_ORB",
+          "item": "Lucarionite Z",
+          "item_const": "ITEM_LUCARIONITE_Z",
           "nature": "Modest",
           "nature_const": "NATURE_MODEST",
           "evs": {
@@ -74807,7 +74881,9 @@
           "ivs": {},
           "frontier_pool": "main",
           "frontier_stage": "late",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Lucario-Mega-Z",
+          "is_mega_set": true
         },
         {
           "source": "pokemon_champions",
@@ -76572,29 +76648,29 @@
         {
           "source": "smogon",
           "format": "ubers",
-          "set_name": "Trick Room Setter",
+          "set_name": "Offensive Support",
           "moves": [
             "Fleur Cannon",
-            "Trick Room",
-            "Spikes",
-            "Volt Switch"
+            "Volt Switch",
+            "Flash Cannon",
+            "Thunder Wave"
           ],
           "move_consts": [
             "MOVE_FLEUR_CANNON",
-            "MOVE_TRICK_ROOM",
-            "MOVE_SPIKES",
-            "MOVE_VOLT_SWITCH"
+            "MOVE_VOLT_SWITCH",
+            "MOVE_FLASH_CANNON",
+            "MOVE_THUNDER_WAVE"
           ],
           "ability": "",
           "ability_const": "ABILITY_NONE",
           "item": "Leftovers",
           "item_const": "ITEM_LEFTOVERS",
-          "nature": "Relaxed",
-          "nature_const": "NATURE_RELAXED",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
           "evs": {
             "hp": 248,
-            "def": 252,
-            "spa": 8
+            "def": 8,
+            "spa": 252
           },
           "ivs": {},
           "frontier_pool": "boss",
@@ -76672,29 +76748,29 @@
         {
           "source": "smogon",
           "format": "ubersuu",
-          "set_name": "Support",
+          "set_name": "Mega Support",
           "moves": [
             "Fleur Cannon",
             "Volt Switch",
-            "Thunder Wave",
-            "Spikes"
+            "Flash Cannon",
+            "Thunder Wave"
           ],
           "move_consts": [
             "MOVE_FLEUR_CANNON",
             "MOVE_VOLT_SWITCH",
-            "MOVE_THUNDER_WAVE",
-            "MOVE_SPIKES"
+            "MOVE_FLASH_CANNON",
+            "MOVE_THUNDER_WAVE"
           ],
           "ability": "",
           "ability_const": "ABILITY_NONE",
-          "item": "Leftovers",
-          "item_const": "ITEM_LEFTOVERS",
-          "nature": "Relaxed",
-          "nature_const": "NATURE_RELAXED",
+          "item": "Magearnite",
+          "item_const": "ITEM_MAGEARNITE",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
           "evs": {
             "hp": 248,
-            "def": 252,
-            "spd": 8
+            "def": 8,
+            "spa": 252
           },
           "ivs": {
             "atk": 0,
@@ -76702,7 +76778,9 @@
           },
           "frontier_pool": "boss",
           "frontier_stage": "boss",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Magearna-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -82426,34 +82504,36 @@
         {
           "source": "smogon",
           "format": "ubers",
-          "set_name": "Nasty Plot",
+          "set_name": "Mega X Physical",
           "moves": [
-            "Nasty Plot",
-            "Psystrike",
-            "Grass Knot",
-            "Taunt"
+            "Low Kick",
+            "Taunt",
+            "Zen Headbutt",
+            "Stone Edge"
           ],
           "move_consts": [
-            "MOVE_NASTY_PLOT",
-            "MOVE_PSYSTRIKE",
-            "MOVE_GRASS_KNOT",
-            "MOVE_TAUNT"
+            "MOVE_LOW_KICK",
+            "MOVE_TAUNT",
+            "MOVE_ZEN_HEADBUTT",
+            "MOVE_STONE_EDGE"
           ],
           "ability": "",
           "ability_const": "ABILITY_NONE",
-          "item": "Heavy Duty Boots",
-          "item_const": "ITEM_HEAVY_DUTY_BOOTS",
-          "nature": "Timid",
-          "nature_const": "NATURE_TIMID",
+          "item": "Mewtwonite X",
+          "item_const": "ITEM_MEWTWONITE_X",
+          "nature": "Jolly",
+          "nature_const": "NATURE_JOLLY",
           "evs": {
-            "spa": 252,
-            "spd": 4,
+            "atk": 252,
+            "def": 4,
             "spe": 252
           },
           "ivs": {},
           "frontier_pool": "boss",
           "frontier_stage": "boss",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Mewtwo-Mega-X",
+          "is_mega_set": true
         },
         {
           "source": "smogon",
@@ -120759,14 +120839,14 @@
         "moves": [
           "Nasty Plot",
           "Draco Meteor",
-          "Surf",
-          "Rapid Spin"
+          "Scald",
+          "Dark Pulse"
         ],
         "move_consts": [
           "MOVE_NASTY_PLOT",
           "MOVE_DRACO_METEOR",
-          "MOVE_SURF",
-          "MOVE_RAPID_SPIN"
+          "MOVE_SCALD",
+          "MOVE_DARK_PULSE"
         ],
         "ability": "Storm Drain",
         "ability_const": "ABILITY_STORM_DRAIN",
@@ -120792,14 +120872,14 @@
           "moves": [
             "Nasty Plot",
             "Draco Meteor",
-            "Surf",
-            "Rapid Spin"
+            "Scald",
+            "Dark Pulse"
           ],
           "move_consts": [
             "MOVE_NASTY_PLOT",
             "MOVE_DRACO_METEOR",
-            "MOVE_SURF",
-            "MOVE_RAPID_SPIN"
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
           ],
           "ability": "Storm Drain",
           "ability_const": "ABILITY_STORM_DRAIN",
@@ -120824,14 +120904,14 @@
           "moves": [
             "Nasty Plot",
             "Draco Meteor",
-            "Surf",
-            "Rapid Spin"
+            "Scald",
+            "Dark Pulse"
           ],
           "move_consts": [
             "MOVE_NASTY_PLOT",
             "MOVE_DRACO_METEOR",
-            "MOVE_SURF",
-            "MOVE_RAPID_SPIN"
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
           ],
           "ability": "Storm Drain",
           "ability_const": "ABILITY_STORM_DRAIN",
@@ -120856,14 +120936,14 @@
           "moves": [
             "Nasty Plot",
             "Draco Meteor",
-            "Surf",
-            "Rapid Spin"
+            "Scald",
+            "Dark Pulse"
           ],
           "move_consts": [
             "MOVE_NASTY_PLOT",
             "MOVE_DRACO_METEOR",
-            "MOVE_SURF",
-            "MOVE_RAPID_SPIN"
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
           ],
           "ability": "Storm Drain",
           "ability_const": "ABILITY_STORM_DRAIN",
@@ -120888,14 +120968,14 @@
           "moves": [
             "Nasty Plot",
             "Draco Meteor",
-            "Surf",
-            "Rapid Spin"
+            "Scald",
+            "Dark Pulse"
           ],
           "move_consts": [
             "MOVE_NASTY_PLOT",
             "MOVE_DRACO_METEOR",
-            "MOVE_SURF",
-            "MOVE_RAPID_SPIN"
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
           ],
           "ability": "Storm Drain",
           "ability_const": "ABILITY_STORM_DRAIN",
@@ -120912,6 +120992,40 @@
           "frontier_pool": "main",
           "frontier_stage": "late",
           "battle_style": "singles_origin"
+        },
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Nasty Plot",
+          "moves": [
+            "Nasty Plot",
+            "Draco Meteor",
+            "Scald",
+            "Dark Pulse"
+          ],
+          "move_consts": [
+            "MOVE_NASTY_PLOT",
+            "MOVE_DRACO_METEOR",
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
+          ],
+          "ability": "Storm Drain",
+          "ability_const": "ABILITY_STORM_DRAIN",
+          "item": "Tatsugirinite",
+          "item_const": "ITEM_TATSUGIRINITE",
+          "nature": "Timid",
+          "nature_const": "NATURE_TIMID",
+          "evs": {
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Tatsugiri-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -139137,6 +139251,40 @@
           "frontier_pool": "main",
           "frontier_stage": "late",
           "battle_style": "singles_origin"
+        },
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Offensive Pivot",
+          "moves": [
+            "Plasma Fists",
+            "Knock Off",
+            "Volt Switch",
+            "Close Combat"
+          ],
+          "move_consts": [
+            "MOVE_PLASMA_FISTS",
+            "MOVE_KNOCK_OFF",
+            "MOVE_VOLT_SWITCH",
+            "MOVE_CLOSE_COMBAT"
+          ],
+          "ability": "",
+          "ability_const": "ABILITY_NONE",
+          "item": "Zeraorite",
+          "item_const": "ITEM_ZERAORITE",
+          "nature": "Adamant",
+          "nature_const": "NATURE_ADAMANT",
+          "evs": {
+            "atk": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Zeraora-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -139928,34 +140076,36 @@
         {
           "source": "smogon",
           "format": "nationaldexubers",
-          "set_name": "Trapper",
+          "set_name": "Mega Special Rest",
           "moves": [
-            "Thousand Waves",
-            "Coil",
-            "Scale Shot",
+            "Earth Power",
+            "Core Enforcer",
+            "Sludge Wave",
             "Rest"
           ],
           "move_consts": [
-            "MOVE_THOUSAND_WAVES",
-            "MOVE_COIL",
-            "MOVE_SCALE_SHOT",
+            "MOVE_EARTH_POWER",
+            "MOVE_CORE_ENFORCER",
+            "MOVE_SLUDGE_WAVE",
             "MOVE_REST"
           ],
           "ability": "Power Construct",
           "ability_const": "ABILITY_POWER_CONSTRUCT",
-          "item": "Leftovers",
-          "item_const": "ITEM_LEFTOVERS",
-          "nature": "Impish",
-          "nature_const": "NATURE_IMPISH",
+          "item": "Zygardite",
+          "item_const": "ITEM_ZYGARDITE",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
           "evs": {
             "hp": 252,
-            "def": 212,
+            "spa": 212,
             "spd": 44
           },
           "ivs": {},
           "frontier_pool": "boss",
           "frontier_stage": "boss",
-          "battle_style": "singles_origin"
+          "battle_style": "singles_origin",
+          "source_form": "Zygarde-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -156445,25 +156595,25 @@
         "moves": [
           "First Impression",
           "Knock Off",
-          "Spikes",
+          "Liquidation",
           "Leech Life"
         ],
         "move_consts": [
           "MOVE_FIRST_IMPRESSION",
           "MOVE_KNOCK_OFF",
-          "MOVE_SPIKES",
+          "MOVE_LIQUIDATION",
           "MOVE_LEECH_LIFE"
         ],
         "ability": "Emergency Exit",
         "ability_const": "ABILITY_EMERGENCY_EXIT",
         "item": "Leftovers",
         "item_const": "ITEM_LEFTOVERS",
-        "nature": "Jolly",
-        "nature_const": "NATURE_JOLLY",
+        "nature": "Adamant",
+        "nature_const": "NATURE_ADAMANT",
         "evs": {
           "atk": 252,
-          "spd": 4,
-          "spe": 252
+          "def": 252,
+          "spd": 4
         },
         "ivs": {},
         "frontier_pool": "main",
@@ -156480,25 +156630,25 @@
           "moves": [
             "First Impression",
             "Knock Off",
-            "Spikes",
+            "Liquidation",
             "Leech Life"
           ],
           "move_consts": [
             "MOVE_FIRST_IMPRESSION",
             "MOVE_KNOCK_OFF",
-            "MOVE_SPIKES",
+            "MOVE_LIQUIDATION",
             "MOVE_LEECH_LIFE"
           ],
           "ability": "Emergency Exit",
           "ability_const": "ABILITY_EMERGENCY_EXIT",
           "item": "Leftovers",
           "item_const": "ITEM_LEFTOVERS",
-          "nature": "Jolly",
-          "nature_const": "NATURE_JOLLY",
+          "nature": "Adamant",
+          "nature_const": "NATURE_ADAMANT",
           "evs": {
             "atk": 252,
-            "spd": 4,
-            "spe": 252
+            "def": 252,
+            "spd": 4
           },
           "ivs": {},
           "frontier_pool": "main",
@@ -156506,6 +156656,40 @@
           "battle_style": "singles_origin",
           "role": "Bulky Attacker",
           "randbats_level": 83
+        },
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Bulky Attacker",
+          "moves": [
+            "First Impression",
+            "Knock Off",
+            "Liquidation",
+            "Leech Life"
+          ],
+          "move_consts": [
+            "MOVE_FIRST_IMPRESSION",
+            "MOVE_KNOCK_OFF",
+            "MOVE_LIQUIDATION",
+            "MOVE_LEECH_LIFE"
+          ],
+          "ability": "Emergency Exit",
+          "ability_const": "ABILITY_EMERGENCY_EXIT",
+          "item": "Golisopite",
+          "item_const": "ITEM_GOLISOPITE",
+          "nature": "Adamant",
+          "nature_const": "NATURE_ADAMANT",
+          "evs": {
+            "atk": 252,
+            "def": 252,
+            "spd": 4
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Golisopod-Mega",
+          "is_mega_set": true
         }
       ]
     },
@@ -162451,6 +162635,231 @@
           },
           "sp_to_ev_method": "round(stat_points / 32 * 252) to nearest multiple of 4, clamp each stat at 252, reduce total to 508",
           "data_quality": "ladder_most_used_set"
+        }
+      ]
+    },
+    "Magearna-Original": {
+      "species_const": "SPECIES_MAGEARNA_ORIGINAL",
+      "frontier_pool": "boss",
+      "frontier_stage": "boss",
+      "best_build": {
+        "source": "custom_missingmon",
+        "format": "frontier_missingmon_custom",
+        "set_name": "Mega Original Support",
+        "moves": [
+          "Fleur Cannon",
+          "Volt Switch",
+          "Flash Cannon",
+          "Thunder Wave"
+        ],
+        "move_consts": [
+          "MOVE_FLEUR_CANNON",
+          "MOVE_VOLT_SWITCH",
+          "MOVE_FLASH_CANNON",
+          "MOVE_THUNDER_WAVE"
+        ],
+        "ability": "Soul-Heart",
+        "ability_const": "ABILITY_SOUL_HEART",
+        "item": "Magearnite",
+        "item_const": "ITEM_MAGEARNITE",
+        "nature": "Modest",
+        "nature_const": "NATURE_MODEST",
+        "evs": {
+          "hp": 248,
+          "def": 8,
+          "spa": 252
+        },
+        "ivs": {},
+        "frontier_pool": "boss",
+        "frontier_stage": "boss",
+        "battle_style": "singles_origin",
+        "source_form": "Magearna-Original-Mega",
+        "is_mega_set": true
+      },
+      "builds": [
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Original Support",
+          "moves": [
+            "Fleur Cannon",
+            "Volt Switch",
+            "Flash Cannon",
+            "Thunder Wave"
+          ],
+          "move_consts": [
+            "MOVE_FLEUR_CANNON",
+            "MOVE_VOLT_SWITCH",
+            "MOVE_FLASH_CANNON",
+            "MOVE_THUNDER_WAVE"
+          ],
+          "ability": "Soul-Heart",
+          "ability_const": "ABILITY_SOUL_HEART",
+          "item": "Magearnite",
+          "item_const": "ITEM_MAGEARNITE",
+          "nature": "Modest",
+          "nature_const": "NATURE_MODEST",
+          "evs": {
+            "hp": 248,
+            "def": 8,
+            "spa": 252
+          },
+          "ivs": {},
+          "frontier_pool": "boss",
+          "frontier_stage": "boss",
+          "battle_style": "singles_origin",
+          "source_form": "Magearna-Original-Mega",
+          "is_mega_set": true
+        }
+      ]
+    },
+    "Tatsugiri-Droopy": {
+      "species_const": "SPECIES_TATSUGIRI_DROOPY",
+      "frontier_pool": "main",
+      "frontier_stage": "late",
+      "best_build": {
+        "source": "custom_missingmon",
+        "format": "frontier_missingmon_custom",
+        "set_name": "Mega Nasty Plot",
+        "moves": [
+          "Nasty Plot",
+          "Draco Meteor",
+          "Scald",
+          "Dark Pulse"
+        ],
+        "move_consts": [
+          "MOVE_NASTY_PLOT",
+          "MOVE_DRACO_METEOR",
+          "MOVE_SCALD",
+          "MOVE_DARK_PULSE"
+        ],
+        "ability": "Storm Drain",
+        "ability_const": "ABILITY_STORM_DRAIN",
+        "item": "Tatsugirinite",
+        "item_const": "ITEM_TATSUGIRINITE",
+        "nature": "Timid",
+        "nature_const": "NATURE_TIMID",
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "ivs": {},
+        "frontier_pool": "main",
+        "frontier_stage": "late",
+        "battle_style": "singles_origin",
+        "source_form": "Tatsugiri-Droopy-Mega",
+        "is_mega_set": true
+      },
+      "builds": [
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Nasty Plot",
+          "moves": [
+            "Nasty Plot",
+            "Draco Meteor",
+            "Scald",
+            "Dark Pulse"
+          ],
+          "move_consts": [
+            "MOVE_NASTY_PLOT",
+            "MOVE_DRACO_METEOR",
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
+          ],
+          "ability": "Storm Drain",
+          "ability_const": "ABILITY_STORM_DRAIN",
+          "item": "Tatsugirinite",
+          "item_const": "ITEM_TATSUGIRINITE",
+          "nature": "Timid",
+          "nature_const": "NATURE_TIMID",
+          "evs": {
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Tatsugiri-Droopy-Mega",
+          "is_mega_set": true
+        }
+      ]
+    },
+    "Tatsugiri-Stretchy": {
+      "species_const": "SPECIES_TATSUGIRI_STRETCHY",
+      "frontier_pool": "main",
+      "frontier_stage": "late",
+      "best_build": {
+        "source": "custom_missingmon",
+        "format": "frontier_missingmon_custom",
+        "set_name": "Mega Nasty Plot",
+        "moves": [
+          "Nasty Plot",
+          "Draco Meteor",
+          "Scald",
+          "Dark Pulse"
+        ],
+        "move_consts": [
+          "MOVE_NASTY_PLOT",
+          "MOVE_DRACO_METEOR",
+          "MOVE_SCALD",
+          "MOVE_DARK_PULSE"
+        ],
+        "ability": "Storm Drain",
+        "ability_const": "ABILITY_STORM_DRAIN",
+        "item": "Tatsugirinite",
+        "item_const": "ITEM_TATSUGIRINITE",
+        "nature": "Timid",
+        "nature_const": "NATURE_TIMID",
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "ivs": {},
+        "frontier_pool": "main",
+        "frontier_stage": "late",
+        "battle_style": "singles_origin",
+        "source_form": "Tatsugiri-Stretchy-Mega",
+        "is_mega_set": true
+      },
+      "builds": [
+        {
+          "source": "custom_missingmon",
+          "format": "frontier_missingmon_custom",
+          "set_name": "Mega Nasty Plot",
+          "moves": [
+            "Nasty Plot",
+            "Draco Meteor",
+            "Scald",
+            "Dark Pulse"
+          ],
+          "move_consts": [
+            "MOVE_NASTY_PLOT",
+            "MOVE_DRACO_METEOR",
+            "MOVE_SCALD",
+            "MOVE_DARK_PULSE"
+          ],
+          "ability": "Storm Drain",
+          "ability_const": "ABILITY_STORM_DRAIN",
+          "item": "Tatsugirinite",
+          "item_const": "ITEM_TATSUGIRINITE",
+          "nature": "Timid",
+          "nature_const": "NATURE_TIMID",
+          "evs": {
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {},
+          "frontier_pool": "main",
+          "frontier_stage": "late",
+          "battle_style": "singles_origin",
+          "source_form": "Tatsugiri-Stretchy-Mega",
+          "is_mega_set": true
         }
       ]
     }

@@ -264,7 +264,7 @@ def _store_species_meta(meta_by_species: dict[str, SpeciesMeta], species: str, b
 
 
 def is_mega_stone_item(item_const: str) -> bool:
-    return bool(re.fullmatch(r"ITEM_[A-Z0-9_]+ITE(?:_[XY])?", item_const)) and item_const not in NON_MEGA_ITE_ITEMS
+    return bool(re.fullmatch(r"ITEM_[A-Z0-9_]+ITE(?:_[XYZ])?", item_const)) and item_const not in NON_MEGA_ITE_ITEMS
 
 
 def tera_specific_hits(species_const: str, ability_const: str, move_consts: tuple[str, str, str, str]) -> list[str]:
