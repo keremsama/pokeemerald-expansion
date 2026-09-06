@@ -9038,8 +9038,6 @@ static u8 GetBattleEntryLevelCap(void)
     case FACILITY_UNION_ROOM:
         return UNION_ROOM_MAX_LEVEL;
     default: // Battle Frontier
-        if (gSpecialVar_0x8004 == FRONTIER_LVL_50)
-            return FRONTIER_MAX_LEVEL_50;
         return FRONTIER_MAX_LEVEL_OPEN;
     }
 }
