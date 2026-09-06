@@ -566,8 +566,19 @@ def parse_parameterized_macro_arities(path: Path) -> dict[str, int]:
 def macro_rank_window(name: str) -> set[int]:
     if name == "FRONTIER_MONS_EEVEELUTIONS":
         return {2, 3, 4, 5, 6}
+    match = re.search(r"_(\d)([A-D])?(?:_|$)", name)
+    if match:
+        tier = int(match.group(1))
+        letter = match.group(2)
+        if tier <= 1:
+            return {0, 1, 2}
+        if tier == 2:
+            return {4, 5, 6} if letter else {2, 3, 4}
+        if tier == 3:
+            return {3, 4, 5, 6}
+        return {4, 5, 6}
     if name.endswith("_A"):
-        return {3, 4, 5}
+        return {4, 5, 6}
     if name.endswith("_B"):
         return {3, 4, 5, 6}
     if name.endswith("_C"):
@@ -575,15 +586,7 @@ def macro_rank_window(name: str) -> set[int]:
     if name.endswith("_D"):
         return {5, 6}
 
-    match = re.search(r"_(\d)(?:[A-Z]|_|$)", name)
-    tier = int(match.group(1)) if match else 3
-    if tier <= 1:
-        return {0, 1, 2}
-    if tier == 2:
-        return {2, 3, 4}
-    if tier == 3:
-        return {3, 4, 5}
-    return {4, 5, 6}
+    return {3, 4, 5}
 
 
 def macro_theme_types(name: str) -> set[str]:
@@ -842,13 +845,13 @@ def ensure_factory_ranges_use_generated_ranks(root: Path) -> bool:
     replacement = """static const u16 sInitialRentalMonRanges[][2] =
 {
     // Level 50: keep Factory progression inside the main Frontier pool.
-    {FRONTIER_MON_RANK_2_START, FRONTIER_MON_RANK_2_END},
     {FRONTIER_MON_RANK_2_START, FRONTIER_MON_RANK_3_END},
-    {FRONTIER_MON_RANK_3_START, FRONTIER_MON_RANK_4_END},
-    {FRONTIER_MON_RANK_4_START, FRONTIER_MON_RANK_5_END},
-    {FRONTIER_MON_RANK_5_START, FRONTIER_MON_RANK_5_END},
+    {FRONTIER_MON_RANK_4_START, FRONTIER_MON_RANK_6_END},
     {FRONTIER_MON_RANK_5_START, FRONTIER_MON_RANK_6_END},
     {FRONTIER_MON_RANK_5_START, FRONTIER_MON_RANK_6_END},
+    {FRONTIER_MON_RANK_6_START, FRONTIER_MONS_HIGH_TIER},
+    {FRONTIER_MON_RANK_6_START, FRONTIER_MONS_HIGH_TIER},
+    {FRONTIER_MON_RANK_6_START, FRONTIER_MONS_HIGH_TIER},
     {FRONTIER_MON_RANK_3_START, FRONTIER_MONS_HIGH_TIER},
 
     // Open level: late rounds may pull from the boss/high-power section.
