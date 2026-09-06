@@ -567,9 +567,11 @@ void ScaleSelectedFrontierPartyForLevel50(void)
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
         return;
 
-    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL, NULL) > FRONTIER_MAX_LEVEL_50)
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL)
+            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG, NULL) != SPECIES_EGG
+            && GetMonData(&gPlayerParty[i], MON_DATA_LEVEL, NULL) > FRONTIER_MAX_LEVEL_50)
             SetFrontierMonTemporaryLevel(&gPlayerParty[i], FRONTIER_MAX_LEVEL_50);
     }
 }

@@ -25,6 +25,7 @@
 #include "event_data.h"
 #include "evolution_scene.h"
 #include "field_weather.h"
+#include "frontier_util.h"
 #include "graphics.h"
 #include "gpu_regs.h"
 #include "international_string_util.h"
@@ -101,6 +102,7 @@ static void CB2_PreInitMultiBattle(void);
 static void CB2_PreInitIngamePlayerPartnerBattle(void);
 static void CB2_HandleStartMultiPartnerBattle(void);
 static void CB2_HandleStartMultiBattle(void);
+static void TryScaleBattleTowerPartyForLevel50(void);
 static void CB2_HandleStartBattle(void);
 static void TryCorrectShedinjaLanguage(struct Pokemon *mon);
 static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 firstTrainer);
@@ -1125,6 +1127,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
                 if (IsLinkTaskFinished())
                 {
                     // 0x300
+                    TryScaleBattleTowerPartyForLevel50();
                     *(&gBattleStruct->multiBuffer.linkBattlerHeader.versionSignatureLo) = 0;
                     *(&gBattleStruct->multiBuffer.linkBattlerHeader.versionSignatureHi) = 3;
                     BufferPartyVsScreenHealth_AtStart();
@@ -1167,6 +1170,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
         if (IsLinkTaskFinished())
         {
             // Send Pokémon 1-2
+            TryScaleBattleTowerPartyForLevel50();
             SendBlock(BitmaskAllOtherLinkPlayers(), gPlayerParty, sizeof(struct Pokemon) * 2);
             gBattleCommunication[MULTIUSE_STATE]++;
         }
@@ -1186,6 +1190,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
                 memcpy(gPlayerParty, gBlockRecvBuffer[playerMultiplayerId], sizeof(struct Pokemon) * 2);
                 memcpy(&gPlayerParty[MULTI_PARTY_SIZE], gBlockRecvBuffer[partnerMultiplayerId], sizeof(struct Pokemon) * 2);
             }
+            TryScaleBattleTowerPartyForLevel50();
             gBattleCommunication[MULTIUSE_STATE]++;
         }
         break;
@@ -1193,6 +1198,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
         if (IsLinkTaskFinished())
         {
             // Send Pokémon 3
+            TryScaleBattleTowerPartyForLevel50();
             SendBlock(BitmaskAllOtherLinkPlayers(), &gPlayerParty[2], sizeof(struct Pokemon));
             gBattleCommunication[MULTIUSE_STATE]++;
         }
@@ -1212,6 +1218,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
                 memcpy(&gPlayerParty[2], gBlockRecvBuffer[playerMultiplayerId], sizeof(struct Pokemon));
                 memcpy(&gPlayerParty[2 + MULTI_PARTY_SIZE], gBlockRecvBuffer[partnerMultiplayerId], sizeof(struct Pokemon));
             }
+            TryScaleBattleTowerPartyForLevel50();
             gBattleCommunication[MULTIUSE_STATE]++;
         }
         break;
@@ -1279,6 +1286,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
             TryCorrectShedinjaLanguage(&gEnemyParty[3]);
             TryCorrectShedinjaLanguage(&gEnemyParty[4]);
             TryCorrectShedinjaLanguage(&gEnemyParty[5]);
+            TryScaleBattleTowerPartyForLevel50();
             gBattleCommunication[MULTIUSE_STATE]++;
         }
         break;
@@ -1312,6 +1320,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
         break;
     case 16:
         // Finish, start battle
+        TryScaleBattleTowerPartyForLevel50();
         if (BattleInitAllSprites(&gBattleCommunication[SPRITES_INIT_STATE1], &gBattleCommunication[SPRITES_INIT_STATE2]))
         {
             TrySetLinkBattleTowerEnemyPartyLevel();
@@ -1347,6 +1356,12 @@ static void SetMultiPartnerMenuParty(u8 offset)
     memcpy(sMultiPartnerPartyBuffer, gMultiPartnerParty, sizeof(gMultiPartnerParty));
 }
 
+static void TryScaleBattleTowerPartyForLevel50(void)
+{
+    if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
+        ScaleSelectedFrontierPartyForLevel50();
+}
+
 static void CB2_PreInitMultiBattle(void)
 {
     s32 i;
@@ -1377,6 +1392,7 @@ static void CB2_PreInitMultiBattle(void)
         if (gReceivedRemoteLinkPlayers && IsLinkTaskFinished())
         {
             sMultiPartnerPartyBuffer = Alloc(sizeof(gMultiPartnerParty));
+            TryScaleBattleTowerPartyForLevel50();
             SetMultiPartnerMenuParty(0);
             SendBlock(BitmaskAllOtherLinkPlayers(), sMultiPartnerPartyBuffer, sizeof(gMultiPartnerParty));
             gBattleCommunication[MULTIUSE_STATE]++;
@@ -1459,6 +1475,7 @@ static void CB2_PreInitIngamePlayerPartnerBattle(void)
     {
     case 0:
         sMultiPartnerPartyBuffer = Alloc(sizeof(gMultiPartnerParty));
+        TryScaleBattleTowerPartyForLevel50();
         SetMultiPartnerMenuParty(MULTI_PARTY_SIZE);
         gBattleCommunication[MULTIUSE_STATE]++;
         *savedCallback = gMain.savedCallback;
