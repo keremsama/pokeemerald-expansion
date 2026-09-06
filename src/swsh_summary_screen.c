@@ -4409,10 +4409,10 @@ static void PrintNonHPStats(void)
 {
     u8 windowId = AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_STATS);
     
-    PrintTextOnWindowWithFont(windowId, gStringVar1, 129, 0, 0, 0, FONT_NARROW);
-    PrintTextOnWindowWithFont(windowId, gStringVar2, 57, 16, 0, 0, FONT_NARROW);
-    PrintTextOnWindowWithFont(windowId, gStringVar3, 129, 16, 0, 0, FONT_NARROW);
-    PrintTextOnWindowWithFont(windowId, gStringVar4, 57, 32, 0, 0, FONT_NARROW);
+    PrintTextOnWindowWithFont(windowId, gStringVar1, 57, 16, 0, 0, FONT_NARROW);
+    PrintTextOnWindowWithFont(windowId, gStringVar2, 57, 32, 0, 0, FONT_NARROW);
+    PrintTextOnWindowWithFont(windowId, gStringVar3, 129, 0, 0, 0, FONT_NARROW);
+    PrintTextOnWindowWithFont(windowId, gStringVar4, 129, 16, 0, 0, FONT_NARROW);
     PrintTextOnWindowWithFont(windowId, sStringVar5, 129, 32, 0, 0, FONT_NARROW);
 }
 
@@ -4456,10 +4456,10 @@ static void PrintStatLabels(void)
     PrintTextOnWindowWithFont(windowId, sText_HP_Title, 8, 0, 0, 0, FONT_NARROW);
     
     // Print non-HP stat labels (colored)
-    PrintColoredStatLabel(windowId, STAT_ATK, sText_Attack_Title, 80, 0, natureUpStat, natureDownStat, coloredLabel);
-    PrintColoredStatLabel(windowId, STAT_DEF, sText_Defense_Title, 8, 16, natureUpStat, natureDownStat, coloredLabel);
-    PrintColoredStatLabel(windowId, STAT_SPATK, sText_SpAtk_Title, 80, 16, natureUpStat, natureDownStat, coloredLabel);
-    PrintColoredStatLabel(windowId, STAT_SPDEF, sText_SpDef_Title, 8, 32, natureUpStat, natureDownStat, coloredLabel);
+    PrintColoredStatLabel(windowId, STAT_ATK, sText_Attack_Title, 8, 16, natureUpStat, natureDownStat, coloredLabel);
+    PrintColoredStatLabel(windowId, STAT_DEF, sText_Defense_Title, 8, 32, natureUpStat, natureDownStat, coloredLabel);
+    PrintColoredStatLabel(windowId, STAT_SPATK, sText_SpAtk_Title, 80, 0, natureUpStat, natureDownStat, coloredLabel);
+    PrintColoredStatLabel(windowId, STAT_SPDEF, sText_SpDef_Title, 80, 16, natureUpStat, natureDownStat, coloredLabel);
     PrintColoredStatLabel(windowId, STAT_SPEED, sText_Speed_Title, 80, 32, natureUpStat, natureDownStat, coloredLabel);
 }
 
@@ -4751,19 +4751,19 @@ static void ShowGradeIcons(u8 mode)
     static const u8 sGradeIconX[] =
     {
         [SPRITE_ARR_ID_HP_GRADE - SPRITE_ARR_ID_HP_GRADE]  = 73,
-        [SPRITE_ARR_ID_ATK_GRADE - SPRITE_ARR_ID_HP_GRADE] = 145,
+        [SPRITE_ARR_ID_ATK_GRADE - SPRITE_ARR_ID_HP_GRADE] = 73,
         [SPRITE_ARR_ID_DEF_GRADE - SPRITE_ARR_ID_HP_GRADE] = 73,
         [SPRITE_ARR_ID_SPA_GRADE - SPRITE_ARR_ID_HP_GRADE] = 145,
-        [SPRITE_ARR_ID_SPD_GRADE - SPRITE_ARR_ID_HP_GRADE] = 73,
+        [SPRITE_ARR_ID_SPD_GRADE - SPRITE_ARR_ID_HP_GRADE] = 145,
         [SPRITE_ARR_ID_SPE_GRADE - SPRITE_ARR_ID_HP_GRADE] = 145,
     };
     static const u8 sGradeIconY[] =
     {
         [SPRITE_ARR_ID_HP_GRADE - SPRITE_ARR_ID_HP_GRADE]  = 40,
-        [SPRITE_ARR_ID_ATK_GRADE - SPRITE_ARR_ID_HP_GRADE] = 40,
-        [SPRITE_ARR_ID_DEF_GRADE - SPRITE_ARR_ID_HP_GRADE] = 56,
-        [SPRITE_ARR_ID_SPA_GRADE - SPRITE_ARR_ID_HP_GRADE] = 56,
-        [SPRITE_ARR_ID_SPD_GRADE - SPRITE_ARR_ID_HP_GRADE] = 72,
+        [SPRITE_ARR_ID_ATK_GRADE - SPRITE_ARR_ID_HP_GRADE] = 56,
+        [SPRITE_ARR_ID_DEF_GRADE - SPRITE_ARR_ID_HP_GRADE] = 72,
+        [SPRITE_ARR_ID_SPA_GRADE - SPRITE_ARR_ID_HP_GRADE] = 40,
+        [SPRITE_ARR_ID_SPD_GRADE - SPRITE_ARR_ID_HP_GRADE] = 56,
         [SPRITE_ARR_ID_SPE_GRADE - SPRITE_ARR_ID_HP_GRADE] = 72,
     };
     u32 i;
