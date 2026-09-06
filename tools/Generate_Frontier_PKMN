@@ -1,0 +1,3 @@
+in BASH ausführen:
+
+python3 tools/generate_battle_frontier_from_competitive_json.py
