@@ -1,7 +1,7 @@
 Battle Frontier generation report
 =================================
 
-Source JSON: competitive_builds_frontier_plus_missingmons_champions.json
+Source JSON: competitive_builds_frontier_compact.json
 Generated Frontier mons: 2293
 Main-pool builds: 1821
 Boss-pool builds: 472

@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / "competitive_builds_frontier_plus_missingmons_champions.json"
+DEFAULT_INPUT = ROOT / "competitive_builds_frontier_compact.json"
 CONSTANTS_OUT = ROOT / "include/constants/battle_frontier_mons.h"
 MONS_OUT = ROOT / "src/data/battle_frontier/battle_frontier_mons.h"
 TRAINER_MONS_OUT = ROOT / "src/data/battle_frontier/battle_frontier_trainer_mons.h"
@@ -278,8 +278,13 @@ def tera_specific_hits(species_const: str, ability_const: str, move_consts: tupl
 
 
 def adjusted_rank_and_pool(build: dict, species_meta: SpeciesMeta | None, item_const: str) -> tuple[int, str]:
-    rank = build_rank(build, item_const)
-    pool = build.get("frontier_pool") or "main"
+    pool = build_pool(build)
+    rank = explicit_rank(build)
+    if rank is None:
+        rank = build_rank(build, item_const)
+
+    if rank >= 8:
+        return 8, "boss"
 
     if pool != "boss" and species_meta and species_meta.bst is not None:
         is_special = species_meta.is_legendary or species_meta.is_mythical or species_meta.is_ultra_beast
@@ -299,9 +304,19 @@ def adjusted_rank_and_pool(build: dict, species_meta: SpeciesMeta | None, item_c
     return rank, pool
 
 
+def explicit_rank(build: dict) -> int | None:
+    if "rank" not in build:
+        return None
+    return max(0, min(8, int(build["rank"])))
+
+
+def build_pool(build: dict) -> str:
+    return build.get("pool") or build.get("frontier_pool") or "main"
+
+
 def build_rank(build: dict, item_const: str) -> int:
     fmt = (build.get("format") or "").lower()
-    pool = build.get("frontier_pool") or "main"
+    pool = build_pool(build)
     tier = build.get("champions_tier")
 
     if pool == "boss":
@@ -341,12 +356,16 @@ def ev_tuple(build: dict) -> tuple[int, int, int, int, int, int]:
 
 
 def normalize_moves(build: dict) -> tuple[str, str, str, str]:
-    moves = list(build.get("move_consts") or [])
+    moves = list(build.get("move_consts") or build.get("moves") or [])
     moves = [move for move in moves if move]
     moves = moves[:4]
     while len(moves) < 4:
         moves.append("MOVE_NONE")
     return tuple(moves)  # type: ignore[return-value]
+
+
+def build_set_name(build: dict) -> str:
+    return build.get("set_name") or build.get("name") or "Frontier Set"
 
 
 def source_priority(build: dict | Entry) -> int:
@@ -407,18 +426,18 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
     skipped: list[str] = []
 
     for species_name, mon in data["pokemon"].items():
-        species_const = mon.get("species_const")
-        for build in mon.get("builds", []):
-            item_const = build.get("item_const") or "ITEM_NONE"
-            ability_const = build.get("ability_const") or "ABILITY_NONE"
-            nature_const = build.get("nature_const") or "NATURE_HARDY"
+        species_const = mon.get("species_const") or mon.get("species")
+        for build in mon.get("sets") or mon.get("builds", []):
+            item_const = build.get("item_const") or build.get("item") or "ITEM_NONE"
+            ability_const = build.get("ability_const") or build.get("ability") or "ABILITY_NONE"
+            nature_const = build.get("nature_const") or build.get("nature") or "NATURE_HARDY"
             move_consts = normalize_moves(build)
             meta = species_meta.get(species_const)
             rank, pool = adjusted_rank_and_pool(build, meta, item_const)
 
             tera_hits = tera_specific_hits(species_const, ability_const, move_consts)
             if tera_hits:
-                skipped.append(f"{species_name} / {build.get('set_name')}: tera-specific {', '.join(tera_hits)}")
+                skipped.append(f"{species_name} / {build_set_name(build)}: tera-specific {', '.join(tera_hits)}")
                 continue
 
             missing = []
@@ -440,10 +459,10 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
                 {
                     "species_name": species_name,
                     "species_const": species_const,
-                    "source_form": build.get("source_form") or species_name,
-                    "set_name": build.get("set_name") or "Frontier Set",
+                    "source_form": build.get("source_form") or build.get("form") or species_name,
+                    "set_name": build_set_name(build),
                     "source": build.get("source") or "unknown",
-                    "format_name": build.get("format") or "unknown",
+                    "format_name": build.get("format") or "manual",
                     "rank": rank,
                     "pool": pool,
                     "move_consts": move_consts,
@@ -452,7 +471,7 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
                     "nature_const": nature_const,
                     "evs": ev_tuple(build),
                     "types": meta.types if meta else frozenset(),
-                    "is_mega_set": bool(build.get("is_mega_set")) or is_mega_stone_item(item_const),
+                    "is_mega_set": bool(build.get("is_mega_set") or build.get("mega")) or is_mega_stone_item(item_const),
                 }
             )
 
@@ -480,7 +499,14 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
     return entries, skipped, deduped
 
 
-def write_constants(entries: list[Entry], path: Path) -> None:
+def display_source_path(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
+def write_constants(entries: list[Entry], source_name: str, path: Path) -> None:
     by_rank: dict[int, list[Entry]] = collections.defaultdict(list)
     for entry in entries:
         by_rank[entry.rank].append(entry)
@@ -491,7 +517,7 @@ def write_constants(entries: list[Entry], path: Path) -> None:
         "#define GUARD_CONSTANTS_BATTLE_FRONTIER_MONS_H",
         "",
         "// Generated by tools/generate_battle_frontier_from_competitive_json.py.",
-        "// Source: competitive_builds_frontier_plus_missingmons_champions.json",
+        f"// Source: {source_name}",
         "",
     ]
     for rank in sorted(r for r in by_rank if r != 8):
@@ -871,6 +897,7 @@ def ensure_factory_ranges_use_generated_ranks(root: Path) -> bool:
 
 def write_report(
     entries: list[Entry],
+    source_name: str,
     skipped: list[str],
     deduped: list[str],
     macro_sizes: dict[str, int],
@@ -889,7 +916,7 @@ def write_report(
         "Battle Frontier generation report",
         "=================================",
         "",
-        "Source JSON: competitive_builds_frontier_plus_missingmons_champions.json",
+        f"Source JSON: {source_name}",
         f"Generated Frontier mons: {len(entries)}",
         f"Main-pool builds: {sum(1 for entry in entries if entry.pool == 'main')}",
         f"Boss-pool builds: {sum(1 for entry in entries if entry.pool == 'boss')}",
@@ -948,19 +975,20 @@ def main() -> None:
     macro_names = parse_macro_names(TRAINER_MONS_OUT)
     macro_arities = parse_parameterized_macro_arities(TRAINERS_FILE)
     entries, skipped, deduped = load_entries(args.input, constants, species_meta)
+    source_name = display_source_path(args.input)
 
     if not entries:
         raise SystemExit("No valid Frontier entries generated")
     if len(entries) > 0xFFFF:
         raise SystemExit("Too many Frontier entries for u16 mon IDs")
 
-    write_constants(entries, CONSTANTS_OUT)
+    write_constants(entries, source_name, CONSTANTS_OUT)
     write_mons(entries, MONS_OUT)
     macro_sizes = write_trainer_mons(entries, macro_names, macro_arities, TRAINER_MONS_OUT)
     brain_report = write_brain_mons(entries, BRAIN_MONS_OUT)
     frontier_util_patched = ensure_frontier_util_uses_generated_brains(ROOT)
     factory_patched = ensure_factory_ranges_use_generated_ranks(ROOT)
-    write_report(entries, skipped, deduped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
+    write_report(entries, source_name, skipped, deduped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
 
     print(f"Generated {len(entries)} Frontier mons")
     print(f"Skipped/filtered {len(skipped)} builds")
