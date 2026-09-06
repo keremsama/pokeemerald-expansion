@@ -91,32 +91,32 @@ EEVEELUTION_SPECIES = {
 
 BRAIN_TEAMS = {
     "TOWER": [
-        [("Kingambit", None), ("Garchomp", None), ("Sinistcha", None)],
-        [("Mewtwo", "ITEM_MEWTWONITE_Y"), ("Zacian-Crowned", None), ("Kyogre", None)],
+        [("Lucario", "ITEM_LUCARIONITE"), ("Alakazam", None), ("Snorlax", None)],
+        [("Lucario", "ITEM_LUCARIONITE_Z"), ("Entei", None), ("Raikou", None)],
     ],
     "DOME": [
-        [("Charizard", "ITEM_CHARIZARDITE_Y"), ("Swampert", "ITEM_SWAMPERTITE"), ("Metagross", "ITEM_METAGROSSITE")],
-        [("Koraidon", None), ("Miraidon", None), ("Rayquaza", None)],
+        [("Chandelure", "ITEM_CHANDELURITE"), ("Swampert", None), ("Metagross", None)],
+        [("Chandelure", "ITEM_CHANDELURITE"), ("Flutter Mane", None), ("Tapu Fini", None)],
     ],
     "PALACE": [
-        [("Arcanine-Hisui", None), ("Slowking-Galar", None), ("Milotic", None)],
-        [("Ho-Oh", None), ("Lugia", None), ("Giratina", None)],
+        [("Emboar", "ITEM-EMBOARITE"), ("Arcanine-Hisui", None), ("Milotic", None)],
+        [("Emboar", "ITEM-EMBOARITE"), ("Kartana", None), ("Lugia", None)],
     ],
     "ARENA": [
         [("Heracross", "ITEM_HERACRONITE"), ("Kommo-o", None), ("Breloom", None)],
-        [("Marshadow", None), ("Zamazenta-Crowned", None), ("Urshifu", None)],
+        [("Heracross", "ITEM_HERACRONITE"), ("Ho-Oh", None), ("Urshifu", None)],
     ],
     "FACTORY": [
-        [("Metagross", None), ("Skarmory", None), ("Aggron", "ITEM_AGGRONITE")],
-        [("Metagross", "ITEM_METAGROSSITE"), ("Skarmory", None), ("Aggron", "ITEM_AGGRONITE")],
+        [("Kingambit", None), ("Garchomp", None), ("Pinsir", "ITEM_PINSIRITE")],
+        [("Pinsir", "ITEM_PINSIRITE"), ("Solgaleo", None), ("Xurkitree", None)],
     ],
     "PIKE": [
         [("Seviper", None), ("Milotic", None), ("Glimmora", "ITEM_GLIMMORANITE")],
-        [("Zygarde", None), ("Eternatus", None), ("Yveltal", None)],
+        [("Glimmora", "ITEM_GLIMMORANITE"), ("Naganadel", None), ("Yveltal", None)],
     ],
     "PYRAMID": [
-        [("Regirock", None), ("Regice", None), ("Registeel", None)],
-        [("Groudon", None), ("Kyogre", None), ("Rayquaza", None)],
+        [("Golurk", "ITEM_GOLURKITE"), ("Cofagrigus", None), ("Regirock", None)],
+        [("Regigigas", None), ("Golurk", "ITEM_GOLURKITE"), ("Regirock", None)],
     ],
 }
 
