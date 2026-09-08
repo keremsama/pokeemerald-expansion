@@ -9,6 +9,7 @@
 #include "main.h"
 #include "menu.h"
 #include "palette.h"
+#include "randomizer_nuzlocke_menu.h"
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
@@ -36,6 +37,7 @@
 #define tArrowTaskId         data[11]
 #define tPokemonFollower     data[12]
 #define tFrontierBattleMusic data[13]
+#define tExitToRandomizerMenu data[14]
 
 enum
 {
@@ -48,6 +50,7 @@ enum
     MENUITEM_FRAMETYPE,
     MENUITEM_STARTMENUCOLOR,
     MENUITEM_POKEMONFOLLOWER,
+    MENUITEM_RANDOMIZERNUZLOCKE,
     MENUITEM_FRONTIERBATTLEMUSIC,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
@@ -141,7 +144,9 @@ static const u8 sTextType[] = _("TYPE");
 static const u8 sTextColor[] = _("COLOR");
 static const u8 sTextStartMenuColor[] = _("MENU COLOR");
 static const u8 sTextPokemonFollower[] = _("FOLLOWER");
+static const u8 sTextRandomizerNuzlocke[] = _("RANDO/NUZ");
 static const u8 sTextFrontierBattleMusic[] = _("FRONTIER BGM");
+static const u8 sTextAButton[] = _("{A_BUTTON}");
 static const u8 sTextOn[] = _("ON");
 static const u8 sTextSave[] = _("SAVE");
 
@@ -154,6 +159,7 @@ static const u8 sTextDescButtonMode[] = _("NORMAL keeps default controls.\nLR le
 static const u8 sTextDescFrameType[] = _("Choose the textbox frame style.");
 static const u8 sTextDescStartMenuColor[] = _("Choose the Start Menu background\ncolor palette.");
 static const u8 sTextDescPokemonFollower[] = _("Show or hide your lead POKéMON\nas an overworld follower.");
+static const u8 sTextDescRandomizerNuzlocke[] = _("Open Randomizer and Nuzlocke\nsettings.");
 static const u8 sTextDescFrontierBattleMusic[] = _("Randomize battle music in the\nBattle Frontier.");
 static const u8 sTextDescCancel[] = _("Save options and return.");
 
@@ -184,6 +190,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]       = gText_Frame,
     [MENUITEM_STARTMENUCOLOR]  = sTextStartMenuColor,
     [MENUITEM_POKEMONFOLLOWER] = sTextPokemonFollower,
+    [MENUITEM_RANDOMIZERNUZLOCKE] = sTextRandomizerNuzlocke,
     [MENUITEM_FRONTIERBATTLEMUSIC] = sTextFrontierBattleMusic,
     [MENUITEM_CANCEL]          = sTextSave,
 };
@@ -343,6 +350,7 @@ static void InitOptionMenuTaskData(u8 taskId)
     gTasks[taskId].tPokemonFollower = SanitizePokemonFollowerSelection(gSaveBlock2Ptr->optionsPokemonFollower);
     gTasks[taskId].tFrontierBattleMusic = FlagGet(FLAG_RANDOM_FRONTIER_BATTLE_MUSIC);
     gTasks[taskId].tArrowTaskId = TASK_NONE;
+    gTasks[taskId].tExitToRandomizerMenu = FALSE;
 }
 
 static void Task_OptionMenuFadeIn(u8 taskId)
@@ -356,7 +364,15 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     if (JOY_NEW(A_BUTTON))
     {
         if (GetOptionMenuItemAt(gTasks[taskId].tMenuSelection) == MENUITEM_CANCEL)
+        {
             gTasks[taskId].func = Task_OptionMenuSave;
+        }
+        else if (GetOptionMenuItemAt(gTasks[taskId].tMenuSelection) == MENUITEM_RANDOMIZERNUZLOCKE)
+        {
+            PlaySE(SE_SELECT);
+            gTasks[taskId].tExitToRandomizerMenu = TRUE;
+            gTasks[taskId].func = Task_OptionMenuSave;
+        }
     }
     else if (JOY_NEW(B_BUTTON))
     {
@@ -419,11 +435,13 @@ static void Task_OptionMenuFadeOut(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
+        bool8 exitToRandomizerMenu = gTasks[taskId].tExitToRandomizerMenu;
+
         if (gTasks[taskId].tArrowTaskId != TASK_NONE)
             RemoveScrollIndicatorArrowPair(gTasks[taskId].tArrowTaskId);
         DestroyTask(taskId);
         FreeAllWindowBuffers();
-        SetMainCallback2(gMain.savedCallback);
+        SetMainCallback2(exitToRandomizerMenu ? CB2_InitRandomizerNuzlockeMenu : gMain.savedCallback);
     }
 }
 
@@ -612,6 +630,9 @@ static void DrawChoices(u8 taskId, u8 item, int y)
     case MENUITEM_POKEMONFOLLOWER:
         DrawTwoChoices(sTextOn, sTextBattleSceneOffPlain, gTasks[taskId].tPokemonFollower, y);
         break;
+    case MENUITEM_RANDOMIZERNUZLOCKE:
+        DrawOptionMenuChoice(sTextAButton, CHOICE_LEFT_X, y, TRUE);
+        break;
     case MENUITEM_FRONTIERBATTLEMUSIC:
         DrawTwoChoices(sTextBattleSceneOffPlain, sTextOn, gTasks[taskId].tFrontierBattleMusic, y);
         break;
@@ -688,6 +709,8 @@ static const u8 *GetOptionDescription(u8 item)
         return sTextDescStartMenuColor;
     case MENUITEM_POKEMONFOLLOWER:
         return sTextDescPokemonFollower;
+    case MENUITEM_RANDOMIZERNUZLOCKE:
+        return sTextDescRandomizerNuzlocke;
     case MENUITEM_FRONTIERBATTLEMUSIC:
         return sTextDescFrontierBattleMusic;
     default:
@@ -705,13 +728,13 @@ static u8 GetOptionMenuItemCount(void)
     if (IsFrontierBattleMusicOptionUnlocked())
         return MENUITEM_COUNT;
 
-    return MENUITEM_COUNT - 1;
+    return MENUITEM_COUNT - 2;
 }
 
 static u8 GetOptionMenuItemAt(u8 index)
 {
-    if (!IsFrontierBattleMusicOptionUnlocked() && index >= MENUITEM_FRONTIERBATTLEMUSIC)
-        return index + 1;
+    if (!IsFrontierBattleMusicOptionUnlocked() && index >= MENUITEM_RANDOMIZERNUZLOCKE)
+        return index + 2;
 
     return index;
 }

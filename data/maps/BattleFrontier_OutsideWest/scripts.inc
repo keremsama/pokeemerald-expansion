@@ -5,6 +5,9 @@ BattleFrontier_OutsideWest_MapScripts::
 BattleFrontier_OutsideWest_OnTransition:
 	setvar VAR_BRAVO_TRAINER_BATTLE_TOWER_ON, 0
 	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
+	goto_if_unset FLAG_FRONTIER_OPTIONS_NOTICE_SHOWN, BattleFrontier_OutsideWest_OnTransition_End
+	setvar VAR_TEMP_0, 1
+BattleFrontier_OutsideWest_OnTransition_End:
 	end
 
 BattleFrontier_OutsideWest_EventScript_FerryAttendant::
@@ -83,6 +86,14 @@ BattleFrontier_OutsideWest_EventScript_BattleFactorySign::
 
 BattleFrontier_OutsideWest_EventScript_BattlePikeSign::
 	msgbox BattleFrontier_OutsideWest_Text_BattlePikeSign, MSGBOX_SIGN
+	end
+
+BattleFrontier_OutsideWest_EventScript_FrontierOptionsNotice::
+	lockall
+	setvar VAR_TEMP_0, 1
+	setflag FLAG_FRONTIER_OPTIONS_NOTICE_SHOWN
+	msgbox BattleFrontier_OutsideWest_Text_FrontierOptionsNotice, MSGBOX_DEFAULT
+	releaseall
 	end
 
 @ Unused. Of note, Battle Tower is in the East section in the final release
@@ -310,6 +321,16 @@ BattleFrontier_OutsideWest_Text_BattlePikeSign:
 	.string "This is the BATTLE PIKE!\n"
 	.string "Choose one of three paths!$"
 
+BattleFrontier_OutsideWest_Text_FrontierOptionsNotice:
+	.string "You can now open the RANDOMIZER\n"
+	.string "and NUZLOCKE menus from OPTIONS.\p"
+	.string "Use them to catch more POKéMON\n"
+	.string "and build a team for the FRONTIER.\p"
+	.string "If NUZLOCKE mode is active, then\n"
+	.string "by this point your challenge is won.\p"
+	.string "The BATTLE FRONTIER is your new\n"
+	.string "proving ground!$"
+
 BattleFrontier_OutsideWest_Text_ThisIsBattleTower:
 	.string "This is the BATTLE TOWER.\p"
 	.string "TRAINERS bring their best-raised\n"
@@ -514,4 +535,3 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier:
 	.string "It must be adorable. I'm sure of it…\p"
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
-

@@ -420,7 +420,35 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 54,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "BattleFrontier_OutsideWest_EventScript_FrontierOptionsNotice"
+    },
+    {
+      "type": "trigger",
+      "x": 27,
+      "y": 54,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "BattleFrontier_OutsideWest_EventScript_FrontierOptionsNotice"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 54,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "BattleFrontier_OutsideWest_EventScript_FrontierOptionsNotice"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",
