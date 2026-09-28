@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / "competitive_builds_frontier_compact.json"
+DEFAULT_INPUT = ROOT / "src/data/battle_frontier_sets.party"
 CONSTANTS_OUT = ROOT / "include/constants/battle_frontier_mons.h"
 MONS_OUT = ROOT / "src/data/battle_frontier/battle_frontier_mons.h"
 TRAINER_MONS_OUT = ROOT / "src/data/battle_frontier/battle_frontier_trainer_mons.h"
@@ -29,6 +29,8 @@ SOURCE_PRIORITY = {
     "showdown_randbats_gen7": 5,
     "custom_missingmon": 6,
 }
+MAX_BUILDS_PER_SPECIES = 5
+MAX_MEGA_BUILDS_PER_SPECIES = 2
 NON_MEGA_ITE_ITEMS = {
     "ITEM_EVIOLITE",
 }
@@ -161,6 +163,7 @@ class Entry:
     evs: tuple[int, int, int, int, int, int]
     types: frozenset[str]
     is_mega_set: bool
+    is_doubles_origin: bool
 
 
 def collect_project_constants(root: Path) -> set[str]:
@@ -368,6 +371,233 @@ def build_set_name(build: dict) -> str:
     return build.get("set_name") or build.get("name") or "Frontier Set"
 
 
+def strip_c_comments(text: str) -> str:
+    return re.sub(r"/\*[\s\S]*?\*/", lambda match: "\n" * match.group(0).count("\n"), text)
+
+
+def name_to_constant(value: str, prefix: str) -> str:
+    value = value.strip()
+    if value.upper().startswith(prefix):
+        return value.upper()
+    value = value.replace("♀", "_F").replace("♂", "_M")
+    value = value.replace("'", "")
+    value = re.sub(r"[^A-Za-z0-9]+", "_", value)
+    value = re.sub(r"_+", "_", value).strip("_").upper()
+    if value == "NONE":
+        return f"{prefix}NONE"
+    return f"{prefix}{value}"
+
+
+def parse_party_evs(value: str, path: Path, line_num: int) -> dict[str, int]:
+    stat_names = {
+        "hp": "hp",
+        "atk": "atk",
+        "def": "def",
+        "spe": "spe",
+        "spa": "spa",
+        "spd": "spd",
+    }
+    result: dict[str, int] = {}
+    for part in value.split("/"):
+        match = re.fullmatch(r"\s*(\d+)\s+(HP|Atk|Def|Spe|SpA|SpD)\s*", part, re.I)
+        if not match:
+            raise ValueError(f"{path}:{line_num}: invalid EV entry: {part.strip()}")
+        amount = int(match.group(1))
+        stat = stat_names[match.group(2).lower()]
+        if amount > 252:
+            raise ValueError(f"{path}:{line_num}: EV for {match.group(2)} exceeds 252")
+        if stat in result:
+            raise ValueError(f"{path}:{line_num}: duplicate EV stat {match.group(2)}")
+        result[stat] = amount
+    if sum(result.values()) > 510:
+        raise ValueError(f"{path}:{line_num}: EV total exceeds 510")
+    return result
+
+
+def parse_party_pokemon_header(value: str) -> tuple[str, str]:
+    if " @ " in value:
+        pokemon_text, item_text = value.rsplit(" @ ", 1)
+    else:
+        pokemon_text, item_text = value, "None"
+
+    pokemon_text = re.sub(r"\s+\([MF]\)$", "", pokemon_text.strip())
+    nickname_match = re.fullmatch(r".+\(([^()]+)\)", pokemon_text)
+    if nickname_match:
+        pokemon_text = nickname_match.group(1)
+    return name_to_constant(pokemon_text, "SPECIES_"), name_to_constant(item_text, "ITEM_")
+
+
+def parse_frontier_set_block(
+    group_name: str,
+    set_id: str,
+    body: str,
+    path: Path,
+    start_line: int,
+) -> dict:
+    lines = body.splitlines()
+    index = 0
+    metadata: dict[str, str] = {}
+    allowed_metadata = {"Rank", "Style", "Source", "Set Name"}
+
+    while index < len(lines):
+        line = lines[index].strip()
+        if not line:
+            index += 1
+            continue
+        if ":" not in line:
+            break
+        key, value = (part.strip() for part in line.split(":", 1))
+        if key not in allowed_metadata:
+            break
+        if key in metadata:
+            raise ValueError(f"{path}:{start_line + index}: duplicate {key} field")
+        metadata[key] = value
+        index += 1
+
+    if "Rank" not in metadata:
+        raise ValueError(f"{path}:{start_line}: [{set_id}] is missing required Rank")
+    try:
+        rank = int(metadata["Rank"])
+    except ValueError as error:
+        raise ValueError(f"{path}:{start_line}: [{set_id}] has an invalid Rank") from error
+    if rank not in set(range(7)) | {8}:
+        raise ValueError(f"{path}:{start_line}: [{set_id}] Rank must be 0-6 or 8")
+
+    style = metadata.get("Style", "General").lower()
+    if style not in {"general", "singles", "doubles"}:
+        raise ValueError(f"{path}:{start_line}: [{set_id}] Style must be General, Singles, or Doubles")
+
+    while index < len(lines) and not lines[index].strip():
+        index += 1
+    if index >= len(lines):
+        raise ValueError(f"{path}:{start_line}: [{set_id}] is missing its Pokemon")
+
+    species_const, item_const = parse_party_pokemon_header(lines[index].strip())
+    expected_species = name_to_constant(group_name, "SPECIES_")
+    if species_const != expected_species:
+        raise ValueError(
+            f"{path}:{start_line + index}: [{set_id}] uses {species_const} "
+            f"inside the {expected_species} group"
+        )
+    index += 1
+
+    ability_const = "ABILITY_NONE"
+    nature_const = "NATURE_HARDY"
+    evs: dict[str, int] = {}
+    moves: list[str] = []
+    while index < len(lines):
+        line = lines[index].strip()
+        line_num = start_line + index
+        index += 1
+        if not line:
+            continue
+        if line.startswith("- "):
+            moves.append(name_to_constant(line[2:], "MOVE_"))
+            continue
+        if line.endswith(" Nature") and ":" not in line:
+            nature_const = name_to_constant(line.removesuffix(" Nature"), "NATURE_")
+            continue
+        if ":" not in line:
+            raise ValueError(f"{path}:{line_num}: unknown Pokemon line: {line}")
+        key, value = (part.strip() for part in line.split(":", 1))
+        if key == "Ability":
+            ability_const = name_to_constant(value, "ABILITY_")
+        elif key == "EVs":
+            evs = parse_party_evs(value, path, line_num)
+        elif key == "Nature":
+            nature_const = name_to_constant(value, "NATURE_")
+        elif key in {"Level", "IVs"}:
+            raise ValueError(f"{path}:{line_num}: {key} are controlled by the Battle Frontier")
+        else:
+            raise ValueError(f"{path}:{line_num}: unsupported Pokemon field: {key}")
+
+    if not 1 <= len(moves) <= 4:
+        raise ValueError(f"{path}:{start_line}: [{set_id}] must define between one and four moves")
+    moves.extend(["MOVE_NONE"] * (4 - len(moves)))
+
+    return {
+        "set_id": set_id,
+        "rank": rank,
+        "pool": "boss" if rank == 8 else "main",
+        "moves": moves,
+        "item": item_const,
+        "ability": ability_const,
+        "nature": nature_const,
+        "evs": evs,
+        "name": metadata.get("Set Name", set_id),
+        "source": metadata.get("Source", "Manual"),
+        "format": "battle_frontier_party",
+        "battle_style": "doubles_origin" if style == "doubles" else style,
+    }
+
+
+def parse_frontier_brains(body: str, path: Path, start_line: int) -> dict[str, list[str]]:
+    matches = list(re.finditer(r"^\[([A-Z0-9_]+)\]\s*$", body, re.M))
+    result: dict[str, list[str]] = {}
+    expected = {f"{facility}_{symbol}" for facility in BRAIN_SILVER_IVS for symbol in ("SILVER", "GOLD")}
+
+    for index, match in enumerate(matches):
+        team_id = match.group(1)
+        if team_id not in expected:
+            raise ValueError(f"{path}:{start_line + body[:match.start()].count(chr(10))}: unknown Brain team [{team_id}]")
+        section_end = matches[index + 1].start() if index + 1 < len(matches) else len(body)
+        slots: dict[int, str] = {}
+        for offset, raw_line in enumerate(body[match.end():section_end].splitlines(), 1):
+            line = raw_line.strip()
+            if not line:
+                continue
+            slot_match = re.fullmatch(r"([1-3]):\s*([A-Z0-9_]+)", line)
+            if not slot_match:
+                raise ValueError(f"{path}:{start_line + body[:match.end()].count(chr(10)) + offset}: invalid Brain slot")
+            slots[int(slot_match.group(1))] = slot_match.group(2)
+        if set(slots) != {1, 2, 3}:
+            raise ValueError(f"{path}: Brain team [{team_id}] must define slots 1, 2, and 3")
+        result[team_id] = [slots[slot] for slot in (1, 2, 3)]
+
+    missing = expected - set(result)
+    if missing:
+        raise ValueError(f"{path}: missing Brain teams: {', '.join(sorted(missing))}")
+    return result
+
+
+def parse_party_source(path: Path) -> tuple[dict, dict[str, list[str]]]:
+    text = strip_c_comments(path.read_text())
+    group_matches = list(re.finditer(r"^====\s+([A-Z0-9_]+)\s+====\s*$", text, re.M))
+    if not group_matches:
+        raise ValueError(f"{path}: no ==== POKEMON ==== groups found")
+
+    data = {"pokemon": {}}
+    brain_teams: dict[str, list[str]] | None = None
+    seen_set_ids: set[str] = set()
+    for group_index, group_match in enumerate(group_matches):
+        group_name = group_match.group(1)
+        group_end = group_matches[group_index + 1].start() if group_index + 1 < len(group_matches) else len(text)
+        body = text[group_match.end():group_end]
+        body_line = text[:group_match.end()].count("\n") + 1
+        if group_name == "FRONTIER_BRAINS":
+            brain_teams = parse_frontier_brains(body, path, body_line)
+            continue
+
+        set_matches = list(re.finditer(r"^\[([A-Z0-9_]+)\]\s*$", body, re.M))
+        if not set_matches:
+            raise ValueError(f"{path}:{body_line}: [{group_name}] has no sets")
+        species_const = name_to_constant(group_name, "SPECIES_")
+        pokemon = data["pokemon"].setdefault(group_name, {"species_const": species_const, "sets": []})
+        for set_index, set_match in enumerate(set_matches):
+            set_id = set_match.group(1)
+            if set_id in seen_set_ids:
+                raise ValueError(f"{path}: duplicate set ID [{set_id}]")
+            seen_set_ids.add(set_id)
+            set_end = set_matches[set_index + 1].start() if set_index + 1 < len(set_matches) else len(body)
+            set_body = body[set_match.end():set_end]
+            set_line = body_line + body[:set_match.start()].count("\n") + 1
+            pokemon["sets"].append(parse_frontier_set_block(group_name, set_id, set_body, path, set_line))
+
+    if brain_teams is None:
+        raise ValueError(f"{path}: missing ==== FRONTIER_BRAINS ==== section")
+    return data, brain_teams
+
+
 def source_priority(build: dict | Entry) -> int:
     source = build.source if isinstance(build, Entry) else build.get("source", "")
     return SOURCE_PRIORITY.get(source, 99)
@@ -420,8 +650,98 @@ def deduplicate_raw_entries(raw_entries: list[dict]) -> tuple[list[dict], list[s
     return list(kept_by_key.values()), deduped
 
 
-def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, SpeciesMeta]) -> tuple[list[Entry], list[str], list[str]]:
-    data = json.loads(input_path.read_text())
+def retention_quality_key(raw: dict) -> tuple:
+    return (
+        -raw["rank"],
+        source_priority(raw),
+        0 if raw["item_const"] != "ITEM_NONE" else 1,
+        raw["set_name"],
+        raw["item_const"],
+        raw["move_consts"],
+    )
+
+
+def move_overlap(left: dict, right: dict) -> int:
+    left_moves = {move for move in left["move_consts"] if move != "MOVE_NONE"}
+    right_moves = {move for move in right["move_consts"] if move != "MOVE_NONE"}
+    return len(left_moves & right_moves)
+
+
+def cap_builds_per_species(raw_entries: list[dict]) -> tuple[list[dict], list[str]]:
+    by_species: dict[str, list[dict]] = collections.defaultdict(list)
+    for raw in raw_entries:
+        by_species[raw["species_const"]].append(raw)
+
+    kept: list[dict] = []
+    removed: list[str] = []
+    for species_entries in by_species.values():
+        if len(species_entries) <= MAX_BUILDS_PER_SPECIES:
+            kept.extend(species_entries)
+            continue
+
+        megas = sorted((raw for raw in species_entries if raw["is_mega_set"]), key=retention_quality_key)
+        selected: list[dict] = []
+        selected_mega_items: set[str] = set()
+        for raw in megas:
+            if raw["item_const"] in selected_mega_items:
+                continue
+            selected.append(raw)
+            selected_mega_items.add(raw["item_const"])
+            if len(selected) == MAX_MEGA_BUILDS_PER_SPECIES:
+                break
+        for raw in megas:
+            if len(selected) == MAX_MEGA_BUILDS_PER_SPECIES:
+                break
+            if raw not in selected:
+                selected.append(raw)
+
+        # Excess Mega builds are intentionally cut so regular variants keep room.
+        remaining = [raw for raw in species_entries if not raw["is_mega_set"]]
+
+        # Keep regular builds available in both normal and high-power play when possible.
+        for pool in ("main", "boss"):
+            if len(selected) >= MAX_BUILDS_PER_SPECIES:
+                continue
+            pool_entries = [raw for raw in remaining if raw["pool"] == pool]
+            if pool_entries:
+                choice = min(pool_entries, key=retention_quality_key)
+                selected.append(choice)
+                remaining.remove(choice)
+
+        while len(selected) < MAX_BUILDS_PER_SPECIES and remaining:
+            # Rank/source quality comes first; overlap breaks ties in favor of real variation.
+            choice = min(
+                remaining,
+                key=lambda raw: (
+                    -raw["rank"],
+                    max((move_overlap(raw, other) for other in selected), default=0),
+                    source_priority(raw),
+                    0 if raw["item_const"] != "ITEM_NONE" else 1,
+                    raw["set_name"],
+                ),
+            )
+            selected.append(choice)
+            remaining.remove(choice)
+
+        kept.extend(selected)
+        selected_ids = {id(raw) for raw in selected}
+        for raw in species_entries:
+            if id(raw) not in selected_ids:
+                removed.append(
+                    f"{raw['species_name']} / {raw['set_name']} "
+                    f"({raw['source']}, {raw['format_name']}, rank {raw['rank']})"
+                )
+
+    return kept, removed
+
+
+def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, SpeciesMeta]) -> tuple[list[Entry], list[str], list[str], list[str], dict[str, list[str]] | None]:
+    is_party_source = input_path.suffix == ".party"
+    if is_party_source:
+        data, brain_teams = parse_party_source(input_path)
+    else:
+        data = json.loads(input_path.read_text())
+        brain_teams = None
     raw_entries: list[dict] = []
     skipped: list[str] = []
 
@@ -458,6 +778,7 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
             raw_entries.append(
                 {
                     "species_name": species_name,
+                    "set_id": build.get("set_id"),
                     "species_const": species_const,
                     "source_form": build.get("source_form") or build.get("form") or species_name,
                     "set_name": build_set_name(build),
@@ -472,10 +793,25 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
                     "evs": ev_tuple(build),
                     "types": meta.types if meta else frozenset(),
                     "is_mega_set": bool(build.get("is_mega_set") or build.get("mega")) or is_mega_stone_item(item_const),
+                    "is_doubles_origin": (
+                        build.get("battle_style") == "doubles_origin"
+                        or build.get("source") == "pokemon_champions"
+                        or "vgc" in (build.get("format") or "").lower()
+                    ),
                 }
             )
 
-    raw_entries, deduped = deduplicate_raw_entries(raw_entries)
+    if is_party_source and skipped:
+        raise ValueError(f"{input_path}: invalid Frontier set: {skipped[0]}")
+
+    if is_party_source:
+        # The .party file is the canonical, explicitly curated source. Preserve every
+        # authored set; caps and movepool deduplication only belong to JSON imports.
+        deduped = []
+        capped = []
+    else:
+        raw_entries, deduped = deduplicate_raw_entries(raw_entries)
+        raw_entries, capped = cap_builds_per_species(raw_entries)
 
     raw_entries.sort(
         key=lambda e: (
@@ -489,14 +825,29 @@ def load_entries(input_path: Path, constants: set[str], species_meta: dict[str, 
     )
 
     per_species_count: collections.Counter[str] = collections.Counter()
+    used_const_names: set[str] = set()
     entries: list[Entry] = []
     for mon_id, raw in enumerate(raw_entries):
         base_name = sanitize_frontier_mon_name(raw["species_const"])
-        per_species_count[raw["species_const"]] += 1
-        const_name = f"{base_name}_{per_species_count[raw['species_const']]}"
+        if raw["set_id"]:
+            const_name = f"FRONTIER_MON_{raw['set_id']}"
+        else:
+            per_species_count[raw["species_const"]] += 1
+            const_name = f"{base_name}_{per_species_count[raw['species_const']]}"
+        if const_name in used_const_names:
+            raise ValueError(f"Duplicate Frontier constant {const_name}")
+        used_const_names.add(const_name)
+        del raw["set_id"]
         entries.append(Entry(mon_id=mon_id, const_name=const_name, **raw))
 
-    return entries, skipped, deduped
+    if brain_teams:
+        available_ids = {entry.const_name.removeprefix("FRONTIER_MON_") for entry in entries}
+        for team_id, set_ids in brain_teams.items():
+            for set_id in set_ids:
+                if set_id not in available_ids:
+                    raise ValueError(f"Brain team [{team_id}] references unknown or removed set [{set_id}]")
+
+    return entries, skipped, deduped, capped, brain_teams
 
 
 def display_source_path(path: Path) -> str:
@@ -504,6 +855,185 @@ def display_source_path(path: Path) -> str:
         return str(path.resolve().relative_to(ROOT))
     except ValueError:
         return str(path)
+
+
+def sanitize_set_id_part(value: str) -> str:
+    value = re.sub(r"[^A-Z0-9]+", "_", value.upper())
+    return re.sub(r"_+", "_", value).strip("_")
+
+
+def display_constant(value: str, prefix: str) -> str:
+    value = value.removeprefix(prefix)
+    return " ".join(part.capitalize() for part in value.split("_"))
+
+
+def build_party_set_ids(entries: list[Entry]) -> dict[Entry, str]:
+    result: dict[Entry, str] = {}
+    used: set[str] = set()
+
+    for entry in entries:
+        species = entry.species_const.removeprefix("SPECIES_")
+        if entry.is_mega_set:
+            role = "MEGA_Z" if entry.item_const.endswith("ITE_Z") else "MEGA"
+        elif entry.is_doubles_origin:
+            item = entry.item_const.removeprefix("ITEM_")
+            role = f"VGC_{item}" if item != "NONE" else "VGC"
+        else:
+            role = sanitize_set_id_part(entry.set_name) or entry.item_const.removeprefix("ITEM_") or "SET"
+
+        base = sanitize_set_id_part(f"{species}_{role}")
+        set_id = base
+        if set_id in used:
+            item = entry.item_const.removeprefix("ITEM_")
+            if item != "NONE" and not set_id.endswith(item):
+                set_id = sanitize_set_id_part(f"{base}_{item}")
+        suffix = 2
+        unique_id = set_id
+        while unique_id in used:
+            unique_id = f"{set_id}_{suffix}"
+            suffix += 1
+        used.add(unique_id)
+        result[entry] = unique_id
+
+    return result
+
+
+def format_party_evs(evs: tuple[int, int, int, int, int, int]) -> str:
+    labels = ("HP", "Atk", "Def", "Spe", "SpA", "SpD")
+    values = [f"{value} {label}" for value, label in zip(evs, labels) if value]
+    return " / ".join(values) if values else "0 HP"
+
+
+def write_party_source(entries: list[Entry], path: Path) -> None:
+    set_ids = build_party_set_ids(entries)
+    lines = [
+        "/*",
+        "Battle Frontier Pokemon sets",
+        "================================",
+        "",
+        "This is the editable source for every Battle Frontier set.",
+        "The syntax follows Pokemon Showdown exports with a small Frontier header.",
+        "",
+        "A Pokemon group starts with:",
+        "    ==== GARCHOMP ====",
+        "",
+        "Each build below it starts with a globally unique ID:",
+        "    [GARCHOMP_VGC_LIFE_ORB]",
+        "",
+        "Required Frontier field:",
+        "    Rank: 0 through 6, or 8 for the boss/high-power pool.",
+        "",
+        "Rank strength bands:",
+        "    Rank 0: LC and other very weak introductory builds.",
+        "    Rank 1: NFE builds.",
+        "    Rank 2: ZU, PU, random-battle, and missing-mon builds.",
+        "    Rank 3: NU, RU, National Dex RU, and Champions D builds.",
+        "    Rank 4: UU, National Dex UU, and Champions C builds.",
+        "    Rank 5: OU, Battle Stadium, National Dex, and Champions B builds.",
+        "    Rank 6: main-pool Mega and Champions S/A builds.",
+        "    Rank 8: Ubers, AG, and other boss/high-power builds.",
+        "",
+        "Normal themed-trainer progression:",
+        "    Rank is a strength band, not an exact minimum streak. The selected trainer",
+        "    first determines a themed set pool; one Pokemon is then drawn from that pool.",
+        "    Facilities advance an internal challenge index using their native run format.",
+        "",
+        "    Challenge index 0: ordinary trainers use R0-2; the hard/final pick uses R2-4.",
+        "    Challenge index 1: ordinary trainers may use R2-6; hard/final uses R3-6.",
+        "    Challenge index 2 and later: trainers usually use R3-6.",
+        "",
+        "    In a seven-battle format such as the Tower, index 1 starts at streak 7,",
+        "    so Rank 6 and Mega builds can appear from battle 8 onward. Dome, Pike,",
+        "    and Pyramid advance through tournaments, rooms, or floors instead.",
+        "    Individual trainers still keep their type/theme and narrower rank window.",
+        "    Rank 8 is never placed in a normal trainer pool, even in Open Level.",
+        "",
+        "Battle Factory direct rank ranges:",
+        "    Factory Pokemon are drawn directly by challenge number, without trainer themes.",
+        "    Level 50: 0-6 wins R2-3; 7-13 R4-6; 14-27 R5-6;",
+        "              28-48 R6; 49+ R3-6.",
+        "    Open Level: 0-6 wins R4-5; 7-13 R5-6; 14-20 R5-6;",
+        "                21-27 R6-8; 28+ R5-8.",
+        "    Rental progression can improve some draft slots to the next range one",
+        "    challenge earlier. Level 50 always excludes Rank 8.",
+        "",
+        "Frontier Brains:",
+        "    Brain teams reference exact set IDs in ==== FRONTIER_BRAINS ====.",
+        "    Their referenced sets are used regardless of Rank; Rank only describes power",
+        "    and controls availability outside that explicit Brain team.",
+        "",
+        "Optional Frontier fields:",
+        "    Style: General, Singles, or Doubles. Defaults to General.",
+        "    Source: Informational origin of the set. Defaults to Manual.",
+        "    Set Name: Human-readable label. Defaults to the set ID.",
+        "",
+        "Pokemon use normal Showdown fields:",
+        "    Pokemon @ Item",
+        "    Ability: Ability Name",
+        "    EVs: 252 HP / 252 Atk / 4 Spe",
+        "    Nature: Adamant",
+        "    - Move One",
+        "    - Move Two",
+        "    - Move Three",
+        "    - Move Four",
+        "",
+        "Notes:",
+        "    - Species, item, ability, nature, and moves may also use project constants.",
+        "    - Level and IVs are controlled by the Frontier and should not be specified.",
+        "    - Rank 8 is excluded from Level 50 and all normal trainer pools.",
+        "    - The initial set selection was curated to roughly five builds per species.",
+        "    - This is not a parser limit; manually added regular or Mega sets are preserved.",
+        "    - Tera-specific species, abilities, and moves are rejected.",
+        "    - Style: Doubles enables the flexible VGC weighting in double/multi battles.",
+        "",
+        "Frontier Brain teams are listed at the end under ==== FRONTIER_BRAINS ====.",
+        "Each slot references one set ID, so Brain sets are never duplicated.",
+        "*/",
+        "",
+    ]
+
+    by_species: dict[str, list[Entry]] = collections.defaultdict(list)
+    for entry in entries:
+        by_species[entry.species_const].append(entry)
+
+    for species_const in sorted(by_species):
+        lines.append(f"==== {species_const.removeprefix('SPECIES_')} ====")
+        lines.append("")
+        for entry in sorted(by_species[species_const], key=lambda item: (item.rank, set_ids[item])):
+            lines.append(f"[{set_ids[entry]}]")
+            lines.append(f"Rank: {entry.rank}")
+            lines.append(f"Style: {'Doubles' if entry.is_doubles_origin else 'Singles'}")
+            lines.append(f"Source: {entry.source}")
+            lines.append(f"Set Name: {entry.set_name}")
+            lines.append("")
+            species_name = display_constant(entry.species_const, "SPECIES_")
+            item_name = display_constant(entry.item_const, "ITEM_")
+            header = species_name if entry.item_const == "ITEM_NONE" else f"{species_name} @ {item_name}"
+            lines.append(header)
+            if entry.ability_const != "ABILITY_NONE":
+                lines.append(f"Ability: {display_constant(entry.ability_const, 'ABILITY_')}")
+            lines.append(f"EVs: {format_party_evs(entry.evs)}")
+            lines.append(f"Nature: {display_constant(entry.nature_const, 'NATURE_')}")
+            for move in entry.move_consts:
+                if move != "MOVE_NONE":
+                    lines.append(f"- {display_constant(move, 'MOVE_')}")
+            lines.append("")
+        lines.append("")
+
+    lines.append("==== FRONTIER_BRAINS ====")
+    lines.append("")
+    entries_by_species: dict[str, list[Entry]] = collections.defaultdict(list)
+    for entry in entries:
+        entries_by_species[entry.species_name].append(entry)
+    for facility, teams in BRAIN_TEAMS.items():
+        for symbol, team in enumerate(teams):
+            lines.append(f"[{facility}_{'GOLD' if symbol else 'SILVER'}]")
+            for slot, (species_name, preferred_item) in enumerate(team, 1):
+                entry = choose_brain_entry(entries_by_species, species_name, preferred_item, symbol == 1)
+                lines.append(f"{slot}: {set_ids[entry]}")
+            lines.append("")
+
+    path.write_text("\n".join(lines))
 
 
 def write_constants(entries: list[Entry], source_name: str, path: Path) -> None:
@@ -544,6 +1074,8 @@ def write_constants(entries: list[Entry], source_name: str, path: Path) -> None:
         lines.append("#define FRONTIER_MONS_HIGH_TIER (NUM_FRONTIER_MONS - 1)")
     lines.append(f"#define NUM_FRONTIER_MONS       {len(entries)}")
     lines.append("")
+    lines.append("#define FRONTIER_MON_FLAG_DOUBLES_ORIGIN (1 << 0)")
+    lines.append("")
     lines.append("#endif // GUARD_CONSTANTS_BATTLE_FRONTIER_MONS_H")
     lines.append("")
     path.write_text("\n".join(lines))
@@ -570,6 +1102,17 @@ def write_mons(entries: list[Entry], path: Path) -> None:
         if entry.ability_const != "ABILITY_NONE":
             lines.append(f"        .ability = {entry.ability_const},")
         lines.append("    },")
+    lines.append("};")
+    lines.append("")
+    lines.extend(
+        [
+            "const u8 gBattleFrontierMonFlags[NUM_FRONTIER_MONS] =",
+            "{",
+        ]
+    )
+    for entry in entries:
+        if entry.is_doubles_origin:
+            lines.append(f"    [{entry.const_name}] = FRONTIER_MON_FLAG_DOUBLES_ORIGIN,")
     lines.append("};")
     lines.append("")
     path.write_text("\n".join(lines))
@@ -781,10 +1324,18 @@ def choose_brain_entry(entries_by_species: dict[str, list[Entry]], species_name:
     return candidates[0]
 
 
-def write_brain_mons(entries: list[Entry], path: Path) -> list[str]:
+def write_brain_mons(
+    entries: list[Entry],
+    path: Path,
+    brain_set_ids: dict[str, list[str]] | None = None,
+) -> list[str]:
     entries_by_species: dict[str, list[Entry]] = collections.defaultdict(list)
     for entry in entries:
         entries_by_species[entry.species_name].append(entry)
+    entries_by_id = {
+        entry.const_name.removeprefix("FRONTIER_MON_"): entry
+        for entry in entries
+    }
 
     report_lines: list[str] = []
     lines = [
@@ -798,10 +1349,17 @@ def write_brain_mons(entries: list[Entry], path: Path) -> list[str]:
         lines.append("    {")
         for symbol, team in enumerate(teams):
             fixed_iv = BRAIN_SILVER_IVS[facility] if symbol == 0 else "MAX_PER_STAT_IVS"
+            if brain_set_ids is not None:
+                team_id = f"{facility}_{'GOLD' if symbol else 'SILVER'}"
+                selected_entries = [entries_by_id[set_id] for set_id in brain_set_ids[team_id]]
+            else:
+                selected_entries = [
+                    choose_brain_entry(entries_by_species, species_name, preferred_item, symbol == 1)
+                    for species_name, preferred_item in team
+                ]
             lines.append("        // Silver Symbol." if symbol == 0 else "        // Gold Symbol.")
             lines.append("        {")
-            for species_name, preferred_item in team:
-                entry = choose_brain_entry(entries_by_species, species_name, preferred_item, symbol == 1)
+            for entry in selected_entries:
                 hp, atk, defense, speed, spatk, spdef = entry.evs
                 lines.extend(
                     [
@@ -900,6 +1458,7 @@ def write_report(
     source_name: str,
     skipped: list[str],
     deduped: list[str],
+    capped: list[str],
     macro_sizes: dict[str, int],
     brain_report: list[str],
     frontier_util_patched: bool,
@@ -922,6 +1481,7 @@ def write_report(
         f"Boss-pool builds: {sum(1 for entry in entries if entry.pool == 'boss')}",
         f"Skipped invalid/filtered builds: {len(skipped)}",
         f"Deduplicated duplicate movepools: {len(deduped)}",
+        f"Removed by {MAX_BUILDS_PER_SPECIES}-build species cap: {len(capped)}",
         "",
         "Rank counts:",
     ]
@@ -961,6 +1521,12 @@ def write_report(
         if len(deduped) > 200:
             lines.append(f"- ... {len(deduped) - 200} more")
 
+    if capped:
+        lines.extend(["", f"Removed by {MAX_BUILDS_PER_SPECIES}-build species cap:"])
+        lines.extend(f"- {line}" for line in capped[:200])
+        if len(capped) > 200:
+            lines.append(f"- ... {len(capped) - 200} more")
+
     lines.append("")
     path.write_text("\n".join(lines))
 
@@ -968,14 +1534,20 @@ def write_report(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--export-party", type=Path)
     args = parser.parse_args()
 
     constants = collect_project_constants(ROOT)
     species_meta = parse_species_meta(ROOT)
     macro_names = parse_macro_names(TRAINER_MONS_OUT)
     macro_arities = parse_parameterized_macro_arities(TRAINERS_FILE)
-    entries, skipped, deduped = load_entries(args.input, constants, species_meta)
+    entries, skipped, deduped, capped, brain_set_ids = load_entries(args.input, constants, species_meta)
     source_name = display_source_path(args.input)
+
+    if args.export_party:
+        write_party_source(entries, args.export_party)
+        print(f"Wrote {display_source_path(args.export_party)}")
+        return
 
     if not entries:
         raise SystemExit("No valid Frontier entries generated")
@@ -985,14 +1557,15 @@ def main() -> None:
     write_constants(entries, source_name, CONSTANTS_OUT)
     write_mons(entries, MONS_OUT)
     macro_sizes = write_trainer_mons(entries, macro_names, macro_arities, TRAINER_MONS_OUT)
-    brain_report = write_brain_mons(entries, BRAIN_MONS_OUT)
+    brain_report = write_brain_mons(entries, BRAIN_MONS_OUT, brain_set_ids)
     frontier_util_patched = ensure_frontier_util_uses_generated_brains(ROOT)
     factory_patched = ensure_factory_ranges_use_generated_ranks(ROOT)
-    write_report(entries, source_name, skipped, deduped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
+    write_report(entries, source_name, skipped, deduped, capped, macro_sizes, brain_report, frontier_util_patched, factory_patched, REPORT_OUT)
 
     print(f"Generated {len(entries)} Frontier mons")
     print(f"Skipped/filtered {len(skipped)} builds")
     print(f"Deduplicated {len(deduped)} duplicate movepools")
+    print(f"Removed {len(capped)} builds above the per-species cap")
     print(f"Wrote {CONSTANTS_OUT.relative_to(ROOT)}")
     print(f"Wrote {MONS_OUT.relative_to(ROOT)}")
     print(f"Wrote {TRAINER_MONS_OUT.relative_to(ROOT)}")

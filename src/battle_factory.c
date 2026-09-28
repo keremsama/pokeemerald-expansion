@@ -38,8 +38,12 @@ static void GenerateInitialRentalMons(void);
 static void GetOpponentMostCommonMonType(void);
 static void GetOpponentBattleStyle(void);
 static void RestorePlayerPartyHeldItems(void);
-static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange);
+static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange, u8 doublesOriginChance);
+static u16 GetWeightedFactoryMonId(u16 firstMonId, u16 lastMonId, u8 doublesOriginChance);
 static u8 GetMoveBattleStyle(u16 move);
+
+#define FACTORY_DOUBLES_RENTAL_VGC_CHANCE  20
+#define FACTORY_DOUBLES_OPPONENT_VGC_CHANCE 30
 
 // Number of moves needed on the team to be considered using a certain battle style
 static const u8 sRequiredMoveCounts[FACTORY_NUM_STYLES - 1] = {
@@ -332,7 +336,8 @@ static void GenerateOpponentMons(void)
     i = 0;
     while (i != FRONTIER_PARTY_SIZE)
     {
-        u16 monId = GetFactoryMonId(lvlMode, challengeNum, FALSE);
+        u8 doublesOriginChance = battleMode == FRONTIER_MODE_DOUBLES ? FACTORY_DOUBLES_OPPONENT_VGC_CHANCE : 0;
+        u16 monId = GetFactoryMonId(lvlMode, challengeNum, FALSE, doublesOriginChance);
 
         // Unown (FRONTIER_MON_UNOWN) is forbidden on opponent Factory teams.
         if (gFacilityTrainerMons[monId].species == SPECIES_UNOWN)
@@ -459,7 +464,6 @@ static void GenerateInitialRentalMons(void)
     u8 factoryBattleMode;
     u8 rentalRank;
     u16 monId;
-    u16 currSpecies;
     u16 species[PARTY_SIZE];
     u16 monIds[PARTY_SIZE];
     u16 heldItems[PARTY_SIZE];
@@ -492,14 +496,15 @@ static void GenerateInitialRentalMons(void)
     }
     rentalRank = GetNumPastRentalsRank(factoryBattleMode, factoryLvlMode);
 
-    currSpecies = SPECIES_NONE;
     i = 0;
     while (i != PARTY_SIZE)
     {
         if (i < rentalRank) // The more times the player has rented, the more initial rentals are generated from a better set of Pokémon
-            monId = GetFactoryMonId(factoryLvlMode, challengeNum, TRUE);
+            monId = GetFactoryMonId(factoryLvlMode, challengeNum, TRUE,
+                                    factoryBattleMode == FRONTIER_MODE_DOUBLES ? FACTORY_DOUBLES_RENTAL_VGC_CHANCE : 0);
         else
-            monId = GetFactoryMonId(factoryLvlMode, challengeNum, FALSE);
+            monId = GetFactoryMonId(factoryLvlMode, challengeNum, FALSE,
+                                    factoryBattleMode == FRONTIER_MODE_DOUBLES ? FACTORY_DOUBLES_RENTAL_VGC_CHANCE : 0);
 
         if (gFacilityTrainerMons[monId].species == SPECIES_UNOWN)
             continue;
@@ -511,12 +516,7 @@ static void GenerateInitialRentalMons(void)
             if (existingMonId == monId)
                 break;
             if (species[j] == gFacilityTrainerMons[monId].species)
-            {
-                if (currSpecies == SPECIES_NONE)
-                    currSpecies = gFacilityTrainerMons[monId].species;
-                else
-                    break;
-            }
+                break;
         }
         if (j != firstMonId + i)
             continue;
@@ -525,11 +525,7 @@ static void GenerateInitialRentalMons(void)
         for (j = firstMonId; j < firstMonId + i; j++)
         {
             if (heldItems[j] != ITEM_NONE && heldItems[j] == gFacilityTrainerMons[monId].heldItem)
-            {
-                if (gFacilityTrainerMons[monId].species == currSpecies)
-                    currSpecies = SPECIES_NONE;
                 break;
-            }
         }
         if (j != firstMonId + i)
             continue;
@@ -717,7 +713,8 @@ void FillFactoryBrainParty(void)
 
     while (i != FRONTIER_PARTY_SIZE)
     {
-        u16 monId = GetFactoryMonId(lvlMode, challengeNum, FALSE);
+        u8 doublesOriginChance = battleMode == FRONTIER_MODE_DOUBLES ? FACTORY_DOUBLES_OPPONENT_VGC_CHANCE : 0;
+        u16 monId = GetFactoryMonId(lvlMode, challengeNum, FALSE, doublesOriginChance);
 
         if (gFacilityTrainerMons[monId].species == SPECIES_UNOWN)
             continue;
@@ -757,9 +754,9 @@ void FillFactoryBrainParty(void)
     }
 }
 
-static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
+static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange, u8 doublesOriginChance)
 {
-    u16 numMons, monId;
+    u16 firstMonId, lastMonId;
     u16 adder; // Used to skip past early mons for open level
 
     if (lvlMode == FRONTIER_LVL_50)
@@ -771,15 +768,13 @@ static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
     {
         if (useBetterRange)
         {
-            numMons = (sInitialRentalMonRanges[adder + challengeNum + 1][1] - sInitialRentalMonRanges[adder + challengeNum + 1][0]) + 1;
-            monId = Random() % numMons;
-            monId += sInitialRentalMonRanges[adder + challengeNum + 1][0];
+            firstMonId = sInitialRentalMonRanges[adder + challengeNum + 1][0];
+            lastMonId = sInitialRentalMonRanges[adder + challengeNum + 1][1];
         }
         else
         {
-            numMons = (sInitialRentalMonRanges[adder + challengeNum][1] - sInitialRentalMonRanges[adder + challengeNum][0]) + 1;
-            monId = Random() % numMons;
-            monId += sInitialRentalMonRanges[adder + challengeNum][0];
+            firstMonId = sInitialRentalMonRanges[adder + challengeNum][0];
+            lastMonId = sInitialRentalMonRanges[adder + challengeNum][1];
         }
     }
     else
@@ -788,12 +783,42 @@ static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
         if (challenge != 7)
             challenge = 7; // why bother assigning it above at all
 
-        numMons = (sInitialRentalMonRanges[adder + challenge][1] - sInitialRentalMonRanges[adder + challenge][0]) + 1;
-        monId = Random() % numMons;
-        monId += sInitialRentalMonRanges[adder + challenge][0];
+        firstMonId = sInitialRentalMonRanges[adder + challenge][0];
+        lastMonId = sInitialRentalMonRanges[adder + challenge][1];
     }
 
-    return monId;
+    return GetWeightedFactoryMonId(firstMonId, lastMonId, doublesOriginChance);
+}
+
+static u16 GetWeightedFactoryMonId(u16 firstMonId, u16 lastMonId, u8 doublesOriginChance)
+{
+    u16 monId;
+    u16 matchingCount = 0;
+    bool8 preferDoublesOrigin;
+
+    if (doublesOriginChance == 0)
+        return firstMonId + (Random() % (lastMonId - firstMonId + 1));
+
+    preferDoublesOrigin = (Random() % 100) < doublesOriginChance;
+    for (monId = firstMonId; monId <= lastMonId; monId++)
+    {
+        bool8 isDoublesOrigin = (gBattleFrontierMonFlags[monId] & FRONTIER_MON_FLAG_DOUBLES_ORIGIN) != 0;
+        if (isDoublesOrigin == preferDoublesOrigin)
+            matchingCount++;
+    }
+
+    if (matchingCount == 0)
+        return firstMonId + (Random() % (lastMonId - firstMonId + 1));
+
+    matchingCount = Random() % matchingCount;
+    for (monId = firstMonId; monId <= lastMonId; monId++)
+    {
+        bool8 isDoublesOrigin = (gBattleFrontierMonFlags[monId] & FRONTIER_MON_FLAG_DOUBLES_ORIGIN) != 0;
+        if (isDoublesOrigin == preferDoublesOrigin && matchingCount-- == 0)
+            return monId;
+    }
+
+    return firstMonId + (Random() % (lastMonId - firstMonId + 1));
 }
 
 u8 GetNumPastRentalsRank(u8 battleMode, u8 lvlMode)

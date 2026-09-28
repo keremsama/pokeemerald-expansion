@@ -71,6 +71,7 @@ static void SetNextBattleTentOpponent(void);
 static void CopyEReaderTrainerFarewellMessage(void);
 static void ClearBattleTowerRecord(struct EmeraldBattleTowerRecord *record);
 static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount);
+static u16 GetRandomFrontierMonId(const u16 *monSet, u16 monCount);
 static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount);
 static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId);
 static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId);
@@ -80,6 +81,8 @@ static void FillPartnerParty(u16 trainerId);
 static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderTrainer);
 #endif //FREE_BATTLE_TOWER_E_READER
 static u8 SetTentPtrsGetLevel(void);
+
+#define FRONTIER_DOUBLES_ORIGIN_CHANCE 30
 
 #include "data/battle_frontier/battle_frontier_trainer_mons.h"
 #include "data/battle_frontier/battle_frontier_trainers.h"
@@ -1569,7 +1572,7 @@ void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32
 {
     u8 ball = (fmon->ball == 0xFF) ? Random() % POKEBALL_COUNT : fmon->ball;
     u16 move;
-    u32 personality = 0, ability, friendship, j;
+    u32 personality = Random32(), ability, friendship, j;
 
     if (fmon->gender == TRAINER_MON_MALE)
     {
@@ -1667,7 +1670,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     {
         // Normal battle frontier trainer.
         fixedIV = GetFrontierTrainerFixedIvs(trainerId);
-        monSet = gFacilityTrainers[TRAINER_BATTLE_PARAM.opponentA].monSet;
+        monSet = gFacilityTrainers[trainerId].monSet;
     }
     else if (trainerId == TRAINER_EREADER)
     {
@@ -1713,7 +1716,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     otID = Random32();
     while (i != monCount)
     {
-        u16 monId = monSet[Random() % bfMonCount];
+        u16 monId = GetRandomFrontierMonId(monSet, bfMonCount);
 
         // "High tier" Pokémon are only allowed on open level mode
         // 20 is not a possible value for level here
@@ -1760,6 +1763,40 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     }
 }
 
+static u16 GetRandomFrontierMonId(const u16 *monSet, u16 monCount)
+{
+    u16 i;
+    u16 matchingCount = 0;
+    bool8 preferDoublesOrigin;
+    u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
+
+    if (battleMode != FRONTIER_MODE_DOUBLES
+     && battleMode != FRONTIER_MODE_MULTIS
+     && battleMode != FRONTIER_MODE_LINK_MULTIS)
+        return monSet[Random() % monCount];
+
+    preferDoublesOrigin = (Random() % 100) < FRONTIER_DOUBLES_ORIGIN_CHANCE;
+    for (i = 0; i < monCount; i++)
+    {
+        bool8 isDoublesOrigin = (gBattleFrontierMonFlags[monSet[i]] & FRONTIER_MON_FLAG_DOUBLES_ORIGIN) != 0;
+        if (isDoublesOrigin == preferDoublesOrigin)
+            matchingCount++;
+    }
+
+    if (matchingCount == 0)
+        return monSet[Random() % monCount];
+
+    matchingCount = Random() % matchingCount;
+    for (i = 0; i < monCount; i++)
+    {
+        bool8 isDoublesOrigin = (gBattleFrontierMonFlags[monSet[i]] & FRONTIER_MON_FLAG_DOUBLES_ORIGIN) != 0;
+        if (isDoublesOrigin == preferDoublesOrigin && matchingCount-- == 0)
+            return monSet[i];
+    }
+
+    return monSet[Random() % monCount];
+}
+
 u16 GetRandomFrontierMonFromSet(u16 trainerId)
 {
     u8 level = SetFacilityPtrsGetLevel();
@@ -1779,7 +1816,7 @@ u16 GetRandomFrontierMonFromSet(u16 trainerId)
     {
         // "High tier" Pokémon are only allowed on open level mode
         // 20 is not a possible value for level here
-        monId = monSet[Random() % numMons];
+        monId = GetRandomFrontierMonId(monSet, numMons);
     } while((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER);
 
     return monId;

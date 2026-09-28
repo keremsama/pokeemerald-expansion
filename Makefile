@@ -328,6 +328,20 @@ include audio_rules.mk
 
 AUTO_GEN_TARGETS += $(patsubst %.pory,%.inc,$(shell find data/ -type f -name '*.pory'))
 
+BATTLE_FRONTIER_SET_SOURCE := src/data/battle_frontier_sets.party
+BATTLE_FRONTIER_GENERATOR := tools/generate_battle_frontier_from_competitive_json.py
+BATTLE_FRONTIER_GENERATED := \
+	battle_frontier_generation_report.txt \
+	include/constants/battle_frontier_mons.h \
+	src/data/battle_frontier/battle_frontier_mons.h \
+	src/data/battle_frontier/battle_frontier_trainer_mons.h \
+	src/data/battle_frontier/battle_frontier_brain_mons.h
+
+AUTO_GEN_TARGETS += $(BATTLE_FRONTIER_GENERATED)
+
+$(BATTLE_FRONTIER_GENERATED) &: $(BATTLE_FRONTIER_SET_SOURCE) $(BATTLE_FRONTIER_GENERATOR)
+	python3 $(BATTLE_FRONTIER_GENERATOR)
+
 # NOTE: Tools must have been built prior (FIXME)
 # so you can't really call this rule directly
 generated: $(AUTO_GEN_TARGETS)
