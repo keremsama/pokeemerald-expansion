@@ -130,7 +130,8 @@ struct TextPrinter
 
     u8 textSpeed;
     u8 fontId; // bwBattleUI: expanded for new battle-related fonts
-    u8 padding[2];
+    u8 downArrowLastFrame; // Battle Speed: the down arrow only animates once per real frame
+    u8 padding[1];
 
     struct TextPrinter *nextPrinter;
 

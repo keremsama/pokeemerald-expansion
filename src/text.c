@@ -1253,6 +1253,12 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
 
     if (gTextFlags.autoScroll == 0)
     {
+        // Battle Speed runs the text printers several times per frame,
+        // keep the arrow bouncing at its normal speed
+        if (textPrinter->downArrowLastFrame == (u8)gMain.vblankCounter1)
+            return;
+        textPrinter->downArrowLastFrame = gMain.vblankCounter1;
+
         if (textPrinter->utilityCounter != 0)
         {
             textPrinter->utilityCounter--;
