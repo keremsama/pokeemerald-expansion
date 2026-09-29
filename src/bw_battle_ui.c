@@ -19,6 +19,7 @@
 #include "task.h"
 #include "sound.h"
 #include "gpu_regs.h"
+#include "main.h"
 #include "item.h"
 #include "item_icon.h"
 #include "malloc.h"
@@ -37,6 +38,22 @@
 static inline bool32 IsOnPlayerSide(u32 battler)
 {
     return GetBattlerSide(battler) == B_SIDE_PLAYER;
+}
+
+// Battle Speed (2x/3x/4x) runs sprite callbacks and tasks several times per frame.
+// BW UI elements should still animate at normal speed, so they only advance once per real frame.
+#define sBUI_LastFrame  data[7]
+#define tAPU_LastFrame  data[10]
+
+static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
+{
+    s16 frame = (s16)gMain.vblankCounter1;
+
+    if (*lastFrame == frame)
+        return FALSE;
+
+    *lastFrame = frame;
+    return TRUE;
 }
 
 static EWRAM_INIT struct {
@@ -149,6 +166,7 @@ bool32 BattleUI_LoadAllHealthboxGfx(u32 state)
         BattleUI_CreateCursorSprite(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
         BattleUI_LoadSpritePalette(BUI_SPRITE_PAL_HEALTH_BOX, TAG_HEALTHBOX_PAL);
         BattleUI_LoadSpritePalette(BUI_SPRITE_PAL_HEALTH_BAR, TAG_HEALTHBAR_PAL);
+        LoadIndicatorSpritesGfx(); // mega/primal/tera indicator palettes, otherwise they show up black
         CategoryIcons_LoadSpritesGfx();
         break;
     case LOAD_STATE_HPBOX_PLAYER_LEFT:
@@ -759,6 +777,8 @@ void Task_BattleUIBounceLastBallIcon(u8 taskId)
 // local
 static void SpriteCB_BattleUICursor(struct Sprite *sprite)
 {
+    sprite->animPaused = !BattleUI_IsNewFrame(&sprite->sBUI_LastFrame);
+
     enum BWBattleUICursorMode mode = BattleUI_GetCursorMode();
     u32 battler = BattleUI_GetCursorBattler();
     bool32 hasSubsprite = (sprite->sCursorMode >> BUI_CURSOR_CONVERT_FLAG);
@@ -830,11 +850,17 @@ static void SpriteCB_BattleUICursor(struct Sprite *sprite)
 
 static void SpriteCB_GimmickTrigger(struct Sprite *sprite)
 {
+    if (!BattleUI_IsNewFrame(&sprite->sBUI_LastFrame))
+        return;
+
     BattleUI_PlayVerticalSlideAnim(sprite->sGT_Hide, &sprite->y2, TILE_TO_PIXELS(-3), -12);
 }
 
 static void SpriteCB_MoveInfoTrigger(struct Sprite *sprite)
 {
+    if (!BattleUI_IsNewFrame(&sprite->sBUI_LastFrame))
+        return;
+
     bool32 res = BattleUI_PlayVerticalSlideAnim(sprite->sWT_Hide, &sprite->y2, TILE_TO_PIXELS(-3), -12);
     if (sprite->sWT_Hide && res)
         DestroyMoveInfoWinGfx(sprite);
@@ -842,6 +868,9 @@ static void SpriteCB_MoveInfoTrigger(struct Sprite *sprite)
 
 static void SpriteCB_LastBallTrigger(struct Sprite *sprite)
 {
+    if (!BattleUI_IsNewFrame(&sprite->sBUI_LastFrame))
+        return;
+
     bool32 res = BattleUI_PlayVerticalSlideAnim(sprite->sWT_Hide, &sprite->y2, TILE_TO_PIXELS(-5), -20);
     if (sprite->sWT_Hide && res)
         DestroyLastUsedBallWinGfx(sprite);
@@ -849,6 +878,9 @@ static void SpriteCB_LastBallTrigger(struct Sprite *sprite)
 
 static void SpriteCB_LastBallIcon(struct Sprite *sprite)
 {
+    if (!BattleUI_IsNewFrame(&sprite->sBUI_LastFrame))
+        return;
+
     bool32 res = BattleUI_PlayVerticalSlideAnim(sprite->sWT_Hide, &sprite->y2, TILE_TO_PIXELS(-3), -12);
     if (sprite->sWT_Hide && res)
         DestroyLastUsedBallGfx(sprite);
@@ -856,6 +888,9 @@ static void SpriteCB_LastBallIcon(struct Sprite *sprite)
 
 static void SpriteCB_BounceLastBallIcon(struct Sprite *sprite)
 {
+    if (!BattleUI_IsNewFrame(&sprite->sBUI_LastFrame))
+        return;
+
     if (!sprite->sLBI_Moving) return;
 
     // can't use BattleUI_PlayVerticalSlideAnim as the target cannot be 0
@@ -891,6 +926,9 @@ static void Task_BattleUIHandleAbilityPopUp(u8 taskId)
 
     struct Sprite *sprite1 = &gSprites[tAPU_SpriteId1];
     struct Sprite *sprite2 = &gSprites[tAPU_SpriteId2];
+
+    if (!BattleUI_IsNewFrame(&tAPU_LastFrame))
+        return;
 
     switch (tAPU_State)
     {
