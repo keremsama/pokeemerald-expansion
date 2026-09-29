@@ -1,5 +1,6 @@
 #include "global.h"
 #include "data.h"
+#include "day_night.h"
 #include "decompress.h"
 #include "event_data.h"
 #include "event_object_movement.h"
@@ -291,6 +292,10 @@ bool8 (*const gFieldEffectScriptFuncs[])(u8 **, u32 *) =
     FieldEffectCmd_loadgfx_callnative,
     FieldEffectCmd_loadtiles_callnative,
     FieldEffectCmd_loadfadedpal_callnative,
+    // Added for day and night system, order must match asm/macros/field_effect_script.inc
+    FieldEffectCmd_loadfadedpaldaynight,
+    FieldEffectCmd_loadpaldaynight,
+    FieldEffectCmd_loadfadedpaldaynight_callnative,
 };
 
 static const struct OamData sOam_64x64 =
@@ -4040,4 +4045,41 @@ static void UseVsSeeker_CleanUpFieldEffect(struct Task *task)
     gPlayerAvatar.preventStep = FALSE;
     FieldEffectActiveListRemove(FLDEFF_USE_VS_SEEKER);
     DestroyTask(FindTaskIdByFunc(Task_FldEffUseVsSeeker));
+}
+
+bool8 FieldEffectCmd_loadpaldaynight(u8 **script, u32 *val)
+{
+    (*script)++;
+    FieldEffectScript_LoadPaletteDayNight(script);
+    return TRUE;
+}
+
+bool8 FieldEffectCmd_loadfadedpaldaynight(u8 **script, u32 *val)
+{
+    (*script)++;
+    FieldEffectScript_LoadFadedPaletteDayNight(script);
+    return TRUE;
+}
+
+bool8 FieldEffectCmd_loadfadedpaldaynight_callnative(u8 **script, u32 *val)
+{
+    (*script)++;
+    FieldEffectScript_LoadFadedPaletteDayNight(script);
+    FieldEffectScript_CallNative(script, val);
+    return TRUE;
+}
+
+void FieldEffectScript_LoadFadedPaletteDayNight(u8 **script)
+{
+    struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
+    LoadSpritePaletteDayNight(palette);
+    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
+    (*script) += 4;
+}
+
+void FieldEffectScript_LoadPaletteDayNight(u8 **script)
+{
+    struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
+    LoadSpritePaletteDayNight(palette);
+    (*script) += 4;
 }

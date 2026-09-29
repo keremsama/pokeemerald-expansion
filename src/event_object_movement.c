@@ -7,7 +7,9 @@
 #include "data.h"
 #include "debug.h"
 #include "decoration.h"
+#include "day_night.h"
 #include "decompress.h"
+#include "menu.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -121,6 +123,7 @@ static u8 setup##_callback(struct ObjectEvent *objectEvent, struct Sprite *sprit
 static EWRAM_DATA u8 sCurrentReflectionType = 0;
 static EWRAM_DATA u16 sCurrentSpecialObjectPaletteTag = 0;
 static EWRAM_DATA struct LockedAnimObjectEvents *sLockedAnimObjectEvents = {0};
+static EWRAM_DATA bool8 sObjectPalettesSkipDayNight = FALSE;
 
 static void MoveCoordsInDirection(u32, s16 *, s16 *, s16, s16);
 static bool8 ObjectEventExecSingleMovementAction(struct ObjectEvent *, struct Sprite *);
@@ -186,6 +189,8 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static u8 UpdateSpritePalette(const struct SpritePalette *spritePalette, struct Sprite *sprite);
 static void ResetObjectEventFldEffData(struct ObjectEvent *);
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *);
+static u32 LoadObjectSpritePalette(const struct SpritePalette *spritePalette);
+static u32 LoadCompressedObjectSpritePalette(const u32 *data, u16 tag);
 static u8 FindObjectEventPaletteIndexByTag(u16);
 static bool8 ObjectEventDoesElevationMatch(struct ObjectEvent *, u8);
 static void SpriteCB_CameraObject(struct Sprite *);
@@ -1862,6 +1867,9 @@ u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *),
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
 
+    // Mostly used by menus (naming screen, shop, decorations...), so don't tint these with the day/night system
+    sObjectPalettesSkipDayNight = TRUE;
+
 
     if (OW_GFX_COMPRESS)
     {
@@ -1879,6 +1887,7 @@ u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *),
     {
         LoadObjectEventPalette(spriteTemplate->paletteTag);
     }
+    sObjectPalettesSkipDayNight = FALSE;
 
     spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
 
@@ -2053,11 +2062,11 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
 
             compSpritePalette.data = (const void *) spritePalette.data;
             compSpritePalette.tag = spritePalette.tag;
-            paletteNum = LoadCompressedSpritePalette(&compSpritePalette);
+            paletteNum = LoadCompressedObjectSpritePalette(compSpritePalette.data, compSpritePalette.tag);
         }
         else
         {
-            paletteNum = LoadSpritePalette(&spritePalette);
+            paletteNum = LoadObjectSpritePalette(&spritePalette);
         }
     }
     else
@@ -2071,7 +2080,7 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
             return paletteNum;
         // Use matching front sprite's normal/shiny palettes
         // Load compressed palette
-        LoadCompressedSpritePaletteWithTag(palette, species);
+        LoadCompressedObjectSpritePalette(palette, species);
         paletteNum = IndexOfSpritePaletteTag(species); // Tag is always present
     }
 
@@ -2761,7 +2770,7 @@ static u8 UpdateSpritePalette(const struct SpritePalette *spritePalette, struct 
     sprite->inUse = FALSE;
     FieldEffectFreePaletteIfUnused(sprite->oam.paletteNum);
     sprite->inUse = TRUE;
-    return sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
+    return sprite->oam.paletteNum = LoadObjectSpritePalette(spritePalette);
 }
 
 // Find and update based on template's paletteTag
@@ -3021,7 +3030,28 @@ static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette
     u8 paletteNum = IndexOfSpritePaletteTag(spritePalette->tag);
     if (paletteNum != 0xFF) // don't load twice; return
         return paletteNum;
-    paletteNum = LoadSpritePalette(spritePalette);
+    paletteNum = LoadObjectSpritePalette(spritePalette);
+    return paletteNum;
+}
+
+// Object event palettes are tinted by the day/night system, unless they're loaded for a menu
+static u32 LoadObjectSpritePalette(const struct SpritePalette *spritePalette)
+{
+    if (sObjectPalettesSkipDayNight)
+        return LoadSpritePalette(spritePalette);
+    return LoadSpritePaletteDayNight(spritePalette);
+}
+
+static u32 LoadCompressedObjectSpritePalette(const u32 *data, u16 tag)
+{
+    u32 paletteNum;
+    struct SpritePalette spritePalette;
+    void *buffer = malloc_and_decompress(data, NULL);
+
+    spritePalette.data = buffer;
+    spritePalette.tag = tag;
+    paletteNum = LoadObjectSpritePalette(&spritePalette);
+    Free(buffer);
     return paletteNum;
 }
 
@@ -3030,7 +3060,7 @@ void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
     // paletteTag is assumed to exist in sObjectEventSpritePalettes
     u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
-    LoadPalette(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    LoadPaletteDayNight(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
 }
 
 void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)

@@ -34,6 +34,7 @@ enum {
 #define METATILE_ROW_WIDTH 8
 
 typedef void (*TilesetCB)(void);
+struct PaletteOverride;
 
 struct Tileset
 {
@@ -44,6 +45,7 @@ struct Tileset
     /*0x0C*/ const u16 *metatiles;
     /*0x10*/ const u16 *metatileAttributes;
     /*0x14*/ TilesetCB callback;
+    /*0x18*/ const struct PaletteOverride *paletteOverrides;
 };
 
 struct MapLayout

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "day_night.h"
 #include "battle.h"
 #include "battle_controllers.h"
 #include "battle_ai_main.h"
@@ -659,6 +660,8 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battler)
     void *buffer = malloc_and_decompress(lzPaletteData, NULL);
     LoadPalette(buffer, paletteOffset, PLTT_SIZE_4BPP);
     LoadPalette(buffer, BG_PLTT_ID(8) + BG_PLTT_ID(battler), PLTT_SIZE_4BPP);
+    TintBattleSpritePaletteDayNight(buffer, paletteOffset);
+    TintBattleSpritePaletteDayNight(buffer, BG_PLTT_ID(8) + BG_PLTT_ID(battler));
     Free(buffer);
 
     // transform's pink color
@@ -696,7 +699,9 @@ void DecompressTrainerFrontPic(u16 frontPicId, u8 battler)
     u8 position = GetBattlerPosition(battler);
     DecompressPicFromTable(&gTrainerSprites[frontPicId].frontPic,
                            gMonSpritesGfxPtr->spritesGfx[position]);
-    LoadCompressedSpritePalette(&gTrainerSprites[frontPicId].palette);
+    u32 paletteNum = LoadCompressedSpritePalette(&gTrainerSprites[frontPicId].palette);
+    if (paletteNum != 0xFF)
+        TintCompressedBattleSpritePaletteDayNight(gTrainerSprites[frontPicId].palette.data, OBJ_PLTT_ID(paletteNum));
 }
 
 void DecompressTrainerBackPic(u16 backPicId, u8 battler)
@@ -706,6 +711,7 @@ void DecompressTrainerBackPic(u16 backPicId, u8 battler)
                            gMonSpritesGfxPtr->spritesGfx[position]);
     LoadCompressedPalette(gTrainerBacksprites[backPicId].palette.data,
                           OBJ_PLTT_ID(battler), PLTT_SIZE_4BPP);
+    TintCompressedBattleSpritePaletteDayNight(gTrainerBacksprites[backPicId].palette.data, OBJ_PLTT_ID(battler));
 }
 
 void FreeTrainerFrontPicPalette(u16 frontPicId)
@@ -714,6 +720,19 @@ void FreeTrainerFrontPicPalette(u16 frontPicId)
 }
 
 // Unused.
+// The healthbox palette is shared with the shadow under the opponent's Pokémon
+static void TintHealthboxPaletteDayNight(void)
+{
+    u32 paletteNum = IndexOfSpritePaletteTag(TAG_HEALTHBOX_PAL);
+
+    if (paletteNum == 0xFF)
+        return;
+
+    TintBattleSpritePaletteColorDayNight(OBJ_PLTT_ID(paletteNum) + 6, gBattleInterface_BallStatusBarPal[6]); // shadow
+    if (B_BLEND_UI_EDGES)
+        TintBattleSpritePaletteColorDayNight(OBJ_PLTT_ID(paletteNum) + 5, gBattleInterface_BallStatusBarPal[5]); // healthbox edges
+}
+
 void BattleLoadAllHealthBoxesGfxAtOnce(void)
 {
     u8 numberOfBattlers = 0;
@@ -721,6 +740,7 @@ void BattleLoadAllHealthBoxesGfxAtOnce(void)
 
     LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[0]);
     LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[1]);
+    TintHealthboxPaletteDayNight();
     if (!IsDoubleBattle())
     {
         LoadCompressedSpriteSheet(&sSpriteSheet_SinglesPlayerHealthbox);
@@ -749,6 +769,7 @@ bool8 BattleLoadAllHealthBoxesGfx(u8 state)
         {
             LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[0]);
             LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[1]);
+            TintHealthboxPaletteDayNight();
             LoadIndicatorSpritesGfx();
             CategoryIcons_LoadSpritesGfx();
         }
@@ -979,6 +1000,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool32 megaEvo, bo
     lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(targetSpecies, isShiny, personalityValue);
     void *buffer = malloc_and_decompress(lzPaletteData, NULL);
     LoadPalette(buffer, paletteOffset, PLTT_SIZE_4BPP);
+    TintBattleSpritePaletteDayNight(buffer, paletteOffset);
     Free(buffer);
 
     if (!megaEvo)
@@ -1038,6 +1060,7 @@ void BattleLoadSubstituteOrMonSpriteGfx(u8 battler, bool8 loadMonSprite)
 
         palOffset = OBJ_PLTT_ID(battler);
         LoadCompressedPalette(gBattleAnimSpritePal_Substitute, palOffset, PLTT_SIZE_4BPP);
+        TintCompressedBattleSpritePaletteDayNight(gBattleAnimSpritePal_Substitute, palOffset);
     }
     else
     {

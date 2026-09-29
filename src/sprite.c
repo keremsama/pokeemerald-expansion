@@ -1,5 +1,6 @@
 #include "global.h"
 #include "sprite.h"
+#include "day_night.h"
 #include "main.h"
 #include "palette.h"
 
@@ -1565,9 +1566,10 @@ void FreeAllSpritePalettes(void)
     gReservedSpritePaletteCount = 0;
     for (i = 0; i < 16; i++)
         sSpritePaletteTags[i] = TAG_NONE;
+    ClearDayNightPalette(OBJ_PLTT_OFFSET, OBJ_PLTT_SIZE);
 }
 
-u32 LoadSpritePalette(const struct SpritePalette *palette)
+static u32 LoadSpritePalette_HandleDayNight(const struct SpritePalette *palette, bool32 isDayNight)
 {
     u32 index = IndexOfSpritePaletteTag(palette->tag);
 
@@ -1583,9 +1585,22 @@ u32 LoadSpritePalette(const struct SpritePalette *palette)
     else
     {
         sSpritePaletteTags[index] = palette->tag;
-        DoLoadSpritePalette(palette->data, PLTT_ID(index));
+        if (isDayNight)
+            LoadPalette_HandleDayNight(palette->data, OBJ_PLTT_OFFSET + PLTT_ID(index), PLTT_SIZE_4BPP, TRUE);
+        else
+            DoLoadSpritePalette(palette->data, PLTT_ID(index));
         return index;
     }
+}
+
+u32 LoadSpritePalette(const struct SpritePalette *palette)
+{
+    return LoadSpritePalette_HandleDayNight(palette, FALSE);
+}
+
+u32 LoadSpritePaletteDayNight(const struct SpritePalette *palette)
+{
+    return LoadSpritePalette_HandleDayNight(palette, TRUE);
 }
 
 void LoadSpritePalettes(const struct SpritePalette *palettes)
@@ -1596,7 +1611,7 @@ void LoadSpritePalettes(const struct SpritePalette *palettes)
             break;
 }
 
-void DoLoadSpritePalette(const u16 *src, u16 paletteOffset)
+static void DoLoadSpritePalette(const u16 *src, u16 paletteOffset)
 {
     LoadPalette(src, OBJ_PLTT_OFFSET + paletteOffset, PLTT_SIZE_4BPP);
 }
@@ -1611,6 +1626,7 @@ u32 AllocSpritePalette(u16 tag)
     else
     {
         sSpritePaletteTags[index] = tag;
+        ClearDayNightPalette(OBJ_PLTT_ID(index), PLTT_SIZE_4BPP);
         return index;
     }
 }
@@ -1634,7 +1650,10 @@ void FreeSpritePaletteByTag(u16 tag)
 {
     u8 index = IndexOfSpritePaletteTag(tag);
     if (index != 0xFF)
+    {
         sSpritePaletteTags[index] = TAG_NONE;
+        ClearDayNightPalette(OBJ_PLTT_ID(index), PLTT_SIZE_4BPP);
+    }
 }
 
 void SetSubspriteTables(struct Sprite *sprite, const struct SubspriteTable *subspriteTables)

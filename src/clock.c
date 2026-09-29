@@ -8,6 +8,7 @@
 #include "tv.h"
 #include "field_weather.h"
 #include "berry.h"
+#include "day_night.h"
 #include "main.h"
 #include "overworld.h"
 #include "wallclock.h"
@@ -29,6 +30,7 @@ void DoTimeBasedEvents(void)
 {
     if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
     {
+        CheckClockForImmediateTimeEvents();
         RtcCalcLocalTime();
         UpdatePerDay(&gLocalTime);
         UpdatePerMinute(&gLocalTime);

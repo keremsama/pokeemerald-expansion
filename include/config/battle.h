@@ -323,4 +323,11 @@
 #define B_POOL_RULE_ITEM_CLAUSE             FALSE    // Only allow each item to be picked once
 #define B_POOL_RULES_USE_ITEM_EXCLUSIONS    FALSE    // Exclude items listed in poolItemClauseExclusions
 
+// Battle day/night settings (Sierra's day/night system, see src/day_night.c)
+// Only applies when the battle starts on an outdoor map, like the overworld tint.
+#define B_APPLY_DNS_TO_BACKGROUND           TRUE     // Applies the day and night tint to the battle background and the opponent's shadow
+#define B_APPLY_DNS_TO_SPRITES              TRUE     // Applies the day and night tint to the Pokémon, trainer and ball sprites during battles. Not vanilla game behavior
+#define B_SPRITE_BLEND_LEVEL                50      // How much the tint affects the sprites on a 0-100 scale. 100 is the full overworld tint, 0 is no tint at all
+#define B_BLEND_UI_EDGES                    TRUE     // Also tints the edges of the vanilla healthboxes to make them fit better. Recommended to set to FALSE if not using the vanilla UI
+
 #endif // GUARD_CONFIG_BATTLE_H

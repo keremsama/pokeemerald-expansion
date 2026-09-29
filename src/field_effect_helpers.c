@@ -1,4 +1,5 @@
 #include "global.h"
+#include "day_night.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
 #include "field_effect.h"
@@ -112,12 +113,29 @@ static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct 
     }
 }
 
+// Filter the untinted colors if the palette is tinted by the day/night system,
+// the filtered palette is then tinted on its own and follows the time of day
+static const u16 *GetReflectionSourcePalette(u8 paletteNum)
+{
+    const u16 *src = GetDayNightSourcePalette(OBJ_PLTT_ID(paletteNum));
+    if (src == NULL)
+        src = gPlttBufferUnfaded + OBJ_PLTT_ID(paletteNum);
+    return src;
+}
+
+static u32 LoadReflectionPalette(u8 mainPaletteNum, const struct SpritePalette *filteredPal)
+{
+    if (GetDayNightSourcePalette(OBJ_PLTT_ID(mainPaletteNum)) != NULL)
+        return LoadSpritePaletteDayNight(filteredPal);
+    return LoadSpritePalette(filteredPal);
+}
+
 // Apply a blue tint effect to a palette
 static void ApplyPondFilter(u8 paletteNum, u16 *dest)
 {
     u32 i, r, g, b;
     // CpuCopy16(gPlttBufferUnfaded + 0x100 + paletteNum * 16, dest, 32);
-    u16 *src = gPlttBufferUnfaded + OBJ_PLTT_ID(paletteNum);
+    const u16 *src = GetReflectionSourcePalette(paletteNum);
     *dest++ = *src++; // copy transparency
     for (i = 0; i < 16 - 1; i++)
     {
@@ -136,7 +154,7 @@ static void ApplyIceFilter(u8 paletteNum, u16 *dest)
 {
     u32 i, r, g, b;
     // CpuCopy16(gPlttBufferUnfaded + 0x100 + paletteNum * 16, dest, 32);
-    u16 *src = gPlttBufferUnfaded + OBJ_PLTT_ID(paletteNum);
+    const u16 *src = GetReflectionSourcePalette(paletteNum);
     *dest++ = *src++; // copy transparency
     for (i = 0; i < 16 - 1; i++)
     {
@@ -171,7 +189,7 @@ static void LoadObjectRegularReflectionPalette(struct ObjectEvent *objectEvent, 
             ApplyPondFilter(mainSprite->oam.paletteNum, filteredData);
         else
             ApplyIceFilter(mainSprite->oam.paletteNum, filteredData);
-        paletteNum = LoadSpritePalette(&filteredPal);
+        paletteNum = LoadReflectionPalette(mainSprite->oam.paletteNum, &filteredPal);
         UpdateSpritePaletteWithWeather(paletteNum);
     }
     sprite->oam.paletteNum = paletteNum;
@@ -221,7 +239,7 @@ static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
                 ApplyPondFilter(mainSprite->oam.paletteNum, filteredData);
             else
                 ApplyIceFilter(mainSprite->oam.paletteNum, filteredData);
-            paletteNum = LoadSpritePalette(&filteredPal);
+            paletteNum = LoadReflectionPalette(mainSprite->oam.paletteNum, &filteredPal);
             UpdateSpritePaletteWithWeather(paletteNum);
         }
         reflectionSprite->oam.paletteNum = paletteNum;

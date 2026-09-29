@@ -30,6 +30,7 @@
 	.include "src/pokemon.o"
 	.include "src/random.o"
 	.include "src/daycare.o"
+	.include "src/day_night.o"
 	.include "src/load_save.o"
 	.include "src/trade.o"
 	.include "src/berry_blender.o"

@@ -1,4 +1,6 @@
 #include "global.h"
+#include "day_night.h"
+#include "palette.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_gimmick.h"
@@ -578,7 +580,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
     throwCaseId = gTasks[taskId].tThrowId;
     battler = gTasks[taskId].tBattler;
     ballId = GetBattlerPokeballItemId(battler);
-    LoadBallGfx(ballId);
+    LoadBattleBallGfx(ballId);
     ballSpriteId = CreateSprite(&gBallSpriteTemplates[ballId], 32, 80, 29);
     gSprites[ballSpriteId].data[0] = 0x80;
     gSprites[ballSpriteId].data[1] = 0;
@@ -1574,6 +1576,17 @@ void LoadBallGfx(u8 ballId)
         LZDecompressVram(gOpenPokeballGfx, (void *)(OBJ_VRAM0 + 0x100 + var * 32));
         break;
     }
+}
+
+// Same as LoadBallGfx, but the palette is tinted by the day/night system (battles only)
+void LoadBattleBallGfx(u8 ballId)
+{
+    u32 paletteNum;
+
+    LoadBallGfx(ballId);
+    paletteNum = IndexOfSpritePaletteTag(gBallSpritePalettes[ballId].tag);
+    if (paletteNum != 0xFF)
+        TintCompressedBattleSpritePaletteDayNight(gBallSpritePalettes[ballId].data, OBJ_PLTT_ID(paletteNum));
 }
 
 void FreeBallGfx(u8 ballId)
