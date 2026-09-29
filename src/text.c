@@ -70,7 +70,6 @@ static u32 GetGlyphWidth_OutlinedNarrow(u16, bool32);
 static u32 GetGlyphWidth_BattleUIElements(u16, bool32);
 // end bwBattleUI
 static struct TextPrinter *AllocateTextPrinter(void);
-static u32 GetNumTextPrinters(void);
 static void FreeFinishedTextPrinters(void);
 static inline bool32 IsOutlinedFont(u32 fontId); // bwBattleUI
 
@@ -2902,17 +2901,6 @@ static struct TextPrinter *AllocateTextPrinter(void)
     return printer;
 }
 
-static u32 GetNumTextPrinters(void)
-{
-    u32 numPrinters = 0;
-    struct TextPrinter *currentPrinter = sFirstTextPrinter;
-    while (currentPrinter != NULL)
-    {
-        currentPrinter = currentPrinter->nextPrinter;
-        numPrinters++;
-    }
-    return numPrinters;
-}
 
 static void FreeFinishedTextPrinters(void)
 {
