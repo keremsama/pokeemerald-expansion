@@ -78,7 +78,6 @@ static void ApplyAffineAnimFrameRelativeAndUpdateMatrix(u8 matrixNum, struct Aff
 static s16 ConvertScaleParam(s16 scale);
 static void GetAffineAnimFrame(u8 matrixNum, struct Sprite *sprite, struct AffineAnimFrameCmd *frameCmd);
 static void ApplyAffineAnimFrame(u8 matrixNum, struct AffineAnimFrameCmd *frameCmd);
-static u8 IndexOfSpriteTileTag(u16 tag);
 static void AllocSpriteTileRange(u16 tag, u16 start, u16 count);
 static void DoLoadSpritePalette(const u16 *src, u16 paletteOffset);
 static void UpdateSpriteMatrixAnchorPos(struct Sprite *, s32, s32);
@@ -1988,7 +1987,7 @@ u32 *GetSrcPtrFromSprite(struct Sprite *sprite)
     u16 low = (u16)sprite->data[3];
     u16 hi = (u16)sprite->data[4];
     u32 *ptr = (u32 *)(low | (hi << 16));
-    assertf(ptr != NULL, "Sprite pointer must not be NULL");
+    AGB_ASSERT(ptr != NULL);
     return ptr;
 }
 
@@ -1996,7 +1995,7 @@ void SetupSpritesForTextPrinting(u8 *spriteIds, const u32 **spriteSrc, u32 numSp
 {
     u32 firstSpriteWidth = GetSpriteWidth(&gSprites[spriteIds[0]]);
     u32 firstSpriteHeight = GetSpriteHeight(&gSprites[spriteIds[0]]);
-    assertf(firstSpriteWidth != 8 && firstSpriteHeight != 8, "Sprites can't be 8px");
+    AGB_ASSERT(firstSpriteWidth != 8 && firstSpriteHeight != 8);
     for (u32 y = 0; y < numSpritesY; y++)
     {
         for (u32 x = 0; x < numSpritesX; x++)
@@ -2004,7 +2003,7 @@ void SetupSpritesForTextPrinting(u8 *spriteIds, const u32 **spriteSrc, u32 numSp
             u32 spriteWidth = GetSpriteWidth(&gSprites[spriteIds[x + y * numSpritesX]]);
             u32 spriteHeight = GetSpriteHeight(&gSprites[spriteIds[x + y * numSpritesX]]);
 
-            assertf(spriteWidth == firstSpriteWidth && spriteHeight == firstSpriteHeight, "Sprites must be the same size");
+            AGB_ASSERT(spriteWidth == firstSpriteWidth && spriteHeight == firstSpriteHeight);
 
             if (spriteSrc != NULL)
                 StorePointerInSpriteData(&gSprites[spriteIds[x + y * numSpritesX]], spriteSrc[x + y * numSpritesX]);

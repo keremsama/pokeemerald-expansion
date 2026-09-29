@@ -799,7 +799,7 @@ u32 CopyGlyphToVRAM(struct TextPrinter *textPrinter)
         widthOffset = GetSpriteWidth(sprite) * 4;
         break;
     default:
-        errorf("Illegal printer type");
+        AGB_ASSERT(FALSE);
         return 0;
     }
 
@@ -2611,7 +2611,7 @@ static struct TextPrinter *AllocateTextPrinter(void)
 
     if (printer == NULL)
     {
-        errorf("Failed to allocate text printer");
+        AGB_ASSERT(FALSE);
         return NULL;
     }
 
