@@ -282,6 +282,21 @@ static const struct SpriteTemplate sBWBattleUI_CursorTemplate =
     .callback = SpriteCB_BattleUICursor,
 };
 
+// nuzlocke "1" / "D" indicators keep their own palette, the BW healthbox palette has no free red/yellow
+static const u16 sBWBattleUI_NuzlockeIndicatorPalette[] = INCBIN_U16("graphics/battle_interface/nuzlocke_indicator.gbapal");
+
+static const struct SpriteTemplate sBWBattleUI_NuzlockeIndicatorTemplate =
+{
+    .tileTag = TAG_NUZLOCKE_INDICATOR, // offset by battler when spawned
+    .paletteTag = TAG_NUZLOCKE_INDICATOR,
+    .oam = &(const struct OamData){
+        .shape = SPRITE_SHAPE(8x8),
+        .size = SPRITE_SIZE(8x8),
+        .priority = 1,
+    },
+    .callback = SpriteCB_NuzlockeIndicator,
+};
+
 static const struct SpriteTemplate sBWBattleUI_AbilityPopUpTemplate =
 {
     .tileTag = TAG_NONE, // automatically assigned when spawned

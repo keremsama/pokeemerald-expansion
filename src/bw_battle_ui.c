@@ -22,6 +22,7 @@
 #include "main.h"
 #include "item.h"
 #include "item_icon.h"
+#include "tx_randomizer_and_challenges.h"
 #include "malloc.h"
 #include "test_runner.h"
 #include "bw_battle_ui.h"
@@ -43,6 +44,7 @@ static inline bool32 IsOnPlayerSide(u32 battler)
 // Battle Speed (2x/3x/4x) runs sprite callbacks and tasks several times per frame.
 // BW UI elements should still animate at normal speed, so they only advance once per real frame.
 #define sBUI_LastFrame  data[7]
+#define sNI_Battler     data[0]
 #define tAPU_LastFrame  data[10]
 
 static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
@@ -59,10 +61,12 @@ static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
 static EWRAM_INIT struct {
     u8 cursorSpriteId;
     u8 abilityPopUpTaskId[MAX_BATTLERS_COUNT];
+    u8 nuzlockeIndicatorSpriteId[MAX_BATTLERS_COUNT];
 } sBWBattleUI_Resources =
 {
     .cursorSpriteId = SPRITE_NONE,
     .abilityPopUpTaskId = { TASK_NONE, TASK_NONE, TASK_NONE, TASK_NONE },
+    .nuzlockeIndicatorSpriteId = { SPRITE_NONE, SPRITE_NONE, SPRITE_NONE, SPRITE_NONE },
 };
 
 // declarations
@@ -72,6 +76,8 @@ static void SpriteCB_MoveInfoTrigger(struct Sprite *);
 static void SpriteCB_LastBallTrigger(struct Sprite *);
 static void SpriteCB_LastBallIcon(struct Sprite *);
 static void SpriteCB_BounceLastBallIcon(struct Sprite *);
+static void SpriteCB_NuzlockeIndicator(struct Sprite *);
+static void BattleUI_UpdateNuzlockeIndicator(u32, bool32);
 
 static void Task_BattleUITrackAbilityPopUpGfx(u8);
 static void Task_BattleUIHandleAbilityPopUp(u8);
@@ -1522,25 +1528,97 @@ static void BattleUI_UpdateHealthboxStatusIcon(u32 spriteId, struct Pokemon *mon
 
 static void BattleUI_UpdateHealthboxCaughtMonIndicator(u32 spriteId, struct Pokemon *mon)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
-        return;
-
-    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        return;
-
     u32 battler = gSprites[spriteId].hMain_Battler;
 
-    if (IsOnPlayerSide(battler))
+    if (gBattleTypeFlags & (BATTLE_TYPE_WALLY_TUTORIAL | BATTLE_TYPE_TRAINER) || IsOnPlayerSide(battler))
+    {
+        BattleUI_UpdateNuzlockeIndicator(battler, FALSE);
         return;
+    }
 
     BattleUI_CopyElementToSprite(spriteId, sBWBattleUI_HPBoxEndFrames, 0, 1);
     BattleUI_CopyElementToSprite(spriteId, sBWBattleUI_HPBoxEndFrames + TILE_TO_PIXELS(3), 8, 1);
+
+    // Nuzlocke: first encounter of the area replaces the caught ball, same rules as TryAddPokeballIconToHealthbox
+    bool32 showFirstEncounter = IsNuzlockeActive()
+                             && !NuzlockeIsCaptureBlocked
+                             && (!NuzlockeShouldSkipEncounterFlag || NuzlockeIsStaticEncounterFirstAttempt);
+
+    BattleUI_UpdateNuzlockeIndicator(battler, showFirstEncounter);
+    if (showFirstEncounter)
+        return;
 
     if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(GetMonData(mon, MON_DATA_SPECIES)), FLAG_GET_CAUGHT))
         return;
 
     BattleUI_CopyElementToSprite(spriteId, sBWBattleUI_HPBoxCaughtIndicator, 0, 1);
     BattleUI_CopyElementToSprite(spriteId, sBWBattleUI_HPBoxCaughtIndicator + TILE_TO_PIXELS(1), 8, 1);
+}
+
+static bool32 BattleUI_IsNuzlockeIndicatorValid(u32 battler)
+{
+    u32 spriteId = sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler];
+
+    // sprite data gets wiped between battles and on reshow, so double check it's still ours
+    return spriteId < MAX_SPRITES
+        && gSprites[spriteId].inUse
+        && gSprites[spriteId].callback == SpriteCB_NuzlockeIndicator
+        && gSprites[spriteId].sNI_Battler == battler;
+}
+
+static void BattleUI_UpdateNuzlockeIndicator(u32 battler, bool32 show)
+{
+    u32 tileTag = TAG_NUZLOCKE_INDICATOR + battler;
+
+    if (!show)
+    {
+        if (BattleUI_IsNuzlockeIndicatorValid(battler))
+        {
+            DestroySprite(&gSprites[sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler]]);
+            FreeSpriteTilesByTag(tileTag);
+        }
+        sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler] = SPRITE_NONE;
+        return;
+    }
+
+    const u32 *gfx = NuzlockeIsSpeciesClauseActive ? gNuzlockeFirstEncounterDupesIndicatorGfx
+                                                   : gNuzlockeFirstEncounterIndicatorGfx;
+
+    if (!BattleUI_IsNuzlockeIndicatorValid(battler))
+    {
+        LoadSpritePalette(&(const struct SpritePalette){ .data = sBWBattleUI_NuzlockeIndicatorPalette, .tag = TAG_NUZLOCKE_INDICATOR });
+        if (IndexOfSpriteTileTag(tileTag) == 0xFF)
+            LoadSpriteSheet(&(const struct SpriteSheet){ .data = gfx, .size = TILE_SIZE_4BPP, .tag = tileTag });
+
+        struct SpriteTemplate template = sBWBattleUI_NuzlockeIndicatorTemplate;
+        template.tileTag = tileTag;
+
+        // subpriority 0 so it's drawn in front of the healthbox
+        u32 spriteId = CreateSprite(&template, 0, 0, 0);
+        if (spriteId == MAX_SPRITES)
+            return;
+
+        gSprites[spriteId].sNI_Battler = battler;
+        gSprites[spriteId].callback(&gSprites[spriteId]);
+        sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler] = spriteId;
+    }
+
+    // "1" or "D" (species clause dupes) can change while the sprite exists
+    u32 spriteId = sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler];
+    CpuCopy32(gfx, (void *)(OBJ_VRAM0 + TILE_OFFSET_4BPP(gSprites[spriteId].oam.tileNum)), TILE_SIZE_4BPP);
+}
+
+static void SpriteCB_NuzlockeIndicator(struct Sprite *sprite)
+{
+    struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[sprite->sNI_Battler]];
+
+    // same spot as the caught ball: left column of the 64x32 healthbox, rows 5-12
+    sprite->x = healthbox->x - 28;
+    sprite->y = healthbox->y - 7;
+    sprite->x2 = healthbox->x2;
+    sprite->y2 = healthbox->y2;
+    sprite->invisible = healthbox->invisible;
+    sprite->oam.priority = healthbox->oam.priority;
 }
 
 static void BattleUI_PrintSafariBallText(u32 spriteId)
