@@ -5,6 +5,7 @@
 #include "field_specials.h"
 #include "item.h"
 #include "menu.h"
+#include "move.h"
 #include "palette.h"
 #include "pokemon_icon.h"
 #include "randomizer.h"
@@ -77,6 +78,9 @@ static void MultichoiceDynamicEventShowMonLeft_OnInit(struct DynamicListMenuEven
 static void MultichoiceDynamicEventShowMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowMonLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
 
 static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollections[] =
 {
@@ -109,6 +113,12 @@ static const struct DynamicListMenuEventCollection sDynamicListMenuEventCollecti
         .OnInit = MultichoiceDynamicEventShowMonLeft_OnInit,
         .OnSelectionChanged = MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged,
         .OnDestroy = MultichoiceDynamicEventShowMonLeft_OnDestroy
+    },
+    [DYN_MULTICHOICE_CB_SHOW_MOVE_DESC_LEFT] =
+    {
+        .OnInit = MultichoiceDynamicEventShowMoveDescriptionLeft_OnInit,
+        .OnSelectionChanged = MultichoiceDynamicEventShowMoveDescriptionLeft_OnSelectionChanged,
+        .OnDestroy = MultichoiceDynamicEventShowMoveDescriptionLeft_OnDestroy
     }
 };
 
@@ -367,6 +377,106 @@ static void MultichoiceDynamicEventShowGameCornerPrizeMonLeft_OnSelectionChanged
 #undef sAuxWindowId
 #undef sMonSpriteId
 #undef sMonSpecies
+
+#define sAuxWindowId sDynamicMenuEventScratchPad[0]
+
+struct DynamicTutorMoveDescription
+{
+    u16 move;
+    const u8 *description;
+};
+
+static const struct DynamicTutorMoveDescription sBattleFrontierDynamicTutorMoveDescriptions[] =
+{
+    {MOVE_KNOCK_OFF, BattleFrontier_Lounge7_Text_KnockOffDesc},
+    {MOVE_ENCORE, BattleFrontier_Lounge7_Text_EncoreDesc},
+    {MOVE_RAPID_SPIN, BattleFrontier_Lounge7_Text_RapidSpinDesc},
+    {MOVE_FAKE_OUT, BattleFrontier_Lounge7_Text_FakeOutDesc},
+    {MOVE_FLIP_TURN, BattleFrontier_Lounge7_Text_FlipTurnDesc},
+    {MOVE_VOLT_SWITCH, BattleFrontier_Lounge7_Text_VoltSwitchDesc},
+    {MOVE_TRICK, BattleFrontier_Lounge7_Text_TrickDesc},
+    {MOVE_TAILWIND, BattleFrontier_Lounge7_Text_TailwindDesc},
+    {MOVE_SPIKES, BattleFrontier_Lounge7_Text_SpikesDesc},
+    {MOVE_STICKY_WEB, BattleFrontier_Lounge7_Text_StickyWebDesc},
+    {MOVE_BODY_PRESS, BattleFrontier_Lounge7_Text_BodyPressDesc},
+    {MOVE_HEAT_WAVE, BattleFrontier_Lounge7_Text_HeatWaveDesc},
+    {MOVE_POLTERGEIST, BattleFrontier_Lounge7_Text_PoltergeistDesc},
+    {MOVE_DRACO_METEOR, BattleFrontier_Lounge7_Text_DracoMeteorDesc},
+    {MOVE_SCALE_SHOT, BattleFrontier_Lounge7_Text_ScaleShotDesc},
+    {MOVE_GUNK_SHOT, BattleFrontier_Lounge7_Text_GunkShotDesc},
+    {MOVE_LIQUIDATION, BattleFrontier_Lounge7_Text_LiquidationDesc},
+    {MOVE_IRON_HEAD, BattleFrontier_Lounge7_Text_IronHeadDesc},
+    {MOVE_HIGH_HORSEPOWER, BattleFrontier_Lounge7_Text_HighHorsepowerDesc},
+    {MOVE_PSYSHOCK, BattleFrontier_Lounge7_Text_PsyshockDesc},
+    {MOVE_SUCKER_PUNCH, BattleFrontier_Lounge7_Text_SuckerPunchDesc},
+    {MOVE_AQUA_JET, BattleFrontier_Lounge7_Text_AquaJetDesc},
+    {MOVE_SHADOW_SNEAK, BattleFrontier_Lounge7_Text_ShadowSneakDesc},
+    {MOVE_ICE_SHARD, BattleFrontier_Lounge7_Text_IceShardDesc},
+    {MOVE_BULLET_PUNCH, BattleFrontier_Lounge7_Text_BulletPunchDesc},
+    {MOVE_NUZZLE, BattleFrontier_Lounge7_Text_NuzzleDesc},
+    {MOVE_LEECH_SEED, BattleFrontier_Lounge7_Text_LeechSeedDesc},
+    {MOVE_SYNTHESIS, BattleFrontier_Lounge7_Text_SynthesisDesc},
+    {MOVE_TOXIC_SPIKES, BattleFrontier_Lounge7_Text_ToxicSpikesDesc},
+    {MOVE_PARTING_SHOT, BattleFrontier_Lounge7_Text_PartingShotDesc},
+    {MOVE_WIDE_GUARD, BattleFrontier_Lounge7_Text_WideGuardDesc},
+    {MOVE_FIRST_IMPRESSION, BattleFrontier_Lounge7_Text_FirstImpressionDesc},
+    {MOVE_FREEZE_DRY, BattleFrontier_Lounge7_Text_FreezeDryDesc},
+    {MOVE_MYSTICAL_FIRE, BattleFrontier_Lounge7_Text_MysticalFireDesc},
+    {MOVE_FLARE_BLITZ, BattleFrontier_Lounge7_Text_FlareBlitzDesc},
+    {MOVE_BRAVE_BIRD, BattleFrontier_Lounge7_Text_BraveBirdDesc},
+    {MOVE_HEAVY_SLAM, BattleFrontier_Lounge7_Text_HeavySlamDesc},
+    {MOVE_ROCK_BLAST, BattleFrontier_Lounge7_Text_RockBlastDesc},
+    {MOVE_DRAGON_TAIL, BattleFrontier_Lounge7_Text_DragonTailDesc},
+    {MOVE_FUTURE_SIGHT, BattleFrontier_Lounge7_Text_FutureSightDesc},
+    {MOVE_SLUDGE_WAVE, BattleFrontier_Lounge7_Text_SludgeWaveDesc},
+    {MOVE_POWER_GEM, BattleFrontier_Lounge7_Text_PowerGemDesc},
+    {MOVE_AURA_SPHERE, BattleFrontier_Lounge7_Text_AuraSphereDesc},
+    {MOVE_DRAINING_KISS, BattleFrontier_Lounge7_Text_DrainingKissDesc},
+    {MOVE_MOONBLAST, BattleFrontier_Lounge7_Text_MoonblastDesc},
+};
+
+static const u8 *GetBattleFrontierDynamicTutorMoveDescription(u16 move)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sBattleFrontierDynamicTutorMoveDescriptions); i++)
+    {
+        if (sBattleFrontierDynamicTutorMoveDescriptions[i].move == move)
+            return sBattleFrontierDynamicTutorMoveDescriptions[i].description;
+    }
+
+    return gText_Exit;
+}
+
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnInit(struct DynamicListMenuEventArgs *eventArgs)
+{
+    struct WindowTemplate *template = &gWindows[eventArgs->windowId].window;
+    u32 baseBlock = template->baseBlock + template->width * template->height;
+    struct WindowTemplate auxTemplate = CreateWindowTemplate(0, 1, 7, 12, 6, 15, baseBlock);
+    u32 auxWindowId = AddWindow(&auxTemplate);
+
+    SetStandardWindowBorderStyle(auxWindowId, FALSE);
+    FillWindowPixelBuffer(auxWindowId, PIXEL_FILL(1));
+    CopyWindowToVram(auxWindowId, COPYWIN_FULL);
+    sAuxWindowId = auxWindowId;
+}
+
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs)
+{
+    const u8 *description = eventArgs->selectedItem == MOVE_NONE ? gText_Exit : GetBattleFrontierDynamicTutorMoveDescription(eventArgs->selectedItem);
+
+    FillWindowPixelRect(sAuxWindowId, PIXEL_FILL(1), 0, 0, 96, 48);
+    AddTextPrinterParameterized(sAuxWindowId, FONT_NORMAL, description, 0, 1, 0, NULL);
+    CopyWindowToVram(sAuxWindowId, COPYWIN_GFX);
+}
+
+static void MultichoiceDynamicEventShowMoveDescriptionLeft_OnDestroy(struct DynamicListMenuEventArgs *eventArgs)
+{
+    ClearStdWindowAndFrame(sAuxWindowId, TRUE);
+    RemoveWindow(sAuxWindowId);
+}
+
+#undef sAuxWindowId
 
 static void FreeListMenuItems(struct ListMenuItem *items, u32 count)
 {

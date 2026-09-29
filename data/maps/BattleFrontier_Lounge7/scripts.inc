@@ -90,37 +90,37 @@ BattleFrontier_Lounge7_EventScript_MegaPunch::
 	end
 
 BattleFrontier_Lounge7_EventScript_MegaKick::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_MEGA_KICK
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_BodySlam::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_BODY_SLAM
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_RockSlide::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_ROCK_SLIDE
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_Counter::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_COUNTER
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_ThunderWave::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 40
 	setvar VAR_0x8005, MOVE_THUNDER_WAVE
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_SwordsDance::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 40
 	setvar VAR_0x8005, MOVE_SWORDS_DANCE
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
@@ -196,19 +196,19 @@ BattleFrontier_Lounge7_EventScript_DefenseCurl::
 	end
 
 BattleFrontier_Lounge7_EventScript_Snore::
-	setvar VAR_0x8008, 16
+	setvar VAR_0x8008, 11
 	setvar VAR_0x8005, MOVE_SNORE
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_MudSlap::
-	setvar VAR_0x8008, 16
+	setvar VAR_0x8008, 11
 	setvar VAR_0x8005, MOVE_MUD_SLAP
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_Swift::
-	setvar VAR_0x8008, 16
+	setvar VAR_0x8008, 11
 	setvar VAR_0x8005, MOVE_SWIFT
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
@@ -220,37 +220,187 @@ BattleFrontier_Lounge7_EventScript_IcyWind::
 	end
 
 BattleFrontier_Lounge7_EventScript_Endure::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_ENDURE
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_PsychUp::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_PSYCH_UP
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_IcePunch::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_ICE_PUNCH
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_ThunderPunch::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_THUNDER_PUNCH
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
 BattleFrontier_Lounge7_EventScript_FirePunch::
-	setvar VAR_0x8008, 33
+	setvar VAR_0x8008, 32
 	setvar VAR_0x8005, MOVE_FIRE_PUNCH
 	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
 	end
 
+BattleFrontier_Lounge7_EventScript_OldManMoveTutor::
+	lock
+	faceplayer
+	msgbox BattleFrontier_Lounge7_Text_OldManTutorIntro, MSGBOX_DEFAULT
+	goto BattleFrontier_Lounge7_EventScript_ChooseOldManTutorMove
+	end
+
+BattleFrontier_Lounge7_EventScript_ChooseOldManTutorMove::
+	message BattleFrontier_Lounge7_Text_TeachWhichMove
+	waitmessage
+	special ShowBattlePointsWindow
+	goto BattleFrontier_Lounge7_EventScript_ChooseNewOldManTutorMove
+	end
+
+BattleFrontier_Lounge7_EventScript_ChooseNewOldManTutorMove::
+	setvar VAR_TEMP_FRONTIER_TUTOR_ID, 2
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeRapidSpin, MOVE_RAPID_SPIN
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFakeOut, MOVE_FAKE_OUT
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeEncore, MOVE_ENCORE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFlipTurn, MOVE_FLIP_TURN
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeVoltSwitch, MOVE_VOLT_SWITCH
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeTrick, MOVE_TRICK
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeTailwind, MOVE_TAILWIND
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeSpikes, MOVE_SPIKES
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeLiquidation, MOVE_LIQUIDATION
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeIronHead, MOVE_IRON_HEAD
+	dynmultipush BattleFrontier_Lounge7_Text_PrizePsyshock, MOVE_PSYSHOCK
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeKnockOff, MOVE_KNOCK_OFF
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeStickyWeb, MOVE_STICKY_WEB
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeBodyPress, MOVE_BODY_PRESS
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeHeatWave, MOVE_HEAT_WAVE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeScaleShot, MOVE_SCALE_SHOT
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeGunkShot, MOVE_GUNK_SHOT
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeHighHorsepower, MOVE_HIGH_HORSEPOWER
+	dynmultipush BattleFrontier_Lounge7_Text_PrizePoltergeist, MOVE_POLTERGEIST
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeDracoMeteor, MOVE_DRACO_METEOR
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeExit, MOVE_NONE
+	dynmultistack 14, 0, FALSE, 6, FALSE, MOVE_RAPID_SPIN, DYN_MULTICHOICE_CB_SHOW_MOVE_DESC_LEFT
+	switch VAR_RESULT
+	case MOVE_NONE, BattleFrontier_Lounge7_EventScript_ExitDynamicTutorMoveSelect
+	case MULTI_B_PRESSED, BattleFrontier_Lounge7_EventScript_ExitDynamicTutorMoveSelect
+	copyvar VAR_0x8005, VAR_RESULT
+	call BattleFrontier_Lounge7_EventScript_SetDynamicTutorMovePrice
+	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
+	end
+
+BattleFrontier_Lounge7_EventScript_YoungsterMoveTutor::
+	lock
+	faceplayer
+	msgbox BattleFrontier_Lounge7_Text_YoungsterTutorIntro, MSGBOX_DEFAULT
+	goto BattleFrontier_Lounge7_EventScript_ChooseYoungsterTutorMove
+	end
+
+BattleFrontier_Lounge7_EventScript_ChooseYoungsterTutorMove::
+	message BattleFrontier_Lounge7_Text_TeachWhichMove
+	waitmessage
+	special ShowBattlePointsWindow
+	goto BattleFrontier_Lounge7_EventScript_ChooseNewYoungsterTutorMove
+	end
+
+BattleFrontier_Lounge7_EventScript_ChooseNewYoungsterTutorMove::
+	setvar VAR_TEMP_FRONTIER_TUTOR_ID, 3
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeAquaJet, MOVE_AQUA_JET
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeShadowSneak, MOVE_SHADOW_SNEAK
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeIceShard, MOVE_ICE_SHARD
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeNuzzle, MOVE_NUZZLE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeSuckerPunch, MOVE_SUCKER_PUNCH
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeLeechSeed, MOVE_LEECH_SEED
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeSynthesis, MOVE_SYNTHESIS
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeToxicSpikes, MOVE_TOXIC_SPIKES
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFutureSight, MOVE_FUTURE_SIGHT
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeDrainingKiss, MOVE_DRAINING_KISS
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeBulletPunch, MOVE_BULLET_PUNCH
+	dynmultipush BattleFrontier_Lounge7_Text_PrizePartingShot, MOVE_PARTING_SHOT
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeWideGuard, MOVE_WIDE_GUARD
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFirstImpression, MOVE_FIRST_IMPRESSION
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFreezeDry, MOVE_FREEZE_DRY
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeMysticalFire, MOVE_MYSTICAL_FIRE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeFlareBlitz, MOVE_FLARE_BLITZ
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeBraveBird, MOVE_BRAVE_BIRD
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeHeavySlam, MOVE_HEAVY_SLAM
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeRockBlast, MOVE_ROCK_BLAST
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeDragonTail, MOVE_DRAGON_TAIL
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeSludgeWave, MOVE_SLUDGE_WAVE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizePowerGem, MOVE_POWER_GEM
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeAuraSphere, MOVE_AURA_SPHERE
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeMoonblast, MOVE_MOONBLAST
+	dynmultipush BattleFrontier_Lounge7_Text_PrizeExit, MOVE_NONE
+	dynmultistack 14, 0, FALSE, 6, FALSE, MOVE_AQUA_JET, DYN_MULTICHOICE_CB_SHOW_MOVE_DESC_LEFT
+	switch VAR_RESULT
+	case MOVE_NONE, BattleFrontier_Lounge7_EventScript_ExitDynamicTutorMoveSelect
+	case MULTI_B_PRESSED, BattleFrontier_Lounge7_EventScript_ExitDynamicTutorMoveSelect
+	copyvar VAR_0x8005, VAR_RESULT
+	call BattleFrontier_Lounge7_EventScript_SetDynamicTutorMovePrice
+	goto BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection
+	end
+
+BattleFrontier_Lounge7_EventScript_SetDynamicTutorMovePrice::
+	switch VAR_0x8005
+	case MOVE_RAPID_SPIN, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_FAKE_OUT, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_AQUA_JET, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_SHADOW_SNEAK, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_ICE_SHARD, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_NUZZLE, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32
+	case MOVE_KNOCK_OFF, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_STICKY_WEB, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_BODY_PRESS, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_HEAT_WAVE, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_SCALE_SHOT, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_GUNK_SHOT, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_HIGH_HORSEPOWER, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_BULLET_PUNCH, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_PARTING_SHOT, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_WIDE_GUARD, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_FIRST_IMPRESSION, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_FREEZE_DRY, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_FLARE_BLITZ, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_BRAVE_BIRD, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_HEAVY_SLAM, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_ROCK_BLAST, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_DRAGON_TAIL, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_SLUDGE_WAVE, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_POWER_GEM, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_AURA_SPHERE, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_MYSTICAL_FIRE, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48
+	case MOVE_POLTERGEIST, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice64
+	case MOVE_DRACO_METEOR, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice64
+	case MOVE_MOONBLAST, BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice64
+	setvar VAR_0x8008, 40
+	return
+
+BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice32::
+	setvar VAR_0x8008, 32
+	return
+
+BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice48::
+	setvar VAR_0x8008, 48
+	return
+
+BattleFrontier_Lounge7_EventScript_SetDynamicTutorPrice64::
+	setvar VAR_0x8008, 64
+	return
+
 BattleFrontier_Lounge7_EventScript_ExitTutorMoveSelect::
 	special CloseBattleFrontierTutorWindow
+	special CloseBattlePointsWindow
+	msgbox BattleFrontier_Lounge7_Text_YouDontWantTo, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_Lounge7_EventScript_ExitDynamicTutorMoveSelect::
 	special CloseBattlePointsWindow
 	msgbox BattleFrontier_Lounge7_Text_YouDontWantTo, MSGBOX_DEFAULT
 	release
@@ -280,7 +430,18 @@ BattleFrontier_Lounge7_EventScript_TeachTutorMove::
 	msgbox BattleFrontier_Lounge7_Text_TeachMoveToWhichMon, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	special CloseBattlePointsWindow
+	goto_if_ge VAR_TEMP_FRONTIER_TUTOR_ID, 2, BattleFrontier_Lounge7_EventScript_TeachDynamicTutorMove
 	special CloseBattleFrontierTutorWindow
+	special ChooseMonForMoveTutor
+	waitstate
+	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_Lounge7_EventScript_CancelChooseMon
+	msgbox BattleFrontier_Lounge7_Text_IllTakeBattlePoints, MSGBOX_DEFAULT
+	copyvar VAR_0x8004, VAR_0x8008
+	special TakeFrontierBattlePoints
+	release
+	end
+
+BattleFrontier_Lounge7_EventScript_TeachDynamicTutorMove::
 	special ChooseMonForMoveTutor
 	waitstate
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_Lounge7_EventScript_CancelChooseMon
@@ -292,7 +453,9 @@ BattleFrontier_Lounge7_EventScript_TeachTutorMove::
 
 BattleFrontier_Lounge7_EventScript_ChooseNewMove::
 	goto_if_eq VAR_TEMP_FRONTIER_TUTOR_ID, 0, BattleFrontier_Lounge7_EventScript_ChooseNewLeftTutorMove
-	goto BattleFrontier_Lounge7_EventScript_ChooseNewRightTutorMove
+	goto_if_eq VAR_TEMP_FRONTIER_TUTOR_ID, 1, BattleFrontier_Lounge7_EventScript_ChooseNewRightTutorMove
+	goto_if_eq VAR_TEMP_FRONTIER_TUTOR_ID, 2, BattleFrontier_Lounge7_EventScript_ChooseNewOldManTutorMove
+	goto BattleFrontier_Lounge7_EventScript_ChooseNewYoungsterTutorMove
 	end
 
 BattleFrontier_Lounge7_EventScript_Sailor::
@@ -393,6 +556,387 @@ BattleFrontier_Lounge7_Text_LadiesWereStrongAndBeautiful:
 	.string "But… For some reason, I can't help\n"
 	.string "but feel this…\p"
 	.string "Time is so cruel…$"
+
+BattleFrontier_Lounge7_Text_OldManTutorIntro:
+	.string "Hmph. My wife still teaches like\n"
+	.string "every battle is a footrace.\p"
+	.string "Rush here, rush there...\n"
+	.string "No patience for proper technique.\p"
+	.string "I teach moves with purpose:\n"
+	.string "tempo, pressure, coverage.\p"
+	.string "If you have the BP, I have the lesson.$"
+
+BattleFrontier_Lounge7_Text_YoungsterTutorIntro:
+	.string "I'm keeping an eye on my grandma.\p"
+	.string "She gets so excited about teaching\n"
+	.string "moves that she forgets to rest.\p"
+	.string "So I made my own list of modern\n"
+	.string "battle tricks.\p"
+	.string "They're sharp, but don't rush her,\n"
+	.string "okay?$"
+
+BattleFrontier_Lounge7_Text_PrizeKnockOff:
+	.string "Knock Off{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeEncore:
+	.string "Encore{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeRapidSpin:
+	.string "Rapid Spin{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFakeOut:
+	.string "Fake Out{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFlipTurn:
+	.string "Flip Turn{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeVoltSwitch:
+	.string "Volt Switch{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeTrick:
+	.string "Trick{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeTailwind:
+	.string "Tailwind{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeSpikes:
+	.string "Spikes{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeStickyWeb:
+	.string "Sticky Web{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeBodyPress:
+	.string "Body Press{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeHeatWave:
+	.string "Heat Wave{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizePoltergeist:
+	.string "Poltergeist{CLEAR_TO 0x4E}64BP$"
+
+BattleFrontier_Lounge7_Text_PrizeDracoMeteor:
+	.string "Draco Meteor{CLEAR_TO 0x4E}64BP$"
+
+BattleFrontier_Lounge7_Text_PrizeScaleShot:
+	.string "Scale Shot{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeGunkShot:
+	.string "Gunk Shot{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeLiquidation:
+	.string "Liquidation{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeIronHead:
+	.string "Iron Head{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeHighHorsepower:
+	.string "High H.Power{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizePsyshock:
+	.string "Psyshock{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeSuckerPunch:
+	.string "Sucker Punch{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeAquaJet:
+	.string "Aqua Jet{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeShadowSneak:
+	.string "ShadowSneak{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeIceShard:
+	.string "Ice Shard{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeBulletPunch:
+	.string "BulletPnch{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeNuzzle:
+	.string "Nuzzle{CLEAR_TO 0x4E}32BP$"
+
+BattleFrontier_Lounge7_Text_PrizeLeechSeed:
+	.string "Leech Seed{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeSynthesis:
+	.string "Synthesis{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeToxicSpikes:
+	.string "ToxicSpikes{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizePartingShot:
+	.string "PartingShot{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeWideGuard:
+	.string "Wide Guard{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFirstImpression:
+	.string "First Impr.{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFreezeDry:
+	.string "Freeze-Dry{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeMysticalFire:
+	.string "Mystic Fire{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFlareBlitz:
+	.string "FlareBlitz{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeBraveBird:
+	.string "Brave Bird{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeHeavySlam:
+	.string "Heavy Slam{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeRockBlast:
+	.string "Rock Blast{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeDragonTail:
+	.string "DragonTail{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeFutureSight:
+	.string "FutureSght{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeSludgeWave:
+	.string "SludgeWave{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizePowerGem:
+	.string "Power Gem{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeAuraSphere:
+	.string "AuraSphere{CLEAR_TO 0x4E}48BP$"
+
+BattleFrontier_Lounge7_Text_PrizeDrainingKiss:
+	.string "Drain Kiss{CLEAR_TO 0x4E}40BP$"
+
+BattleFrontier_Lounge7_Text_PrizeMoonblast:
+	.string "Moonblast{CLEAR_TO 0x4E}64BP$"
+
+BattleFrontier_Lounge7_Text_PrizeExit:
+	.string "Exit$"
+
+BattleFrontier_Lounge7_Text_KnockOffDesc::
+	.string "Knocks off the\n"
+	.string "foe's held item\n"
+	.string "while attacking.$"
+
+BattleFrontier_Lounge7_Text_EncoreDesc::
+	.string "Forces the foe\n"
+	.string "to repeat its\n"
+	.string "last move.$"
+
+BattleFrontier_Lounge7_Text_RapidSpinDesc::
+	.string "Hits, then clears\n"
+	.string "binds, seeds and\n"
+	.string "hazards.$"
+
+BattleFrontier_Lounge7_Text_FakeOutDesc::
+	.string "Strikes first and\n"
+	.string "flinches on the\n"
+	.string "first turn.$"
+
+BattleFrontier_Lounge7_Text_FlipTurnDesc::
+	.string "Attacks, then\n"
+	.string "switches the user\n"
+	.string "out of battle.$"
+
+BattleFrontier_Lounge7_Text_VoltSwitchDesc::
+	.string "An electric hit\n"
+	.string "that switches the\n"
+	.string "user out.$"
+
+BattleFrontier_Lounge7_Text_TrickDesc::
+	.string "Swaps held items\n"
+	.string "with the target\n"
+	.string "if possible.$"
+
+BattleFrontier_Lounge7_Text_TailwindDesc::
+	.string "Stirs up a wind\n"
+	.string "that boosts the\n"
+	.string "team's SPEED.$"
+
+BattleFrontier_Lounge7_Text_SpikesDesc::
+	.string "Sets spikes that\n"
+	.string "hurt foes on\n"
+	.string "switch-in.$"
+
+BattleFrontier_Lounge7_Text_StickyWebDesc::
+	.string "Sets a web that\n"
+	.string "slows switch-in\n"
+	.string "foes.$"
+
+BattleFrontier_Lounge7_Text_BodyPressDesc::
+	.string "Attacks using\n"
+	.string "the user's DEF\n"
+	.string "stat.$"
+
+BattleFrontier_Lounge7_Text_HeatWaveDesc::
+	.string "Scorches foes\n"
+	.string "with hot breath.\n"
+	.string "May burn.$"
+
+BattleFrontier_Lounge7_Text_PoltergeistDesc::
+	.string "Uses the foe's\n"
+	.string "item to attack.\n"
+	.string "May fail.$"
+
+BattleFrontier_Lounge7_Text_DracoMeteorDesc::
+	.string "Drops meteors.\n"
+	.string "Sharply lowers\n"
+	.string "Sp. ATK.$"
+
+BattleFrontier_Lounge7_Text_ScaleShotDesc::
+	.string "Hits 2-5 times.\n"
+	.string "Raises SPEED,\n"
+	.string "lowers DEFENSE.$"
+
+BattleFrontier_Lounge7_Text_GunkShotDesc::
+	.string "Fires dirty gunk.\n"
+	.string "May poison the\n"
+	.string "target.$"
+
+BattleFrontier_Lounge7_Text_LiquidationDesc::
+	.string "Crashes water\n"
+	.string "into the target.\n"
+	.string "May lower DEF.$"
+
+BattleFrontier_Lounge7_Text_IronHeadDesc::
+	.string "Slams with a\n"
+	.string "steel-hard head.\n"
+	.string "May flinch.$"
+
+BattleFrontier_Lounge7_Text_HighHorsepowerDesc::
+	.string "A full-force\n"
+	.string "GROUND attack\n"
+	.string "with high power.$"
+
+BattleFrontier_Lounge7_Text_PsyshockDesc::
+	.string "Psychic waves\n"
+	.string "strike the foe's\n"
+	.string "DEFENSE.$"
+
+BattleFrontier_Lounge7_Text_SuckerPunchDesc::
+	.string "Strikes first if\n"
+	.string "the foe chose an\n"
+	.string "attack.$"
+
+BattleFrontier_Lounge7_Text_AquaJetDesc::
+	.string "Strikes first\n"
+	.string "with a burst of\n"
+	.string "water.$"
+
+BattleFrontier_Lounge7_Text_ShadowSneakDesc::
+	.string "Strikes first\n"
+	.string "from the foe's\n"
+	.string "shadow.$"
+
+BattleFrontier_Lounge7_Text_IceShardDesc::
+	.string "Strikes first\n"
+	.string "with ice shards\n"
+	.string "at the foe.$"
+
+BattleFrontier_Lounge7_Text_BulletPunchDesc::
+	.string "Strikes first\n"
+	.string "with bullet-fast\n"
+	.string "punches.$"
+
+BattleFrontier_Lounge7_Text_NuzzleDesc::
+	.string "Nuzzles to deal\n"
+	.string "damage and cause\n"
+	.string "paralysis.$"
+
+BattleFrontier_Lounge7_Text_LeechSeedDesc::
+	.string "Seeds the foe and\n"
+	.string "steals HP every\n"
+	.string "turn.$"
+
+BattleFrontier_Lounge7_Text_SynthesisDesc::
+	.string "Restores HP. The\n"
+	.string "amount changes\n"
+	.string "with weather.$"
+
+BattleFrontier_Lounge7_Text_ToxicSpikesDesc::
+	.string "Poisons foes that\n"
+	.string "switch into\n"
+	.string "battle.$"
+
+BattleFrontier_Lounge7_Text_PartingShotDesc::
+	.string "Lowers offenses,\n"
+	.string "then switches the\n"
+	.string "user out.$"
+
+BattleFrontier_Lounge7_Text_WideGuardDesc::
+	.string "Protects allies\n"
+	.string "from wide-ranging\n"
+	.string "attacks.$"
+
+BattleFrontier_Lounge7_Text_FirstImpressionDesc::
+	.string "Hits first, but\n"
+	.string "only on the first\n"
+	.string "turn out.$"
+
+BattleFrontier_Lounge7_Text_FreezeDryDesc::
+	.string "May freeze. Hits\n"
+	.string "WATER foes super\n"
+	.string "effectively.$"
+
+BattleFrontier_Lounge7_Text_MysticalFireDesc::
+	.string "Attacks with fire\n"
+	.string "and lowers the\n"
+	.string "foe's Sp. ATK.$"
+
+BattleFrontier_Lounge7_Text_FlareBlitzDesc::
+	.string "A fierce charge.\n"
+	.string "May burn, but has\n"
+	.string "recoil.$"
+
+BattleFrontier_Lounge7_Text_BraveBirdDesc::
+	.string "A reckless flying\n"
+	.string "charge that hurts\n"
+	.string "the user too.$"
+
+BattleFrontier_Lounge7_Text_HeavySlamDesc::
+	.string "Heavier users hit\n"
+	.string "with more power\n"
+	.string "than targets.$"
+
+BattleFrontier_Lounge7_Text_RockBlastDesc::
+	.string "Throws rocks to\n"
+	.string "strike the foe\n"
+	.string "2-5 times.$"
+
+BattleFrontier_Lounge7_Text_DragonTailDesc::
+	.string "Knocks the foe\n"
+	.string "away and drags\n"
+	.string "another in.$"
+
+BattleFrontier_Lounge7_Text_FutureSightDesc::
+	.string "Stores psychic\n"
+	.string "power to hit two\n"
+	.string "turns later.$"
+
+BattleFrontier_Lounge7_Text_SludgeWaveDesc::
+	.string "Swamps the field\n"
+	.string "with sludge. May\n"
+	.string "poison.$"
+
+BattleFrontier_Lounge7_Text_PowerGemDesc::
+	.string "Attacks with rays\n"
+	.string "of sparkling\n"
+	.string "stone.$"
+
+BattleFrontier_Lounge7_Text_AuraSphereDesc::
+	.string "Launches aura\n"
+	.string "power that never\n"
+	.string "misses.$"
+
+BattleFrontier_Lounge7_Text_DrainingKissDesc::
+	.string "Steals HP equal\n"
+	.string "to most damage\n"
+	.string "it deals.$"
+
+BattleFrontier_Lounge7_Text_MoonblastDesc::
+	.string "Calls moonlight\n"
+	.string "to attack. May\n"
+	.string "lower Sp. ATK.$"
 
 BattleFrontier_Lounge7_Text_SoftboiledDesc::
 	.string "Recovers up to\n"
