@@ -1136,38 +1136,51 @@ static void BattleUI_DisplayNormalMoveBox(u32 battler, struct ChooseMoveStruct *
 
         if (moveId != MOVE_NONE)
         {
-            // name
-            StringCopy(gDisplayedStringBattle, GetMoveName(moveId));
-            if (B_SHOW_EFFECTIVENESS)
-            {
-                StringAppend(gDisplayedStringBattle, BattleUI_GetTypeEffectivenessSymbol(battler, moveId));
-            }
-
             u32 x = TILE_TO_PIXELS(1);
-            u32 fontId = GetFontIdToFit(gDisplayedStringBattle, FONT_SMALL, 0, TILE_TO_PIXELS(9));
-
-            BattleUI_AddTextPrinter(windowId, fontId, x, 4, BUI_TXTCLR_MOVE_BOX, gDisplayedStringBattle);
+            bool32 showPp = (gBattleResources->bufferA[battler][2] != TRUE);
+            u8 ppStr[8];
+            u32 ppX = x + TILE_TO_PIXELS(12); // pp and effectiveness are right-aligned to this
 
             // pp
-            if (gBattleResources->bufferA[battler][2] != TRUE)
+            if (showPp)
             {
-                u8 *txtPtr = ConvertIntToDecimalStringN(gDisplayedStringBattle, moveInfo->currentPp[i],
-                                                        STR_CONV_MODE_RIGHT_ALIGN, 2);
+                u8 *txtPtr = ConvertIntToDecimalStringN(ppStr, moveInfo->currentPp[i], STR_CONV_MODE_RIGHT_ALIGN, 2);
                 *(txtPtr)++ = CHAR_SLASH;
                 ConvertIntToDecimalStringN(txtPtr, moveInfo->maxPp[i], STR_CONV_MODE_LEFT_ALIGN, 2);
+                ppX = x + GetStringRightAlignXOffset(FONT_SMALL, ppStr, TILE_TO_PIXELS(12));
+            }
 
+            // effectiveness symbol, one space in front of the pp numbers
+            const u8 *symbol = B_SHOW_EFFECTIVENESS ? BattleUI_GetTypeEffectivenessSymbol(battler, moveId) : NULL;
+            u32 nameRight = ppX;
+
+            if (symbol != NULL && *symbol != EOS)
+            {
+                u32 symbolX = ppX - GetStringWidth(FONT_SMALL, symbol, 0);
+                if (showPp)
+                    symbolX -= GetStringWidth(FONT_SMALL, COMPOUND_STRING(" "), 0);
+
+                BattleUI_AddTextPrinter(windowId, FONT_SMALL, symbolX, 4, BUI_TXTCLR_MOVE_BOX, symbol);
+                nameRight = symbolX;
+            }
+
+            // name, uses whatever space is left
+            StringCopy(gDisplayedStringBattle, GetMoveName(moveId));
+            u32 fontId = GetFontIdToFit(gDisplayedStringBattle, FONT_SMALL, 0, nameRight - x - 2);
+            BattleUI_AddTextPrinter(windowId, fontId, x, 4, BUI_TXTCLR_MOVE_BOX, gDisplayedStringBattle);
+
+            if (showPp)
+            {
                 u32 state = GetCurrentPpToMaxPpState(moveInfo->currentPp[i], moveInfo->maxPp[i]);
-                x += GetStringRightAlignXOffset(FONT_SMALL, gDisplayedStringBattle, TILE_TO_PIXELS(12));
-
                 union TextColor clr = sBWBattleUI_TextColors[BUI_TXTCLR_MOVE_BOX];
                 clr.foreground = state + 1;
 
                 // can't use BattleUI_AddTextPrinter directly
                 AddTextPrinterParameterized6(windowId, FONT_SMALL,
-                    x, 4,
+                    ppX, 4,
                     0, 0,
                     clr,
-                    TEXT_SKIP_DRAW, gDisplayedStringBattle);
+                    TEXT_SKIP_DRAW, ppStr);
             }
         }
 
@@ -1612,9 +1625,9 @@ static void SpriteCB_NuzlockeIndicator(struct Sprite *sprite)
 {
     struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[sprite->sNI_Battler]];
 
-    // inside the white bar, left of the "HP" label
-    sprite->x = healthbox->x - 16;
-    sprite->y = healthbox->y + 3;
+    // same spot as the caught ball: left column of the 64x32 healthbox, rows 5-12
+    sprite->x = healthbox->x - 28;
+    sprite->y = healthbox->y - 7;
     sprite->x2 = healthbox->x2;
     sprite->y2 = healthbox->y2;
     sprite->invisible = healthbox->invisible;
