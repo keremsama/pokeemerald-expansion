@@ -477,10 +477,11 @@ u32 CreateSpriteAt(u32 index, const struct SpriteTemplate *template, s16 x, s16 
 
     sprite->subpriority = subpriority;
     sprite->oam = *template->oam;
-    sprite->anims = template->anims;
-    sprite->affineAnims = template->affineAnims;
+    // Fall back to dummy anims/callback when a template leaves them NULL (backported from newer expansion, needed by bwBattleUI)
+    sprite->anims = template->anims ? template->anims : gDummySpriteAnimTable;
+    sprite->affineAnims = template->affineAnims ? template->affineAnims : gDummySpriteAffineAnimTable;
     sprite->template = template;
-    sprite->callback = template->callback;
+    sprite->callback = template->callback ? template->callback : SpriteCallbackDummy;
     sprite->x = x;
     sprite->y = y;
 
@@ -1993,15 +1994,15 @@ u32 *GetSrcPtrFromSprite(struct Sprite *sprite)
 
 void SetupSpritesForTextPrinting(u8 *spriteIds, const u32 **spriteSrc, u32 numSpritesX, u32 numSpritesY)
 {
-    u32 firstSpriteWidth = GetSpriteWidth(&gSprites[spriteIds[0]]);
-    u32 firstSpriteHeight = GetSpriteHeight(&gSprites[spriteIds[0]]);
+    UNUSED u32 firstSpriteWidth = GetSpriteWidth(&gSprites[spriteIds[0]]);
+    UNUSED u32 firstSpriteHeight = GetSpriteHeight(&gSprites[spriteIds[0]]);
     AGB_ASSERT(firstSpriteWidth != 8 && firstSpriteHeight != 8);
     for (u32 y = 0; y < numSpritesY; y++)
     {
         for (u32 x = 0; x < numSpritesX; x++)
         {
-            u32 spriteWidth = GetSpriteWidth(&gSprites[spriteIds[x + y * numSpritesX]]);
-            u32 spriteHeight = GetSpriteHeight(&gSprites[spriteIds[x + y * numSpritesX]]);
+            UNUSED u32 spriteWidth = GetSpriteWidth(&gSprites[spriteIds[x + y * numSpritesX]]);
+            UNUSED u32 spriteHeight = GetSpriteHeight(&gSprites[spriteIds[x + y * numSpritesX]]);
 
             AGB_ASSERT(spriteWidth == firstSpriteWidth && spriteHeight == firstSpriteHeight);
 
