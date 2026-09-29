@@ -1612,9 +1612,9 @@ static void SpriteCB_NuzlockeIndicator(struct Sprite *sprite)
 {
     struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[sprite->sNI_Battler]];
 
-    // same spot as the caught ball: left column of the 64x32 healthbox, rows 5-12
-    sprite->x = healthbox->x - 28;
-    sprite->y = healthbox->y - 7;
+    // inside the white bar, left of the "HP" label
+    sprite->x = healthbox->x - 16;
+    sprite->y = healthbox->y + 3;
     sprite->x2 = healthbox->x2;
     sprite->y2 = healthbox->y2;
     sprite->invisible = healthbox->invisible;
