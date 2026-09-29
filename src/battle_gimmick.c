@@ -300,6 +300,8 @@ void SyncGimmickIndicatorWithHealthbox(u32 battler)
 {
     u32 spriteId = gBattleStruct->gimmick.indicatorSpriteId[battler];
 
+    BattleUI_SyncNuzlockeIndicator(battler); // bwBattleUI
+
     if (spriteId == 0 || spriteId >= MAX_SPRITES || !gSprites[spriteId].inUse)
         return;
 

@@ -100,6 +100,7 @@ void BattleUI_CreateAbilityPopUp(u32, u32);
 void BattleUI_DestroyAbilityPopUp(u32);
 
 u32 BattleUI_CreateGimmickTriggerSprite(u32);
+void BattleUI_SyncNuzlockeIndicator(u32);
 
 s32 BattleUI_GetGimmickIndicatorXOffset(u32);
 void BattleUI_GetGimmickIndicatorCoords(u32, s16 *, s16 *);

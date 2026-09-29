@@ -1621,6 +1621,14 @@ static void BattleUI_UpdateNuzlockeIndicator(u32 battler, bool32 show)
     CpuCopy32(gfx, (void *)(OBJ_VRAM0 + TILE_OFFSET_4BPP(gSprites[spriteId].oam.tileNum)), TILE_SIZE_4BPP);
 }
 
+// Called right after the healthbox shakes/bounces, so the indicator doesn't lag
+// behind by one sprite update (very visible with Battle Speed).
+void BattleUI_SyncNuzlockeIndicator(u32 battler)
+{
+    if (BattleUI_IsNuzlockeIndicatorValid(battler))
+        SpriteCB_NuzlockeIndicator(&gSprites[sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler]]);
+}
+
 static void SpriteCB_NuzlockeIndicator(struct Sprite *sprite)
 {
     struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[sprite->sNI_Battler]];
