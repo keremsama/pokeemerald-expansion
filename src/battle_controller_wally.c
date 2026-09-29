@@ -179,6 +179,7 @@ static void WallyHandleActions(u32 battler)
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(0);
             ActionSelectionCreateCursorAt(1, 0);
+            gActionSelectionCursor[battler] = 1; // bwBattleUI
             gBattleStruct->wallyWaitFrames = B_WAIT_TIME_LONG;
             gBattleStruct->wallyBattleState++;
         }

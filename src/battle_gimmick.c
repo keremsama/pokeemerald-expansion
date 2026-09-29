@@ -7,6 +7,7 @@
 #include "battle_z_move.h"
 #include "battle_setup.h"
 #include "battle_util.h"
+#include "bw_battle_ui.h" // bwBattleUI
 #include "item.h"
 #include "palette.h"
 #include "pokemon.h"
@@ -15,6 +16,7 @@
 #include "test_runner.h"
 
 #include "data/gimmicks.h"
+#include "config/bw_battle_ui.h"
 
 // Populates gBattleStruct->gimmick.usableGimmick for each battler.
 void AssignUsableGimmicks(void)
@@ -146,6 +148,15 @@ void CreateGimmickTriggerSprite(u32 battler)
         return;
     }
 
+    // start bwBattleUI
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+        if (gBattleStruct->gimmick.triggerSpriteId == 0xFF)
+            gBattleStruct->gimmick.triggerSpriteId = BattleUI_CreateGimmickTriggerSprite(battler);
+    }
+    else
+    {
+    // end bwBattleUI
     LoadSpritePalette(gimmick->triggerPal);
     if (GetSpriteTileStartByTag(TAG_GIMMICK_TRIGGER_TILE) == 0xFFFF)
         LoadSpriteSheet(gimmick->triggerSheet);
@@ -161,6 +172,7 @@ void CreateGimmickTriggerSprite(u32 battler)
                                                                   gSprites[gHealthboxSpriteIds[battler]].x - SINGLES_GIMMICK_TRIGGER_POS_X_SLIDE,
                                                                   gSprites[gHealthboxSpriteIds[battler]].y - SINGLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
     }
+    } // bwBattleUI
 
     gSprites[gBattleStruct->gimmick.triggerSpriteId].tBattler = battler;
     gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = FALSE;
@@ -368,6 +380,15 @@ void UpdateIndicatorOamPriority(u32 healthboxId, u32 oamPriority)
 
 void UpdateIndicatorLevelData(u32 healthboxId, u32 level)
 {
+    // start bwBattleUI
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+         struct Sprite *sprite = &gSprites[GetIndicatorSpriteId(healthboxId)];
+         sprite->tLevelXDelta = BattleUI_GetGimmickIndicatorXOffset(sprite->tBattler);
+         return;
+    }
+    // end bwBattleUI
+
     s32 xDelta = 0;
 
     if (level >= 100)
@@ -394,8 +415,19 @@ void CreateIndicatorSprite(u32 battler)
     position = GetBattlerPosition(battler);
     GetBattlerHealthboxCoords(battler, &xHealthbox, &y);
 
+    // start bwBattleUI
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+        s16 temp;
+        BattleUI_GetGimmickIndicatorCoords(position, &x, &temp);
+        y += temp;
+    }
+    else
+    {
+    // end bwBattleUI
     x = sIndicatorPositions[position][0];
     y += sIndicatorPositions[position][1];
+    } // bwBattleUI
 
     LoadSpriteSheet(&sBattler_GimmickSpritesheets[battler]);
     spriteId = CreateSprite(&(sSpriteTemplate_BattlerIndicators[battler]), 0, y, 0);
@@ -403,6 +435,12 @@ void CreateIndicatorSprite(u32 battler)
     gSprites[spriteId].tBattler = battler;
     gSprites[spriteId].tPosX = x;
     gSprites[spriteId].invisible = FALSE;
+    // start bwBattleUI
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+         gSprites[spriteId].tLevelXDelta = BattleUI_GetGimmickIndicatorXOffset(battler);
+    }
+    // end bwBattleUI
 }
 
 #undef tBattler

@@ -23,6 +23,7 @@
 #include "test_runner.h"
 #include "util.h"
 #include "text.h"
+#include "bw_battle_ui.h" // bwBattleUI
 #include "constants/abilities.h"
 #include "constants/songs.h"
 
