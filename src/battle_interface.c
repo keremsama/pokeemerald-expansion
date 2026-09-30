@@ -3152,6 +3152,8 @@ void TryAddLastUsedBallItemSprites(void)
     // start bwBattleUI
     if (BW_BATTLE_UI && BW_BATTLE_UI_WINDOW_SPRITES)
     {
+        BattleUI_ValidateWindowSpriteIds();
+
         // window
         if (gBattleStruct->ballSpriteIds[1] == MAX_SPRITES)
             gBattleStruct->ballSpriteIds[1] = BattleUI_CreateLastBallTriggerSprite();
@@ -3230,6 +3232,7 @@ void TryToAddMoveInfoWindow(void)
     // start bwBattleUI
     if (BW_BATTLE_UI && BW_BATTLE_UI_WINDOW_SPRITES)
     {
+        BattleUI_ValidateWindowSpriteIds();
         if (gBattleStruct->moveInfoSpriteId == MAX_SPRITES)
             gBattleStruct->moveInfoSpriteId = BattleUI_CreateMoveInfoTriggerSprite();
 
@@ -3251,6 +3254,7 @@ void TryToAddMoveInfoWindow(void)
 
 void TryToHideMoveInfoWindow(void)
 {
+    BattleUI_ValidateWindowSpriteIds(); // bwBattleUI
     if (gBattleStruct->moveInfoSpriteId != MAX_SPRITES)
         gSprites[gBattleStruct->moveInfoSpriteId].sHide = TRUE;
 }
@@ -3324,6 +3328,7 @@ static void TryHideOrRestoreLastUsedBall(u8 caseId)
 {
     if (B_LAST_USED_BALL == FALSE)
         return;
+    BattleUI_ValidateWindowSpriteIds(); // bwBattleUI
     if (gBattleStruct->ballSpriteIds[0] == MAX_SPRITES)
         return;
 
@@ -3474,6 +3479,7 @@ void ArrowsChangeColorLastBallCycle(bool32 showArrows)
     // we use sprite anim instead
     if (BW_BATTLE_UI)
     {
+        BattleUI_ValidateWindowSpriteIds();
         if (gBattleStruct->ballSpriteIds[1] == MAX_SPRITES)
             return;
 

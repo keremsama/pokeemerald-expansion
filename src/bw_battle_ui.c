@@ -308,6 +308,28 @@ void BattleUI_DestroyCursorSprite(void)
     BattleUI_SetCursorSpriteId(SPRITE_NONE);
 }
 
+// TRUE if the sprite is alive and shows the tiles loaded under tileTag.
+// Stored sprite ids can go stale (sprites reset/destroyed elsewhere) and the slot may
+// belong to another sprite by now, so ids are checked against their graphics before use.
+bool32 BattleUI_IsSpriteUsingTileTag(u32 spriteId, u16 tileTag)
+{
+    if (spriteId >= MAX_SPRITES || !gSprites[spriteId].inUse)
+        return FALSE;
+
+    u16 tileStart = GetSpriteTileStartByTag(tileTag);
+    return tileStart != 0xFFFF && gSprites[spriteId].sheetTileStart == tileStart;
+}
+
+void BattleUI_ValidateWindowSpriteIds(void)
+{
+    if (!BattleUI_IsSpriteUsingTileTag(gBattleStruct->ballSpriteIds[0], 102)) // last used ball item icon
+        gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
+    if (!BattleUI_IsSpriteUsingTileTag(gBattleStruct->ballSpriteIds[1], TAG_LAST_BALL_WINDOW))
+        gBattleStruct->ballSpriteIds[1] = MAX_SPRITES;
+    if (!BattleUI_IsSpriteUsingTileTag(gBattleStruct->moveInfoSpriteId, MOVE_INFO_WINDOW_TAG))
+        gBattleStruct->moveInfoSpriteId = MAX_SPRITES;
+}
+
 u32 BattleUI_GetCursorSpriteId(void)
 {
     return sBWBattleUI_Resources.cursorSpriteId;
@@ -743,6 +765,15 @@ void BattleUI_SetLastBallIconAttributes(struct Sprite *sprite)
 void Task_BattleUIBounceLastBallIcon(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+
+    // never touch a sprite that isn't the ball icon (the slot may have been reused)
+    BattleUI_ValidateWindowSpriteIds();
+    if (gBattleStruct->ballSpriteIds[0] == MAX_SPRITES && tLBI_State != LBI_STATE_CREATE)
+    {
+        DestroyTask(taskId);
+        return;
+    }
+
     struct Sprite *sprite = &gSprites[gBattleStruct->ballSpriteIds[0]];
 
     switch (tLBI_State)

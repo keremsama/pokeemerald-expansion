@@ -101,6 +101,8 @@ void BattleUI_DestroyAbilityPopUp(u32);
 
 u32 BattleUI_CreateGimmickTriggerSprite(u32);
 void BattleUI_SyncNuzlockeIndicator(u32);
+bool32 BattleUI_IsSpriteUsingTileTag(u32, u16);
+void BattleUI_ValidateWindowSpriteIds(void);
 
 s32 BattleUI_GetGimmickIndicatorXOffset(u32);
 void BattleUI_GetGimmickIndicatorCoords(u32, s16 *, s16 *);

@@ -18,6 +18,8 @@
 #include "data/gimmicks.h"
 #include "config/bw_battle_ui.h"
 
+static void ValidateGimmickTriggerSpriteId(void);
+
 // Populates gBattleStruct->gimmick.usableGimmick for each battler.
 void AssignUsableGimmicks(void)
 {
@@ -132,6 +134,8 @@ void SetGimmickAsActivated(u32 battler, enum Gimmick gimmick)
 
 void ChangeGimmickTriggerSprite(u32 spriteId, u32 animId)
 {
+    if (!BattleUI_IsSpriteUsingTileTag(spriteId, TAG_GIMMICK_TRIGGER_TILE)) // bwBattleUI
+        return;
     StartSpriteAnim(&gSprites[spriteId], animId);
 }
 
@@ -147,6 +151,8 @@ void CreateGimmickTriggerSprite(u32 battler)
     {
         return;
     }
+
+    ValidateGimmickTriggerSpriteId(); // bwBattleUI
 
     // start bwBattleUI
     if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
@@ -190,8 +196,18 @@ bool32 IsGimmickTriggerSpriteActive(void)
         return FALSE;
 }
 
+// bwBattleUI: the stored id may be stale (starts as 0 in a fresh gBattleStruct),
+// never write trigger data into a sprite that doesn't show the trigger graphics
+static void ValidateGimmickTriggerSpriteId(void)
+{
+    if (gBattleStruct->gimmick.triggerSpriteId != 0xFF
+     && !BattleUI_IsSpriteUsingTileTag(gBattleStruct->gimmick.triggerSpriteId, TAG_GIMMICK_TRIGGER_TILE))
+        gBattleStruct->gimmick.triggerSpriteId = 0xFF;
+}
+
 void HideGimmickTriggerSprite(void)
 {
+    ValidateGimmickTriggerSpriteId();
     if (gBattleStruct->gimmick.triggerSpriteId != 0xFF)
     {
         ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, 0);
