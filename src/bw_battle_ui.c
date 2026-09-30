@@ -59,6 +59,10 @@ static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
 
 static EWRAM_INIT struct {
     u8 cursorSpriteId;
+    // Kept here instead of the cursor's sprite data: other battle code writes data fields
+    // through sprite ids, and a single stale id hitting the cursor froze it on the first move.
+    u8 cursorBattler;
+    u16 cursorMode; // bit BUI_CURSOR_CONVERT_FLAG = subsprites already set for this mode
     u8 abilityPopUpTaskId[MAX_BATTLERS_COUNT];
     u8 nuzlockeIndicatorSpriteId[MAX_BATTLERS_COUNT];
 } sBWBattleUI_Resources =
@@ -76,6 +80,7 @@ static EWRAM_DATA struct SpriteTemplate sBWBattleUI_NuzlockeIndicatorTemplates[M
 
 // declarations
 static void SpriteCB_BattleUICursor(struct Sprite *);
+static bool32 BattleUI_IsCursorSprite(u32);
 static void SpriteCB_GimmickTrigger(struct Sprite *);
 static void SpriteCB_MoveInfoTrigger(struct Sprite *);
 static void SpriteCB_LastBallTrigger(struct Sprite *);
@@ -174,7 +179,7 @@ bool32 BattleUI_LoadAllHealthboxGfx(u32 state)
     switch (state)
     {
     case LOAD_STATE_MISC:
-        BattleUI_SetCursorSpriteId(SPRITE_NONE);
+        // reuses a still existing cursor instead of leaving it behind as an orphan
         BattleUI_CreateCursorSprite(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
         // forget nuzlocke indicators from a previous battle / before the sprites were reset
         for (u32 battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
@@ -272,6 +277,20 @@ void BattleUI_CreateCursorSprite(u32 battler)
         return;
     }
 
+    // adopt a cursor that is still alive but no longer tracked
+    if (spriteId == SPRITE_NONE)
+    {
+        for (u32 i = 0; i < MAX_SPRITES; i++)
+        {
+            if (BattleUI_IsCursorSprite(i))
+            {
+                BattleUI_SetCursorSpriteId(i);
+                spriteId = i;
+                break;
+            }
+        }
+    }
+
     if (spriteId != SPRITE_NONE)
     {
         BattleUI_SetCursorBattler(battler);
@@ -298,6 +317,13 @@ void BattleUI_CreateCursorSprite(u32 battler)
 void BattleUI_DestroyCursorSprite(void)
 {
     u32 spriteId = BattleUI_GetCursorSpriteId();
+
+    // remove orphaned cursors too, they share the tiles and palette freed below
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+    {
+        if (i != spriteId && BattleUI_IsCursorSprite(i))
+            DestroySprite(&gSprites[i]);
+    }
 
     if (spriteId == SPRITE_NONE)
     {
@@ -330,9 +356,33 @@ void BattleUI_ValidateWindowSpriteIds(void)
         gBattleStruct->moveInfoSpriteId = MAX_SPRITES;
 }
 
+// Checked by graphics instead of callback, so a cursor whose callback got
+// overwritten through a stale id is still recognized (and repaired) instead of
+// staying behind as a frozen second cursor.
+static bool32 BattleUI_IsCursorSprite(u32 spriteId)
+{
+    return BattleUI_IsSpriteUsingTileTag(spriteId, TAG_CURSOR);
+}
+
 u32 BattleUI_GetCursorSpriteId(void)
 {
-    return sBWBattleUI_Resources.cursorSpriteId;
+    u32 spriteId = sBWBattleUI_Resources.cursorSpriteId;
+
+    // The stored id can go stale (e.g. sprites got reset while the id was kept),
+    // and the slot may since belong to another sprite. Never treat that one as the cursor.
+    if (spriteId != SPRITE_NONE && !BattleUI_IsCursorSprite(spriteId))
+    {
+        spriteId = SPRITE_NONE;
+        sBWBattleUI_Resources.cursorSpriteId = SPRITE_NONE;
+    }
+    else if (spriteId != SPRITE_NONE && gSprites[spriteId].callback != SpriteCB_BattleUICursor)
+    {
+        // something wrote its callback into the cursor, give it back and redo the subsprites
+        gSprites[spriteId].callback = SpriteCB_BattleUICursor;
+        sBWBattleUI_Resources.cursorMode &= ~(TRUE << BUI_CURSOR_CONVERT_FLAG);
+    }
+
+    return spriteId;
 }
 
 void BattleUI_SetCursorSpriteId(u32 spriteId)
@@ -352,15 +402,18 @@ void BattleUI_SetCursorMode(enum BWBattleUICursorMode mode)
         return;
     }
 
-    struct Sprite *sprite = &gSprites[BattleUI_GetCursorSpriteId()];
-
-    sprite->sCursorMode = mode;
+    sBWBattleUI_Resources.cursorMode = mode;
 }
 
 enum BWBattleUICursorMode BattleUI_GetCursorMode(void)
 {
+    u32 spriteId = BattleUI_GetCursorSpriteId();
+
+    if (spriteId == SPRITE_NONE)
+        return BUI_CURSOR_MODE_HIDDEN;
+
     // filter out BUI_CURSOR_CONVERT_FLAG
-    return (gSprites[BattleUI_GetCursorSpriteId()].sCursorMode & 0xFF);
+    return (sBWBattleUI_Resources.cursorMode & 0xFF);
 }
 
 void BattleUI_DisplayMoveBox(u32 battler)
@@ -828,11 +881,25 @@ void Task_BattleUIBounceLastBallIcon(u8 taskId)
 // local
 static void SpriteCB_BattleUICursor(struct Sprite *sprite)
 {
+    u32 cursorId = BattleUI_GetCursorSpriteId();
+
+    if (cursorId == SPRITE_NONE)
+    {
+        // untracked cursor: adopt it
+        BattleUI_SetCursorSpriteId(sprite - gSprites);
+    }
+    else if (&gSprites[cursorId] != sprite)
+    {
+        // orphaned second cursor: remove it, the tracked one owns tiles/palette
+        DestroySprite(sprite);
+        return;
+    }
+
     sprite->animPaused = !BattleUI_IsNewFrame(&sprite->sBUI_LastFrame);
 
     enum BWBattleUICursorMode mode = BattleUI_GetCursorMode();
     u32 battler = BattleUI_GetCursorBattler();
-    bool32 hasSubsprite = (sprite->sCursorMode >> BUI_CURSOR_CONVERT_FLAG);
+    bool32 hasSubsprite = (sBWBattleUI_Resources.cursorMode >> BUI_CURSOR_CONVERT_FLAG);
 
     switch (gBattle_BG0_Y)
     {
@@ -895,7 +962,7 @@ static void SpriteCB_BattleUICursor(struct Sprite *sprite)
 
     if (!hasSubsprite)
     {
-        sprite->sCursorMode |= (TRUE << BUI_CURSOR_CONVERT_FLAG);
+        sBWBattleUI_Resources.cursorMode |= (TRUE << BUI_CURSOR_CONVERT_FLAG);
     }
 }
 
@@ -1134,12 +1201,20 @@ static inline u32 BattleUI_LoadBlankHealthbarGfx(u32 position)
 
 static void BattleUI_SetCursorBattler(u32 battler)
 {
-    gSprites[BattleUI_GetCursorSpriteId()].sBattler = battler;
+    u32 spriteId = BattleUI_GetCursorSpriteId();
+
+    if (spriteId != SPRITE_NONE)
+        sBWBattleUI_Resources.cursorBattler = battler;
 }
 
 static u32 BattleUI_GetCursorBattler(void)
 {
-    return gSprites[BattleUI_GetCursorSpriteId()].sBattler;
+    u32 spriteId = BattleUI_GetCursorSpriteId();
+
+    if (spriteId == SPRITE_NONE)
+        return 0;
+
+    return sBWBattleUI_Resources.cursorBattler;
 }
 
 static void BattleUI_DisplayMoveBoxGraphics(u32 battler, u32 windowId)

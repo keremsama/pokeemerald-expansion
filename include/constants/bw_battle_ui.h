@@ -34,8 +34,6 @@
 #define HEALTHBOX_FLAG_ALL                   (0x3FF) // exclude safari-related
 
 #define BUI_CURSOR_CONVERT_FLAG     (15)
-#define sCursorMode                 data[0]
-#define sBattler                    data[1]
 
 // these prob should be #define'd globally instead?
 #define hMain_HealthBarSpriteId     data[5]
