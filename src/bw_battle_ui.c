@@ -22,6 +22,7 @@
 #include "main.h"
 #include "item.h"
 #include "item_icon.h"
+#include "link_rfu.h"
 #include "tx_randomizer_and_challenges.h"
 #include "malloc.h"
 #include "test_runner.h"
@@ -43,12 +44,15 @@ static inline bool32 IsOnPlayerSide(u32 battler)
 
 // Battle Speed (2x/3x/4x) runs sprite callbacks and tasks several times per frame.
 // BW UI elements should still animate at normal speed, so they only advance once per real frame.
-#define sBUI_LastFrame  data[7]
+// Only the low byte is stored: data[7] == 0x1234 on sprite 0 makes the wireless status indicator
+// code (UpdateWirelessStatusIndicatorSprite, every VBlank) take over the sprite, which froze
+// the cursor and left a black 16x16 block in OAM 125.
+#define sBUI_LastFrame  data[6]
 #define tAPU_LastFrame  data[10]
 
 static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
 {
-    s16 frame = (s16)gMain.vblankCounter1;
+    s16 frame = (u8)gMain.vblankCounter1;
 
     if (*lastFrame == frame)
         return FALSE;
@@ -179,6 +183,11 @@ bool32 BattleUI_LoadAllHealthboxGfx(u32 state)
     switch (state)
     {
     case LOAD_STATE_MISC:
+        // No wireless link: make sure the status indicator code can't claim one of our sprites
+        // (its id defaults to 0, and it only checks sprite data[7] for a magic value).
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
+            gWirelessStatusIndicatorSpriteId = SPRITE_NONE;
+
         // reuses a still existing cursor instead of leaving it behind as an orphan
         BattleUI_CreateCursorSprite(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
         // forget nuzlocke indicators from a previous battle / before the sprites were reset
