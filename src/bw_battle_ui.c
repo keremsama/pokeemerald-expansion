@@ -44,7 +44,6 @@ static inline bool32 IsOnPlayerSide(u32 battler)
 // Battle Speed (2x/3x/4x) runs sprite callbacks and tasks several times per frame.
 // BW UI elements should still animate at normal speed, so they only advance once per real frame.
 #define sBUI_LastFrame  data[7]
-#define sNI_Battler     data[0]
 #define tAPU_LastFrame  data[10]
 
 static bool32 BattleUI_IsNewFrame(s16 *lastFrame)
@@ -69,6 +68,12 @@ static EWRAM_INIT struct {
     .nuzlockeIndicatorSpriteId = { SPRITE_NONE, SPRITE_NONE, SPRITE_NONE, SPRITE_NONE },
 };
 
+// Sprites keep a pointer to their template (sprite->template is read later, e.g. by
+// DestroySpriteAndFreeResources or the type icons), so templates with a per-battler
+// tile tag must outlive the function that creates the sprite.
+static EWRAM_DATA struct SpriteTemplate sBWBattleUI_AbilityPopUpTemplates[MAX_BATTLERS_COUNT] = {0};
+static EWRAM_DATA struct SpriteTemplate sBWBattleUI_NuzlockeIndicatorTemplates[MAX_BATTLERS_COUNT] = {0};
+
 // declarations
 static void SpriteCB_BattleUICursor(struct Sprite *);
 static void SpriteCB_GimmickTrigger(struct Sprite *);
@@ -78,6 +83,7 @@ static void SpriteCB_LastBallIcon(struct Sprite *);
 static void SpriteCB_BounceLastBallIcon(struct Sprite *);
 static void SpriteCB_NuzlockeIndicator(struct Sprite *);
 static void BattleUI_UpdateNuzlockeIndicator(u32, bool32);
+static bool32 BattleUI_IsNuzlockeIndicatorValid(u32);
 
 static void Task_BattleUITrackAbilityPopUpGfx(u8);
 static void Task_BattleUIHandleAbilityPopUp(u8);
@@ -170,6 +176,12 @@ bool32 BattleUI_LoadAllHealthboxGfx(u32 state)
     case LOAD_STATE_MISC:
         BattleUI_SetCursorSpriteId(SPRITE_NONE);
         BattleUI_CreateCursorSprite(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
+        // forget nuzlocke indicators from a previous battle / before the sprites were reset
+        for (u32 battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+        {
+            if (!BattleUI_IsNuzlockeIndicatorValid(battler))
+                sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler] = SPRITE_NONE;
+        }
         BattleUI_LoadSpritePalette(BUI_SPRITE_PAL_HEALTH_BOX, TAG_HEALTHBOX_PAL);
         BattleUI_LoadSpritePalette(BUI_SPRITE_PAL_HEALTH_BAR, TAG_HEALTHBAR_PAL);
         LoadIndicatorSpritesGfx(); // mega/primal/tera indicator palettes, otherwise they show up black
@@ -624,8 +636,9 @@ void BattleUI_CreateAbilityPopUp(u32 battler, u32 ability)
         LoadSpriteSheet(&(const struct SpriteSheet){ .data = gfx, .size = TILE_OFFSET_4BPP(64), .tag = tileTag, });
     }
 
-    struct SpriteTemplate template = sBWBattleUI_AbilityPopUpTemplate;
-    template.tileTag = tileTag;
+    struct SpriteTemplate *template = &sBWBattleUI_AbilityPopUpTemplates[battler];
+    *template = sBWBattleUI_AbilityPopUpTemplate;
+    template->tileTag = tileTag;
 
     enum BattleCoordTypes coords = WhichBattleCoords(battler);
     u32 position = GetBattlerPosition(battler);
@@ -635,8 +648,8 @@ void BattleUI_CreateAbilityPopUp(u32 battler, u32 ability)
     u32 xSlide = playerSide ? (TILE_TO_PIXELS(-16)) : TILE_TO_PIXELS(16);
 
     u8 *spriteIds = gBattleStruct->abilityPopUpSpriteIds[battler];
-    spriteIds[0] = CreateSprite(&template, xCoord + xSlide,                     yCoord, 0);
-    spriteIds[1] = CreateSprite(&template, xCoord + xSlide + TILE_TO_PIXELS(8), yCoord, 0);
+    spriteIds[0] = CreateSprite(template, xCoord + xSlide,                     yCoord, 0);
+    spriteIds[1] = CreateSprite(template, xCoord + xSlide + TILE_TO_PIXELS(8), yCoord, 0);
     gSprites[spriteIds[1]].oam.tileNum += 32;
 
     if (!IsAnyAbilityPopUpActive())
@@ -1575,11 +1588,25 @@ static bool32 BattleUI_IsNuzlockeIndicatorValid(u32 battler)
 {
     u32 spriteId = sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler];
 
-    // sprite data gets wiped between battles and on reshow, so double check it's still ours
+    // The id survives sprite resets (between battles, on reshow), so double check it's still ours.
+    // The battler is only kept here, not in the sprite's data, so other code writing
+    // sprite data through a stale id can't turn it into a second, forgotten indicator.
     return spriteId < MAX_SPRITES
         && gSprites[spriteId].inUse
-        && gSprites[spriteId].callback == SpriteCB_NuzlockeIndicator
-        && gSprites[spriteId].sNI_Battler == battler;
+        && gSprites[spriteId].callback == SpriteCB_NuzlockeIndicator;
+}
+
+static u32 BattleUI_GetNuzlockeIndicatorBattler(struct Sprite *sprite)
+{
+    u32 spriteId = sprite - gSprites;
+
+    for (u32 battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+    {
+        if (sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler] == spriteId)
+            return battler;
+    }
+
+    return MAX_BATTLERS_COUNT;
 }
 
 static void BattleUI_UpdateNuzlockeIndicator(u32 battler, bool32 show)
@@ -1602,26 +1629,44 @@ static void BattleUI_UpdateNuzlockeIndicator(u32 battler, bool32 show)
 
     if (!BattleUI_IsNuzlockeIndicatorValid(battler))
     {
-        LoadSpritePalette(&(const struct SpritePalette){ .data = sBWBattleUI_NuzlockeIndicatorPalette, .tag = TAG_NUZLOCKE_INDICATOR });
+        if (IndexOfSpritePaletteTag(TAG_MISC_INDICATOR_PAL) == 0xFF)
+            LoadIndicatorSpritesGfx();
         if (IndexOfSpriteTileTag(tileTag) == 0xFF)
             LoadSpriteSheet(&(const struct SpriteSheet){ .data = gfx, .size = TILE_SIZE_4BPP, .tag = tileTag });
 
-        struct SpriteTemplate template = sBWBattleUI_NuzlockeIndicatorTemplate;
-        template.tileTag = tileTag;
+        struct SpriteTemplate *template = &sBWBattleUI_NuzlockeIndicatorTemplates[battler];
+        *template = sBWBattleUI_NuzlockeIndicatorTemplate;
+        template->tileTag = tileTag;
 
         // subpriority 0 so it's drawn in front of the healthbox
-        u32 spriteId = CreateSprite(&template, 0, 0, 0);
+        u32 spriteId = CreateSprite(template, 0, 0, 0);
         if (spriteId == MAX_SPRITES)
             return;
 
-        gSprites[spriteId].sNI_Battler = battler;
-        gSprites[spriteId].callback(&gSprites[spriteId]);
+        // a stale entry of another battler must not claim the new sprite
+        for (u32 i = 0; i < MAX_BATTLERS_COUNT; i++)
+        {
+            if (sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[i] == spriteId)
+                sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[i] = SPRITE_NONE;
+        }
         sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler] = spriteId;
+        gSprites[spriteId].callback(&gSprites[spriteId]);
     }
 
-    // "1" or "D" (species clause dupes) can change while the sprite exists
+    // "1" or "D" (species clause dupes) can change while the sprite exists.
+    // The graphics use outline color 7, which is color 11 in the shared misc indicator palette.
     u32 spriteId = sBWBattleUI_Resources.nuzlockeIndicatorSpriteId[battler];
-    CpuCopy32(gfx, (void *)(OBJ_VRAM0 + TILE_OFFSET_4BPP(gSprites[spriteId].oam.tileNum)), TILE_SIZE_4BPP);
+    u32 *dst = (u32 *)(OBJ_VRAM0 + TILE_OFFSET_4BPP(gSprites[spriteId].oam.tileNum));
+    for (u32 i = 0; i < TILE_SIZE_4BPP / 4; i++)
+    {
+        u32 row = gfx[i];
+        for (u32 px = 0; px < 8; px++)
+        {
+            if (((row >> (px * 4)) & 0xF) == 7)
+                row = (row & ~(0xFu << (px * 4))) | (11u << (px * 4));
+        }
+        dst[i] = row;
+    }
 }
 
 // Called right after the healthbox shakes/bounces, so the indicator doesn't lag
@@ -1634,7 +1679,16 @@ void BattleUI_SyncNuzlockeIndicator(u32 battler)
 
 static void SpriteCB_NuzlockeIndicator(struct Sprite *sprite)
 {
-    struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[sprite->sNI_Battler]];
+    u32 battler = BattleUI_GetNuzlockeIndicatorBattler(sprite);
+
+    // not tracked anymore: remove it without freeing tiles, they may belong to the tracked one
+    if (battler == MAX_BATTLERS_COUNT)
+    {
+        DestroySprite(sprite);
+        return;
+    }
+
+    struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[battler]];
 
     // same spot as the caught ball: left column of the 64x32 healthbox, rows 5-12
     sprite->x = healthbox->x - 28;

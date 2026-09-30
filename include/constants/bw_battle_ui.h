@@ -72,7 +72,7 @@
 enum BattleUISpriteTags
 {
     TAG_CURSOR = 0x9999,
-    TAG_NUZLOCKE_INDICATOR = 0xD725, // palette tag; tile tags are TAG_NUZLOCKE_INDICATOR + battler
+    TAG_NUZLOCKE_INDICATOR = 0xD725, // tile tags are TAG_NUZLOCKE_INDICATOR + battler, palette is TAG_MISC_INDICATOR_PAL
 };
 
 enum BattleUITextColors
