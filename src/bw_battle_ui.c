@@ -1453,7 +1453,9 @@ static void BattleUI_UpdateHealthboxNickText(u32 spriteId, struct Pokemon *mon)
     else
         x = TILE_TO_PIXELS(1);
 
-    FillSpriteRectColor(spriteId, x, 0, TILE_TO_PIXELS(6), TILE_TO_PIXELS(2) - 2, 0);
+    // clear the full width a name may take (see GetFontIdToFit below), otherwise
+    // the last letters of a longer previous name stay behind
+    FillSpriteRectColor(spriteId, x, 0, TILE_TO_PIXELS(7), TILE_TO_PIXELS(2) - 2, 0);
 
     u32 fontId = GetFontIdToFit(gDisplayedStringBattle, FONT_OUTLINED, 0, TILE_TO_PIXELS(7));
     BattleUI_AddSpriteTextPrinter(spriteId, fontId, x, 0, BUI_TXTCLR_HBOX_NAME, gDisplayedStringBattle);
