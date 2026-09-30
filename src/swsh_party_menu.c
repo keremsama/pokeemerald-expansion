@@ -470,6 +470,7 @@ static void BlitBitmapToPartyMoveWindow_SwSh(u8, u8, u8, u8, u8, bool8);
 static void UpdatePartyMoveWindows(u8);
 static void UpdatePartyMoveTypeSprites(u8);
 static void DestroyMoveTypeSprites(void);
+static void CopyPartyTilemapToWindow(u8, const u8 *, u8, u8);
 static void DisplayPartyPokemonMoves(u8, struct Pokemon *, int);
 static void DisplayPartyPokemonAbility(u8, u8);
 static u8 *GetPartyMenuBgTile(u16);
@@ -1353,7 +1354,7 @@ static void RenderPartyMenuBox(u8 slot)
                 const u8 *tm = (GetMonData(mon, MON_DATA_MOVE1 + m) != MOVE_NONE) ? sMoveTilemap_Main_SwSh : sMoveTilemap_Empty_SwSh;
                 if (tm != NULL && sMoveWindowIds[m] != WINDOW_NONE)
                 {
-                    BlitBitmapToPartyWindow(sMoveWindowIds[m], tm, 14, 0, 0, 14, 2);
+                    CopyPartyTilemapToWindow(sMoveWindowIds[m], tm, 14, 2);
                     DisplayPartyPokemonMoves(sMoveWindowIds[m], mon, m);
                     CopyWindowToVram(sMoveWindowIds[m], COPYWIN_GFX);
                 }
@@ -1410,9 +1411,8 @@ static void UpdatePartyMoveWindows(u8 slot)
         if (sMoveWindowIds[m] == WINDOW_NONE)
             continue;
 
-        FillWindowPixelBuffer(sMoveWindowIds[m], PIXEL_FILL(0));
         tm = (GetMonData(&gPlayerParty[slot], MON_DATA_MOVE1 + m) != MOVE_NONE) ? sMoveTilemap_Main_SwSh : sMoveTilemap_Empty_SwSh;
-        BlitBitmapToPartyWindow(sMoveWindowIds[m], tm, 14, 0, 0, 14, 2);
+        CopyPartyTilemapToWindow(sMoveWindowIds[m], tm, 14, 2);
         {
             struct Pokemon *mon = &gPlayerParty[slot];
             u16 move = GetMonData(mon, MON_DATA_MOVE1 + m);
@@ -1490,8 +1490,7 @@ static void DisplayPartyPokemonAbility(u8 windowId, u8 slot)
     int x;
     int y = 16;
 
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
-    BlitBitmapToPartyWindow(windowId, sAbilityTilemap_SwSh, 13, 0, 0, 13, 4);
+    CopyPartyTilemapToWindow(windowId, sAbilityTilemap_SwSh, 13, 4);
 
     {
         struct Pokemon *mon = &gPlayerParty[slot];
@@ -3135,6 +3134,32 @@ static void BlitBitmapToPartyWindow(u8 windowId, const u8 *b, u8 c, u8 x, u8 y, 
         BlitBitmapToWindow(windowId, pixels, x * 8, y * 8, width * 8, height * 8);
         Free(pixels);
     }
+}
+
+// Fast replacement for FillWindowPixelBuffer + BlitBitmapToPartyWindow when the
+// tilemap covers the whole window: copies the tiles straight into the window's
+// pixel buffer instead of going through the per-pixel BlitBitmapRect4Bit.
+static void CopyPartyTilemapToWindow(u8 windowId, const u8 *tilemap, u8 width, u8 height)
+{
+    u8 *tileData = (u8 *)GetWindowAttribute(windowId, WINDOW_TILE_DATA);
+    u32 winWidth = GetWindowAttribute(windowId, WINDOW_WIDTH);
+    u32 winHeight = GetWindowAttribute(windowId, WINDOW_HEIGHT);
+    u32 i, j;
+
+    if (width != winWidth || height > winHeight)
+    {
+        FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+        BlitBitmapToPartyWindow(windowId, tilemap, width, 0, 0, width, height);
+        return;
+    }
+
+    for (i = 0; i < height; i++)
+    {
+        for (j = 0; j < width; j++)
+            CpuFastCopy(GetPartyMenuBgTile(tilemap[j + i * width]), &tileData[(i * winWidth + j) * TILE_SIZE_4BPP], TILE_SIZE_4BPP);
+    }
+    if (height < winHeight)
+        CpuFastFill(0, &tileData[height * winWidth * TILE_SIZE_4BPP], (winHeight - height) * winWidth * TILE_SIZE_4BPP);
 }
 
 static void BlitBitmapToPartyWindow_LeftColumn(u8 windowId, u8 x, u8 y, u8 width, u8 height, bool8 hideHP)
