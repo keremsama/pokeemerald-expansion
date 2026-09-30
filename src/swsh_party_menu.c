@@ -51,6 +51,7 @@
 #include "player_pc.h"
 #include "pokemon.h"
 #include "pokemon_icon.h"
+#include "constants/pokemon_icon.h"
 #include "pokemon_jump.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
@@ -255,6 +256,7 @@ enum {
 #define TAG_MON_SHADOW              55140
 #define TAG_SWITCH_ITEM_1           55141
 #define TAG_SWITCH_ITEM_2           55142
+#define TAG_MOVE_TYPES              55160
 
 #define PARTY_PAL_SELECTED     (1 << 0)
 #define PARTY_PAL_FAINTED      (1 << 1)
@@ -363,6 +365,7 @@ static EWRAM_DATA u8 sItemIconSpriteId = 0;
 static EWRAM_DATA u8 sSelectFrameSpriteIds[7] = {0}; // Left + 5 middle + Right
 static EWRAM_DATA u8 sMonSpriteId = 0;
 static EWRAM_DATA u8 sMoveWindowIds[MAX_MON_MOVES];
+static EWRAM_DATA u8 sMoveTypeSpriteIds[MAX_MON_MOVES];
 static EWRAM_DATA u8 sAbilityWindowId;
 static EWRAM_DATA u8 sMonShadowSpriteId = 0;
 static EWRAM_DATA u8 sShadowAnimDelayTaskId = 0;
@@ -465,6 +468,8 @@ static bool8 PartyBoxPal_ParnterOrDisqualifiedInArena(u8);
 static u8 GetPartyIdFromBattleSlot(u8);
 static void BlitBitmapToPartyMoveWindow_SwSh(u8, u8, u8, u8, u8, bool8);
 static void UpdatePartyMoveWindows(u8);
+static void UpdatePartyMoveTypeSprites(u8);
+static void DestroyMoveTypeSprites(void);
 static void DisplayPartyPokemonMoves(u8, struct Pokemon *, int);
 static void DisplayPartyPokemonAbility(u8, u8);
 static u8 *GetPartyMenuBgTile(u16);
@@ -889,6 +894,8 @@ static bool8 ShowPartyMenu(void)
         break;
     case 13:
         LoadPartyMonHoverCursor();
+        if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE && SWSH_PARTY_MENU)
+            LoadCompressedSpriteSheet(&sSpriteSheet_MoveTypes);
         gMain.state++;
         break;
     case 14:
@@ -935,6 +942,7 @@ static bool8 ShowPartyMenu(void)
         CreatePartyMonHoverSprite(&sPartyMenuBoxes[gPartyMenu.slotId], gPartyMenu.slotId);
         if (IsBattleSwitchPartyMenu())
             SnapPartyMenuCursorToSlot(gPartyMenu.slotId);
+        UpdatePartyMoveTypeSprites(gPartyMenu.slotId);
         gMain.state++;
         break;
     case 21:
@@ -1040,6 +1048,8 @@ static bool8 ReloadPartyMenu(void)
         break;
     case 11:
         LoadPartyMonHoverCursor();
+        if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE && SWSH_PARTY_MENU)
+            LoadCompressedSpriteSheet(&sSpriteSheet_MoveTypes);
         gMain.state++;
         break;
     case 12:
@@ -1065,6 +1075,7 @@ static bool8 ReloadPartyMenu(void)
         }
         break;
     case 16:
+        UpdatePartyMoveTypeSprites(gPartyMenu.slotId);
         gMain.state++;
         break;
     case 17:
@@ -1130,7 +1141,10 @@ static void ResetPartyMenu(void)
     for (i = 0; i < ARRAY_COUNT(sSelectFrameSpriteIds); i++)
         sSelectFrameSpriteIds[i] = MAX_SPRITES;
     for (i = 0; i < MAX_MON_MOVES; ++i)
+    {
         sMoveWindowIds[i] = WINDOW_NONE;
+        sMoveTypeSpriteIds[i] = MAX_SPRITES;
+    }
     sAbilityWindowId = WINDOW_NONE;
 }
 
@@ -1230,6 +1244,8 @@ static void FreePartyPointers(void)
 {
     DestroyMonSprite();
     DestroyMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A);
+    DestroyMoveTypeSprites();
+    FreeSpriteTilesByTag(TAG_MOVE_TYPES);
     // Clear alpha blending from party mon shadows
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -1409,6 +1425,57 @@ static void UpdatePartyMoveWindows(u8 slot)
     }
     if (sAbilityWindowId != WINDOW_NONE)
         DisplayPartyPokemonAbility(sAbilityWindowId, slot);
+    UpdatePartyMoveTypeSprites(slot);
+}
+
+static void DestroyMoveTypeSprites(void)
+{
+    u32 i;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (sMoveTypeSpriteIds[i] != MAX_SPRITES)
+        {
+            if (gSprites[sMoveTypeSpriteIds[i]].inUse)
+                DestroySprite(&gSprites[sMoveTypeSpriteIds[i]]);
+            sMoveTypeSpriteIds[i] = MAX_SPRITES;
+        }
+    }
+}
+
+// Type icons next to the move names. Needs the move type sheet and the mon icon
+// palettes loaded, so during menu setup it is skipped until both are available.
+static void UpdatePartyMoveTypeSprites(u8 slot)
+{
+    struct SpriteTemplate template;
+    u32 m;
+
+    DestroyMoveTypeSprites();
+
+    if (gPartyMenu.menuType != PARTY_MENU_TYPE_IN_BATTLE || !SWSH_PARTY_MENU || slot >= PARTY_SIZE)
+        return;
+    if (GetSpriteTileStartByTag(TAG_MOVE_TYPES) == 0xFFFF || IndexOfSpritePaletteTag(POKE_ICON_BASE_PAL_TAG) == 0xFF)
+        return;
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_IS_EGG))
+        return;
+
+    template = sSpriteTemplate_MoveTypes;
+    for (m = 0; m < MAX_MON_MOVES; m++)
+    {
+        u16 move = GetMonData(&gPlayerParty[slot], MON_DATA_MOVE1 + m);
+        u32 type;
+
+        if (move == MOVE_NONE || sMoveWindowIds[m] == WINDOW_NONE)
+            continue;
+
+        type = GetMoveType(move);
+        if (type >= NUMBER_OF_MON_TYPES)
+            type = TYPE_MYSTERY;
+        template.paletteTag = POKE_ICON_BASE_PAL_TAG + sMoveTypeToPalOffset[type];
+        sMoveTypeSpriteIds[m] = CreateSprite(&template, 204, 24 + 16 * m, 1);
+        if (sMoveTypeSpriteIds[m] != MAX_SPRITES)
+            StartSpriteAnim(&gSprites[sMoveTypeSpriteIds[m]], type);
+    }
 }
 
 static void DisplayPartyPokemonAbility(u8 windowId, u8 slot)

@@ -1349,6 +1349,114 @@ static const struct SpriteTemplate sSpriteTemplate_SelectFrame =
     .callback = SpriteCallbackDummy,
 };
 
+// Move type icons shown next to the move names in the in-battle party menu.
+// Uses the mon icon palettes (POKE_ICON_BASE_PAL_TAG + offset).
+static const u32 sMoveTypes_Gfx[] = INCBIN_U32("graphics/party_menu/swsh/move_types.4bpp.lz");
+
+static const struct OamData sOamData_MoveTypes =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(16x16),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(16x16),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 0,
+    .affineParam = 0,
+};
+
+#define MOVE_TYPE_ANIM(type)                                   \
+static const union AnimCmd sSpriteAnim_Type##type[] = {        \
+    ANIMCMD_FRAME(TYPE_##type * 4, 0, FALSE, FALSE),           \
+    ANIMCMD_END                                                \
+};
+
+MOVE_TYPE_ANIM(NONE)
+MOVE_TYPE_ANIM(NORMAL)
+MOVE_TYPE_ANIM(FIGHTING)
+MOVE_TYPE_ANIM(FLYING)
+MOVE_TYPE_ANIM(POISON)
+MOVE_TYPE_ANIM(GROUND)
+MOVE_TYPE_ANIM(ROCK)
+MOVE_TYPE_ANIM(BUG)
+MOVE_TYPE_ANIM(GHOST)
+MOVE_TYPE_ANIM(STEEL)
+MOVE_TYPE_ANIM(MYSTERY)
+MOVE_TYPE_ANIM(FIRE)
+MOVE_TYPE_ANIM(WATER)
+MOVE_TYPE_ANIM(GRASS)
+MOVE_TYPE_ANIM(ELECTRIC)
+MOVE_TYPE_ANIM(PSYCHIC)
+MOVE_TYPE_ANIM(ICE)
+MOVE_TYPE_ANIM(DRAGON)
+MOVE_TYPE_ANIM(DARK)
+MOVE_TYPE_ANIM(FAIRY)
+MOVE_TYPE_ANIM(STELLAR)
+
+#undef MOVE_TYPE_ANIM
+
+static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES] = {
+    [TYPE_NONE]     = sSpriteAnim_TypeNONE,
+    [TYPE_NORMAL]   = sSpriteAnim_TypeNORMAL,
+    [TYPE_FIGHTING] = sSpriteAnim_TypeFIGHTING,
+    [TYPE_FLYING]   = sSpriteAnim_TypeFLYING,
+    [TYPE_POISON]   = sSpriteAnim_TypePOISON,
+    [TYPE_GROUND]   = sSpriteAnim_TypeGROUND,
+    [TYPE_ROCK]     = sSpriteAnim_TypeROCK,
+    [TYPE_BUG]      = sSpriteAnim_TypeBUG,
+    [TYPE_GHOST]    = sSpriteAnim_TypeGHOST,
+    [TYPE_STEEL]    = sSpriteAnim_TypeSTEEL,
+    [TYPE_MYSTERY]  = sSpriteAnim_TypeMYSTERY,
+    [TYPE_FIRE]     = sSpriteAnim_TypeFIRE,
+    [TYPE_WATER]    = sSpriteAnim_TypeWATER,
+    [TYPE_GRASS]    = sSpriteAnim_TypeGRASS,
+    [TYPE_ELECTRIC] = sSpriteAnim_TypeELECTRIC,
+    [TYPE_PSYCHIC]  = sSpriteAnim_TypePSYCHIC,
+    [TYPE_ICE]      = sSpriteAnim_TypeICE,
+    [TYPE_DRAGON]   = sSpriteAnim_TypeDRAGON,
+    [TYPE_DARK]     = sSpriteAnim_TypeDARK,
+    [TYPE_FAIRY]    = sSpriteAnim_TypeFAIRY,
+    [TYPE_STELLAR]  = sSpriteAnim_TypeSTELLAR,
+};
+
+static const u8 sMoveTypeToPalOffset[NUMBER_OF_MON_TYPES] =
+{
+    [TYPE_ELECTRIC] = 1,
+    [TYPE_FAIRY]    = 1,
+    [TYPE_BUG]      = 1,
+    [TYPE_GRASS]    = 1,
+    [TYPE_GROUND]   = 2,
+    [TYPE_DARK]     = 2,
+    [TYPE_FLYING]   = 2,
+    [TYPE_GHOST]    = 2,
+    [TYPE_WATER]    = 3,
+    [TYPE_DRAGON]   = 3,
+    [TYPE_STEEL]    = 4,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_MoveTypes =
+{
+    .data = sMoveTypes_Gfx,
+    .size = NUMBER_OF_MON_TYPES * 0x80,
+    .tag = TAG_MOVE_TYPES,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_MoveTypes =
+{
+    .tileTag = TAG_MOVE_TYPES,
+    .paletteTag = POKE_ICON_BASE_PAL_TAG,
+    .oam = &sOamData_MoveTypes,
+    .anims = sSpriteAnimTable_MoveTypes,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
 static const u16 sPartyMonShadowPalette[] = INCBIN_U16("graphics/party_menu/swsh/shadow.gbapal");
 
 static const struct SpritePalette sSpritePal_PartyMonShadow =
