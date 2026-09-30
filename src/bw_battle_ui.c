@@ -480,6 +480,10 @@ void BattleUI_UpdateHealthboxHPText(u32 spriteId, s32 currHp, s32 maxHp)
     u32 spriteId2 = sprite->oam.affineParam;
     struct Sprite *sprite2 = &gSprites[spriteId2];
 
+    // checked before touching data[1] below, returning later would leave it modified
+    if (isDoubles && !gBattleSpritesDataPtr->battlerData[battler].hpNumbersNoBars)
+        return;
+
     // backup data[1] for sprite printer
     s16 data1 = sprite->data[1];
     s16 data2 = sprite2->data[1];
@@ -492,9 +496,6 @@ void BattleUI_UpdateHealthboxHPText(u32 spriteId, s32 currHp, s32 maxHp)
     {
         yOffset = TILE_TO_PIXELS(2);
         fontId = FONT_BATTLE_UI_ELEMENTS;
-
-        if (!gBattleSpritesDataPtr->battlerData[battler].hpNumbersNoBars)
-            return;
 
         BattleUI_CopyElementToSprite(spriteId,  sBWBattleUI_HPBoxEndFrames + TILE_TO_PIXELS(1), 20, BUI_FILL_ELEMENT(4));
         BattleUI_CopyElementToSprite(spriteId2, sBWBattleUI_HPBoxEndFrames + TILE_TO_PIXELS(1), 16, BUI_FILL_ELEMENT(6));
