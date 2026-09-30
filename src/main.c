@@ -72,6 +72,7 @@ COMMON_DATA IntrFunc gIntrTable[INTR_COUNT] = {0};
 COMMON_DATA u8 gLinkVSyncDisabled = 0;
 COMMON_DATA s8 gPcmDmaCounter = 0;
 COMMON_DATA void *gAgbMainLoop_sp = NULL;
+COMMON_DATA u32 gKeysReadCounter = 0; // increments whenever new key input is read
 
 static EWRAM_DATA u16 sTrainerId = 0;
 
@@ -269,6 +270,7 @@ void InitKeys(void)
 
 static void ReadKeys(void)
 {
+    gKeysReadCounter++;
     u16 keyInput = REG_KEYINPUT ^ KEYS_MASK;
     gMain.newKeysRaw = keyInput & ~gMain.heldKeysRaw;
     gMain.newKeys = gMain.newKeysRaw;

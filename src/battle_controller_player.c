@@ -244,14 +244,14 @@ static void PlayerBufferRunCommand(u32 battler)
 static void StartMoveSelectionInputGuard(u32 battler)
 {
     sMoveSelectionWaitForButtonUp[battler] = TRUE;
-    sMoveSelectionInputVBlank[battler] = gMain.vblankCounter1;
+    sMoveSelectionInputVBlank[battler] = gKeysReadCounter;
     gPlayerDpadHoldFrames = 0;
 }
 
 static void StartTargetSelectionInputGuard(u32 battler)
 {
     sTargetSelectionWaitForButtonUp[battler] = TRUE;
-    sTargetSelectionInputVBlank[battler] = gMain.vblankCounter1;
+    sTargetSelectionInputVBlank[battler] = gKeysReadCounter;
     gPlayerDpadHoldFrames = 0;
 }
 
@@ -260,10 +260,10 @@ static bool32 ShouldBlockRepeatedBattleMenuInput(u16 keys, u32 *lastInputVBlank)
     if (!JOY_NEW(keys))
         return FALSE;
 
-    if (*lastInputVBlank == gMain.vblankCounter1)
+    if (*lastInputVBlank == gKeysReadCounter)
         return TRUE;
 
-    *lastInputVBlank = gMain.vblankCounter1;
+    *lastInputVBlank = gKeysReadCounter;
     return FALSE;
 }
 
@@ -310,10 +310,10 @@ static bool32 ShouldHandleMoveDescriptionInput(void)
     if (B_MOVE_DESCRIPTION_BUTTON == A_BUTTON || !JOY_NEW(B_MOVE_DESCRIPTION_BUTTON))
         return FALSE;
 
-    if (sMoveDescriptionInputVBlank == gMain.vblankCounter1)
+    if (sMoveDescriptionInputVBlank == gKeysReadCounter)
         return FALSE;
 
-    sMoveDescriptionInputVBlank = gMain.vblankCounter1;
+    sMoveDescriptionInputVBlank = gKeysReadCounter;
     sMoveDescriptionWaitForButtonUp = TRUE;
     return TRUE;
 }
@@ -374,10 +374,10 @@ static bool32 ShouldHandleStartButtonInput(void)
     if (!JOY_NEW(START_BUTTON))
         return FALSE;
 
-    if (sStartButtonInputVBlank == gMain.vblankCounter1)
+    if (sStartButtonInputVBlank == gKeysReadCounter)
         return FALSE;
 
-    sStartButtonInputVBlank = gMain.vblankCounter1;
+    sStartButtonInputVBlank = gKeysReadCounter;
     sStartButtonWaitForButtonUp = TRUE;
     return TRUE;
 }
