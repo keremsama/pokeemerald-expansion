@@ -667,6 +667,10 @@ void HandleInputChooseTarget(u32 battler)
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
         EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
+        // no target picked anymore, show the best effectiveness among the opponents again
+        gMultiUsePlayerCursor = 0xFF;
+        if (B_SHOW_EFFECTIVENESS)
+            MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
     }
     else if (JOY_NEW(DPAD_LEFT | DPAD_UP))
     {
@@ -848,6 +852,10 @@ void HandleInputShowEntireFieldTargets(u32 battler)
         TryToAddMoveInfoWindow(); // hidden when the move was confirmed
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
+        // no target picked anymore, show the best effectiveness among the opponents again
+        gMultiUsePlayerCursor = 0xFF;
+        if (B_SHOW_EFFECTIVENESS)
+            MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
     }
 }
 
@@ -879,6 +887,10 @@ void HandleInputShowTargets(u32 battler)
         TryToAddMoveInfoWindow(); // hidden when the move was confirmed
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
+        // no target picked anymore, show the best effectiveness among the opponents again
+        gMultiUsePlayerCursor = 0xFF;
+        if (B_SHOW_EFFECTIVENESS)
+            MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
     }
 }
 
@@ -2821,6 +2833,17 @@ static const u8 superEffectiveIcon[] =  _("{CIRCLE_DOT}");
 static const u8 notVeryEffectiveIcon[] =  _("{TRIANGLE}");
 static const u8 immuneIcon[] =  _("{BIG_MULT_X}");
 
+static bool32 BattleUI_GetEffectivenessModifier(u32 battlerAtk, u32 battlerDef, u32 move, uq4_12_t *modifier)
+{
+    if (!ShouldShowTypeEffectiveness(battlerDef))
+        return FALSE;
+
+    struct Pokemon *mon = &gPlayerParty[gBattlerPartyIndexes[battlerAtk]];
+    u32 moveType = CheckDynamicMoveType(mon, move, battlerAtk, MON_IN_BATTLE);
+    *modifier = CalcTypeEffectivenessMultiplier(move, moveType, battlerAtk, battlerDef, GetBattlerAbility(battlerDef), FALSE);
+    return TRUE;
+}
+
 const u8 *BattleUI_GetTypeEffectivenessSymbol(u32 battler, u32 move)
 {
     if (IsBattleMoveStatus(move)) return noIcon;
@@ -2829,12 +2852,35 @@ const u8 *BattleUI_GetTypeEffectivenessSymbol(u32 battler, u32 move)
     if (WhichBattleCoords(battlerDef) == BATTLE_COORDS_DOUBLES)
         battlerDef = gMultiUsePlayerCursor;
 
-    if (battlerDef == 0xFF) return noIcon;
-    if (!ShouldShowTypeEffectiveness(battlerDef)) return noIcon;
+    uq4_12_t modifier = UQ_4_12(1.0);
 
-    struct Pokemon *mon = &gPlayerParty[gBattlerPartyIndexes[battler]];
-    u32 moveType = CheckDynamicMoveType(mon, move, battler, MON_IN_BATTLE);
-    uq4_12_t modifier = CalcTypeEffectivenessMultiplier(move, moveType, battler, battlerDef, GetBattlerAbility(battlerDef), FALSE);
+    if (battlerDef == 0xFF)
+    {
+        // Doubles before a target is picked: show the best result among the
+        // opponents, like CheckTargetTypeEffectiveness does for the vanilla UI
+        bool32 found = FALSE;
+
+        for (u32 i = 0; i < gBattlersCount; i++)
+        {
+            uq4_12_t foeModifier;
+
+            if (GetBattlerSide(i) == GetBattlerSide(battler) || !IsBattlerAlive(i))
+                continue;
+            if (!BattleUI_GetEffectivenessModifier(battler, i, move, &foeModifier))
+                continue;
+
+            if (!found || foeModifier > modifier)
+                modifier = foeModifier;
+            found = TRUE;
+        }
+
+        if (!found)
+            return noIcon;
+    }
+    else if (!BattleUI_GetEffectivenessModifier(battler, battlerDef, move, &modifier))
+    {
+        return noIcon;
+    }
 
     if (modifier == UQ_4_12(0.0))
     {
