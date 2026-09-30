@@ -663,6 +663,7 @@ void HandleInputChooseTarget(u32 battler)
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_HideAsMoveTarget;
         StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        TryToAddMoveInfoWindow(); // hidden when the move was confirmed
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
         EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
@@ -844,6 +845,7 @@ void HandleInputShowEntireFieldTargets(u32 battler)
         HideAllTargets();
         StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        TryToAddMoveInfoWindow(); // hidden when the move was confirmed
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
     }
@@ -874,6 +876,7 @@ void HandleInputShowTargets(u32 battler)
         HideShownTargets(battler);
         StartMoveSelectionInputGuard(battler);
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        TryToAddMoveInfoWindow(); // hidden when the move was confirmed
         DoBounceEffect(battler, BOUNCE_HEALTHBOX, 7, 1);
         DoBounceEffect(battler, BOUNCE_MON, 7, 1);
     }
